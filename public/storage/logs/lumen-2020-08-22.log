@@ -1,0 +1,16 @@
+[2020-08-22 12:39:49] local.ERROR: ErrorException: Use of undefined constant DIR - assumed 'DIR' (this will throw an Error in a future version of PHP) in /home/wahyu/Desktop/basf-mobile/bootstrap/app.php:112
+Stack trace:
+#0 /home/wahyu/Desktop/basf-mobile/bootstrap/app.php(112): Laravel\Lumen\Application->Laravel\Lumen\Concerns\{closure}(2, 'Use of undefine...', '/home/wahyu/Des...', 112, Array)
+#1 [internal function]: {closure}(Object(Laravel\Lumen\Routing\Router))
+#2 /home/wahyu/Desktop/basf-mobile/vendor/laravel/lumen-framework/src/Routing/Router.php(62): call_user_func(Object(Closure), Object(Laravel\Lumen\Routing\Router))
+#3 /home/wahyu/Desktop/basf-mobile/bootstrap/app.php(113): Laravel\Lumen\Routing\Router->group(Array, Object(Closure))
+#4 /home/wahyu/Desktop/basf-mobile/public/index.php(14): require('/home/wahyu/Des...')
+#5 {main} {"exception":"[object] (ErrorException(code: 0): Use of undefined constant DIR - assumed 'DIR' (this will throw an Error in a future version of PHP) at /home/wahyu/Desktop/basf-mobile/bootstrap/app.php:112)
+[stacktrace]
+#0 /home/wahyu/Desktop/basf-mobile/bootstrap/app.php(112): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(2, 'Use of undefine...', '/home/wahyu/Des...', 112, Array)
+#1 [internal function]: {closure}(Object(Laravel\\Lumen\\Routing\\Router))
+#2 /home/wahyu/Desktop/basf-mobile/vendor/laravel/lumen-framework/src/Routing/Router.php(62): call_user_func(Object(Closure), Object(Laravel\\Lumen\\Routing\\Router))
+#3 /home/wahyu/Desktop/basf-mobile/bootstrap/app.php(113): Laravel\\Lumen\\Routing\\Router->group(Array, Object(Closure))
+#4 /home/wahyu/Desktop/basf-mobile/public/index.php(14): require('/home/wahyu/Des...')
+#5 {main}
+"} 
