@@ -17,44 +17,12 @@ class AuthController extends Controller
         $this->middleware('auth');
     }
 
-    public function register(Request $request)
-    {     
-        dd("ada");
-
-        try{
-            $employee = new MasterEmployee();
-            $employee->employee_name = $request->employee_name; 
-            $employee->email = $request->email; 
-            $employee->phone_number = $request->phone_number; 
-            $employee->username = $request->username;
-            $employee->nik = $request->nik;
-            $employee->password = $request->password;
-            $employee->saveOrFail();
-
-            $statusCode = 200;
-            $response = [
-                'error' => false,
-                'message' => 'Berhasil mendaftar',
-            ];    
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'Gagal mendaftar',
-            ];    
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
-    }
-
     public function login(Request $request)
     {     
         try{
             $statusCode = 200;
-            $query=MasterEmployee::where('email','=',$request->email)->first();
-
-            if(Hash::check($request->input_password, $query->password)){
-
+            $loginEmployee=MasterEmployee::where('nik','=',$request->nik)->first();
+            if(Hash::check($request->input_password, $loginEmployee->password)){
                 $response = [
                     'error' => true,
                     'message' => 'Login Berhasil',
@@ -74,6 +42,29 @@ class AuthController extends Controller
         }
     }
 
+    public function updatePassword(Request $request)
+    {     
+        try{
+            $data=MasterEmployee::where('nik','=',$request->nik)->first();
+            $data->password= Hash::make($request->new_password);
+            $data->saveOrFail();
+
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => 'update password Berhasil',
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'update password Gagal',
+            ];
+        } 
+        finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
 
 
 }
