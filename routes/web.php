@@ -22,6 +22,7 @@ $router->put('/mobile/update-password-employee', 'AuthController@updatePassword'
 ///////////// employee controller
 $router->post('/mobile/create-work-order', 'EmployeeController@createFormWorkOrder');
 $router->put('/mobile/update-work-order', 'EmployeeController@updateFormWorkOrder');
+$router->get('/mobile/get-data-department', 'EmployeeController@getDataDepartment');
 
 
 

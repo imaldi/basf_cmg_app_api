@@ -4,20 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\MasterEmployee;
 use App\Models\FormsWorkOrder;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Validator;
+use App\Models\MasterDepartment;
 
 class EmployeeController extends Controller{
+
+    public function getDataDepartment()
+    {     
+        try{
+            $statusCode = 200;
+            $getDataDepartment=MasterDepartment::where('is_active ', 1)->get();
+            $response = [
+                'data' => $getDataDepartment
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response['message'] = 'Server Error';
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
 
     public function createFormWorkOrder(Request $request)
     {     
         try{
-            // $employee=DB::table('m_employee')->where('nik','=',$request->nik)->first();
-
             $formWorkOrder= new FormsWorkOrder();
             $formWorkOrder->id_issuer_submit= $request->id_issuer_submit;
             $formWorkOrder->id_issuer_spv= $request->id_issuer_spv;
@@ -97,21 +107,20 @@ class EmployeeController extends Controller{
     public function viewListWorkOrder(Request $request)
     {
         try{
-                $statusCode = 200;
-                $workOrders= FormsWorkOrder::where('is_active',1)->get();
-                if($workOrders){
-                    $response = [
-                        'error' => false,
-                        'message' => ' update form work order Berhasil',
-                        'dataListWorkOrder' => $workOrders,
-                    ];
-                }else{
-                    $response = [
+            $statusCode = 200;
+            $workOrders= FormsWorkOrder::where('is_active',1)->get();
+            if($workOrders){
+                $response = [
                     'error' => false,
-                    'message' => ' data kosong',
-                    ];
-                }
-                
+                    'message' => ' update form work order Berhasil',
+                    'dataListWorkOrder' => $workOrders,
+                ];
+            }else{
+                $response = [
+                'error' => false,
+                'message' => ' data kosong',
+                ];
+            }
         } catch (Exception $ex) {
             $statusCode = 404;
             $response = [

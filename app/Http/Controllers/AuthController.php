@@ -21,7 +21,7 @@ class AuthController extends Controller
     {     
         try{
             $statusCode = 200;
-            $loginEmployee=MasterEmployee::where('nik','=',$request->nik)->first();
+            $loginEmployee=MasterEmployee::where('email','=',$request->email)->first();
             if(Hash::check($request->input_password, $loginEmployee->password)){
                 $response = [
                     'error' => true,
