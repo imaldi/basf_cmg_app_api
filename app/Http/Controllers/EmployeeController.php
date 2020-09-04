@@ -21,7 +21,7 @@ class EmployeeController extends Controller{
     {     
         try{
             $statusCode = 200;
-            $getDataDepartment=MasterDepartment::where('is_active ', 1)->get();
+            $getDataDepartment=MasterDepartment::where('is_active', 1)->get();
             $response = [
                 'data' => $getDataDepartment
             ];    
