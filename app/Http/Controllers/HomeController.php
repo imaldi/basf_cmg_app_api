@@ -62,7 +62,7 @@ class HomeController extends Controller{
     public function viewAllLocation(Request $request)
     {
         try{
-            $allLocation= MasterLocation::where('is_active',1)->get();
+            $allLocation= MasterLocation::get();
             if($allLocation){
                 $statusCode = 200;
                 $response = [

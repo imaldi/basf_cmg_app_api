@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FormsWorkOrder;
 use App\Models\MasterDepartment;
+use App\Models\MasterLocation;
 use App\Models\MasterEmployee;
 use Illuminate\Support\Facades\DB;
 
@@ -130,13 +131,32 @@ class EmployeeController extends Controller{
     public function viewListWorkOrder(Request $request)
     {
         try{
-            $statusCode = 200;
+            $listWorkOrder= array();
             $workOrders= FormsWorkOrder::where('is_active',1)->get();
+            
             if($workOrders){
+                foreach($workOrders as $workOrder){
+                    $departmenSubmitter= MasterDepartment::where('id',$workOrder->id_dept_submitting)->first();
+                    $locationWorkOrder= MasterLocation::where('id',$workOrder->id_location)->first();
+    
+                    if($departmenSubmitter){
+                        $workOrder->dept_submitter = $departmenSubmitter->dept_name;
+                    }else{
+                        $workOrder->dept_submitter = null;
+                    }
+                    if($locationWorkOrder){
+                        $workOrder->location_work_order = $locationWorkOrder->location_name;
+                    }
+                    else{
+                        $workOrder->location_work_order = null;
+                    }
+                    array_push($listWorkOrder,$workOrder);
+                }
+                $statusCode = 200;
                 $response = [
                     'error' => false,
                     'message' => ' seluruh data work order',
-                    'dataListWorkOrder' => $workOrders,
+                    'dataListWorkOrder' => $listWorkOrder,
                 ];
             }else{
                 $response = [
