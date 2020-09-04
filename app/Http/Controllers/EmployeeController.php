@@ -18,6 +18,22 @@ class EmployeeController extends Controller{
 
     public $successStatus = 200;
     protected $imageFormsWorkOrder = '/images/forms';
+    
+    public function getDataDepartment()
+    {     
+        try{
+            $statusCode = 200;
+            $getDataDepartment=MasterDepartment::where('is_active', 1)->get();
+            $response = [
+                'data' => $getDataDepartment
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response['message'] = 'Server Error';
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
 
     public function createFormWorkOrder(Request $request)
     {     
