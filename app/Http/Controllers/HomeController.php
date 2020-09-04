@@ -20,10 +20,10 @@ class HomeController extends Controller{
     public function getDataDepartment()
     {     
         try{
+            $getDataDepartment=MasterDepartment::where('is_active', 1)->get();
             $statusCode = 200;
-            $getDataDepartment=MasterDepartment::where('is_active ', 1)->get();
             $response = [
-                'data' => $getDataDepartment
+                'dataAllDepartment' => $getDataDepartment
             ];    
         } catch (Exception $ex) {
             $statusCode = 404;
