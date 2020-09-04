@@ -25,5 +25,7 @@ $app = require __DIR__.'/../apimobile-basf/bootstrap/app.php';
 | and wonderful application we have prepared for them.
 |
 */
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
 
 $app->run();

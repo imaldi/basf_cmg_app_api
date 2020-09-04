@@ -16,5 +16,16 @@ $router->get('/', function () use ($router) {
 });
 
 ////////////// auth - Employee
-$router->post('/mobile/register-employee', 'AuthController@register');
+$router->post('/mobile/login-employee', 'AuthController@login');
+$router->put('/mobile/update-password-employee', 'AuthController@updatePassword');
+
+///////////// employee controller
+$router->post('/mobile/create-work-order', 'EmployeeController@createFormWorkOrder');
+$router->post('/mobile/update-work-order/{idFormWOrder}', 'EmployeeController@updateFormWorkOrder');
+$router->get('/mobile/get-data-department', 'EmployeeController@getDataDepartment');
+$router->get('/mobile/get-profile-employee/{idEmployee}', 'EmployeeController@getProfileEmployee');
+$router->get('/mobile/get-all-work-orders', 'EmployeeController@viewListWorkOrder');
+$router->get('/mobile/get-all-employee', 'EmployeeController@viewAllEmployee');
+
+
 

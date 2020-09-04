@@ -34,16 +34,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->app['auth']->viaRequest('api', function ($request) {
             $apiKey = env('KEY_API');
             $apiKeyEncrypt= Hash::make($apiKey);
-
             if(Hash::check($request->apitoken, $apiKeyEncrypt)){
                 return new User();
             }else{
                 return null;
             }
-
-            // if ($request->input('api_token')) {
-            //     return User::where('api_token', $request->input('api_token'))->first();
-            // }
         });
     }
 }
