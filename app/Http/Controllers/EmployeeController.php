@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\FormsWorkOrder;
 use App\Models\MasterDepartment;
 use App\Models\MasterEmployee;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller{
 
@@ -173,13 +174,18 @@ class EmployeeController extends Controller{
     public function getProfileEmployee($idEmployee)
     {
         try{
-            $dataEmployee= MasterEmployee::find($idEmployee);
-
+            $dataEmployee= DB::table('m_employee')
+                        ->join('m_employee_group','m_employee_group.id','m_employee.id_employee_group')
+                        ->select('m_employee.id as id','m_employee_group.e_group_name','m_employee.employee_name','m_employee.nik',
+                                'm_employee.email','m_employee.phone_number','m_employee.is_active')
+                        ->where('m_employee.id',$idEmployee)
+                        ->first();
+            
             if($dataEmployee){
                 $statusCode = 200;
                 $response = [
                     'message' => ' tampilkan data Berhasil',
-                    'dataProfilEmployee' => $dataEmployee,
+                    'dataProfilEmployee' => [$dataEmployee],
                 ];
             }else{
                 $statusCode = 404;
@@ -199,29 +205,5 @@ class EmployeeController extends Controller{
         }
     }
 
-    public function viewAllEmployee(Request $request)
-    {
-        try{
-            $allEmployee= MasterEmployee::where('is_active',1)->get();
-            $statusCode = 200;
-            if($allEmployee){
-                $response = [
-                    'message' => ' tampilkan data seluru karyawan',
-                    'dataAllEmployee' => $allEmployee,
-                ];
-            }else{
-                $response = [
-                'message' => ' data kosong',
-                ];
-            }
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'update form work order Gagal',
-            ];
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
-    }
+
 }

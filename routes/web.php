@@ -16,16 +16,20 @@ $router->get('/', function () use ($router) {
 });
 
 ////////////// auth - Employee
-$router->post('/mobile/login-employee', 'AuthController@login');
+$router->get('/mobile/login-employee', 'AuthController@login');
 $router->put('/mobile/update-password-employee', 'AuthController@updatePassword');
 
 ///////////// employee controller
 $router->post('/mobile/create-work-order', 'EmployeeController@createFormWorkOrder');
 $router->post('/mobile/update-work-order/{idFormWOrder}', 'EmployeeController@updateFormWorkOrder');
-$router->get('/mobile/get-data-department', 'EmployeeController@getDataDepartment');
 $router->get('/mobile/get-profile-employee/{idEmployee}', 'EmployeeController@getProfileEmployee');
 $router->get('/mobile/get-all-work-orders', 'EmployeeController@viewListWorkOrder');
-$router->get('/mobile/get-all-employee', 'EmployeeController@viewAllEmployee');
 
 
+///////////// home controller
+$router->get('/mobile/get-data-department', 'HomeController@getDataDepartment');
+$router->get('/mobile/get-all-employee', 'HomeController@viewAllEmployee');
+$router->get('/mobile/get-all-location', 'HomeController@viewAllLocation');
+$router->get('/mobile/get-employee-group', 'HomeController@viewAllEmployeeGroup');
+$router->get('/mobile/get-employee-title', 'HomeController@viewAllEmployeeTitle');
 

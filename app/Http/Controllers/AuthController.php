@@ -20,18 +20,18 @@ class AuthController extends Controller
     public function login(Request $request)
     {     
         try{
-            $statusCode = 200;
             $loginEmployee=MasterEmployee::where('email','=',$request->email)->first();
             if(Hash::check($request->input_password, $loginEmployee->password)){
+                $statusCode = 200;
                 $response = [
                     'error' => true,
                     'message' => 'Login Berhasil',
-                    'data' => [$query]
+                    'dataEmployee' => [$loginEmployee]
                 ];    
             } else {
                 $response = [
                     'error' => false,
-                    'message' => 'Login Gagal11',
+                    'message' => 'Password False',
                 ];    
             }
         } catch (Exception $ex) {
@@ -45,7 +45,7 @@ class AuthController extends Controller
     public function updatePassword(Request $request)
     {     
         try{
-            $data=MasterEmployee::where('nik','=',$request->nik)->first();
+            $data=MasterEmployee::where('email','=',$request->email)->first();
             $data->password= Hash::make($request->new_password);
             $data->saveOrFail();
 
