@@ -9,6 +9,8 @@ use App\Models\MasterLocation;
 use App\Models\MasterEmployee;
 use App\Models\MEmployeeGroup;
 use App\Models\MEmployeeTitle;
+use App\Models\MScoringWorkOrder;
+
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller{
@@ -16,7 +18,22 @@ class HomeController extends Controller{
     public function __construct(){
         $this->middleware('auth');
     }
-
+        
+    public function getScoringWorkOrder()
+    {     
+        try{
+            $getScoringWorkOrder=MScoringWorkOrder::get();
+            $statusCode = 200;
+            $response = [
+                'dataScoringWorkOrder' => $getScoringWorkOrder
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response['message'] = 'Server Error';
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
     public function getDataDepartment()
     {     
         try{
@@ -33,7 +50,7 @@ class HomeController extends Controller{
         }
     }
 
-    public function viewAllEmployee(Request $request)
+    public function viewAllEmployee()
     {
         try{
             $allEmployee= MasterEmployee::where('is_active',1)->get();
@@ -59,10 +76,10 @@ class HomeController extends Controller{
         }
     }
 
-    public function viewAllLocation(Request $request)
+    public function viewAllLocation()
     {
         try{
-            $allLocation= MasterLocation::where('is_active',1)->get();
+            $allLocation= MasterLocation::get();
             if($allLocation){
                 $statusCode = 200;
                 $response = [

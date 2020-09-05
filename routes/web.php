@@ -32,4 +32,5 @@ $router->get('/mobile/get-all-employee', 'HomeController@viewAllEmployee');
 $router->get('/mobile/get-all-location', 'HomeController@viewAllLocation');
 $router->get('/mobile/get-employee-group', 'HomeController@viewAllEmployeeGroup');
 $router->get('/mobile/get-employee-title', 'HomeController@viewAllEmployeeTitle');
+$router->get('/mobile/get-scoring-work-order', 'HomeController@getScoringWorkOrder');
 
