@@ -223,5 +223,36 @@ class EmployeeController extends Controller{
         }
     }
 
+    public function updateProfileEmployee(Request $request, $idEmployee)
+    {     
+        try{
+            $employee=MasterEmployee::where('id','=',$idEmployee)->first();
+            $employee->employee_name= $request->employee_name;
+            $employee->username= $request->username;
+            $employee->email= $request->email;
+            $employee->nik= $request->nik;
+            $employee->birth_date= $request->birth_date;
+            $employee->phone_number= $request->phone_number;
+            $employee->id_department= $request->id_department;
+            $employee->saveOrFail($request->all());
+
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => 'update profil Berhasil',
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'update profil Gagal',
+            ];
+        } 
+        finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    
 
 }

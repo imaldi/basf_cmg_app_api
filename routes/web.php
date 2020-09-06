@@ -17,14 +17,14 @@ $router->get('/', function () use ($router) {
 
 ////////////// auth - Employee
 $router->get('/mobile/login-employee', 'AuthController@login');
-$router->put('/mobile/update-password-employee', 'AuthController@updatePassword');
+$router->post('/mobile/update-password-employee', 'AuthController@updatePassword');
 
 ///////////// employee controller
 $router->post('/mobile/create-work-order', 'EmployeeController@createFormWorkOrder');
 $router->post('/mobile/update-work-order/{idFormWOrder}', 'EmployeeController@updateFormWorkOrder');
 $router->get('/mobile/get-profile-employee/{idEmployee}', 'EmployeeController@getProfileEmployee');
 $router->get('/mobile/get-all-work-orders', 'EmployeeController@viewListWorkOrder');
-
+$router->post('/mobile/update-profile-employee/{idEmployee}', 'EmployeeController@updateProfileEmployee');
 
 ///////////// home controller
 $router->get('/mobile/get-data-department', 'HomeController@getDataDepartment');
