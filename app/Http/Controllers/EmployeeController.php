@@ -343,6 +343,102 @@ class EmployeeController extends Controller{
         }
     }
 
-    
+    public function approveWorkOrderSpvIssuer(Request $request)
+    {     
+        try{
+            $workOrder=FormsWorkOrder::where('id','=',$request->id_work_order)->first();
+            $workOrder->w_order_status= "Waiting Planner Approval";
+            $workOrder->saveOrFail();
+
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => 'approve oleh Spv Issuer Berhasil',
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'approve work order Gagal',
+            ];
+        } 
+        finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    public function approveWorkOrderPlanner(Request $request)
+    {     
+        try{
+            $workOrder=FormsWorkOrder::where('id','=',$request->id_work_order)->first();
+            $workOrder->w_order_status= "Waiting PIC Action Plan";
+            $workOrder->saveOrFail();
+
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => 'approve oleh PLanner Berhasil',
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'approve work order Gagal',
+            ];
+        } 
+        finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    public function rejectWorkOrderSpvIssuer(Request $request)
+    {     
+        try{
+            $workOrder=FormsWorkOrder::where('id','=',$request->id_work_order)->first();
+            $workOrder->w_order_status= "Reject by Spv";
+            $workOrder->rejected_reason= $request->rejected_reason;
+            $workOrder->saveOrFail();
+
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => 'Penolakan oleh Spv Issuer Berhasil',
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'work order Gagal ditolak',
+            ];
+        } 
+        finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    public function rejectWorkOrderPlanner(Request $request)
+    {     
+        try{
+            $workOrder=FormsWorkOrder::where('id','=',$request->id_work_order)->first();
+            $workOrder->w_order_status= "Reject by Planner";
+            $workOrder->rejected_reason= $request->rejected_reason;
+            $workOrder->saveOrFail();
+
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => 'Penolakan oleh Spv Issuer Berhasil',
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'work order Gagal ditolak',
+            ];
+        } 
+        finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
 
 }

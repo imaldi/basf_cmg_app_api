@@ -26,6 +26,10 @@ $router->post('/mobile/update-work-order/{idFormWOrder}', 'EmployeeController@up
 $router->get('/mobile/get-profile-employee/{idEmployee}', 'EmployeeController@getProfileEmployee');
 $router->get('/mobile/get-all-work-orders', 'EmployeeController@viewListWorkOrder');
 $router->post('/mobile/update-profile-employee/{idEmployee}', 'EmployeeController@updateProfileEmployee');
+$router->post('/mobile/approve-wo-spv-issuer', 'EmployeeController@approveWorkOrderSpvIssuer');
+$router->post('/mobile/approve-wo-planner', 'EmployeeController@approveWorkOrderPlanner');
+$router->post('/mobile/reject-wo-spv-issuer', 'EmployeeController@rejectWorkOrderSpvIssuer');
+$router->post('/mobile/reject-wo-planner', 'EmployeeController@rejectWorkOrderPlanner');
 
 ///////////// home controller
 $router->get('/mobile/get-data-department', 'HomeController@getDataDepartment');
