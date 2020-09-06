@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\FormsWorkOrder;
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
-use App\Models\MasterEmployee;
+use App\Models\MScoringWorkOrder;
 use App\Models\MEmployeeGroup;
 use App\Models\EmployeePrivilege;
 use Illuminate\Support\Facades\DB;
@@ -58,9 +58,9 @@ class EmployeeController extends Controller{
 
             if($request->status_action === "Create Draft"){
                 $formWorkOrder->is_active= null;
-                $formWorkOrder->w_order_status= "Waiting Spv Approval";
             } else if ( $request->status_action ==="Submit Form"){
                 $formWorkOrder->is_active= 1;
+                $formWorkOrder->w_order_status= "Waiting Spv Approval";
             }
             // $formWorkOrder->id_issuer_spv= $request->id_issuer_spv;
             // $formWorkOrder->id_reffered_dept_spv= $request->id_reffered_dept_spv;
@@ -84,6 +84,64 @@ class EmployeeController extends Controller{
                 'error' => true,
                 'message' => $e->getMessage(),
             ];    
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    public function saveEditDraft(Request $request)
+    {     
+        try{
+            $formWorkOrder= FormsWorkOrder::find($request->id_form);
+            $formWorkOrder->id_issuer_submit= $request->id_issuer_submit;
+            $formWorkOrder->id_dept_submitting= $request->id_dept_submitting;
+            $formWorkOrder->id_location= $request->id_location;
+            $formWorkOrder->w_order_category= $request->w_order_category;
+            $formWorkOrder->w_order_location= $request->w_order_location;
+            $formWorkOrder->tag_number= $request->tag_number;
+            $formWorkOrder->w_order_desc= $request->w_order_desc;
+            $formWorkOrder->w_o_priority_score= $request->w_o_priority_score;
+            $formWorkOrder->reffered_division= $request->reffered_division;
+            $formWorkOrder->id_emergency= $request->id_emergency;
+            $formWorkOrder->id_ranking_customer= $request->id_ranking_customer;
+            $formWorkOrder->id_equipment_criteria= $request->id_equipment_criteria;
+            if ($request->hasFile('w_o_pict_before')) {
+                if ($request->file('w_o_pict_before')->isValid()) {
+                    $file_ext        = $request->file('w_o_pict_before')->getClientOriginalExtension();
+                    $file_size       = filesize($request->file('w_o_pict_before'));
+                    $allow_file_exts = array('jpeg', 'jpg', 'png');
+                    $max_file_size   = 1024 * 1024 * 10;
+                    if (in_array(strtolower($file_ext), $allow_file_exts) && ($file_size <= $max_file_size)) {
+                        $dest_path     = base_path(). $this->imageFormsWorkOrder;
+                        $file_name     = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file('w_o_pict_before')->getClientOriginalName());
+                        $file_name     = str_replace(' ', '-', $file_name);
+                        $work_order_before_pict ="work-order ". $file_name  . '.' . $file_ext;
+                        // move file to serve directory
+                        $request->file('w_o_pict_before')->move($dest_path, $work_order_before_pict);
+
+                        $formWorkOrder->w_o_pict_before= $work_order_before_pict;
+                    }
+                }
+            }
+            if($request->status_action === "Create Draft"){
+                $formWorkOrder->is_active= null;
+            } else if ( $request->status_action ==="Submit Form"){
+                $formWorkOrder->is_active= 1;
+                $formWorkOrder->w_order_status= "Waiting Spv Approval";
+            }
+            
+            $formWorkOrder->saveOrFail($request->all());
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => ' update draft form work order Berhasil',
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'update draft form work order Gagal',
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
@@ -140,17 +198,47 @@ class EmployeeController extends Controller{
         }
     }
 
-    public function viewListWorkOrder(Request $request)
+    public function viewListWorkOrder()
     {
         try{
             $listWorkOrder= array();
-            $workOrders= FormsWorkOrder::where('is_active',1)->get();
+            $workOrders= FormsWorkOrder::join('m_employee','m_employee.id','forms_work_order.id_issuer_submit')
+            ->select('m_employee.employee_name','forms_work_order.id', 'forms_work_order.id_issuer_submit', 'forms_work_order.id_issuer_spv', 'forms_work_order.id_reffered_dept_spv', 'forms_work_order.id_dept_submitting', 'forms_work_order.id_location',
+                     'forms_work_order.id_emergency', 'forms_work_order.id_ranking_customer', 'forms_work_order.id_equipment_criteria', 'forms_work_order.w_order_category', 'forms_work_order.reffered_division', 'forms_work_order.w_order_location', 'forms_work_order.tag_number', 
+                     'forms_work_order.w_order_desc', 'forms_work_order.w_order_status', 'forms_work_order.w_o_priority_score', 'forms_work_order.implement_date', 'forms_work_order.reschedule_date', 'forms_work_order.relevant_area', 'forms_work_order.cost_classification',
+                     'forms_work_order.w_o_pict_before', 'forms_work_order.w_o_pict_sign_issuer_spv', 'forms_work_order.w_o_pict_sign_reff_spv', 'forms_work_order.is_active', 'forms_work_order.created_at')
+            ->where(function($q) {
+                $q->where('forms_work_order.is_active', 1)
+                    ->orWhereNull('forms_work_order.is_active');
+                })
+            ->get();
             
             if($workOrders){
                 foreach($workOrders as $workOrder){
                     $departmenSubmitter= MasterDepartment::where('id',$workOrder->id_dept_submitting)->first();
                     $locationWorkOrder= MasterLocation::where('id',$workOrder->id_location)->first();
+                    $emergency= MScoringWorkOrder::where('id',$workOrder->id_emergency)->first();
+                    $rankingCustomer= MScoringWorkOrder::where('id',$workOrder->id_ranking_customer)->first();
+                    $equipmentCriteria= MScoringWorkOrder::where('id',$workOrder->id_equipment_criteria)->first();
     
+                    if($emergency){
+                        $workOrder->emergency = $emergency->priority_variable;
+                    }else{
+                        $workOrder->emergency = null;
+                    }
+
+                    if($rankingCustomer){
+                        $workOrder->ranking_customer = $rankingCustomer->priority_variable;
+                    }else{
+                        $workOrder->ranking_customer = null;
+                    }
+                    
+                    if($equipmentCriteria){
+                        $workOrder->equipment_criteria = $equipmentCriteria->priority_variable;
+                    }else{
+                        $workOrder->equipment_criteria = null;
+                    }
+
                     if($departmenSubmitter){
                         $workOrder->dept_submitter = $departmenSubmitter->dept_name;
                     }else{
@@ -198,7 +286,9 @@ class EmployeeController extends Controller{
                         ->first();
             
             if($dataEmployee){
-                $dataEmployeePrivilege = EmployeePrivilege::where('id_employee_group', $dataEmployee->id_employee_group)->get();
+                $dataEmployeePrivilege = EmployeePrivilege::join('employee_user_permission','employee_user_permission.id','m_employee_privilege.id_e_u_permission')
+                ->select('m_employee_privilege.id_employee_group', 'employee_user_permission.name as permission_name')
+                ->where('m_employee_privilege.id_employee_group', $dataEmployee->id_employee_group)->get();
                 $dataEmployee->employee_permissions = $dataEmployeePrivilege;
                 $statusCode = 200;
                 $response = [
