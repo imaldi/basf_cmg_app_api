@@ -347,6 +347,7 @@ class EmployeeController extends Controller{
     {     
         try{
             $workOrder=FormsWorkOrder::where('id','=',$request->id_work_order)->first();
+            $workOrder->id_issuer_spv= $request->id_issuer_spv;
             $workOrder->w_order_status= "Waiting Planner Approval";
             $workOrder->saveOrFail();
 
@@ -396,6 +397,7 @@ class EmployeeController extends Controller{
         try{
             $workOrder=FormsWorkOrder::where('id','=',$request->id_work_order)->first();
             $workOrder->w_order_status= "Reject by Spv";
+            $workOrder->id_issuer_spv= $request->id_issuer_spv;
             $workOrder->rejected_reason= $request->rejected_reason;
             $workOrder->saveOrFail();
 
