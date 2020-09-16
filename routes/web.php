@@ -30,6 +30,7 @@ $router->post('/mobile/approve-wo-spv-issuer', 'EmployeeController@approveWorkOr
 $router->post('/mobile/approve-wo-planner', 'EmployeeController@approveWorkOrderPlanner');
 $router->post('/mobile/reject-wo-spv-issuer', 'EmployeeController@rejectWorkOrderSpvIssuer');
 $router->post('/mobile/reject-wo-planner', 'EmployeeController@rejectWorkOrderPlanner');
+$router->post('/mobile/create-response-work-order', 'EmployeeController@createFormsResponseWorkOrder');
 
 ///////////// home controller
 $router->get('/mobile/get-data-department', 'HomeController@getDataDepartment');
