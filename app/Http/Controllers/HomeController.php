@@ -10,6 +10,7 @@ use App\Models\MasterEmployee;
 use App\Models\MEmployeeGroup;
 use App\Models\MEmployeeTitle;
 use App\Models\MScoringWorkOrder;
+use App\Models\LocationPrevillege;
 
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +19,80 @@ class HomeController extends Controller{
     public function __construct(){
         $this->middleware('auth');
     }
-        
+    
+    public function getLocationByDepartment(Request $request)
+    {     
+        try{
+            $listLocationByDepartment=MasterLocation::where('id_department', $request->id_department)->get();
+            $statusCode = 200;
+            $response = [
+                'listLocationByDepartment' => $listLocationByDepartment
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response['message'] = 'Server Error';
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    public function getDepartements(Request $request)
+    {     
+        try{
+            $getLocationPrevillege = LocationPrevillege::where('previllage_name', '=', $request->previllage_name)->first();
+            if($getLocationPrevillege){
+                $arrayIdLocation = json_decode($getLocationPrevillege->array_id_location);
+                $dataLocations = array();
+                $dataDepartment = array();
+                $arrayidDepartment = array();
+                foreach($arrayIdLocation as $idLocation){
+                    $getDataLocation = MasterLocation::find($idLocation);
+                    if($getDataLocation->id_department != null){
+                        array_push($arrayidDepartment, $getDataLocation->id_department);
+                    }
+                    array_push($dataLocations, $getDataLocation);
+                }
+                if(sizeof($arrayidDepartment) > 0){
+                    foreach(array_unique($arrayidDepartment) as $idDepartment){
+                        $getDataDepartment = MasterDepartment::find($idDepartment);
+                        array_push($dataDepartment, $getDataDepartment);
+                    }
+                }
+                $statusCode = 200;
+                $response = [
+                    "listDepartment"=>$dataDepartment,
+                    "listLocations"=>$dataLocations
+                ];    
+            } else {
+                $statusCode = 200;
+                $response = [
+                    'message' => "Data Not Found"
+                ];    
+            }
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response['message'] = 'Server Error';
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    public function getLocationByCategory(Request $request)
+    {     
+        try{
+            $dataLocationByCategeroy=MasterLocation::where('location_category', '=', $request->location_category)->get();
+            $statusCode = 200;
+            $response = [
+                'dataLocationByCategeroy' => $dataLocationByCategeroy
+            ];    
+        } catch (Exception $ex) {
+            $statusCode = 404;
+            $response['message'] = 'Server Error';
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
     public function getScoringWorkOrder()
     {     
         try{
@@ -34,6 +108,7 @@ class HomeController extends Controller{
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
+
     public function getDataDepartment()
     {     
         try{

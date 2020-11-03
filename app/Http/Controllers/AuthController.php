@@ -20,7 +20,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {     
         try{
-            $loginEmployee=MasterEmployee::where('email','=',$request->email)->first();
+            $loginEmployee=MasterEmployee::where('username','=',$request->username)->first();
             if(Hash::check($request->input_password, $loginEmployee->password)){
                 $statusCode = 200;
                 $response = [

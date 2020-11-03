@@ -20,6 +20,20 @@ $router->get('/mobile/login-employee', 'AuthController@login');
 $router->post('/mobile/update-password-employee', 'AuthController@updatePassword');
 
 ///////////// employee controller
+$router->post('/mobile/approve-form-fume-hood', 'EmployeeController@approveFormFumeHood');
+$router->get('/mobile/location-answer-fume-hood/{idForm}', 'EmployeeController@locationAnswerFumeHood');
+$router->get('/mobile/location-answer/{idForm}', 'EmployeeController@locationAnswerH2s');
+$router->get('/mobile/get-all-fume-hood', 'EmployeeController@getAllFumeHood');
+$router->post('/mobile/save-edit-ins-fume-hood', 'EmployeeController@saveEditInsFumeHood');
+$router->post('/mobile/create-draft-ins-fume-hood', 'EmployeeController@createDraftInsFumeHood');
+$router->post('/mobile/approve-form-ladder', 'EmployeeController@approveLadder');
+$router->get('/mobile/get-all-ladder', 'EmployeeController@getAllLadder');
+$router->post('/mobile/edit-draft-ins-ladder', 'EmployeeController@saveEditInsLadder');
+$router->post('/mobile/create-draft-ins-ladder', 'EmployeeController@createDraftLadder');
+$router->get('/mobile/get-all-h2s', 'EmployeeController@getAllH2s');
+$router->post('/mobile/approve-form-h2s', 'EmployeeController@approveFormH2s');
+$router->post('/mobile/save-edit-ins-h2s', 'EmployeeController@saveEditInsH2s');
+$router->post('/mobile/create-draft-ins-h2s', 'EmployeeController@createDraftInsH2s');
 $router->post('/mobile/create-work-order', 'EmployeeController@createFormWorkOrder');
 $router->post('/mobile/save-edit-draft-work-order', 'EmployeeController@saveEditDraft');
 $router->post('/mobile/update-work-order/{idFormWOrder}', 'EmployeeController@updateFormWorkOrder');
@@ -32,10 +46,14 @@ $router->post('/mobile/reject-wo-spv-issuer', 'EmployeeController@rejectWorkOrde
 $router->post('/mobile/reject-wo-planner', 'EmployeeController@rejectWorkOrderPlanner');
 
 ///////////// home controller
-$router->get('/mobile/get-data-department', 'HomeController@getDataDepartment');
+$router->get('/mobile/get-data-department', 'HomeController@getDataDepartment');//akan tidak dipakai
+$router->get('/mobile/get-departments', 'HomeController@getDepartements');
+$router->get('/mobile/get-locations-by-department', 'HomeController@getLocationByDepartment');
+
 $router->get('/mobile/get-all-employee', 'HomeController@viewAllEmployee');
 $router->get('/mobile/get-all-location', 'HomeController@viewAllLocation');
 $router->get('/mobile/get-employee-group', 'HomeController@viewAllEmployeeGroup');
 $router->get('/mobile/get-employee-title', 'HomeController@viewAllEmployeeTitle');
 $router->get('/mobile/get-scoring-work-order', 'HomeController@getScoringWorkOrder');
+$router->get('/mobile/get-location-by-category', 'HomeController@getLocationByCategory');
 
