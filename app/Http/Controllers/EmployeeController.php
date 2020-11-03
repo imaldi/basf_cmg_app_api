@@ -8,7 +8,7 @@ use App\Models\FormsWorkOrder;
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
 use App\Models\MScoringWorkOrder;
-use App\Models\MEmployeeGroup;
+use App\Models\FormsResponseWorkOrder;
 use App\Models\EmployeePrivilege;
 use App\Models\FormsInspH2sConcent;
 use App\Models\ContentInspH2sCnct;
@@ -967,5 +967,58 @@ class EmployeeController extends Controller{
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
+
+    public function createFormsResponseWorkOrder(Request $request)
+    {     
+        try{
+            $responseFormWorkOrder= new FormsResponseWorkOrder();
+            $responseFormWorkOrder->id_work_order= $request->id_work_order;
+            $responseFormWorkOrder->id_allocated_worker= $request->id_allocated_worker;
+            $responseFormWorkOrder->id_work_checker= $request->id_work_checker;
+            $responseFormWorkOrder->id_work_tester= $request->id_work_tester;
+            $responseFormWorkOrder->id_tester_dept= $request->id_tester_dept;
+            $responseFormWorkOrder->id_user_confirm= $request->id_user_confirm;
+            $responseFormWorkOrder->tag_number= $request->tag_number;
+            $responseFormWorkOrder->worker_action= $request->worker_action;
+            $responseFormWorkOrder->start_time= $request->start_time;
+            $responseFormWorkOrder->finish_time= $request->finish_time;
+            $responseFormWorkOrder->work_duration= $request->work_duration;
+            if ($request->hasFile('worker_sign')) {
+                if ($request->file('worker_sign')->isValid()) {
+                    $file_ext        = $request->file('worker_sign')->getClientOriginalExtension();
+                    $file_size       = filesize($request->file('worker_sign'));
+                    $allow_file_exts = array('jpeg', 'jpg', 'png');
+                    $max_file_size   = 1024 * 1024 * 10;
+                    if (in_array(strtolower($file_ext), $allow_file_exts) && ($file_size <= $max_file_size)) {
+                        $dest_path     = base_path(). $this->imageFormsWorkOrder;
+                        $file_name     = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file('worker_sign')->getClientOriginalName());
+                        $file_name     = str_replace(' ', '-', $file_name);
+                        $work_order_before_pict ="response-work-order ". $file_name  . '.' . $file_ext;
+                        // move file to serve directory
+                        $request->file('worker_sign')->move($dest_path, $work_order_before_pict);
+
+                        $responseFormWorkOrder->worker_sign= $work_order_before_pict;
+                    }
+                }
+            }
+
+            $responseFormWorkOrder->saveOrFail($request->all());
+
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => ' tambah form work order Berhasil',
+            ];    
+        } catch (\PDOException $e) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];    
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
 
 }
