@@ -8,7 +8,7 @@ use App\Models\FormsWorkOrder;
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
 use App\Models\MScoringWorkOrder;
-use App\Models\FormsResponseWorkOrder;
+use App\Models\MEmployeeGroup;
 use App\Models\EmployeePrivilege;
 use App\Models\FormsInspH2sConcent;
 use App\Models\ContentInspH2sCnct;
@@ -136,7 +136,9 @@ class EmployeeController extends Controller{
         try{
             $createFormsInspFumeHood= new FormsInspFumeHood();
             $createFormsInspFumeHood->id_inspector= $request->id_inspector;
-            $createFormsInspFumeHood->description= $request->description;
+            if($request->description){
+                $createFormsInspFumeHood->description= $request->description;
+            }
             if($request->status_action === "Create Draft"){
                 $createFormsInspFumeHood->is_active= null;
             } else if ( $request->status_action ==="Submit Form"){
@@ -274,14 +276,20 @@ class EmployeeController extends Controller{
             $createFormsInspLadder= new FormsInspLadder();
             $createFormsInspLadder->id_supervisor= $request->id_supervisor;
             $createFormsInspLadder->id_location= $request->id_location;
-            $createFormsInspLadder->brand= $request->brand;
-            $createFormsInspLadder->specification= $request->specification;
+            if($request->brand){
+                $createFormsInspLadder->brand= $request->brand;
+            }
+            if($request->specification){
+                $createFormsInspLadder->specification= $request->specification;
+            }
             $createFormsInspLadder->upper_condition= $request->upper_condition;
             $createFormsInspLadder->bottom_condition= $request->bottom_condition;
             $createFormsInspLadder->fastener_condition= $request->fastener_condition;
             $createFormsInspLadder->construction_condition= $request->construction_condition;
             $createFormsInspLadder->stairs_condition= $request->stairs_condition;
-            $createFormsInspLadder->notes= $request->notes;
+            if($request->notes){
+                $createFormsInspLadder->notes= $request->notes;
+            }
 
             if($request->status_action === "Create Draft"){
                 $createFormsInspLadder->is_active= null;
@@ -510,7 +518,10 @@ class EmployeeController extends Controller{
         try{
             $createFormsInspH2sConcent= new FormsInspH2sConcent();
             $createFormsInspH2sConcent->id_inspector= $request->id_inspector;
-            $createFormsInspH2sConcent->description= $request->description;
+            if($request->description){
+                $createFormsInspH2sConcent->description= $request->description;
+            }
+
             if($request->status_action === "Create Draft"){
                 $createFormsInspH2sConcent->is_active= null;
             } else if ( $request->status_action ==="Submit Form"){
@@ -554,8 +565,12 @@ class EmployeeController extends Controller{
             $formWorkOrder->id_location= $request->id_location;
             $formWorkOrder->w_order_category= $request->w_order_category;
             $formWorkOrder->w_order_location= $request->w_order_location;
-            $formWorkOrder->tag_number= $request->tag_number;
-            $formWorkOrder->w_order_desc= $request->w_order_desc;
+            if($request->tag_number){
+                $formWorkOrder->tag_number= $request->tag_number;
+            }
+            if($request->w_order_desc){
+                $formWorkOrder->w_order_desc= $request->w_order_desc;
+            }
             $formWorkOrder->w_o_priority_score= $request->w_o_priority_score;
             $formWorkOrder->reffered_division= $request->reffered_division;
             $formWorkOrder->id_emergency= $request->id_emergency;
@@ -967,58 +982,5 @@ class EmployeeController extends Controller{
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
-
-    public function createFormsResponseWorkOrder(Request $request)
-    {     
-        try{
-            $responseFormWorkOrder= new FormsResponseWorkOrder();
-            $responseFormWorkOrder->id_work_order= $request->id_work_order;
-            $responseFormWorkOrder->id_allocated_worker= $request->id_allocated_worker;
-            $responseFormWorkOrder->id_work_checker= $request->id_work_checker;
-            $responseFormWorkOrder->id_work_tester= $request->id_work_tester;
-            $responseFormWorkOrder->id_tester_dept= $request->id_tester_dept;
-            $responseFormWorkOrder->id_user_confirm= $request->id_user_confirm;
-            $responseFormWorkOrder->tag_number= $request->tag_number;
-            $responseFormWorkOrder->worker_action= $request->worker_action;
-            $responseFormWorkOrder->start_time= $request->start_time;
-            $responseFormWorkOrder->finish_time= $request->finish_time;
-            $responseFormWorkOrder->work_duration= $request->work_duration;
-            if ($request->hasFile('worker_sign')) {
-                if ($request->file('worker_sign')->isValid()) {
-                    $file_ext        = $request->file('worker_sign')->getClientOriginalExtension();
-                    $file_size       = filesize($request->file('worker_sign'));
-                    $allow_file_exts = array('jpeg', 'jpg', 'png');
-                    $max_file_size   = 1024 * 1024 * 10;
-                    if (in_array(strtolower($file_ext), $allow_file_exts) && ($file_size <= $max_file_size)) {
-                        $dest_path     = base_path(). $this->imageFormsWorkOrder;
-                        $file_name     = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file('worker_sign')->getClientOriginalName());
-                        $file_name     = str_replace(' ', '-', $file_name);
-                        $work_order_before_pict ="response-work-order ". $file_name  . '.' . $file_ext;
-                        // move file to serve directory
-                        $request->file('worker_sign')->move($dest_path, $work_order_before_pict);
-
-                        $responseFormWorkOrder->worker_sign= $work_order_before_pict;
-                    }
-                }
-            }
-
-            $responseFormWorkOrder->saveOrFail($request->all());
-
-            $statusCode = 200;
-            $response = [
-                'error' => false,
-                'message' => ' tambah form work order Berhasil',
-            ];    
-        } catch (\PDOException $e) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => $e->getMessage(),
-            ];    
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
-    }
-
 
 }
