@@ -24,10 +24,17 @@ class HomeController extends Controller{
     {     
         try{
             $listLocationByDepartment=MasterLocation::where('id_department', $request->id_department)->get();
+            $newArrayLocation=array();
+            foreach($listLocationByDepartment as $location){
+                if(in_array($request->category_department, json_decode($location->location_description))){
+                    array_push($newArrayLocation, $location);
+                }
+            }
             $statusCode = 200;
             $response = [
-                'listLocationByDepartment' => $listLocationByDepartment
+                'listLocationByDepartment' => $newArrayLocation
             ];    
+
         } catch (Exception $ex) {
             $statusCode = 404;
             $response['message'] = 'Server Error';

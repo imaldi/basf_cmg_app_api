@@ -136,7 +136,10 @@ class EmployeeController extends Controller{
         try{
             $createFormsInspFumeHood= new FormsInspFumeHood();
             $createFormsInspFumeHood->id_inspector= $request->id_inspector;
-            $createFormsInspFumeHood->description= $request->description;
+            if($request->description){
+                $createFormsInspFumeHood->description= $request->description;
+            }
+
             if($request->status_action === "Create Draft"){
                 $createFormsInspFumeHood->is_active= null;
             } else if ( $request->status_action ==="Submit Form"){
@@ -274,14 +277,22 @@ class EmployeeController extends Controller{
             $createFormsInspLadder= new FormsInspLadder();
             $createFormsInspLadder->id_supervisor= $request->id_supervisor;
             $createFormsInspLadder->id_location= $request->id_location;
-            $createFormsInspLadder->brand= $request->brand;
-            $createFormsInspLadder->specification= $request->specification;
+
+            if($request->brand){
+                $createFormsInspLadder->brand= $request->brand;
+            }
+            if($request->specification){
+                $createFormsInspLadder->specification= $request->specification;
+            }
+            
             $createFormsInspLadder->upper_condition= $request->upper_condition;
             $createFormsInspLadder->bottom_condition= $request->bottom_condition;
             $createFormsInspLadder->fastener_condition= $request->fastener_condition;
             $createFormsInspLadder->construction_condition= $request->construction_condition;
             $createFormsInspLadder->stairs_condition= $request->stairs_condition;
-            $createFormsInspLadder->notes= $request->notes;
+            if($request->notes){
+                $createFormsInspLadder->notes= $request->notes;
+            }
 
             if($request->status_action === "Create Draft"){
                 $createFormsInspLadder->is_active= null;
@@ -289,19 +300,19 @@ class EmployeeController extends Controller{
                 $createFormsInspLadder->is_active= 1;
             }
 
-            if($createFormsInspLadder->upper_condition_desc){
+            if($request->upper_condition_desc){
                 $createFormsInspLadder->upper_condition_desc= $request->upper_condition_desc;
             }
-            if($createFormsInspLadder->bottom_condition_desc){
+            if($request->bottom_condition_desc){
                 $createFormsInspLadder->bottom_condition_desc= $request->bottom_condition_desc;
             }
-            if($createFormsInspLadder->fastener_condition_desc){
+            if($request->fastener_condition_desc){
                 $createFormsInspLadder->fastener_condition_desc= $request->fastener_condition_desc;
             }
-            if($createFormsInspLadder->construction_condition_desc){
+            if($request->construction_condition_desc){
                 $createFormsInspLadder->construction_condition_desc= $request->construction_condition_desc;
             }
-            if($createFormsInspLadder->stairs_condition_desc){
+            if($request->stairs_condition_desc){
                 $createFormsInspLadder->stairs_condition_desc= $request->stairs_condition_desc;
             }
 
@@ -510,7 +521,9 @@ class EmployeeController extends Controller{
         try{
             $createFormsInspH2sConcent= new FormsInspH2sConcent();
             $createFormsInspH2sConcent->id_inspector= $request->id_inspector;
-            $createFormsInspH2sConcent->description= $request->description;
+            if($request->description){
+                $createFormsInspH2sConcent->description= $request->description;
+            }
             if($request->status_action === "Create Draft"){
                 $createFormsInspH2sConcent->is_active= null;
             } else if ( $request->status_action ==="Submit Form"){
@@ -554,7 +567,9 @@ class EmployeeController extends Controller{
             $formWorkOrder->id_location= $request->id_location;
             $formWorkOrder->w_order_category= $request->w_order_category;
             $formWorkOrder->w_order_location= $request->w_order_location;
-            $formWorkOrder->tag_number= $request->tag_number;
+            if($request->tag_number){
+                $formWorkOrder->tag_number= $request->tag_number;
+            }
             $formWorkOrder->w_order_desc= $request->w_order_desc;
             $formWorkOrder->w_o_priority_score= $request->w_o_priority_score;
             $formWorkOrder->reffered_division= $request->reffered_division;
@@ -622,7 +637,9 @@ class EmployeeController extends Controller{
             $formWorkOrder->id_location= $request->id_location;
             $formWorkOrder->w_order_category= $request->w_order_category;
             $formWorkOrder->w_order_location= $request->w_order_location;
-            $formWorkOrder->tag_number= $request->tag_number;
+            if($request->tag_number){
+                $formWorkOrder->tag_number= $request->tag_number;
+            }
             $formWorkOrder->w_order_desc= $request->w_order_desc;
             $formWorkOrder->w_o_priority_score= $request->w_o_priority_score;
             $formWorkOrder->reffered_division= $request->reffered_division;
