@@ -34,6 +34,7 @@ class HomeController extends Controller{
             $response = [
                 'listLocationByDepartment' => $newLocationDepartment
             ];    
+
         } catch (Exception $ex) {
             $statusCode = 404;
             $response['message'] = 'Server Error';

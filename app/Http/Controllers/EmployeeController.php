@@ -297,19 +297,19 @@ class EmployeeController extends Controller{
                 $createFormsInspLadder->is_active= 1;
             }
 
-            if($createFormsInspLadder->upper_condition_desc){
+            if($request->upper_condition_desc){
                 $createFormsInspLadder->upper_condition_desc= $request->upper_condition_desc;
             }
-            if($createFormsInspLadder->bottom_condition_desc){
+            if($request->bottom_condition_desc){
                 $createFormsInspLadder->bottom_condition_desc= $request->bottom_condition_desc;
             }
-            if($createFormsInspLadder->fastener_condition_desc){
+            if($request->fastener_condition_desc){
                 $createFormsInspLadder->fastener_condition_desc= $request->fastener_condition_desc;
             }
-            if($createFormsInspLadder->construction_condition_desc){
+            if($request->construction_condition_desc){
                 $createFormsInspLadder->construction_condition_desc= $request->construction_condition_desc;
             }
-            if($createFormsInspLadder->stairs_condition_desc){
+            if($request->stairs_condition_desc){
                 $createFormsInspLadder->stairs_condition_desc= $request->stairs_condition_desc;
             }
 
@@ -521,7 +521,6 @@ class EmployeeController extends Controller{
             if($request->description){
                 $createFormsInspH2sConcent->description= $request->description;
             }
-
             if($request->status_action === "Create Draft"){
                 $createFormsInspH2sConcent->is_active= null;
             } else if ( $request->status_action ==="Submit Form"){
@@ -637,7 +636,9 @@ class EmployeeController extends Controller{
             $formWorkOrder->id_location= $request->id_location;
             $formWorkOrder->w_order_category= $request->w_order_category;
             $formWorkOrder->w_order_location= $request->w_order_location;
-            $formWorkOrder->tag_number= $request->tag_number;
+            if($request->tag_number){
+                $formWorkOrder->tag_number= $request->tag_number;
+            }
             $formWorkOrder->w_order_desc= $request->w_order_desc;
             $formWorkOrder->w_o_priority_score= $request->w_o_priority_score;
             $formWorkOrder->reffered_division= $request->reffered_division;
