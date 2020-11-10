@@ -20,6 +20,9 @@ $router->get('/mobile/login-employee', 'AuthController@login');
 $router->post('/mobile/update-password-employee', 'AuthController@updatePassword');
 
 ///////////// employee controller
+$router->get('/mobile/location-answer-safety-harnest/{idForm}', 'EmployeeController@locationAnswerSafetyHarnest');
+$router->get('/mobile/get-all-safety-harnest', 'EmployeeController@getAllSafetyHarnest');
+$router->post('/mobile/create-draft-ins-safety-harnest', 'EmployeeController@createDraftInsSafetyHarnest');
 $router->post('/mobile/approve-form-fume-hood', 'EmployeeController@approveFormFumeHood');
 $router->get('/mobile/location-answer-fume-hood/{idForm}', 'EmployeeController@locationAnswerFumeHood');
 $router->get('/mobile/location-answer/{idForm}', 'EmployeeController@locationAnswerH2s');

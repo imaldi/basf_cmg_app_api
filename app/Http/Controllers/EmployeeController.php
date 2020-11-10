@@ -16,6 +16,8 @@ use App\Models\MasterEmployee;
 use App\Models\FormsInspLadder;
 use App\Models\FormsInspFumeHood;
 use App\Models\ContentInspFumeHood;
+use App\Models\ContentInspSafetyHarnest;
+use App\Models\FormsInspSafetyHarnest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -27,6 +29,129 @@ class EmployeeController extends Controller{
 
     public $successStatus = 200;
     protected $imageFormsWorkOrder = '/images/forms';
+
+    public function locationAnswerSafetyHarnest($idForm)
+    {
+        try{
+            $newData = array();
+            $dataContentInspSafetyH = ContentInspSafetyHarnest::where('id_insp_sh', $idForm)->get();
+            foreach($dataContentInspSafetyH as $safetH){
+                $masterLocation = MasterLocation::find($safetH->id_location);
+                $safetH->location_name = $masterLocation->location_name;
+                array_push($newData, $safetH);
+            }
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => ' seluruh data Safety Harnest',
+                'dataContentInspSafetyH' => $newData,
+            ];
+        }catch (\PDOException $e) {
+                $statusCode = 404;
+                $response = [
+                    'error' => true,
+                    'message' => 'update form work order Gagal',
+                ];
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    public function getAllSafetyHarnest()
+    {
+        try{
+            $listDataSafetyHarnest= array();
+            $dataSafetyHarnest= FormsInspSafetyHarnest::join('m_employee','m_employee.id','forms_insp_safety_h.id_inspector')
+            ->join('m_department','m_department.id','forms_insp_safety_h.id_department')
+            ->select('forms_insp_safety_h.checker_sign_pict', 'forms_insp_safety_h.created_at', 'forms_insp_safety_h.description', 'forms_insp_safety_h.id_checker', 'forms_insp_safety_h.id_inspector', 
+                     'forms_insp_safety_h.id_department', 'm_employee.employee_name as inspector_name', 'forms_insp_safety_h.id as id_form', 'm_department.dept_name', 'forms_insp_safety_h.is_active')
+            ->where(function($q) {
+                $q->where('forms_insp_safety_h.is_active', 1)
+                    ->orWhereNull('forms_insp_safety_h.is_active');
+                })
+            ->get();
+            
+            if($dataSafetyHarnest){
+                foreach($dataSafetyHarnest as $safetyHarnest){
+                    if($safetyHarnest->id_checker != null){
+                        $dataChecker = MasterEmployee::find($safetyHarnest->id_checker);
+                        $safetyHarnest->checker_name = $dataChecker->employee_name;
+                    } else {
+                        $safetyHarnest->checker_name = null;
+                    } 
+
+                    array_push($listDataSafetyHarnest, $safetyHarnest);
+                }
+                $statusCode = 200;
+                $response = [
+                    'error' => false,
+                    'message' => ' seluruh data SafetyHarnest',
+                    'dataListSafetyHarnest' => $listDataSafetyHarnest,
+                ];
+            }else{
+                $statusCode = 404;
+                $response = [
+                'error' => false,
+                'message' => 'data kosong',
+                ];
+            }
+        } catch (\PDOException $e) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'Gagal mengambil data',
+            ];
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+
+    public function createDraftInsSafetyHarnest(Request $request)
+    {     
+        try{
+            $createFormsInspSafetyHarnest= new FormsInspSafetyHarnest();
+            $createFormsInspSafetyHarnest->id_inspector= $request->id_inspector;
+            $createFormsInspSafetyHarnest->id_department= $request->id_department;
+            if($request->description){
+                $createFormsInspSafetyHarnest->description= $request->description;
+            }
+            if($request->status_action === "Create Draft"){
+                $createFormsInspSafetyHarnest->is_active= null;
+            } else if ( $request->status_action ==="Submit Form"){
+                $createFormsInspSafetyHarnest->is_active= 1;
+            }
+            $createFormsInspSafetyHarnest->saveOrFail($request->all());
+
+            $locationValue = json_decode($request->location);
+            foreach($locationValue as $value){
+                $createContentInspSafetyHarnest= new ContentInspSafetyHarnest();
+                $createContentInspSafetyHarnest->id_insp_sh= $createFormsInspSafetyHarnest->id;
+                $createContentInspSafetyHarnest->id_location= $value->id_location;
+                $createContentInspSafetyHarnest->box_condition= $value->box_condition;
+                $createContentInspSafetyHarnest->content= $value->content;
+                $createContentInspSafetyHarnest->document= $value->document;
+                $createContentInspSafetyHarnest->hook_or_carabiner= $value->hook_or_carabiner;
+                $createContentInspSafetyHarnest->web_lanyard= $value->web_lanyard;
+                $createContentInspSafetyHarnest->rope_lanyard= $value->rope_lanyard;
+                $createContentInspSafetyHarnest->shock_absorber_pack= $value->shock_absorber_pack;
+                $createContentInspSafetyHarnest->remarks= $value->remarks;
+                $createContentInspSafetyHarnest->saveOrFail($request->all());
+            }
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => ' tambah form inspection safety harnest Berhasil',
+            ];    
+        } catch (\PDOException $e) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];    
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
 
     public function approveFormFumeHood(Request $request)
     {
