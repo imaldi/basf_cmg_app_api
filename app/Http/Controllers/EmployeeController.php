@@ -29,7 +29,75 @@ class EmployeeController extends Controller{
 
     public $successStatus = 200;
     protected $imageFormsWorkOrder = '/images/forms';
+    
+    public function approveFormSafetyHarnest(Request $request)
+    {
+        try{
+            $dt = new Carbon();
+            $dt->timezone = 'Asia/Jakarta';
+            $approveFormsInspSafetyHarnest = FormsInspSafetyHarnest::find($request->id_form);
+            $approveFormsInspSafetyHarnest->id_checker= $request->id_checker;
+            $approveFormsInspSafetyHarnest->checker_sign_date= $dt->format('Y-m-d H:i:s');;
+            $approveFormsInspSafetyHarnest->saveOrFail();
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => ' Approve Successfull'
+            ];
+        }catch (\PDOException $e) {
+                $statusCode = 404;
+                $response = [
+                    'error' => true,
+                    'message' => 'apprive form safety harnest Gagal',
+                ];
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
 
+    public function saveEditDraftSafetyHarnest(Request $request)
+    {     
+        try{
+            $editFormsInspSafetyHarnest= FormsInspSafetyHarnest::find($request->id_form);
+            $editFormsInspSafetyHarnest->description= $request->description;
+
+            if($request->status_action === "Update Draft"){
+                $editFormsInspSafetyHarnest->is_active= null;
+            } else if ( $request->status_action ==="Submit Form"){
+                $editFormsInspSafetyHarnest->is_active= 1;
+            }
+            $editFormsInspSafetyHarnest->saveOrFail();
+
+            $locationValue = json_decode($request->location);
+            foreach($locationValue as $value){
+                $editContentInspSafetyHarnest= ContentInspSafetyHarnest::find($value->id);
+                $editContentInspSafetyHarnest->id_location= $value->id_location;
+                $editContentInspSafetyHarnest->box_condition= $value->box_condition;
+                $editContentInspSafetyHarnest->content= $value->content;
+                $editContentInspSafetyHarnest->document= $value->document;
+                $editContentInspSafetyHarnest->hook_or_carabiner= $value->hook_or_carabiner;
+                $editContentInspSafetyHarnest->web_lanyard= $value->web_lanyard;
+                $editContentInspSafetyHarnest->rope_lanyard= $value->rope_lanyard;
+                $editContentInspSafetyHarnest->shock_absorber_pack= $value->shock_absorber_pack;
+                $editContentInspSafetyHarnest->remarks= $value->remarks;
+                $editContentInspSafetyHarnest->saveOrFail($request->all());
+            }
+            $statusCode = 200;
+            $response = [
+                'error' => false,
+                'message' => ' edit form inspection safety harnest Berhasil',
+            ];    
+        } catch (\PDOException $e) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];    
+        } finally {
+            return response($response,$statusCode)->header('Content-Type','application/json');
+        }
+    }
+    
     public function locationAnswerSafetyHarnest($idForm)
     {
         try{
