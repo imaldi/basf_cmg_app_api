@@ -34,6 +34,8 @@ class MasterEmployee extends Model implements AuthenticatableContract, Authoriza
 		'api_token'
 	];
 
+	// s
+
 	/**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
