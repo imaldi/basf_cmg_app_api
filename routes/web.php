@@ -15,54 +15,63 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-////////////// auth - Employee
-$router->get('/mobile/login-employee', 'AuthController@login');
-$router->post('/mobile/update-password-employee', 'AuthController@updatePassword');
+$router->group(['prefix' => 'mobile'], function () use ($router) {
+    ////////////// auth - Employee
+    $router->get('login-employee', 'AuthController@login');
+    $router->post('update-password-employee', 'AuthController@updatePassword');
 
-///////////// employee controller
-$router->post('/mobile/create-work-order', 'EmployeeController@createFormWorkOrder');
-$router->post('/mobile/save-edit-draft-work-order', 'EmployeeController@saveEditDraft');
-$router->post('/mobile/update-work-order/{idFormWOrder}', 'EmployeeController@updateFormWorkOrder');
-$router->get('/mobile/get-all-work-orders', 'EmployeeController@viewListWorkOrder');
-$router->post('/mobile/create-response-work-order', 'EmployeeController@createFormsResponseWorkOrder');
-$router->post('/mobile/approve-form-safety-harnest', 'EmployeeController@approveFormSafetyHarnest');
-$router->get('/mobile/location-answer-safety-harnest/{idForm}', 'EmployeeController@locationAnswerSafetyHarnest');
-$router->post('/mobile/save-edit-ins-safety-harnest', 'EmployeeController@saveEditDraftSafetyHarnest');
-$router->get('/mobile/get-all-safety-harnest', 'EmployeeController@getAllSafetyHarnest');
-$router->post('/mobile/create-draft-ins-safety-harnest', 'EmployeeController@createDraftInsSafetyHarnest');
-$router->post('/mobile/approve-form-fume-hood', 'EmployeeController@approveFormFumeHood');
-$router->get('/mobile/location-answer-fume-hood/{idForm}', 'EmployeeController@locationAnswerFumeHood');
-$router->get('/mobile/location-answer/{idForm}', 'EmployeeController@locationAnswerH2s');
-$router->get('/mobile/get-all-fume-hood', 'EmployeeController@getAllFumeHood');
-$router->post('/mobile/save-edit-ins-fume-hood', 'EmployeeController@saveEditInsFumeHood');
-$router->post('/mobile/create-draft-ins-fume-hood', 'EmployeeController@createDraftInsFumeHood');
-$router->post('/mobile/approve-form-ladder', 'EmployeeController@approveLadder');
-$router->get('/mobile/get-all-ladder', 'EmployeeController@getAllLadder');
-$router->post('/mobile/edit-draft-ins-ladder', 'EmployeeController@saveEditInsLadder');
-$router->post('/mobile/create-draft-ins-ladder', 'EmployeeController@createDraftLadder');
-$router->get('/mobile/get-all-h2s', 'EmployeeController@getAllH2s');
-$router->post('/mobile/approve-form-h2s', 'EmployeeController@approveFormH2s');
-$router->post('/mobile/save-edit-ins-h2s', 'EmployeeController@saveEditInsH2s');
-$router->post('/mobile/create-draft-ins-h2s', 'EmployeeController@createDraftInsH2s');
-$router->get('/mobile/get-profile-employee/{idEmployee}', 'EmployeeController@getProfileEmployee');
-$router->post('/mobile/update-profile-employee/{idEmployee}', 'EmployeeController@updateProfileEmployee');
-$router->post('/mobile/approve-wo-spv-issuer', 'EmployeeController@approveWorkOrderSpvIssuer');
-$router->post('/mobile/approve-wo-planner', 'EmployeeController@approveWorkOrderPlanner');
-$router->post('/mobile/reject-wo-spv-issuer', 'EmployeeController@rejectWorkOrderSpvIssuer');
-$router->post('/mobile/reject-wo-planner', 'EmployeeController@rejectWorkOrderPlanner');
 
-///////////// home controller
-$router->get('/mobile/get-data-department', 'HomeController@getDataDepartment');//akan tidak dipakai
-$router->get('/mobile/get-departments', 'HomeController@getDepartements');
-$router->get('/mobile/get-locations-by-department', 'HomeController@getLocationByDepartment');
+    /// employee controller
+    /// work order
+    $router->group(['prefix' => 'work-order'], function () use ($router) {
+        $router->get('get-all', 'WorkOrderController@viewListWorkOrder');
+        $router->post('save-edit-draft', 'WorkOrderController@saveEditDraft');
+        $router->post('update/{idFormWOrder}', 'WorkOrderController@updateFormWorkOrder');
+        $router->post('create', 'WorkOrderController@createFormWorkOrder');
+        $router->post('approve-wo-spv-issuer', 'WorkOrderController@approveWorkOrderSpvIssuer');
+        $router->post('approve-wo-planner', 'WorkOrderController@approveWorkOrderPlanner');
+        $router->post('reject-wo-spv-issuer', 'WorkOrderController@rejectWorkOrderSpvIssuer');
+        $router->post('reject-wo-planner', 'WorkOrderController@rejectWorkOrderPlanner');
+    });
 
-$router->get('/mobile/get-all-employee', 'HomeController@viewAllEmployee');
-$router->get('/mobile/get-all-location', 'HomeController@viewAllLocation');
-$router->get('/mobile/get-employee-group', 'HomeController@viewAllEmployeeGroup');
-$router->get('/mobile/get-employee-title', 'HomeController@viewAllEmployeeTitle');
-$router->get('/mobile/get-scoring-work-order', 'HomeController@getScoringWorkOrder');
-$router->get('/mobile/get-location-by-category', 'HomeController@getLocationByCategory');
+    ///// Others
+    $router->post('create-response-work-order', 'EmployeeController@createFormsResponseWorkOrder');
+    $router->post('approve-form-safety-harnest', 'EmployeeController@approveFormSafetyHarnest');
+    $router->get('location-answer-safety-harnest/{idForm}', 'EmployeeController@locationAnswerSafetyHarnest');
+    $router->post('save-edit-ins-safety-harnest', 'EmployeeController@saveEditDraftSafetyHarnest');
+    $router->get('get-all-safety-harnest', 'EmployeeController@getAllSafetyHarnest');
+    $router->post('create-draft-ins-safety-harnest', 'EmployeeController@createDraftInsSafetyHarnest');
+    $router->post('approve-form-fume-hood', 'EmployeeController@approveFormFumeHood');
+    $router->get('location-answer-fume-hood/{idForm}', 'EmployeeController@locationAnswerFumeHood');
+    $router->get('location-answer/{idForm}', 'EmployeeController@locationAnswerH2s');
+    $router->get('get-all-fume-hood', 'EmployeeController@getAllFumeHood');
+    $router->post('save-edit-ins-fume-hood', 'EmployeeController@saveEditInsFumeHood');
+    $router->post('create-draft-ins-fume-hood', 'EmployeeController@createDraftInsFumeHood');
+    $router->post('approve-form-ladder', 'EmployeeController@approveLadder');
+    $router->get('get-all-ladder', 'EmployeeController@getAllLadder');
+    $router->post('edit-draft-ins-ladder', 'EmployeeController@saveEditInsLadder');
+    $router->post('create-draft-ins-ladder', 'EmployeeController@createDraftLadder');
+    $router->get('get-all-h2s', 'EmployeeController@getAllH2s');
+    $router->post('approve-form-h2s', 'EmployeeController@approveFormH2s');
+    $router->post('save-edit-ins-h2s', 'EmployeeController@saveEditInsH2s');
+    $router->post('create-draft-ins-h2s', 'EmployeeController@createDraftInsH2s');
+    $router->get('get-profile-employee/{idEmployee}', 'EmployeeController@getProfileEmployee');
+    $router->post('update-profile-employee/{idEmployee}', 'EmployeeController@updateProfileEmployee');
 
-$router->get('/key', function() {
-    return \Illuminate\Support\Str::random(32);
+    ///////////// home controller
+    $router->get('get-data-department', 'HomeController@getDataDepartment');//akan tidak dipakai
+    $router->get('get-departments', 'HomeController@getDepartements');
+    $router->get('get-locations-by-department', 'HomeController@getLocationByDepartment');
+
+    $router->get('get-all-employee', 'HomeController@viewAllEmployee');
+    $router->get('get-all-location', 'HomeController@viewAllLocation');
+    $router->get('get-employee-group', 'HomeController@viewAllEmployeeGroup');
+    $router->get('get-employee-title', 'HomeController@viewAllEmployeeTitle');
+    $router->get('get-scoring-work-order', 'HomeController@getScoringWorkOrder');
+    $router->get('get-location-by-category', 'HomeController@getLocationByCategory');
 });
+
+
+
+
+

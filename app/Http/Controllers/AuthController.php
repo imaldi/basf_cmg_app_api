@@ -13,16 +13,22 @@ use Illuminate\Validation\Validator;
 
 class AuthController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth');
-    }
+    // public function __construct(){
+    //     $this->middleware('auth');
+    // }
+
+    
+
 
     public function login(Request $request)
     {     
+        $statusCode=401;
+        $response=[];
         try{
-            $loginEmployee=MasterEmployee::where('username','=',$request->username)->first();
-            if(Hash::check($request->input_password, $loginEmployee->password)){
+            $loginEmployee=MasterEmployee::where('emp_username','=',$request->username)->first();
+            if(Hash::check($request->input_password, $loginEmployee->emp_password)){
                 $statusCode = 200;
+                
                 $response = [
                     'error' => true,
                     'message' => 'Login Berhasil',
@@ -35,7 +41,7 @@ class AuthController extends Controller
                 ];    
             }
         } catch (Exception $ex) {
-            $statusCode = 404;
+            $statusCode = 401;
             $response['message'] = 'Login Gagal';
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
@@ -45,8 +51,8 @@ class AuthController extends Controller
     public function updatePassword(Request $request)
     {     
         try{
-            $data=MasterEmployee::where('email','=',$request->email)->first();
-            $data->password= Hash::make($request->new_password);
+            $data=MasterEmployee::where('emp_email','=',$request->email)->first();
+            $data->emp_password= Hash::make($request->new_password);
             $data->saveOrFail();
 
             $statusCode = 200;

@@ -6,7 +6,7 @@ use DB;
 
 class MasterEmployee extends Model
 {
-	protected $table = 'm_employee';
+	protected $table = 'm_employees';
 	
 	protected $fillable = [
 		'emp_name',
