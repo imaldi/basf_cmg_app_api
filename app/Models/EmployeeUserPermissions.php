@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmployeeUserPermissions extends Model
 {
-	protected $table = 'employee_user_permission';
+	protected $table = 'm_employee_permissions';
+
+    
+    public function group(){
+        return $this->belongsToMany(EmployeeGroup::class);
+    }
 }

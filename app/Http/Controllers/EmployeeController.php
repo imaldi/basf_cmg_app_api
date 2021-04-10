@@ -748,6 +748,8 @@ class EmployeeController extends Controller{
         }
     }
 
+
+    /// Work Order
     public function createFormWorkOrder(Request $request)
     {     
         try{
@@ -1007,6 +1009,7 @@ class EmployeeController extends Controller{
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
+    /// End Work Order
 
     public function getProfileEmployee($idEmployee)
     {

@@ -20,6 +20,11 @@ $router->get('/mobile/login-employee', 'AuthController@login');
 $router->post('/mobile/update-password-employee', 'AuthController@updatePassword');
 
 ///////////// employee controller
+$router->post('/mobile/create-work-order', 'EmployeeController@createFormWorkOrder');
+$router->post('/mobile/save-edit-draft-work-order', 'EmployeeController@saveEditDraft');
+$router->post('/mobile/update-work-order/{idFormWOrder}', 'EmployeeController@updateFormWorkOrder');
+$router->get('/mobile/get-all-work-orders', 'EmployeeController@viewListWorkOrder');
+$router->post('/mobile/create-response-work-order', 'EmployeeController@createFormsResponseWorkOrder');
 $router->post('/mobile/approve-form-safety-harnest', 'EmployeeController@approveFormSafetyHarnest');
 $router->get('/mobile/location-answer-safety-harnest/{idForm}', 'EmployeeController@locationAnswerSafetyHarnest');
 $router->post('/mobile/save-edit-ins-safety-harnest', 'EmployeeController@saveEditDraftSafetyHarnest');
@@ -39,17 +44,12 @@ $router->get('/mobile/get-all-h2s', 'EmployeeController@getAllH2s');
 $router->post('/mobile/approve-form-h2s', 'EmployeeController@approveFormH2s');
 $router->post('/mobile/save-edit-ins-h2s', 'EmployeeController@saveEditInsH2s');
 $router->post('/mobile/create-draft-ins-h2s', 'EmployeeController@createDraftInsH2s');
-$router->post('/mobile/create-work-order', 'EmployeeController@createFormWorkOrder');
-$router->post('/mobile/save-edit-draft-work-order', 'EmployeeController@saveEditDraft');
-$router->post('/mobile/update-work-order/{idFormWOrder}', 'EmployeeController@updateFormWorkOrder');
 $router->get('/mobile/get-profile-employee/{idEmployee}', 'EmployeeController@getProfileEmployee');
-$router->get('/mobile/get-all-work-orders', 'EmployeeController@viewListWorkOrder');
 $router->post('/mobile/update-profile-employee/{idEmployee}', 'EmployeeController@updateProfileEmployee');
 $router->post('/mobile/approve-wo-spv-issuer', 'EmployeeController@approveWorkOrderSpvIssuer');
 $router->post('/mobile/approve-wo-planner', 'EmployeeController@approveWorkOrderPlanner');
 $router->post('/mobile/reject-wo-spv-issuer', 'EmployeeController@rejectWorkOrderSpvIssuer');
 $router->post('/mobile/reject-wo-planner', 'EmployeeController@rejectWorkOrderPlanner');
-$router->post('/mobile/create-response-work-order', 'EmployeeController@createFormsResponseWorkOrder');
 
 ///////////// home controller
 $router->get('/mobile/get-data-department', 'HomeController@getDataDepartment');//akan tidak dipakai
@@ -63,3 +63,6 @@ $router->get('/mobile/get-employee-title', 'HomeController@viewAllEmployeeTitle'
 $router->get('/mobile/get-scoring-work-order', 'HomeController@getScoringWorkOrder');
 $router->get('/mobile/get-location-by-category', 'HomeController@getLocationByCategory');
 
+$router->get('/key', function() {
+    return \Illuminate\Support\Str::random(32);
+});
