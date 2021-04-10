@@ -18,7 +18,7 @@ class EmployeeTableSeeder extends Seeder
             'emp_name'	=> 'Aldi Irsan Majid',
             'emp_email'	=> 'aldiirsanmajid@gmail.com',
             'emp_username' => 'aim2u',
-            'emp_password'	=> Hash::make('secret')
+            'emp_password'	=> app('hash')->make('secret')
     ]);
     }
 }

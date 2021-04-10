@@ -36,18 +36,20 @@ public function register(Request $request)
 
     try {
 
-        $user = new User;
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
+        // $user = new User;
+        $user = new MasterEmployee;
+        $user->emp_name = $request->input('name');
+        $user->emp_username = $request->input('user_name');
+        $user->emp_email = $request->input('email');
         $plainPassword = $request->input('password');
-        $user->password = app('hash')->make($plainPassword);
+        $user->emp_password = app('hash')->make($plainPassword);
 
         $user->save();
 
         //return successful response
         return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
 
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         //return error message
         return response()->json(['message' => 'User Registration Failed!'], 409);
     }
@@ -58,13 +60,17 @@ public function register(Request $request)
     public function login(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|string',
-            'password' => 'required|string',
+            'emp_email' => 'required|string',
+            'emp_password' => 'required|string',
         ]);
 
-        $credentials = $request->only(['email', 'password']);
+        // $credentials = $request->only(['emp_email', 'emp_password']);
 
-        if (! $token = Auth::attempt($credentials)) {
+        $email    = $request->input('emp_email');
+    $password = $request->input('emp_password');
+
+        // if (! $token = Auth::attempt($credentials)) {
+        if (! $token = Auth::attempt(['emp_email'=>$email, 'emp_password' =>$password])) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
