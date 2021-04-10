@@ -17,8 +17,15 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     ////////////// auth - Employee
-    $router->post('login-employee', 'AuthController@login');
-    $router->post('update-password-employee', 'AuthController@updatePassword');
+
+    // Matches "/api/register
+    // $router->post('register', 'AuthController@register');
+
+      // Matches "/api/login
+      $router->post('register', 'AuthController@register');
+     $router->post('login', 'AuthController@login');
+    // $router->post('login-employee', 'AuthController@login');
+    // $router->post('update-password-employee', 'AuthController@updatePassword');
 
 
     /// employee controller

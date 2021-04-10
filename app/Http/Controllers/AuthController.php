@@ -9,20 +9,50 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Validator;
+use App\User;
 
 
 
 class AuthController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth');
-    }
+    // public function __construct(){
+    //     $this->middleware('auth');
+    // }
 
 
 // protected function guard()
 // {
 //     return Auth::guard('api');
 // }
+
+public function register(Request $request)
+{
+    //validate incoming request 
+    $this->validate($request, [
+        'name' => 'required|string',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|confirmed',
+    ]);
+
+    try {
+
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $plainPassword = $request->input('password');
+        $user->password = app('hash')->make($plainPassword);
+
+        $user->save();
+
+        //return successful response
+        return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
+
+    } catch (\Exception $e) {
+        //return error message
+        return response()->json(['message' => 'User Registration Failed!'], 409);
+    }
+
+}
 
 
     public function login(Request $request)
@@ -34,7 +64,7 @@ class AuthController extends Controller
 
         $credentials = $request->only(['email', 'password']);
 
-        if (! $token = Auth::guard('api')->attempt($credentials)) {
+        if (! $token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 

@@ -18,7 +18,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => \App\Model\MasterEmployee::class
+            'model' => \App\User::class
         ]
     ]
 ];
