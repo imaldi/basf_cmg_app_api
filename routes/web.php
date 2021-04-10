@@ -15,9 +15,9 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'mobile'], function () use ($router) {
+$router->group(['prefix' => 'api'], function () use ($router) {
     ////////////// auth - Employee
-    $router->get('login-employee', 'AuthController@login');
+    $router->post('login-employee', 'AuthController@login');
     $router->post('update-password-employee', 'AuthController@updatePassword');
 
 

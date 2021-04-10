@@ -11,42 +11,61 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Validator;
 
 
+
 class AuthController extends Controller
 {
-    // public function __construct(){
-    //     $this->middleware('auth');
-    // }
+    public function __construct(){
+        $this->middleware('auth');
+    }
 
-    
+
+// protected function guard()
+// {
+//     return Auth::guard('api');
+// }
 
 
     public function login(Request $request)
-    {     
-        $statusCode=401;
-        $response=[];
-        try{
-            $loginEmployee=MasterEmployee::where('emp_username','=',$request->username)->first();
-            if(Hash::check($request->input_password, $loginEmployee->emp_password)){
-                $statusCode = 200;
-                
-                $response = [
-                    'error' => true,
-                    'message' => 'Login Berhasil',
-                    'dataEmployee' => [$loginEmployee]
-                ];    
-            } else {
-                $response = [
-                    'error' => false,
-                    'message' => 'Password False',
-                ];    
-            }
-        } catch (Exception $ex) {
-            $statusCode = 401;
-            $response['message'] = 'Login Gagal';
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
+    {
+        $this->validate($request, [
+            'email' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $credentials = $request->only(['email', 'password']);
+
+        if (! $token = Auth::guard('api')->attempt($credentials)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
+
+        return $this->respondWithToken($token);
     }
+    // {     
+    //     $statusCode=401;
+    //     $response=[];
+    //     try{
+    //         $loginEmployee=MasterEmployee::where('emp_username','=',$request->username)->first();
+    //         if(Hash::check($request->input_password, $loginEmployee->emp_password)){
+    //             $statusCode = 200;
+                
+    //             $response = [
+    //                 'error' => true,
+    //                 'message' => 'Login Berhasil',
+    //                 'dataEmployee' => [$loginEmployee]
+    //             ];    
+    //         } else {
+    //             $response = [
+    //                 'error' => false,
+    //                 'message' => 'Password False',
+    //             ];    
+    //         }
+    //     } catch (Exception $ex) {
+    //         $statusCode = 401;
+    //         $response['message'] = 'Login Gagal';
+    //     } finally {
+    //         return response($response,$statusCode)->header('Content-Type','application/json');
+    //     }
+    // }
 
     public function updatePassword(Request $request)
     {     
