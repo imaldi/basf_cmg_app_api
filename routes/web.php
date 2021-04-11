@@ -24,6 +24,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
       // Matches "/api/login
       $router->post('register', 'AuthController@register');
      $router->post('login', 'AuthController@login');
+    //// Test jwt
+     // Matches "/api/profile
+    $router->get('profile', 'WorkOrderController@profile');
+
+    // Matches "/api/user 
+    //get one user by id
+    $router->get('users/{id}', 'WorkOrderController@singleUser');
+
+    // Matches "/api/users
+    $router->get('users', 'WorkOrderController@allUsers');
     // $router->post('login-employee', 'AuthController@login');
     // $router->post('update-password-employee', 'AuthController@updatePassword');
 

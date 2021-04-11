@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FormsWorkOrder;
 use App\Models\MasterDepartment;
+use Auth;
 
 
 class WorkOrderController extends Controller
@@ -15,11 +16,34 @@ class WorkOrderController extends Controller
      */
     public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
-
     protected $imageFormsWorkOrder = '/images/forms';
     // public $successStatus = 200;
+
+    public function profile()
+    {
+        return response()->json(['user' => Auth::user()], 200);
+    }
+
+    public function allUsers()
+    {
+         return response()->json(['users' =>  User::all()], 200);
+    }
+
+    public function singleUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            return response()->json(['user' => $user], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'user not found!'], 404);
+        }
+
+    }
 
 
 
