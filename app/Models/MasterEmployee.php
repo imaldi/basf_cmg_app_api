@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
-use DB;
+// use DB;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -62,6 +62,11 @@ class MasterEmployee extends Model implements AuthenticatableContract, Authoriza
 
 	public function group(){
 		return $this->hasOne(EmployeeGroup::class);
+	}
+
+	public function getAuthPassword()
+	{
+		return $this->emp_password;
 	}
 }
 

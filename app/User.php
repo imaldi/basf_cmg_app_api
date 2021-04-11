@@ -15,23 +15,58 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email'
-    ];
+    protected $table = 'm_employees';
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
+    // /**
+    //  * The attributes that are mass assignable.
+    //  *
+    //  * @var array
+    //  */
+    // protected $fillable = [
+    //     'name', 'email'
+    // ];
+
+    // /**
+    //  * The attributes excluded from the model's JSON form.
+    //  *
+    //  * @var array
+    //  */
+    // protected $hidden = [
+    //     'password',
+    // ];
+
+    protected $fillable = [
+		'name',
+		'emp_username',
+		'email',
+		'emp_nik',
+		'emp_birth_date',
+		'emp_phone_number',
+		'emp_is_spv',
+		'emp_employee_group_id',
+		'emp_employee_department_id',
+	];
+
+	protected $hidden = [
+		'password',
+		'api_token'
+	];
+
+//     public function getEmailAttribute() {
+//     return $this->attributes['emp_email'];
+// }
+
+// public function setEmailAttribute($value) {
+//     $this->attributes['emp_email'] = $value;
+// }
+
+// public function getPasswordAttribute() {
+//     return $this->attributes['emp_password'];
+// }
+
+// public function setPasswordAttribute($value) {
+//     $this->attributes['emp_email'] = $value;
+// }
 
 
 

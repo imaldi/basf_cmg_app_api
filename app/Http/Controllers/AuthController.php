@@ -8,6 +8,7 @@ use App\Models\MasterEmployee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Validation\Validator;
 use App\User;
 
@@ -25,57 +26,77 @@ class AuthController extends Controller
 //     return Auth::guard('api');
 // }
 
-public function register(Request $request)
-{
-    //validate incoming request 
-    $this->validate($request, [
-        'name' => 'required|string',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|confirmed',
-    ]);
+// public function register(Request $request)
+// {
+//     //validate incoming request 
+//     $this->validate($request, [
+//         'name' => 'required|string',
+//         'email' => 'required|email|unique:users',
+//         'password' => 'required|confirmed',
+//     ]);
 
-    try {
+//     try {
 
-        // $user = new User;
-        $user = new MasterEmployee;
-        $user->emp_name = $request->input('name');
-        $user->emp_username = $request->input('user_name');
-        $user->emp_email = $request->input('email');
-        $plainPassword = $request->input('password');
-        $user->emp_password = app('hash')->make($plainPassword);
+//         // $user = new User;
+//         $user = new User;
+//         $user->name = $request->input('name');
+//         $user->username = $request->input('user_name');
+//         $user->email = $request->input('email');
+//         $plainPassword = $request->input('password');
+//         $user->password = app('hash')->make($plainPassword);
 
-        $user->save();
+//         $user->save();
 
-        //return successful response
-        return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
+//         //return successful response
+//         return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
 
-    } catch (Exception $e) {
-        //return error message
-        return response()->json(['message' => 'User Registration Failed!'], 409);
-    }
+//     } catch (Exception $e) {
+//         //return error message
+//         return response()->json(['message' => 'User Registration Failed!'], 409);
+//     }
 
-}
+// }
 
 
     public function login(Request $request)
     {
         $this->validate($request, [
-            'emp_email' => 'required|string',
-            'emp_password' => 'required|string',
+            'email' => 'required|string',
+            'password' => 'required|string',
         ]);
 
-        // $credentials = $request->only(['emp_email', 'emp_password']);
+        $credentials = $request->only(['email', 'password']);
 
-        $email    = $request->input('emp_email');
-    $password = $request->input('emp_password');
+    //     $email    = $request->input('emp_email');
+    // $password = $request->input('emp_password');
 
-        // if (! $token = Auth::attempt($credentials)) {
-        if (! $token = Auth::attempt(['emp_email'=>$email, 'emp_password' =>$password])) {
+            // dd($credentials);
+
+        if (! $token = Auth::attempt($credentials)) {
+        // if (! $token = Auth::attempt(['emp_email'=>$email, 'emp_password' =>$password])) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
     }
+
+//     protected function validateLogin(Request $request)
+// {
+//     $request->validate([
+//         $this->username() => 'required|string',
+//         'emp_password' => 'required|string',
+//     ]);
+// }
+
+//     public function username()
+//     {
+//         return 'emp_email';
+//     }
+
+//     protected function credentials(Request $request)
+//     {
+//         return $request->only($this->username(), 'emp_password');
+//     }
     // {     
     //     $statusCode=401;
     //     $response=[];

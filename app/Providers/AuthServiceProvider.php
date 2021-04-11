@@ -41,4 +41,13 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
     }
+
+//     public function boot()
+// {
+//     $this->registerPolicies();
+
+//     $this->app->auth->provider('custom', function ($app, $config) {
+//         return new CustomUserProvider($app['hash'], $config['model']);
+//     });
+// }
 }
