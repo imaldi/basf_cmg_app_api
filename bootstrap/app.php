@@ -98,6 +98,8 @@ $app->routeMiddleware([
 $app->register(App\Providers\AuthServiceProvider::class);
 // JWT tymon
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+// Lumen Generator
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

@@ -4,17 +4,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class FormsWorkOrder extends Model
+class FormWorkOrder extends Model
 {
-	protected $table = 'forms_work_order';
+	protected $table = 'form_work_orders';
 
 	protected $fillable = [
+		'wo_name',
+		'wo_issuer_id',
+		'wo_spv_issuer_id',
+		'wo_date_issuer_submit',
 		'wo_category',
+		'wo_issuer_dept',
 		'wo_location_id',
-		'wo_reffered_division',
-		'wo_c_emergency',
-		'wo_c_equipment_criteria',
-		'wo_date_recomendation'
+		'wo_location_detail',
+		'wo_tag_no',
+		'wo_issuer_attachment',
+		// 'wo_date_pic_plan',
 	];
 
 	public function issuer(){

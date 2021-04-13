@@ -1,72 +1,72 @@
 <?php
-namespace App\Models;
+// namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-// use DB;
+// use Illuminate\Auth\Authenticatable;
+// use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+// use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+// use Illuminate\Database\Eloquent\Model;
+// use Laravel\Lumen\Auth\Authorizable;
+// // use DB;
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
+// use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class MasterEmployee extends Model implements AuthenticatableContract, AuthorizableContract
-{
+// class MasterEmployee extends Model implements AuthenticatableContract, AuthorizableContract
+// {
 
-    use Authenticatable, Authorizable;
+//     use Authenticatable, Authorizable;
 
-	protected $table = 'm_employees';
+// 	protected $table = 'm_employees';
 	
-	protected $fillable = [
-		'emp_name',
-		'emp_username',
-		'emp_email',
-		'emp_nik',
-		'emp_birth_date',
-		'emp_phone_number',
-		'emp_is_spv',
-		'emp_employee_group_id',
-		'emp_employee_department_id',
-	];
+// 	protected $fillable = [
+// 		'emp_name',
+// 		'emp_username',
+// 		'emp_email',
+// 		'emp_nik',
+// 		'emp_birth_date',
+// 		'emp_phone_number',
+// 		'emp_is_spv',
+// 		'emp_employee_group_id',
+// 		'emp_employee_department_id',
+// 	];
 
-	protected $hidden = [
-		'emp_password',
-		'api_token'
-	];
+// 	protected $hidden = [
+// 		'emp_password',
+// 		'api_token'
+// 	];
 
-	// s
+// 	// s
 
-	/**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
+// 	/**
+//      * Get the identifier that will be stored in the subject claim of the JWT.
+//      *
+//      * @return mixed
+//      */
+//     public function getJWTIdentifier()
+//     {
+//         return $this->getKey();
+//     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
+//     /**
+//      * Return a key value array, containing any custom claims to be added to the JWT.
+//      *
+//      * @return array
+//      */
+//     public function getJWTCustomClaims()
+//     {
+//         return [];
+//     }
 	
-	public function department(){
-		return $this->hasOne(MasterDepartment::class);
-	}
+// 	public function department(){
+// 		return $this->hasOne(MasterDepartment::class);
+// 	}
 
-	public function group(){
-		return $this->hasOne(EmployeeGroup::class);
-	}
+// 	public function group(){
+// 		return $this->hasOne(EmployeeGroup::class);
+// 	}
 
-	public function getAuthPassword()
-	{
-		return $this->emp_password;
-	}
-}
+// 	public function getAuthPassword()
+// 	{
+// 		return $this->emp_password;
+// 	}
+// }
 

@@ -15,6 +15,9 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->post('login', 'AuthController@login');
+
+
 $router->group(['prefix' => 'api'], function () use ($router) {
     ////////////// auth - Employee
 
@@ -22,8 +25,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // $router->post('register', 'AuthController@register');
 
       // Matches "/api/login
-      $router->post('register', 'AuthController@register');
-     $router->post('login', 'AuthController@login');
+    $router->post('register', 'AuthController@register');
     //// Test jwt
      // Matches "/api/profile
     $router->get('profile', 'WorkOrderController@profile');

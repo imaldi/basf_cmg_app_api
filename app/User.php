@@ -7,6 +7,8 @@ use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use App\Models\MasterDepartment;
+use App\Models\MEmployeeGroup;
 
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -26,11 +28,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     //     'name', 'email'
     // ];
 
-    // /**
-    //  * The attributes excluded from the model's JSON form.
-    //  *
-    //  * @var array
-    //  */
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
     // protected $hidden = [
     //     'password',
     // ];
@@ -45,13 +47,40 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		'emp_is_spv',
 		'emp_employee_group_id',
 		'emp_employee_department_id',
+		'password'
 	];
+
 
 	protected $hidden = [
 		'password',
 		'api_token'
 	];
 
+    public function department(){
+		return $this->belongsTo(MasterDepartment::class);
+	}
+
+	public function group(){
+		return $this->hasOne(EmployeeGroup::class);
+	}
+
+    //Ternyata ini penyebab tidak bisa login dari tadi
+
+
+	// public function getAuthPassword()
+	// {
+	// 	return $this->emp_password;
+	// }
+
+    // public function getAuthEmail()
+    // {
+    //     return $this->emp_email;
+    // }
+
+    public function username()
+{
+    return 'username';
+}
 //     public function getEmailAttribute() {
 //     return $this->attributes['emp_email'];
 // }
