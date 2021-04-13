@@ -5,11 +5,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 class MasterDepartment extends Model
 {
-	protected $table = 'm_department';
+	protected $table = 'm_departments';
 
 
-	public function user(){
-		return $this->hasMany(User::class);
+	public function users(){
+		return $this->hasMany(User::class,'emp_employee_department_id');
 	}
 }
 

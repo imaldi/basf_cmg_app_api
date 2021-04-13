@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-
 class WorkOrderController extends Controller
 {
     /**
@@ -27,8 +26,16 @@ class WorkOrderController extends Controller
 
     public function profile()
     {
-        $employee = Auth::user();
-        return response()->json(['user' => $employee], 200);
+        $user = Auth::user();
+        $employee = User::find($user->id);
+        $department = $employee->department()->first();
+        $date = Carbon::now()->format('Y-m-d H:i:s');
+        // $department = MasterDepartment::find(3);
+        $userSpv = $department->users()->where('emp_is_spv',1)->first();
+
+        // $department->users();
+        return response()->json(['user' => $date], 200);
+        // return response()->json(['user' => $employee], 200);
     }
 
     public function allUsers()
@@ -64,14 +71,16 @@ class WorkOrderController extends Controller
             
 
             // $formWorkOrder= new FormWorkOrder;
-            $date = Carbon::now();
+            $date = Carbon::now()
+            // ->format('Y-m-d H:i:s')
+            ;
             $date->toDateTimeString();
             $formWorkOrder = FormWorkOrder::create([
                 'wo_name' => 'test nama wo',
                 'wo_issuer_id' => $employee->id,
                 'wo_spv_issuer_id' => 
-                1, 
-                // $employee->department()->user()->where('is_spv',1)->first(),
+                // 1, 
+                $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
                 'wo_date_issuer_submit' => $date,
                 'wo_category' => $request->input('wo_category'),
                 'wo_issuer_dept' => $request->input('emp_employee_department_id'),
@@ -81,72 +90,6 @@ class WorkOrderController extends Controller
                 'wo_tag_no' => $request->input('wo_tag_no'),
                 'wo_issuer_attachment' => $request->input('wo_issuer_attachment')
             ]);
-
-            // dd($formWorkOrder);
-            // $formWorkOrder->id_issuer_id= $employee->id;
-            //SPV Issuer => Cari user dengan departement yang = user ini, yang mana memiliki group id spv work order
-            
-            // $formWorkOrder->id_dept_submitting= $request->id_dept_submitting;
-            // $formWorkOrder->id_location= $request->id_location;
-            // $formWorkOrder->w_order_category= $request->w_order_category;
-            // $formWorkOrder->w_order_location= $request->w_order_location;
-            // if($request->tag_number){
-            //     $formWorkOrder->tag_number= $request->tag_number;
-            // }
-            // if($request->w_order_desc){
-            //     $formWorkOrder->w_order_desc= $request->w_order_desc;
-            // }
-            // $formWorkOrder->w_o_priority_score= $request->w_o_priority_score;
-            // $formWorkOrder->reffered_division= $request->reffered_division;
-            // $formWorkOrder->id_emergency= $request->id_emergency;
-            // $formWorkOrder->id_ranking_customer= $request->id_ranking_customer;
-            // $formWorkOrder->id_equipment_criteria= $request->id_equipment_criteria;
-            // if ($request->hasFile('w_o_pict_before')) {
-            //     if ($request->file('w_o_pict_before')->isValid()) {
-            //         $file_ext        = $request->file('w_o_pict_before')->getClientOriginalExtension();
-            //         $file_size       = filesize($request->file('w_o_pict_before'));
-            //         $allow_file_exts = array('jpeg', 'jpg', 'png');
-            //         $max_file_size   = 1024 * 1024 * 10;
-            //         if (in_array(strtolower($file_ext), $allow_file_exts) && ($file_size <= $max_file_size)) {
-            //             $dest_path     = base_path(). $this->imageFormsWorkOrder;
-            //             $file_name     = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file('w_o_pict_before')->getClientOriginalName());
-            //             $file_name     = str_replace(' ', '-', $file_name);
-            //             $work_order_before_pict ="work-order ". $file_name  . '.' . $file_ext;
-            //             // move file to serve directory
-            //             $request->file('w_o_pict_before')->move($dest_path, $work_order_before_pict);
-
-            //             $formWorkOrder->w_o_pict_before= $work_order_before_pict;
-            //         }
-            //     }
-            // }
-
-            // if($request->status_action === "Create Draft"){
-            //     $formWorkOrder->is_active= null;
-            // } else if ( $request->status_action ==="Submit Form"){
-            //     $formWorkOrder->is_active= 1;
-            //     $formWorkOrder->w_order_status= "Waiting Spv Approval";
-            // }
-            // // $formWorkOrder->id_issuer_spv= $request->id_issuer_spv;
-            // // $formWorkOrder->id_reffered_dept_spv= $request->id_reffered_dept_spv;
-            // // $formWorkOrder->implement_date= $request->implement_date;
-            // // $formWorkOrder->reschedule_date= $request->reschedule_date;
-            // // $formWorkOrder->relevant_area= $request->relevant_area;
-            // // $formWorkOrder->cost_classification= $request->cost_classification;
-            // // $formWorkOrder->w_o_pict_sign_issuer_spv= $request->w_o_pict_sign_issuer_spv;
-            // // $formWorkOrder->w_o_pict_sign_reff_spv= $request->w_o_pict_sign_reff_spv;
-            
-            // $formWorkOrder->saveOrFail($request->all());
-
-            // $statusCode = 200;
-            // $response = [
-            //     'error' => false,
-            //     'message' => ' tambah form work order Berhasil',
-            //     'form_content' => $formWorkOrder
-            // ];    
-            // return response()->json([
-            //             'statusCode' => $statusCode,
-            //             'data' => $response
-            //         ]);
             return $formWorkOrder;
         } catch (\PDOException $e) {
             $statusCode = 404;

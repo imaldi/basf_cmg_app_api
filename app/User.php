@@ -56,9 +56,27 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		'api_token'
 	];
 
-    public function department(){
-		return $this->belongsTo(MasterDepartment::class);
-	}
+    // public function department(){
+	// 	return $this->/**
+    //      * Get the user that owns the User
+    //      *
+    //      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    //      */
+    //     public function user(): BelongsTo
+    //     {
+    //         return $this->belongsTo(User::class, 'foreign_key', 'other_key');
+    //     }
+	// }
+
+    /**
+     * Get the department that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function department()
+    {
+        return $this->belongsTo(MasterDepartment::class, 'emp_employee_department_id');
+    }
 
 	public function group(){
 		return $this->hasOne(EmployeeGroup::class);
