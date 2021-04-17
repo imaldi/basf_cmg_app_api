@@ -82,6 +82,9 @@ $app->singleton(
 
 $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
+     'group' => \App\Http\Middleware\GroupMiddleware::class,
+     'permission' => \App\Http\Middleware\PermissionMiddleware::class,
+     'json.response' => \App\Http\Middleware\ForceJsonResponseMiddleware::class,
  ]);
 
 /*

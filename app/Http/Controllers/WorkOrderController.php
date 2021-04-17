@@ -24,8 +24,10 @@ class WorkOrderController extends Controller
     protected $imageFormsWorkOrder = '/images/forms';
     // public $successStatus = 200;
 
+    /// Test JWT
     public function profile()
     {
+        //Tes profile department dan date
         $user = Auth::user();
         $employee = User::find($user->id);
         $department = $employee->department()->first();
@@ -34,8 +36,16 @@ class WorkOrderController extends Controller
         $userSpv = $department->users()->where('emp_is_spv',1)->first();
 
         // $department->users();
-        return response()->json(['user' => $date], 200);
+        // return response()->json(['user' => $date], 200);
         // return response()->json(['user' => $employee], 200);
+
+        //Tes Has Many Through dengan EmployeeGroup model
+        $group = $user->group()->first();
+        $forms = $group->workOrderForms()->get();
+        $permissions = $group->permissions()->get()->where('id',13)->first();
+        // return response()->json(['group_forms' => $forms], 200);
+        return response()->json(['group_forms' => $permissions], 200);
+
     }
 
     public function allUsers()
@@ -57,8 +67,96 @@ class WorkOrderController extends Controller
 
     }
 
+    ///Test JWT Ends
 
+    ///01. View All
+    public function viewListWorkOrder()
+    {
+        //nanti buat provider untuk menyediakan group, permission dan lain lain
+        $view_permissions = 13;
+        $group_issuer = 2;
+        $group_issuer_spv = 3;
+        $user = Auth::user();
+        $group = $user->group()->first();
+        $forms = $group->workOrderForms()->get();
+        //tambah is open = 1 nanti
+        $formsOfSpv = $group->workOrderFormsOfSpv()->get();
+        $permissions = 
+            $group->permissions()->get()
+            ->where('id',$view_permissions)->first();
+        try{
+            if($permissions->id == $view_permissions){
+                if($group->id == $group_issuer){
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'Success Get All Data', 
+                        'data' =>  FormWorkOrder::where('wo_is_open', 1)
+                        ->where('wo_issuer_id',$user->id)->get()
+                        // ->where('emp_employee_group_id',$groupId)->get()
+                        ], 200);
+                } else if ($group->id == $group_issuer_spv){
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'Success Get All Data', 
+                        'data' =>  $formsOfSpv
+                        // ->where('emp_employee_group_id',$groupId)->get()
+                        ], 200);
+                }
+                return response()->json([
+                    'code' => 401,
+                    'message' => "your group are not allowed"
+                ]);
+                // $error = \Illuminate\Auth\AuthenticationException::withMessages([
+                //     'group_issuer' => ['Validation Message #1'],
+                //     // 'field_name_2' => ['Validation Message #2'],
+                //  ]);
+                //  throw $error;
+            } else {
+                // return response()->json([
+                //     'code' => 401,
+                //     'message' => 'Unauthenticated', 
+                //     // 'data' =>  FormWorkOrder::where('wo_is_open', 1)->get()
+                //     ], 401);\
+                // $error = \Illuminate\Auth\AuthenticationException::withMessages([
+                //     'group_issuer' => ['Validation Message #1'],
+                //     // 'field_name_2' => ['Validation Message #2'],
+                //  ]);
+                //  throw $error;
+            }
+             
+        } catch (\PDOException $e) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'view list form work order Gagal : '.$e->getMessage(),
+            ];
 
+            return $response; 
+        } 
+    }
+
+    // public function viewListWorkOrderByGroupId()
+    // {
+    //     $groupId = Route::current()->parameter('groupId');
+    //     try{
+    //          return response()->json([
+    //             'code' => 200,
+    //             'message' => 'Success Get All Data', 
+    //             'data' =>  FormWorkOrder::where('wo_is_open', 1)
+    //             ->where('emp_employee_group_id',$groupId)->get()
+    //             ], 200);
+    //     } catch (\PDOException $e) {
+    //         $statusCode = 404;
+    //         $response = [
+    //             'error' => true,
+    //             'message' => 'view list form work order Gagal',
+    //         ];
+
+    //         return $response; 
+    //     } 
+    // }
+
+    ///02. Create
     public function createFormWorkOrder(Request $request)
     {     
         // $statusCode = 500;
@@ -75,20 +173,26 @@ class WorkOrderController extends Controller
             // ->format('Y-m-d H:i:s')
             ;
             $date->toDateTimeString();
+            $department = $employee->department()->first();
+            $departmentAbr = substr(strtoupper($department->dept_name),0,3);
             $formWorkOrder = FormWorkOrder::create([
-                'wo_name' => 'test nama wo',
+                'wo_name' => 'GU/F/5033-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
                 'wo_issuer_id' => $employee->id,
                 'wo_spv_issuer_id' => 
-                // 1, 
                 $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
                 'wo_date_issuer_submit' => $date,
                 'wo_category' => $request->input('wo_category'),
                 'wo_issuer_dept' => $request->input('emp_employee_department_id'),
-                'wo_location_id' => 1, 
-                // $employee->department()->location()->get(),
+                'wo_location_id' => $request->input('wo_location_id'),
+                'wo_reffered_dept' => $department->id,
+                'wo_reffered_division' => $request->input('wo_reffered_division'),
+                'wo_description' => $request->input('wo_description'),
+                // 1, 
+                // $employee->department()->first()->location()->first()->id,
                 'wo_location_detail' => $request->input('location_detail'),
                 'wo_tag_no' => $request->input('wo_tag_no'),
                 'wo_issuer_attachment' => $request->input('wo_issuer_attachment')
+                //TODO upload file foto
             ]);
             return $formWorkOrder;
         } catch (\PDOException $e) {
@@ -220,82 +324,7 @@ class WorkOrderController extends Controller
         }
     }
 
-    public function viewListWorkOrder()
-    {
-        try{
-            $listWorkOrder= array();
-            $workOrders= FormsWorkOrder::join('m_employee','m_employee.id','forms_work_order.id_issuer_submit')
-            ->select('m_employee.employee_name','forms_work_order.id', 'forms_work_order.id_issuer_submit', 'forms_work_order.id_issuer_spv', 'forms_work_order.id_reffered_dept_spv', 'forms_work_order.id_dept_submitting', 'forms_work_order.id_location',
-                     'forms_work_order.id_emergency', 'forms_work_order.id_ranking_customer', 'forms_work_order.id_equipment_criteria', 'forms_work_order.w_order_category', 'forms_work_order.reffered_division', 'forms_work_order.w_order_location', 'forms_work_order.tag_number', 
-                     'forms_work_order.w_order_desc', 'forms_work_order.w_order_status', 'forms_work_order.w_o_priority_score', 'forms_work_order.implement_date', 'forms_work_order.reschedule_date', 'forms_work_order.relevant_area', 'forms_work_order.cost_classification',
-                     'forms_work_order.w_o_pict_before', 'forms_work_order.w_o_pict_sign_issuer_spv', 'forms_work_order.w_o_pict_sign_reff_spv', 'forms_work_order.is_active', 'forms_work_order.created_at')
-            ->where(function($q) {
-                $q->where('forms_work_order.is_active', 1)
-                    ->orWhereNull('forms_work_order.is_active');
-                })
-            ->get();
-            
-            if($workOrders){
-                foreach($workOrders as $workOrder){
-                    $departmenSubmitter= MasterDepartment::where('id',$workOrder->id_dept_submitting)->first();
-                    $locationWorkOrder= MasterLocation::where('id',$workOrder->id_location)->first();
-                    $emergency= MScoringWorkOrder::where('id',$workOrder->id_emergency)->first();
-                    $rankingCustomer= MScoringWorkOrder::where('id',$workOrder->id_ranking_customer)->first();
-                    $equipmentCriteria= MScoringWorkOrder::where('id',$workOrder->id_equipment_criteria)->first();
     
-                    if($emergency){
-                        $workOrder->emergency = $emergency->priority_variable;
-                    }else{
-                        $workOrder->emergency = null;
-                    }
-
-                    if($rankingCustomer){
-                        $workOrder->ranking_customer = $rankingCustomer->priority_variable;
-                    }else{
-                        $workOrder->ranking_customer = null;
-                    }
-                    
-                    if($equipmentCriteria){
-                        $workOrder->equipment_criteria = $equipmentCriteria->priority_variable;
-                    }else{
-                        $workOrder->equipment_criteria = null;
-                    }
-
-                    if($departmenSubmitter){
-                        $workOrder->dept_submitter = $departmenSubmitter->dept_name;
-                    }else{
-                        $workOrder->dept_submitter = null;
-                    }
-                    if($locationWorkOrder){
-                        $workOrder->location_work_order = $locationWorkOrder->location_name;
-                    }
-                    else{
-                        $workOrder->location_work_order = null;
-                    }
-                    array_push($listWorkOrder,$workOrder);
-                }
-                $statusCode = 200;
-                $response = [
-                    'error' => false,
-                    'message' => ' seluruh data work order',
-                    'dataListWorkOrder' => $listWorkOrder,
-                ];
-            }else{
-                $response = [
-                'error' => false,
-                'message' => ' data kosong',
-                ];
-            }
-        } catch (\PDOException $e) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'update form work order Gagal',
-            ];
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
-    }
 
     public function rejectWorkOrderSpvIssuer(Request $request)
     {     

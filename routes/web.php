@@ -16,9 +16,10 @@ $router->get('/', function () use ($router) {
 });
 
 $router->post('login', 'AuthController@login');
+$router->get('failMiddleware/{middlewareName}', 'AuthController@failPermission');
 
 
-$router->group(['prefix' => 'api'], function () use ($router) {
+$router->group(['prefix' => 'api','middleware' => ['json.response']], function () use ($router) {
     ////////////// auth - Employee
 
     // Matches "/api/register
@@ -42,8 +43,26 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     /// employee controller
     /// work order
+    //TODO buat provider untuk menyediakan group/permission yang diperlukan untuk middleware
     $router->group(['prefix' => 'work-order'], function () use ($router) {
-        $router->get('get-all', 'WorkOrderController@viewListWorkOrder');
+        $router->get('get-all',
+        [
+            // 'middleware' => 'permission:13',
+            'middleware' => 'group:1,2,3,4',
+        'uses' => 'WorkOrderController@viewListWorkOrder']);
+        // $router->get('get-all[/{groupId}]',  [
+        //     'middleware' => 'group:1,2,3,4',
+        //     'as'   => 'get-all',
+        //     'uses' => 'WorkOrderController@viewListWorkOrder'
+        // ]);
+        // 'WorkOrderController@viewListWorkOrder')->middleware('group:1,2,3,4');
+        
+        // $router->get('get-all/{groupId}', 
+        // [
+        //     'middleware' => 'group:1,2,3,4',
+        // 'uses' => 'WorkOrderController@viewListWorkOrderByGroupId']);
+
+        // 'WorkOrderController@viewListWorkOrderByGroupId')->middleware('group');
         $router->post('save-edit-draft', 'WorkOrderController@saveEditDraft');
         $router->post('update/{idFormWOrder}', 'WorkOrderController@updateFormWorkOrder');
         $router->post('create', 'WorkOrderController@createFormWorkOrder');

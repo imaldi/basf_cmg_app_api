@@ -147,29 +147,34 @@ public function register(Request $request)
     //     }
     // }
 
-    public function updatePassword(Request $request)
-    {     
-        try{
-            $data=MasterEmployee::where('emp_email','=',$request->email)->first();
-            $data->emp_password= Hash::make($request->new_password);
-            $data->saveOrFail();
-
-            $statusCode = 200;
-            $response = [
-                'error' => false,
-                'message' => 'update password Berhasil',
-            ];    
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'update password Gagal',
-            ];
-        } 
-        finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
+    public function failPermission($middlewareName){
+        return response(['code' => 401, 'message' => $middlewareName.' not allowed'],401);
     }
+
+    ///masih belum d urus dan belum perlu
+    // public function updatePassword(Request $request)
+    // {     
+    //     try{
+    //         $data=MasterEmployee::where('emp_email','=',$request->email)->first();
+    //         $data->emp_password= Hash::make($request->new_password);
+    //         $data->saveOrFail();
+
+    //         $statusCode = 200;
+    //         $response = [
+    //             'error' => false,
+    //             'message' => 'update password Berhasil',
+    //         ];    
+    //     } catch (Exception $ex) {
+    //         $statusCode = 404;
+    //         $response = [
+    //             'error' => true,
+    //             'message' => 'update password Gagal',
+    //         ];
+    //     } 
+    //     finally {
+    //         return response($response,$statusCode)->header('Content-Type','application/json');
+    //     }
+    // }
 
 
 }

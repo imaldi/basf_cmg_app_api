@@ -746,44 +746,44 @@ class EmployeeController extends Controller{
 
     
 
-    public function getProfileEmployee($idEmployee)
-    {
-        try{
-            $dataEmployee= DB::table('m_employee')
-                        ->join('m_employee_group','m_employee_group.id','m_employee.id_employee_group')
-                        ->join('m_department','m_department.id','m_employee.id_department')
-                        ->select('m_employee.id as id','m_employee_group.e_group_name','m_employee.employee_name','m_employee.nik',
-                                'm_department.dept_name', 'm_employee.id_department', 'm_employee.email','m_employee.phone_number','m_employee.is_active', 'm_employee_group.id as id_employee_group')
-                        ->where('m_employee.id',$idEmployee)
-                        ->first();
+    // public function getProfileEmployee($idEmployee)
+    // {
+    //     try{
+    //         $dataEmployee= DB::table('m_employee')
+    //                     ->join('m_employee_group','m_employee_group.id','m_employee.id_employee_group')
+    //                     ->join('m_department','m_department.id','m_employee.id_department')
+    //                     ->select('m_employee.id as id','m_employee_group.e_group_name','m_employee.employee_name','m_employee.nik',
+    //                             'm_department.dept_name', 'm_employee.id_department', 'm_employee.email','m_employee.phone_number','m_employee.is_active', 'm_employee_group.id as id_employee_group')
+    //                     ->where('m_employee.id',$idEmployee)
+    //                     ->first();
             
-            if($dataEmployee){
-                $dataEmployeePrivilege = EmployeePrivilege::join('employee_user_permission','employee_user_permission.id','m_employee_privilege.id_e_u_permission')
-                ->select('m_employee_privilege.id_employee_group', 'employee_user_permission.name as permission_name')
-                ->where('m_employee_privilege.id_employee_group', $dataEmployee->id_employee_group)->get();
-                $dataEmployee->employee_permissions = $dataEmployeePrivilege;
-                $statusCode = 200;
-                $response = [
-                    'message' => ' tampilkan data Berhasil',
-                    'dataProfilEmployee' => [$dataEmployee],
-                ];
-            }else{
-                $statusCode = 404;
-                $response = [
-                'message' => ' data kosong',
-                ];
-            }
+    //         if($dataEmployee){
+    //             $dataEmployeePrivilege = EmployeePrivilege::join('employee_user_permission','employee_user_permission.id','m_employee_privilege.id_e_u_permission')
+    //             ->select('m_employee_privilege.id_employee_group', 'employee_user_permission.name as permission_name')
+    //             ->where('m_employee_privilege.id_employee_group', $dataEmployee->id_employee_group)->get();
+    //             $dataEmployee->employee_permissions = $dataEmployeePrivilege;
+    //             $statusCode = 200;
+    //             $response = [
+    //                 'message' => ' tampilkan data Berhasil',
+    //                 'dataProfilEmployee' => [$dataEmployee],
+    //             ];
+    //         }else{
+    //             $statusCode = 404;
+    //             $response = [
+    //             'message' => ' data kosong',
+    //             ];
+    //         }
 
-        }catch (\PDOException $e) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'update form work order Gagal',
-            ];
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
-    }
+    //     }catch (\PDOException $e) {
+    //         $statusCode = 404;
+    //         $response = [
+    //             'error' => true,
+    //             'message' => 'update form work order Gagal',
+    //         ];
+    //     } finally {
+    //         return response($response,$statusCode)->header('Content-Type','application/json');
+    //     }
+    // }
 
     public function updateProfileEmployee(Request $request, $idEmployee)
     {     

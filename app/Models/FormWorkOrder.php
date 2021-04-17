@@ -23,7 +23,7 @@ class FormWorkOrder extends Model
 	];
 
 	public function issuer(){
-		return $this->belongsTo(Employees::class,'wo_issuer_id');
+		return $this->belongsTo(User::class,'wo_issuer_id');
 	}
 
 	public function issuerSPV(){
@@ -41,5 +41,22 @@ class FormWorkOrder extends Model
 	public function picSPV(){
 		return $this->belongsTo(Employees::class, 'wo_spv_pic_id');
 	}
+
+	//OTO -> One To One;
+	//OTM -> One To Many; 
+	//HM -> Has Many; 
+	//HMT -> Has Many Through;
+
+	//TODO belongsTo Category - MTO buat tabel dan model Category
+
+	//TODO belongsTo Location - MTO dengan lokasi
+
+	//TODO belongsTo dengan Reffered Division - MTO dengan divisi yang dituju
+
+	//TODO belongsTo dengan Kedaruratan - MTO dengan kedaruratan
+	
+	//TODO belongsTo dengan Ranking Customer - MTO dengan tabel/model (baru) RankingCustomer
+
+	//TODO belongsTo dengan Kriteria Peralatan - MTO dengan tabel/model (baru) Kriteria Peralatan
 }
 

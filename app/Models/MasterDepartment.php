@@ -11,5 +11,9 @@ class MasterDepartment extends Model
 	public function users(){
 		return $this->hasMany(User::class,'emp_employee_department_id');
 	}
+
+	// public function location(){
+	// 	return $this->hasOne(Location)
+	// }
 }
 

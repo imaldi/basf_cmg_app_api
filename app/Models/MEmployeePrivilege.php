@@ -6,6 +6,6 @@ use DB;
 
 class MEmployeePrivilege extends Model
 {
-	protected $table = 'm_employee_privilege';
+	protected $table = 'm_employee_privileges';
 }
 

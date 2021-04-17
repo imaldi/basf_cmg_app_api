@@ -10,6 +10,6 @@ class EmployeeUserPermissions extends Model
 
     
     public function group(){
-        return $this->belongsToMany(EmployeeGroup::class);
+        return $this->belongsToMany(MEmployeeGroup::class);
     }
 }

@@ -79,7 +79,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
 	public function group(){
-		return $this->hasOne(EmployeeGroup::class);
+		return $this->belongsTo(MEmployeeGroup::class, 'emp_employee_group_id');
 	}
 
     //Ternyata ini penyebab tidak bisa login dari tadi
