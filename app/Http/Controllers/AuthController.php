@@ -36,9 +36,10 @@ public function register(Request $request)
 {
     //validate incoming request 
     $this->validate($request, [
-        'name' => 'required|string',
-        'email' => 'required|email|unique:m_employees',
-        'password' => 'required|confirmed',
+        'emp_name' => 'required|string',
+        'emp_email' => 'required|email|unique:m_employees',
+        'emp_username' => 'required|string|unique:m_employees',
+        'emp_password' => 'required|confirmed',
     ]);
 
     try {
@@ -48,10 +49,10 @@ public function register(Request $request)
         $plainPassword = $request->input('password');
         $password = app('hash')->make($plainPassword);
         $user = User::create([
-            'name' => $request->input('name'),
+            'emp_name' => $request->input('name'),
             'emp_username' => $request->input('user_name'),
-            'email' => $request->input('email'),
-            'password' => $password
+            'emp_email' => $request->input('email'),
+            'emp_password' => $password
         ]);
         // $user->name = $request->input('name');
         // $user->emp_username = $request->input('user_name');
@@ -75,11 +76,13 @@ public function register(Request $request)
     public function login(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|string',
+            // 'email' => 'required|string',
+            'emp_username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        $credentials = $request->only(['email', 'password']);
+        // $credentials = $request->only(['email', 'password']);
+        $credentials = $request->only(['emp_username', 'password']);
 
     //     $email    = $request->input('emp_email');
     // $password = $request->input('emp_password');
@@ -111,10 +114,12 @@ public function register(Request $request)
 //     ]);
 // }
 
-//     public function username()
-//     {
-//         return 'emp_email';
-//     }
+    public function username()
+    {
+        return 'emp_username';
+    }
+
+   
 
 //     protected function credentials(Request $request)
 //     {

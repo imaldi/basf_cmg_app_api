@@ -85,10 +85,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     //Ternyata ini penyebab tidak bisa login dari tadi
 
 
-	// public function getAuthPassword()
-	// {
-	// 	return $this->emp_password;
-	// }
+	public function getAuthPassword()
+	{
+		return $this->emp_password;
+	}
 
     // public function getAuthEmail()
     // {
