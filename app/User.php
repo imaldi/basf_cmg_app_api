@@ -9,13 +9,14 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use App\Models\MasterDepartment;
 use App\Models\MEmployeeGroup;
+use Spatie\Permission\Traits\HasRoles;
 
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
-    use Authenticatable, Authorizable;
+    use Authenticatable, Authorizable, HasRoles;
 
     protected $table = 'm_employees';
 
@@ -85,20 +86,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     //Ternyata ini penyebab tidak bisa login dari tadi
 
 
-	public function getAuthPassword()
-	{
-		return $this->emp_password;
-	}
+	// public function getAuthPassword()
+	// {
+	// 	return $this->emp_password;
+	// }
 
     // public function getAuthEmail()
     // {
     //     return $this->emp_email;
     // }
 
-    public function username()
-{
-    return 'username';
-}
+    // public function username()
+    // {
+    //     return 'username';
+    // }
 //     public function getEmailAttribute() {
 //     return $this->attributes['emp_email'];
 // }

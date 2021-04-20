@@ -82,8 +82,10 @@ $app->singleton(
 
 $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
-     'group' => \App\Http\Middleware\GroupMiddleware::class,
-     'permission' => \App\Http\Middleware\PermissionMiddleware::class,
+    //  'group' => \App\Http\Middleware\GroupMiddleware::class,
+    //  'permission' => \App\Http\Middleware\PermissionMiddleware::class,
+     'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
+     'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
      'json.response' => \App\Http\Middleware\ForceJsonResponseMiddleware::class,
  ]);
 
@@ -98,8 +100,12 @@ $app->routeMiddleware([
 |
 */
 
+$app->configure('permission');
+$app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
+$app->register(Spatie\Permission\PermissionServiceProvider::class);
 // $app->register(App\Providers\AppServiceProvider::class);
-$app->register(App\Providers\AuthServiceProvider::class);
+//ini baru di comment untuk tes spatie
+// $app->register(App\Providers\AuthServiceProvider::class);
 // JWT tymon
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 // Lumen Generator

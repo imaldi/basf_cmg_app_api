@@ -10,10 +10,24 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Models\MEmployeeGroup;
+use App\Models\EmployeeUserPermissions;
 
 $router->get('/', function () use ($router) {
+    Role::create(['name' => 'writer']);
+    // $group = MEmployeeGroup::create(['name' => 'test spatie']);
+    // $permissions = EmployeeUserPermissions::create(['name' => 'test spatie']);
+    // Permission::create(['name' => 'edit articles']);
+    $role = MEmployeeGroup::find(7);
+    $permission = EmployeeUserPermissions::find(21);
+    // $permissions = EmployeeUserPermissions::all();
+    $role->givePermissionTo($permission);
     return $router->app->version();
+    // return response(['permissions' => $permissions],200);
 });
+
 
 $router->post('login', 'AuthController@login');
 $router->get('failMiddleware/{middlewareName}', 'AuthController@failPermission');
@@ -21,6 +35,14 @@ $router->get('failMiddleware/{middlewareName}', 'AuthController@failPermission')
 
 $router->group(['prefix' => 'api','middleware' => ['json.response']], function () use ($router) {
     ////////////// auth - Employee
+    //  Tes assign permission ke role
+    $router->get('assignPermissionToRole',function() use ($router) {
+        $role = MEmployeeGroup::find(7);
+        $permission = EmployeeUserPermissions::find(21);
+        // $permissions = EmployeeUserPermissions::all();
+        $role->givePermissionTo($permission);
+        return $router->app->version();
+    });
 
     // Matches "/api/register
     // $router->post('register', 'AuthController@register');
@@ -47,8 +69,8 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->group(['prefix' => 'work-order'], function () use ($router) {
         $router->get('get-all',
         [
-            // 'middleware' => 'permission:13',
-            'middleware' => 'group:1,2,3,4',
+            // 'middleware' => 'permission:"view work order"',
+            // 'middleware' => 'group:1,2,3,4',
         'uses' => 'WorkOrderController@viewListWorkOrder']);
         // $router->get('get-all[/{groupId}]',  [
         //     'middleware' => 'group:1,2,3,4',
@@ -107,8 +129,21 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->get('get-employee-title', 'HomeController@viewAllEmployeeTitle');
     $router->get('get-scoring-work-order', 'HomeController@getScoringWorkOrder');
     $router->get('get-location-by-category', 'HomeController@getLocationByCategory');
+
+    $router->get('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
+
 });
 
+$router->group(['prefix' => 'api'],function() use ($router){
+    $router->get('get-all-permission','TestGroupsAndPermissionsController@getAllPermissions');
+    $router->get('create-group/{groupArg}','TestGroupsAndPermissionsController@testCreateAGroup');
+    $router->get('create-permission/{permissionArg}','TestGroupsAndPermissionsController@testCreateAPermission');
+    $router->get('assign-permission-to-group','TestGroupsAndPermissionsController@testAssignPermissionToGroup');
+    // $router->get('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
+    $router->get('is-user-has-groups','TestGroupsAndPermissionsController@isUserHasGroup');
+    $router->get('get-group','TestGroupsAndPermissionsController@testDapatkanGroupUserDenganForEach');
+    
+});
 
 
 

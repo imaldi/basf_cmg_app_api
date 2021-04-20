@@ -76,20 +76,20 @@ public function register(Request $request)
     public function login(Request $request)
     {
         $this->validate($request, [
-            // 'email' => 'required|string',
-            'emp_username' => 'required|string',
+            'email' => 'required|string',
+            // 'emp_username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // $credentials = $request->only(['email', 'password']);
-        $credentials = $request->only(['emp_username', 'password']);
+        $credentials = $request->only(['email', 'password']);
+        // $credentials = $request->only(['emp_username', 'password']);
 
     //     $email    = $request->input('emp_email');
     // $password = $request->input('emp_password');
 
             // dd($credentials);
 
-        if (! $token = Auth::attempt($credentials)) {
+        if (! $token = JWTAuth::attempt($credentials)) {
         // if (! $token = Auth::attempt(['emp_email'=>$email, 'emp_password' =>$password])) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }

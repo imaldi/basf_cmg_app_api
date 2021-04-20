@@ -18,7 +18,7 @@ class PermissionMiddleware
     public function handle($request, Closure $next, ...$permissions)
     {
         $user = Auth::user();
-        $group = $user->group()->first();
+        // $group = $user->group()->first();
         // $forms = $group->workOrderForms()->get();
         // $userPermission = 
         //     $group->permissions()->get()
@@ -27,15 +27,25 @@ class PermissionMiddleware
         // if($user->emp_employee_group_id != 1) {
             
             foreach($permissions as $permission) {
-                $userPermission = 
-                    $group->permissions()->get()
-                    ->where('id',$permission)->first();
-                // Check if user has the role This check will depend on how your roles are set up
-                if($userPermission->id == $permission){
-                    // dd(count($groups));
-                    // return redirect('api/work-order/get-all/'.$request->route('groupId'));
+                // $userPermission = 
+                //     $group->permissions()->get()
+                //     ->where('id',$permission)->first();
+                // $isUserHasPermission = Auth::user()->hasPermission($permission);
+                $permissionViaRoles = Auth::user()->getAllPermissions();
+                
+                foreach($permissionViaRoles as $rolePermission){
+                    if($rolePermission->name == $permission){
                     return $next($request);
+
+                    }
                 }
+                // Check if user has the role This check will depend on how your roles are set up
+                // if($isUserHasPermission){
+                //     // if($userPermission->id == $permission){
+                //     // dd(count($groups));
+                //     // return redirect('api/work-order/get-all/'.$request->route('groupId'));
+                //     return $next($request);
+                // }
             }    
         // } 
         // else {

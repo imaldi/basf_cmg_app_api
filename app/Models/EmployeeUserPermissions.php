@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission;
 
-class EmployeeUserPermissions extends Model
+class EmployeeUserPermissions extends Permission implements \Spatie\Permission\Contracts\Permission
 {
 	protected $table = 'm_employee_permissions';
 
