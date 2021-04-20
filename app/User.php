@@ -79,9 +79,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsTo(MasterDepartment::class, 'emp_employee_department_id');
     }
 
-	public function group(){
-		return $this->belongsTo(MEmployeeGroup::class, 'emp_employee_group_id');
-	}
+	// public function group(){
+	// 	return $this->belongsTo(MEmployeeGroup::class, 'emp_employee_group_id');
+	// }
+
+    public function hasPermission(String $permission){
+        return $this->getPermissionsViaRoles()->where('name',$permission)->first() != null;
+    }
 
     //Ternyata ini penyebab tidak bisa login dari tadi
 

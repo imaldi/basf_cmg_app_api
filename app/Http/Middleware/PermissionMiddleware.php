@@ -6,6 +6,7 @@ use Closure;
 use Auth;
 
 
+///Sepertinya tidak terpakai dikarenakan spatie
 class PermissionMiddleware
 {
     /**
@@ -18,6 +19,8 @@ class PermissionMiddleware
     public function handle($request, Closure $next, ...$permissions)
     {
         $user = Auth::user();
+        // $groups = $user->roles;
+
         // $group = $user->group()->first();
         // $forms = $group->workOrderForms()->get();
         // $userPermission = 

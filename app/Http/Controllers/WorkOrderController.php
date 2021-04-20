@@ -73,81 +73,61 @@ class WorkOrderController extends Controller
     ///01. View All
     public function viewListWorkOrder()
     {
-        //nanti buat provider untuk menyediakan group, permission dan lain lain
-        // $view_permissions = 13;
-        // $group_issuer = 2;
-        $group_issuer_spv = 3;
         $user = Auth::user();
-        // $group = $user->group()->first();
-        $groups = $user->roles;
-        $groupUserId = 0;
-        foreach($groups as $group){
-            if($group->permissions
-            ->where('name','view work order')->first() != null){
-                $groupUserId = $group->id;
+        
+        try{
+            if($user->hasPermission('view work order')){
+                if($user->hasRole('Work Order - Issuer')){
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'Success Get All Data', 
+                        'data' =>  FormWorkOrder::where('wo_is_open', 1)
+                        ->where('wo_issuer_id',$user->id)->get()
+                        // ->where('emp_employee_group_id',$groupId)->get()
+                        ], 200);
+                } else if ($user->hasRole('Work Order - SPV')){
+                    $groups = $user->roles;
+                    foreach($groups as $group){
+                        if($group->permissions
+                        ->where('name','view work order')->first() != null){
+                            $groupUserId = $group->id;
+                            $groupUser = MEmployeeGroup::find($groupUserId);
+                            $formsOfSpv = $groupUser->workOrderFormsOfSpv()->get();
+                            return response(['spv_forms' => $formsOfSpv],200);
+                        }
+                    }
+                }
+                return response()->json([
+                    'code' => 401,
+                    'message' => "your group are not allowed"
+                ]);
+                // $error = \Illuminate\Auth\AuthenticationException::withMessages([
+                //     'group_issuer' => ['Validation Message #1'],
+                //     // 'field_name_2' => ['Validation Message #2'],
+                //  ]);
+                //  throw $error;
+            } else {
+                return response()->json([
+                    'code' => 401,
+                    'message' => 'Unauthenticated', 
+                    // 'data' =>  FormWorkOrder::where('wo_is_open', 1)->get()
+                    ], 401);
+                // $error = \Illuminate\Auth\AuthenticationException::withMessages([
+                //     'group_issuer' => ['Validation Message #1'],
+                //     // 'field_name_2' => ['Validation Message #2'],
+                //  ]);
+                //  throw $error;
             }
-        }
-
-        $groupUser = MEmployeeGroup::find($groupUserId);
-
-        // $forms = $groupUser->workOrderForms()->get();
-        //tambah is open = 1 nanti
-        $formsOfSpv = $groupUser->workOrderFormsOfSpv()->get();
-        return response(['spv_forms' => $formsOfSpv],200);
-
-        // $permissions = 
-        //     $group->permissions()->get()
-        //     ->where('id',$view_permissions)->first();
-        // try{
-        //     // if($permissions->id == $view_permissions){
-        //         if($user->hasRole('Work Order - Issuer')){
-        //             return response()->json([
-        //                 'code' => 200,
-        //                 'message' => 'Success Get All Data', 
-        //                 'data' =>  FormWorkOrder::where('wo_is_open', 1)
-        //                 ->where('wo_issuer_id',$user->id)->get()
-        //                 // ->where('emp_employee_group_id',$groupId)->get()
-        //                 ], 200);
-        //         } else if ($user->hasRole('Work Order - SPV')){
-        //             $formsOfSpv = $groupUser->workOrderFormsOfSpv()->get();
-        //             return response()->json([
-        //                 'code' => 200,
-        //                 'message' => 'Success Get All Data', 
-        //                 'data' =>  $formsOfSpv
-        //                 // ->where('emp_employee_group_id',$groupId)->get()
-        //                 ], 200);
-        //         }
-        //         return response()->json([
-        //             'code' => 401,
-        //             'message' => "your group are not allowed"
-        //         ]);
-        //         // $error = \Illuminate\Auth\AuthenticationException::withMessages([
-        //         //     'group_issuer' => ['Validation Message #1'],
-        //         //     // 'field_name_2' => ['Validation Message #2'],
-        //         //  ]);
-        //         //  throw $error;
-        //     // } else {
-        //         // return response()->json([
-        //         //     'code' => 401,
-        //         //     'message' => 'Unauthenticated', 
-        //         //     // 'data' =>  FormWorkOrder::where('wo_is_open', 1)->get()
-        //         //     ], 401);\
-        //         // $error = \Illuminate\Auth\AuthenticationException::withMessages([
-        //         //     'group_issuer' => ['Validation Message #1'],
-        //         //     // 'field_name_2' => ['Validation Message #2'],
-        //         //  ]);
-        //         //  throw $error;
-        //     // }
              
-        // } catch (\PDOException $e) {
-        //     $statusCode = 404;
-        //     $response = [
-        //         'error' => true,
-        //         'message' => 'view list form work order Gagal : '.$e->getMessage(),
-        //     ];
+        } catch (\PDOException $e) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'view list form work order Gagal : '.$e->getMessage(),
+            ];
 
-        //     return $response; 
-        // } 
+            return $response; 
+        } 
     }
 
     // public function viewListWorkOrderByGroupId()

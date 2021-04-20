@@ -50,15 +50,14 @@ class TestGroupsAndPermissionsController extends Controller
 
     public function testAssignGroupToUser(){
         $user = Auth::user();
-        // $role = Role::find(1);
-        // $role = MEmployeeGroup::find(1);
+        $role = MEmployeeGroup::find(3);
 
         
 
-        // $user->assignRole($role);
+        $user->assignRole($role);
         // Tes Remove Role
         // $user->removeRole($role);
-        return response(['user_roles' => $user],200);
+        return response(['user_roles' => $user->roles],200);
         // return response(['role' => $role],200);
     }
 
@@ -66,28 +65,29 @@ class TestGroupsAndPermissionsController extends Controller
         $user = Auth::user();
         
         $groups = $user->roles;
-        $groupUserId = 0;
         foreach($groups as $group){
             if($group->permissions
             ->where('name','view work order')->first() != null){
                 $groupUserId = $group->id;
+                $groupUser = MEmployeeGroup::find($groupUserId);
+                $formsOfSpv = $groupUser->workOrderFormsOfSpv()->get();
+                return response(['spv_forms' => $formsOfSpv],200);
             }
         }
 
-        $groupUser = MEmployeeGroup::find($groupUserId);
-        $formsOfSpv = $groupUser->workOrderFormsOfSpv()->get();
+        
 
         // return response(['user_roles' => $groupUser],200);
-        return response(['spv_forms' => $formsOfSpv],200);
+        
         
     }
 
     public function isUserHasGroup(){
         $user = Auth::user();
-        $result = $user->hasAnyRole(Role::all());
+        // $result = $user->hasAnyRole(Role::all());
         // $result = $user->hasAnyRole('Work Order - Issuer');
         
-        // $result = $user->getPermissionsViaRoles();
+        $result = $user->getPermissionsViaRoles();
         // $permissions = $user->getAllPermissions();
         // $result = $user->group;
         return response(['result' => $result],200);
