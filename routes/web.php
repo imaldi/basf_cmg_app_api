@@ -67,25 +67,27 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     /// work order
     //TODO buat provider untuk menyediakan group/permission yang diperlukan untuk middleware
     $router->group(['prefix' => 'work-order'], function () use ($router) {
+
+        //get forms per groups
+        //not yet done, still a few groups
         $router->get('get-all',
         [
-            // 'middleware' => 'permission:"view work order"',
-            // 'middleware' => 'group:1,2,3,4',
-        'uses' => 'WorkOrderController@viewListWorkOrder']);
-        // $router->get('get-all[/{groupId}]',  [
-        //     'middleware' => 'group:1,2,3,4',
-        //     'as'   => 'get-all',
-        //     'uses' => 'WorkOrderController@viewListWorkOrder'
-        // ]);
-        // 'WorkOrderController@viewListWorkOrder')->middleware('group:1,2,3,4');
+            'middleware' => 'permission_check:view-work-order',
+            'uses' => 'WorkOrderController@viewListWorkOrder'
+        ]);
         
-        // $router->get('get-all/{groupId}', 
-        // [
-        //     'middleware' => 'group:1,2,3,4',
-        // 'uses' => 'WorkOrderController@viewListWorkOrderByGroupId']);
+        //get forms by id per groups
+        //not yet done, still a few groups
+        $router->get('get/{id}',
+        [
+            'middleware' => 'permission_check:view-work-order',
+            'uses' => 'WorkOrderController@getOneWorkOrderForm'
+        ]);
 
-        // 'WorkOrderController@viewListWorkOrderByGroupId')->middleware('group');
+        //save after edit draft
         $router->post('save-edit-draft', 'WorkOrderController@saveEditDraft');
+
+        
         $router->post('update/{idFormWOrder}', 'WorkOrderController@updateFormWorkOrder');
         $router->post('create', 'WorkOrderController@createFormWorkOrder');
         $router->post('approve-wo-spv-issuer', 'WorkOrderController@approveWorkOrderSpvIssuer');
