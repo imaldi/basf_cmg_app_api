@@ -83,6 +83,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 	// 	return $this->belongsTo(MEmployeeGroup::class, 'emp_employee_group_id');
 	// }
 
+    //to check whether user has given permission via their role
     public function hasPermission(String $permission){
         return $this->getPermissionsViaRoles()->where('name',$permission)->first() != null;
     }

@@ -6,7 +6,7 @@ use Closure;
 use Auth;
 
 
-class GroupMiddleware
+class GroupCheckMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,20 +15,23 @@ class GroupMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, ...$groups)
+    // public function handle($request, Closure $next, ...$groups)
+    public function handle($request, Closure $next, $group)
     {
         $user = Auth::user();
+        $groupExplode = explode('_',$group);
+        $groupFinal = implode(' ', $groupExplode);
 
-        if($user->emp_employee_group_id != 1) {
+        if(!$user->hasRole('Super Admin')) {
             
-            foreach($groups as $group) {
+            // foreach($groups as $group) {
                 // Check if user has the role This check will depend on how your roles are set up
-                if($user->emp_employee_group_id == $group){
+                if($user->hasRole($groupFinal)){
                     // dd(count($groups));
                     // return redirect('api/work-order/get-all/'.$request->route('groupId'));
                     return $next($request);
                 }
-            }    
+            // }    
         } 
         // else {
         //     if($user->emp_employee_group_id == 2) {

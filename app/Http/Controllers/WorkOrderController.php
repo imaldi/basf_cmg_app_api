@@ -76,7 +76,7 @@ class WorkOrderController extends Controller
         $user = Auth::user();
         
         try{
-            if($user->hasPermission('view work order')){
+            // if($user->hasPermission('view work order')){
                 if($user->hasRole('Work Order - Issuer')){
                     return response()->json([
                         'code' => 200,
@@ -92,32 +92,31 @@ class WorkOrderController extends Controller
                         ->where('name','view work order')->first() != null){
                             $groupUserId = $group->id;
                             $groupUser = MEmployeeGroup::find($groupUserId);
-                            $formsOfSpv = $groupUser->workOrderFormsOfSpv()->get();
+                            $formsOfSpv = $groupUser->workOrderFormsOfSpv()->where('wo_is_open', 1)
+                            ->where('wo_form_status',2)->get();
+                            //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+                            //       wo_c_ranking_cust, dan 	wo_c_equipment_criteria
                             return response(['spv_forms' => $formsOfSpv],200);
                         }
                     }
+                } else if ($user->hasRole('Work Order - Planner')){
+                    //user is planner
+                } else if ($user->hasRole('PIC')){
+                    //user is PIC
+                } else if ($user->hasRole('PIC SPV')){
+                    //user is PIC SPV
                 }
                 return response()->json([
                     'code' => 401,
                     'message' => "your group are not allowed"
                 ]);
-                // $error = \Illuminate\Auth\AuthenticationException::withMessages([
-                //     'group_issuer' => ['Validation Message #1'],
-                //     // 'field_name_2' => ['Validation Message #2'],
-                //  ]);
-                //  throw $error;
-            } else {
-                return response()->json([
-                    'code' => 401,
-                    'message' => 'Unauthenticated', 
-                    // 'data' =>  FormWorkOrder::where('wo_is_open', 1)->get()
-                    ], 401);
-                // $error = \Illuminate\Auth\AuthenticationException::withMessages([
-                //     'group_issuer' => ['Validation Message #1'],
-                //     // 'field_name_2' => ['Validation Message #2'],
-                //  ]);
-                //  throw $error;
-            }
+            // } else {
+                // return response()->json([
+                //     'code' => 401,
+                //     'message' => 'Unauthenticated', 
+                //     // 'data' =>  FormWorkOrder::where('wo_is_open', 1)->get()
+                //     ], 401);
+            // }
              
         } catch (\PDOException $e) {
             $statusCode = 404;
@@ -130,28 +129,64 @@ class WorkOrderController extends Controller
         } 
     }
 
-    // public function viewListWorkOrderByGroupId()
-    // {
-    //     $groupId = Route::current()->parameter('groupId');
-    //     try{
-    //          return response()->json([
-    //             'code' => 200,
-    //             'message' => 'Success Get All Data', 
-    //             'data' =>  FormWorkOrder::where('wo_is_open', 1)
-    //             ->where('emp_employee_group_id',$groupId)->get()
-    //             ], 200);
-    //     } catch (\PDOException $e) {
-    //         $statusCode = 404;
-    //         $response = [
-    //             'error' => true,
-    //             'message' => 'view list form work order Gagal',
-    //         ];
+    ///02. Get One
+    public function getOneWorkOrderForm($id)
+    {
+        $user = Auth::user();
+        
+        try{
+            // if($user->hasPermission('view work order')){
+                if($user->hasRole('Work Order - Issuer')){
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'Success Get All Data', 
+                        'data' =>  FormWorkOrder::where('wo_is_open', 1)
+                        ->where('id',$id)->first()
+                        // ->where('emp_employee_group_id',$groupId)->get()
+                        ], 200);
+                } else if ($user->hasRole('Work Order - SPV')){
+                    $groups = $user->roles;
+                    foreach($groups as $group){
+                        if($group->permissions
+                        ->where('name','view work order')->first() != null){
+                            $groupUserId = $group->id;
+                            $groupUser = MEmployeeGroup::find($groupUserId);
+                            $formOfSpv = $groupUser->workOrderFormsOfSpv()->get()->where('id',$id)->first();
+                            return response(['data' => $formOfSpv],200);
+                        }
+                    }
+                }  else if ($user->hasRole('Work Order - Planner')){
+                    //user is planner
+                } else if ($user->hasRole('PIC')){
+                    //user is PIC
+                } else if ($user->hasRole('PIC SPV')){
+                    //user is PIC SPV
+                }
+                return response()->json([
+                    'code' => 401,
+                    'message' => "your group are not allowed"
+                ]);
+            // } else {
+                // return response()->json([
+                //     'code' => 401,
+                //     'message' => 'Unauthenticated', 
+                //     // 'data' =>  FormWorkOrder::where('wo_is_open', 1)->get()
+                //     ], 401);
+            // }
+             
+        } catch (\PDOException $e) {
+            $statusCode = 404;
+            $response = [
+                'error' => true,
+                'message' => 'view list form work order Gagal : '.$e->getMessage(),
+            ];
 
-    //         return $response; 
-    //     } 
-    // }
+            return $response; 
+        } 
+    }
 
-    ///02. Create
+
+    ///03. Save as draft / Submit
     public function createFormWorkOrder(Request $request)
     {     
         // $statusCode = 500;
@@ -159,7 +194,11 @@ class WorkOrderController extends Controller
         try{
             //get employee
             $employee = Auth::user();
-            // $employee = User::find($user->id);
+            $this->validate($request, [
+            //     // 'email' => 'required|string',
+                'wo_form_status' => 'required|string',
+            //     // 'password' => 'required|string',
+            ]);
 
             
 
@@ -186,7 +225,8 @@ class WorkOrderController extends Controller
                 // $employee->department()->first()->location()->first()->id,
                 'wo_location_detail' => $request->input('location_detail'),
                 'wo_tag_no' => $request->input('wo_tag_no'),
-                'wo_issuer_attachment' => $request->input('wo_issuer_attachment')
+                'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
+                'wo_form_status' => $request->input('wo_form_status'),
                 //TODO upload file foto
             ]);
             return $formWorkOrder;
@@ -208,56 +248,62 @@ class WorkOrderController extends Controller
         // }
     }
 
+    ///02.Save as draft
     public function saveEditDraft(Request $request)
     {     
         try{
-            $formWorkOrder= FormsWorkOrder::find($request->id_form);
-            $formWorkOrder->id_issuer_submit= $request->id_issuer_submit;
-            $formWorkOrder->id_dept_submitting= $request->id_dept_submitting;
-            $formWorkOrder->id_location= $request->id_location;
-            $formWorkOrder->w_order_category= $request->w_order_category;
-            $formWorkOrder->w_order_location= $request->w_order_location;
-            if($request->tag_number){
-                $formWorkOrder->tag_number= $request->tag_number;
-            }
-            $formWorkOrder->w_order_desc= $request->w_order_desc;
-            $formWorkOrder->w_o_priority_score= $request->w_o_priority_score;
-            $formWorkOrder->reffered_division= $request->reffered_division;
-            $formWorkOrder->id_emergency= $request->id_emergency;
-            $formWorkOrder->id_ranking_customer= $request->id_ranking_customer;
-            $formWorkOrder->id_equipment_criteria= $request->id_equipment_criteria;
-            if ($request->hasFile('w_o_pict_before')) {
-                if ($request->file('w_o_pict_before')->isValid()) {
-                    $file_ext        = $request->file('w_o_pict_before')->getClientOriginalExtension();
-                    $file_size       = filesize($request->file('w_o_pict_before'));
-                    $allow_file_exts = array('jpeg', 'jpg', 'png');
-                    $max_file_size   = 1024 * 1024 * 10;
-                    if (in_array(strtolower($file_ext), $allow_file_exts) && ($file_size <= $max_file_size)) {
-                        $dest_path     = base_path(). $this->imageFormsWorkOrder;
-                        $file_name     = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file('w_o_pict_before')->getClientOriginalName());
-                        $file_name     = str_replace(' ', '-', $file_name);
-                        $work_order_before_pict ="work-order ". $file_name  . '.' . $file_ext;
-                        // move file to serve directory
-                        $request->file('w_o_pict_before')->move($dest_path, $work_order_before_pict);
+            // if()
+        }
+        //Old Code
+        // try{
+        //     $formWorkOrder= FormsWorkOrder::find($request->id_form);
+        //     $formWorkOrder->id_issuer_submit= $request->id_issuer_submit;
+        //     $formWorkOrder->id_dept_submitting= $request->id_dept_submitting;
+        //     $formWorkOrder->id_location= $request->id_location;
+        //     $formWorkOrder->w_order_category= $request->w_order_category;
+        //     $formWorkOrder->w_order_location= $request->w_order_location;
+        //     if($request->tag_number){
+        //         $formWorkOrder->tag_number= $request->tag_number;
+        //     }
+        //     $formWorkOrder->w_order_desc= $request->w_order_desc;
+        //     $formWorkOrder->w_o_priority_score= $request->w_o_priority_score;
+        //     $formWorkOrder->reffered_division= $request->reffered_division;
+        //     $formWorkOrder->id_emergency= $request->id_emergency;
+        //     $formWorkOrder->id_ranking_customer= $request->id_ranking_customer;
+        //     $formWorkOrder->id_equipment_criteria= $request->id_equipment_criteria;
+        //     if ($request->hasFile('w_o_pict_before')) {
+        //         if ($request->file('w_o_pict_before')->isValid()) {
+        //             $file_ext        = $request->file('w_o_pict_before')->getClientOriginalExtension();
+        //             $file_size       = filesize($request->file('w_o_pict_before'));
+        //             $allow_file_exts = array('jpeg', 'jpg', 'png');
+        //             $max_file_size   = 1024 * 1024 * 10;
+        //             if (in_array(strtolower($file_ext), $allow_file_exts) && ($file_size <= $max_file_size)) {
+        //                 $dest_path     = base_path(). $this->imageFormsWorkOrder;
+        //                 $file_name     = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file('w_o_pict_before')->getClientOriginalName());
+        //                 $file_name     = str_replace(' ', '-', $file_name);
+        //                 $work_order_before_pict ="work-order ". $file_name  . '.' . $file_ext;
+        //                 // move file to serve directory
+        //                 $request->file('w_o_pict_before')->move($dest_path, $work_order_before_pict);
 
-                        $formWorkOrder->w_o_pict_before= $work_order_before_pict;
-                    }
-                }
-            }
-            if($request->status_action === "Create Draft"){
-                $formWorkOrder->is_active= null;
-            } else if ( $request->status_action ==="Submit Form"){
-                $formWorkOrder->is_active= 1;
-                $formWorkOrder->w_order_status= "Waiting Spv Approval";
-            }
+        //                 $formWorkOrder->w_o_pict_before= $work_order_before_pict;
+        //             }
+        //         }
+        //     }
+        //     if($request->status_action === "Create Draft"){
+        //         $formWorkOrder->is_active= null;
+        //     } else if ( $request->status_action ==="Submit Form"){
+        //         $formWorkOrder->is_active= 1;
+        //         $formWorkOrder->w_order_status= "Waiting Spv Approval";
+        //     }
             
-            $formWorkOrder->saveOrFail($request->all());
-            $statusCode = 200;
-            $response = [
-                'error' => false,
-                'message' => ' update draft form work order Berhasil',
-            ];    
-        } catch (\PDOException $e) {
+        //     $formWorkOrder->saveOrFail($request->all());
+        //     $statusCode = 200;
+        //     $response = [
+        //         'error' => false,
+        //         'message' => ' update draft form work order Berhasil',
+        //     ];    
+        // } 
+        catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,

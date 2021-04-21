@@ -73,6 +73,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
         $router->get('get-all',
         [
             'middleware' => 'permission_check:view-work-order',
+            // 'middleware' => 'group_check:Work_Order_-_Issuer',
             'uses' => 'WorkOrderController@viewListWorkOrder'
         ]);
         

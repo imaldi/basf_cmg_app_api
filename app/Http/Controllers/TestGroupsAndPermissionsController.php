@@ -87,9 +87,11 @@ class TestGroupsAndPermissionsController extends Controller
         // $result = $user->hasAnyRole(Role::all());
         // $result = $user->hasAnyRole('Work Order - Issuer');
         
-        $result = $user->getPermissionsViaRoles();
+        // $result = $user->getPermissionsViaRoles();
+        $result = $user->hasPermission('view work order');
+
         // $permissions = $user->getAllPermissions();
         // $result = $user->group;
-        return response(['result' => $result],200);
+        return response(['permissions' => $result],200);
     }
 }
