@@ -45,6 +45,11 @@ class GroupCheckMiddleware
         // }
 
         // return redirect('login');
+        // return redirect('/profile');
         return redirect('failMiddleware/group');
+        // return response(['fail_reason' => 'fail bitch'],200);
+
+
+        // return redirect()->action([AuthController::class, 'failMiddleware']);
     }
 }

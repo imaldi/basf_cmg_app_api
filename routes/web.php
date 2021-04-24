@@ -15,22 +15,26 @@ use Spatie\Permission\Models\Permission;
 use App\Models\MEmployeeGroup;
 use App\Models\EmployeeUserPermissions;
 
+
 $router->get('/', function () use ($router) {
-    Role::create(['name' => 'writer']);
+    // Role::create(['name' => 'writer']);
     // $group = MEmployeeGroup::create(['name' => 'test spatie']);
     // $permissions = EmployeeUserPermissions::create(['name' => 'test spatie']);
     // Permission::create(['name' => 'edit articles']);
-    $role = MEmployeeGroup::find(7);
-    $permission = EmployeeUserPermissions::find(21);
+    // $role = MEmployeeGroup::find(7);
+    // $permission = EmployeeUserPermissions::find(21);
     // $permissions = EmployeeUserPermissions::all();
-    $role->givePermissionTo($permission);
+    // $role->givePermissionTo($permission);
     return $router->app->version();
     // return response(['permissions' => $permissions],200);
 });
 
+$router->get('failMiddleware/{middlewareName}', 'AuthController@failMiddleware');
+
+
 
 $router->post('login', 'AuthController@login');
-$router->get('failMiddleware/{middlewareName}', 'AuthController@failPermission');
+
 
 
 $router->group(['prefix' => 'api','middleware' => ['json.response']], function () use ($router) {
@@ -43,6 +47,8 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
         $role->givePermissionTo($permission);
         return $router->app->version();
     });
+
+
 
     // Matches "/api/register
     // $router->post('register', 'AuthController@register');
@@ -72,14 +78,17 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
         //not yet done, still a few groups
         $router->get('get-all',
         [
-            'middleware' => 'permission_check:view-work-order',
-            // 'middleware' => 'group_check:Work_Order_-_Issuer',
+            'middleware' => [
+                // 'permission_check:view-work-order',
+            // 'middleware' => 
+            'group_check:Work_Order_-_Issuer',
+        ],
             'uses' => 'WorkOrderController@viewListWorkOrder'
         ]);
         
         //get forms by id per groups
         //not yet done, still a few groups
-        $router->get('get/{id}',
+        $router->get('get/{idFormWOrder}',
         [
             'middleware' => 'permission_check:view-work-order',
             'uses' => 'WorkOrderController@getOneWorkOrderForm'

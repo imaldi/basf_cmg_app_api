@@ -19,6 +19,7 @@ class FormWorkOrder extends Model
 		'wo_location_detail',
 		'wo_tag_no',
 		'wo_issuer_attachment',
+		'wo_form_status'
 		// 'wo_date_pic_plan',
 	];
 

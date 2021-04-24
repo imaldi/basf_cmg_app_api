@@ -152,7 +152,7 @@ public function register(Request $request)
     //     }
     // }
 
-    public function failPermission($middlewareName){
+    public function failMiddleware($middlewareName){
         return response(['code' => 401, 'message' => $middlewareName.' not allowed'],401);
     }
 

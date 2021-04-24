@@ -31,21 +31,22 @@ class WorkOrderController extends Controller
         //Tes profile department dan date
         $user = Auth::user();
         $employee = User::find($user->id);
-        $department = $employee->department()->first();
-        $date = Carbon::now()->format('Y-m-d H:i:s');
+        // $department = $employee->department()->first();
+        // $date = Carbon::now()->format('Y-m-d H:i:s');
         // $department = MasterDepartment::find(3);
-        $userSpv = $department->users()->where('emp_is_spv',1)->first();
+        // $userSpv = $department->users()->where('emp_is_spv',1)->first();
+        $employee->removeRole('Super Admin Mobile');
 
         // $department->users();
         // return response()->json(['user' => $date], 200);
-        // return response()->json(['user' => $employee], 200);
+        return response()->json(['user' => $employee->roles], 200);
 
         //Tes Has Many Through dengan EmployeeGroup model
-        $group = $user->group()->first();
-        $forms = $group->workOrderForms()->get();
-        $permissions = $group->permissions()->get()->where('id',13)->first();
-        // return response()->json(['group_forms' => $forms], 200);
-        return response()->json(['group_forms' => $permissions], 200);
+        // $group = $user->group()->first();
+        // $forms = $group->workOrderForms()->get();
+        // $permissions = $group->permissions()->get()->where('id',13)->first();
+        // // return response()->json(['group_forms' => $forms], 200);
+        // return response()->json(['group_forms' => $permissions], 200);
 
     }
 
@@ -93,9 +94,11 @@ class WorkOrderController extends Controller
                             $groupUserId = $group->id;
                             $groupUser = MEmployeeGroup::find($groupUserId);
                             $formsOfSpv = $groupUser->workOrderFormsOfSpv()->where('wo_is_open', 1)
-                            ->where('wo_form_status',2)->get();
+                            //untuk saring dengan status 'waiting spv issuer approval'
+                            // ->where('wo_form_status',2)
+                            ->get();
                             //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
-                            //       wo_c_ranking_cust, dan 	wo_c_equipment_criteria
+                            //       wo_c_ranking_cust, dan wo_c_equipment_criteria
                             return response(['spv_forms' => $formsOfSpv],200);
                         }
                     }
@@ -130,7 +133,7 @@ class WorkOrderController extends Controller
     }
 
     ///02. Get One
-    public function getOneWorkOrderForm($id)
+    public function getOneWorkOrderForm($idFormWOrder)
     {
         $user = Auth::user();
         
@@ -141,7 +144,7 @@ class WorkOrderController extends Controller
                         'code' => 200,
                         'message' => 'Success Get All Data', 
                         'data' =>  FormWorkOrder::where('wo_is_open', 1)
-                        ->where('id',$id)->first()
+                        ->where('id',$idFormWOrder)->first()
                         // ->where('emp_employee_group_id',$groupId)->get()
                         ], 200);
                 } else if ($user->hasRole('Work Order - SPV')){
@@ -149,9 +152,7 @@ class WorkOrderController extends Controller
                     foreach($groups as $group){
                         if($group->permissions
                         ->where('name','view work order')->first() != null){
-                            $groupUserId = $group->id;
-                            $groupUser = MEmployeeGroup::find($groupUserId);
-                            $formOfSpv = $groupUser->workOrderFormsOfSpv()->get()->where('id',$id)->first();
+                            $formOfSpv = $group->workOrderFormsOfSpv()->get()->where('id',$idFormWOrder)->first();
                             return response(['data' => $formOfSpv],200);
                         }
                     }
@@ -196,7 +197,7 @@ class WorkOrderController extends Controller
             $employee = Auth::user();
             $this->validate($request, [
             //     // 'email' => 'required|string',
-                'wo_form_status' => 'required|string',
+                'wo_form_status' => 'required|integer',
             //     // 'password' => 'required|string',
             ]);
 
@@ -208,12 +209,18 @@ class WorkOrderController extends Controller
             ;
             $date->toDateTimeString();
             $department = $employee->department()->first();
+            $departmentId = $employee->emp_employee_department_id;
+            //Ini saring berdasarkan group(role)
+            $wo_issuer_spv_id = User::role('Work Order - SPV')->where('emp_employee_department_id',$departmentId)->first()->id;
             $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+            $formStatus = (int)$request->input('wo_form_status');
             $formWorkOrder = FormWorkOrder::create([
                 'wo_name' => 'GU/F/5033-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
                 'wo_issuer_id' => $employee->id,
                 'wo_spv_issuer_id' => 
-                $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
+                $wo_issuer_spv_id,
+                //ini kalau mau saring berdasarkan field 'emp_is_spv'
+                // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
                 'wo_date_issuer_submit' => $date,
                 'wo_category' => $request->input('wo_category'),
                 'wo_issuer_dept' => $request->input('emp_employee_department_id'),
@@ -226,7 +233,9 @@ class WorkOrderController extends Controller
                 'wo_location_detail' => $request->input('location_detail'),
                 'wo_tag_no' => $request->input('wo_tag_no'),
                 'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
-                'wo_form_status' => $request->input('wo_form_status'),
+                'wo_form_status' => $formStatus,
+                //Jika form status sebagai draft, maka wo_is_open = false
+                'wo_is_open' => $formStatus == 1 ? 0 : 1,
                 //TODO upload file foto
             ]);
             return $formWorkOrder;

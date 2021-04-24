@@ -28,7 +28,10 @@ class PermissionCheckMiddleware
                     return $next($request);
                 }
 
-        return redirect('failMiddleware/permission');
+        redirect('failMiddleware/permission');
+        // return response(['fail_reason' => 'fail bitch'],200);
+        // return redirect()->action([AuthController::class, 'failMiddleware']);
+
 
 }
 }
