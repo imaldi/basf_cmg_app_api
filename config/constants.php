@@ -3,7 +3,7 @@
 return [
     'groups' => [
         'super_admin' => '1',
-        'wo_issuer' => '2',
+        'wo_issuer' => 'Work_Order_-_Issuer',
         'wo_issuer_spv' => '3',
         'planner' => '4',
         'inspection_issuer' => '5',

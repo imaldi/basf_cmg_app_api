@@ -22,13 +22,13 @@ class PermissionCheckMiddleware
         $permissionExplode = explode('-',$permission);
         $permissionFinal = implode(' ', $permissionExplode);
 
-                $permissionViaRoles = Auth::user()->hasPermission($permissionFinal);
+        $permissionViaRoles = Auth::user()->hasPermission($permissionFinal);
 
-                if($permissionViaRoles){
-                    return $next($request);
-                }
+        if($permissionViaRoles){
+            return $next($request);
+        }
 
-        redirect('failMiddleware/permission');
+        return redirect('failMiddleware/permission');
         // return response(['fail_reason' => 'fail bitch'],200);
         // return redirect()->action([AuthController::class, 'failMiddleware']);
 

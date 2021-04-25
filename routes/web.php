@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\MEmployeeGroup;
 use App\Models\EmployeeUserPermissions;
+use Config;
 
 
 $router->get('/', function () use ($router) {
@@ -38,6 +39,10 @@ $router->post('login', 'AuthController@login');
 
 
 $router->group(['prefix' => 'api','middleware' => ['json.response']], function () use ($router) {
+    
+    
+    
+    
     ////////////// auth - Employee
     //  Tes assign permission ke role
     $router->get('assignPermissionToRole',function() use ($router) {
@@ -74,6 +79,202 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     //TODO buat provider untuk menyediakan group/permission yang diperlukan untuk middleware
     $router->group(['prefix' => 'work-order'], function () use ($router) {
 
+        $router->post('create', [
+            'middleware' => [
+                'permission_check:create-work-order',
+                'group_check:Work_Order_-_Issuer'
+            ], 
+            'uses' => 'WorkOrderController@createFormWorkOrder']);
+
+
+        $router->group(['prefix' => 'view','middleware' => 'permission_check:view-work-order',], function () use ($router) {
+            $router->group(['prefix' => 'as-issuer'], function () use ($router) {
+                $router->get('get-all',
+                [
+                    'middleware' => 'group_check:Work_Order_-_Issuer',
+                    'uses' => 'WorkOrderController@viewListWorkOrderAsIssuer'
+                ]);
+                
+                //get forms by id per groups
+                //not yet done, still a few groups
+                $router->get('get/{idFormWOrder}',
+                [
+                    'middleware' => 'group_check:Work_Order_-_Issuer',
+                    'uses' => 'WorkOrderController@getOneWorkOrderFormAsIssuer'
+                ]);
+            });
+            
+            $router->group(['prefix' => 'as-issuer-spv'], function () use ($router) {
+                $router->get('get-all',
+                [
+                    'middleware' => 'group_check:Work_Order_-_SPV',
+                    'uses' => 'WorkOrderController@viewListWorkOrderAsIssuerSPV'
+                ]);
+    
+                $router->get('get-all-approved',
+                [
+                    'middleware' => 'group_check:Work-Order-Issuer-SPV',
+                    'uses' => 'WorkOrderController@viewListApprovedWorkOrderAsIssuerSPV'
+                ]);
+                
+                //get forms by id per groups
+                //not yet done, still a few groups
+                $router->get('get/{idFormWOrder}',
+                [
+                    'middleware' => 'group_check:Work_Order_-_SPV',
+                    'uses' => 'WorkOrderController@getOneWorkOrderFormAsIssuerSPV'
+                ]);
+            });
+    
+            $router->group(['prefix' => 'as-planner'], function () use ($router) {
+                $router->get('get-all',
+                [
+                    'middleware' => 'group_check:Planner',
+                    'uses' => 'WorkOrderController@viewListWorkOrderAsPlanner'
+                ]);
+                
+                //get forms by id per groups
+                //not yet done, still a few groups
+                $router->get('get/{idFormWOrder}',
+                [
+                    'middleware' => 'group_check:Planner',
+                    'uses' => 'WorkOrderController@getOneWorkOrderFormAsPlanner'
+                ]);
+            });
+            $router->group(['prefix' => 'as-pic'], function () use ($router) {
+                $router->get('get-all',
+                [
+                    'middleware' => 'group_check:PIC',
+                    'uses' => 'WorkOrderController@viewListWorkOrderAsPic'
+                ]);
+    
+                $router->get('get-all-approved',
+                [
+                    'middleware' => 'group_check:PIC',
+                    'uses' => 'WorkOrderController@viewListApprovedWorkOrderAsPic'
+                ]);
+                
+                //get forms by id per groups
+                //not yet done, still a few groups
+                $router->get('get/{idFormWOrder}',
+                [
+                    'middleware' => 'group_check:PIC',
+                    'uses' => 'WorkOrderController@getOneWorkOrderFormAsPic'
+                ]);
+            });
+            $router->group(['prefix' => 'as-pic-spv'], function () use ($router) {
+                $router->get('get-all',
+                [
+                    'middleware' => 'group_check:PIC-SPV',
+                    'uses' => 'WorkOrderController@viewListWorkOrderAsPicSPV'
+                ]);
+                
+                //get forms by id per groups
+                //not yet done, still a few groups
+                $router->get('get/{idFormWOrder}',
+                [
+                    'middleware' => 'group_check:PIC-SPV',
+                    'uses' => 'WorkOrderController@getOneWorkOrderFormPicSPV'
+                ]);
+            });
+        });
+
+        $router->group(['prefix' => 'update','middleware' => 'permission_check:edit-work-order',], function () use ($router) {
+            $router->post('save-draft/{idFormWOrder}', 
+                [
+                    'middleware' => [
+                        'group_check:Work_Order_-_Issuer,Work_Order_-_SPV'
+                    ],
+                    'uses' => 'WorkOrderController@saveFormWorkOrderDraft'
+                ]);
+            // $router->post('save-draft', 'WorkOrderController@saveFormWorkOrderDraft');
+
+
+        });
+
+        $router->group(['prefix' => 'reject','middleware' => 'permission_check:edit-work-order',], function () use ($router) {
+            $router->post('as-issuer-spv/{idFormWOrder}', 
+            [
+                'middleware' => [
+                    'group_check:Work_Order_-_SPV'
+                ],
+                'uses' => 'WorkOrderController@rejectFormWorkOrderAsIssuerSpv'
+            ]);
+                //HTTP Params : wo_reject_reason
+
+                //Controller fill : wo_form_status (update) => 4.Rejected by Spv, wo_is_open => 0
+
+
+            $router->post('as-planner/{idFormWOrder}', 
+            [
+                'middleware' => [
+                    'group_check:Planner'
+                ],
+                'uses' => 'WorkOrderController@rejectFormWorkOrderAsPlanner'
+            ]);
+                //HTTP Params : wo_reject_reason
+
+                //Controller fill : wo_form_status (update) => 5.Rejected by Planner, wo_is_open => 0
+
+                
+        });
+
+        $router->group(['prefix' => 'approve','middleware' => 'permission_check:edit-work-order',], function () use ($router) {
+                
+            $router->get('as-issuer-spv/{idFormWOrder}', 
+            [
+                'middleware' => [
+                    'group_check:Work_Order_-_SPV'
+                ],
+                'uses' => 'WorkOrderController@approveFormWorkOrderAsIssuerSPV'
+            ]);
+                //Controller fill : wo_form_status (update) =>  3.Waiting Planner Approval
+
+            
+                $router->post('as-issuer-spv-hand-over/{idFormWOrder}', 
+                [
+                    'middleware' => [
+                        'group_check:Work_Order_-_SPV'
+                    ],
+                    'uses' => 'WorkOrderController@approveFormWorkOrderAsIssuerSPVHandOver'
+                ]);
+                    //Controller fill : wo_form_status (update) =>  3.Waiting Planner Approval
+
+
+            $router->post('as-planner', 
+            [
+                'middleware' => [
+                    'group_check:Planner'
+                ],
+                'uses' => 'WorkOrderController@approveFormWorkOrderAsPlanner'
+            ]);
+                //HTTP Params :
+                // -date | wo_date_planner_approve
+                // -PIC (dropdown) | wo_pic_id
+                // -estimation finish (date) | 	wo_date_recomendation
+                // -Alokasi Biaya (dropdown) | wo_c_cost
+
+                //Controller fill : wo_form_status (update) =>  6. Waiting PIC Action Plan
+
+            $router->post('as-pic', 
+            [
+                'middleware' => [
+                    'group_check:PIC'
+                ],
+                'uses' => 'WorkOrderController@approveFormWorkOrderAsPic'
+            ]);
+                //Controller fill : wo_form_status (update) =>  7. Waitng SPV PIC Approve | 9. Hand Over to User
+
+            $router->post('as-pic-spv', 
+            [
+                'middleware' => [
+                    'group_check:PIC-SPV'
+                ],
+                'uses' => 'WorkOrderController@approveFormWorkOrderAsPicSpv'
+            ]);
+                //Controller fill : wo_form_status (update) =>  8. In Progress
+        });
+
         //get forms per groups
         //not yet done, still a few groups
         $router->get('get-all',
@@ -99,7 +300,6 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
         
         $router->post('update/{idFormWOrder}', 'WorkOrderController@updateFormWorkOrder');
-        $router->post('create', 'WorkOrderController@createFormWorkOrder');
         $router->post('approve-wo-spv-issuer', 'WorkOrderController@approveWorkOrderSpvIssuer');
         $router->post('approve-wo-planner', 'WorkOrderController@approveWorkOrderPlanner');
         $router->post('reject-wo-spv-issuer', 'WorkOrderController@rejectWorkOrderSpvIssuer');

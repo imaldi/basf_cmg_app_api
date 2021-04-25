@@ -19,7 +19,14 @@ class FormWorkOrder extends Model
 		'wo_location_detail',
 		'wo_tag_no',
 		'wo_issuer_attachment',
-		'wo_form_status'
+		'wo_form_status',
+		'wo_date_recomendation',
+		'wo_date_revision',
+		'wo_c_emergency',
+		'wo_is_open',
+		'wo_reject_reason',
+		'wo_c_ranking_cust',
+		'wo_c_equipment_criteria'
 		// 'wo_date_pic_plan',
 	];
 
@@ -42,6 +49,19 @@ class FormWorkOrder extends Model
 	public function picSPV(){
 		return $this->belongsTo(Employees::class, 'wo_spv_pic_id');
 	}
+
+	public static function recommendedDays(int $emergency, int $ranking_cust, int $equipment_criteria){
+        $total = $emergency*$ranking_cust*$equipment_criteria;
+        if($total <= 64 && $total > 32){
+            return 30;
+        } else if($total <= 32 && $total > 18){
+            return 15;
+        } else if( $total <= 18 && $total > 6){
+            return 5;
+        } else {
+            return 2;
+        }
+    }
 
 	//OTO -> One To One;
 	//OTM -> One To Many; 
