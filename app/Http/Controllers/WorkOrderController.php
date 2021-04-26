@@ -64,10 +64,12 @@ class WorkOrderController extends Controller
             
             // recommendedDays($emergency,$equipment_criteria,$equipment_criteria);
             $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
+            $formID = FormWorkOrder::max('id') + 1;
+            $formIDFormatted = str_pad($formID, 4, '0', STR_PAD_LEFT);
                 
             
             $formWorkOrder = FormWorkOrder::create([
-                'wo_name' => 'GU/F/5033-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
+                'wo_name' => 'GU/F/'.$formIDFormatted.'-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
                 'wo_issuer_id' => $employee->id,
                 'wo_spv_issuer_id' => 
                 $wo_issuer_spv_id,
@@ -137,7 +139,7 @@ class WorkOrderController extends Controller
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
             $formWorkOrder->update([
-                'wo_name' => $request->input('wo_name'),
+                // 'wo_name' => $request->input('wo_name'),
                 'wo_date_issuer_submit' => $date,
                 'wo_category' => $request->input('wo_category'),
                 'wo_issuer_dept' => $request->input('emp_employee_department_id'),
