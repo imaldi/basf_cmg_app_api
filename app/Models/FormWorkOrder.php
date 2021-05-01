@@ -63,6 +63,120 @@ class FormWorkOrder extends Model
         }
     }
 
+	public static function emergency(int $value){
+		if($value == 1){
+			return 'Keadaan darurat';
+		} else if($value == 2){
+			return 'Downtime';
+		} else if($value == 3){
+			return 'Preventive Maintenance';
+		} else if($value == 4){
+			return 'Kosmetik';
+		} else  {
+			return 'Invalid Emergency Id';
+		}
+	}
+
+	public static function rankingCust(int $value){
+		if($value == 1){
+			return 'Top Management';
+		} else if($value == 2){
+			return 'Jalur produksi';
+		} else if($value == 3){
+			return 'Middle Management';
+		} else if($value == 4){
+			return 'Fasilitas Lain lain';
+		} else  {
+			return 'Invalid Ranking Customer Id';
+		}
+	}
+	public static function equipmentCriteria(int $value){
+		if($value == 1){
+			return 'Utilitas dan sistem keselamatan dengan efek luas';
+		} else if($value == 2){
+			return 'Peralatan atau fasilitas utama tanpa cadangan';
+		} else if($value == 3){
+			return 'Sebagian besar berdampak pada moral dan produktivitas';
+		} else if($value == 4){
+			return 'Penggunaan rendah atau sedikit efek pada output';
+		} else  {
+			return 'Invalid Equipment Criteria';
+		}
+	}
+
+
+	public static function formStatusDetail(int $id){
+		if($id == 1){
+			return 'Draft';
+		} else if($id == 2){
+			return 'Waiting SPV Approval';
+		} else if($id == 3){
+			return 'Waiting Planner Approval';
+		} else if($id == 4){
+			return 'Rejected by Spv';
+		} else if($id == 5){
+			return 'Rejected by Planner';
+		} else if($id == 6){
+			return 'Waiting PIC Action Plan';
+		} else if($id == 7){
+			return 'Waitng SPV PIC Approve';
+		} else if($id == 8){
+			return 'In Progress';
+		} else if($id == 9){
+			return 'Hand Over to User';
+		} else if($id == 10){
+			return 'Completed';
+		} else {
+			return 'Invalid Form Status';
+		}
+	}
+
+
+	// public function getWoIssuerDeptAttribute(int $id){
+	// 	return MasterDepartment::find($id)->firstOrFail()->dept_name;
+	// }
+
+	// public function getWoCEmergencyAttribute(int $value){
+	// 	if($value == 1){
+	// 		return 'Keadaan darurat';
+	// 	} else if($value == 2){
+	// 		return 'Downtime';
+	// 	} else if($value == 3){
+	// 		return 'Preventive Maintenance';
+	// 	} else if($value == 4){
+	// 		return 'Kosmetik';
+	// 	} else  {
+	// 		return 'Invalid Emergency Id';
+	// 	}
+	// }
+
+	// public static function getWoCRankingCustAttribute(int $value){
+	// 	if($value == 1){
+	// 		return 'Top Management';
+	// 	} else if($value == 2){
+	// 		return 'Jalur produksi';
+	// 	} else if($value == 3){
+	// 		return 'Middle Management';
+	// 	} else if($value == 4){
+	// 		return 'Fasilitas Lain lain';
+	// 	} else  {
+	// 		return 'Invalid Ranking Customer Id';
+	// 	}
+	// }
+	// public static function getWoCEquipmentCriteriaAttribute(int $value){
+	// 	if($value == 1){
+	// 		return 'Utilitas dan sistem keselamatan dengan efek luas';
+	// 	} else if($value == 2){
+	// 		return 'Peralatan atau fasilitas utama tanpa cadangan';
+	// 	} else if($value == 3){
+	// 		return 'Sebagian besar berdampak pada moral dan produktivitas';
+	// 	} else if($value == 4){
+	// 		return 'Penggunaan rendah atau sedikit efek pada output';
+	// 	} else  {
+	// 		return 'Invalid Equipment Criteria';
+	// 	}
+	// }
+
 	//OTO -> One To One;
 	//OTM -> One To Many; 
 	//HM -> Has Many; 
@@ -73,11 +187,5 @@ class FormWorkOrder extends Model
 	//TODO belongsTo Location - MTO dengan lokasi
 
 	//TODO belongsTo dengan Reffered Division - MTO dengan divisi yang dituju
-
-	//TODO belongsTo dengan Kedaruratan - MTO dengan kedaruratan
-	
-	//TODO belongsTo dengan Ranking Customer - MTO dengan tabel/model (baru) RankingCustomer
-
-	//TODO belongsTo dengan Kriteria Peralatan - MTO dengan tabel/model (baru) Kriteria Peralatan
 }
 

@@ -17,6 +17,8 @@ use App\Models\ContentInspSafetyHarnest;
 use App\Models\FormsInspSafetyHarnest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\User;
+
 
 class EmployeeController extends Controller{
 
@@ -25,6 +27,18 @@ class EmployeeController extends Controller{
     }
 
     public $successStatus = 200;
+
+    public function addGroupToUser(Request $request){
+        $userId = $request->input('user_id');
+        $groupId = $request->input('group_id');
+        $group = MEmployeeGroup::find($groupId);
+
+        $employee = User::find($userId);
+        // $employee->assignRole($group);
+        // $employee->removeRole($group);
+        return Auth::user()->getRoleNames();
+        // return $group;
+    }
     
     public function approveFormSafetyHarnest(Request $request)
     {

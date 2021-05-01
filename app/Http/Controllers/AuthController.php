@@ -39,7 +39,7 @@ public function register(Request $request)
         'emp_name' => 'required|string',
         'emp_email' => 'required|email|unique:m_employees',
         'emp_username' => 'required|string|unique:m_employees',
-        'emp_password' => 'required|confirmed',
+        'password' => 'required|confirmed',
     ]);
 
     try {
@@ -49,10 +49,10 @@ public function register(Request $request)
         $plainPassword = $request->input('password');
         $password = app('hash')->make($plainPassword);
         $user = User::create([
-            'emp_name' => $request->input('name'),
-            'emp_username' => $request->input('user_name'),
-            'emp_email' => $request->input('email'),
-            'emp_password' => $password
+            'emp_name' => $request->input('emp_name'),
+            'emp_username' => $request->input('emp_username'),
+            'emp_email' => $request->input('emp_email'),
+            'password' => $password
         ]);
         // $user->name = $request->input('name');
         // $user->emp_username = $request->input('user_name');
@@ -63,7 +63,7 @@ public function register(Request $request)
         // $user->save();
 
         //return successful response
-        return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
+        return response()->json([ 'message' => 'CREATED', 'user' => $user], 201);
 
     } catch (Exception $e) {
         //return error message

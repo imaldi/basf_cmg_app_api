@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FormWorkOrder;
 use App\Models\MasterDepartment;
 use App\Models\MEmployeeGroup;
+use App\Http\Resources\FormWorkOrderResource;
 use Auth;
 use Config;
 use App\User;
@@ -77,7 +78,9 @@ class WorkOrderController extends Controller
                 // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
                 'wo_date_issuer_submit' => $date,
                 'wo_category' => $request->input('wo_category'),
-                'wo_issuer_dept' => $request->input('emp_employee_department_id'),
+                'wo_issuer_dept' => 
+                $departmentId,
+                // $request->input('emp_employee_department_id'),
                 'wo_location_id' => $request->input('wo_location_id'),
                 'wo_reffered_dept' => $department->id,
                 'wo_reffered_division' => $request->input('wo_reffered_division'),
@@ -95,8 +98,10 @@ class WorkOrderController extends Controller
             ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Get All Data', 
-                'data' =>  $formWorkOrder
+                'message' => 'Success Create Data', 
+                'data' => 
+                $formWorkOrder
+                
                 ], 200);
         } catch (\PDOException $e) {
             $statusCode = 404;
@@ -173,13 +178,23 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         // try{
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' =>  FormWorkOrder::where('wo_is_open', 1)
-            ->where('wo_issuer_id',$user->id)->orderBy("wo_form_status")->get()
-            // ->where('emp_employee_group_id',$groupId)->get()
-            ], 200);
+            $formWorkOrder = FormWorkOrder::where('wo_is_open', 1)
+            ->where('wo_issuer_id',$user->id)->orderBy("wo_form_status")->get();
+        
+            // return response()->json([
+            // 'code' => 200,
+            // 'message' => 'Success Get All Data', 
+            // 'data' =>  FormWorkOrder::where('wo_is_open', 1)
+            // ->where('wo_issuer_id',$user->id)->orderBy("wo_form_status")->get()
+            // // ->where('emp_employee_group_id',$groupId)->get()
+            // ], 200);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get All Data', 
+                'data' => 
+                FormWorkOrderResource::collection($formWorkOrder)
+                ]);
         // }catch(){
 
         // }
@@ -208,7 +223,8 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data', 
-            'data' =>  $forms
+            'data' => 
+                FormWorkOrderResource::collection($forms)
             ], 200);                    
     }
 
@@ -224,7 +240,8 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data', 
-            'data' =>  $forms
+            'data' => 
+                FormWorkOrderResource::collection($forms)
             ], 200); 
     }
 
@@ -245,7 +262,8 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data', 
-            'data' =>  $forms
+            'data' => 
+                FormWorkOrderResource::collection($forms)
             ], 200);                    
     }
 
@@ -268,7 +286,8 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data', 
-            'data' =>  $forms
+            'data' => 
+                FormWorkOrderResource::collection($forms)
             ], 200);                    
     }
 
@@ -282,7 +301,8 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data', 
-            'data' =>  $forms
+            'data' => 
+                FormWorkOrderResource::collection($forms)
             ], 200);                    
     }
 
@@ -304,7 +324,8 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data', 
-            'data' =>  $formsOfSpv
+            'data' => 
+                FormWorkOrderResource::collection($formsOfSpv)
             ], 200);                    
     }
 
@@ -563,16 +584,35 @@ class WorkOrderController extends Controller
     {
         //Tes profile department dan date
         $user = Auth::user();
-        $employee = User::find($user->id);
+        // $employee = User::find($user->id);
         // $department = $employee->department()->first();
         // $date = Carbon::now()->format('Y-m-d H:i:s');
         // $department = MasterDepartment::find(3);
         // $userSpv = $department->users()->where('emp_is_spv',1)->first();
-        $employee->removeRole('Super Admin Mobile');
+        // $employee->removeRole('Super Admin Mobile');
 
         // $department->users();
-        // return response()->json(['user' => $date], 200);
-        return response()->json(['user' => Config::get('constants.groups.wo_issuer_spv')], 200);
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success',
+            'data' => 
+        // $user
+        [
+            'emp_name' => $user->emp_name,
+            'emp_username' => $user->emp_username,
+            'emp_email' => $user->emp_email,
+            'emp_nik' => $user->emp_nik,
+            'emp_birth_date' => $user->emp_birth_date,
+            'emp_phone_number' => $user->emp_phone_number,
+            'emp_is_spv' => $user->emp_is_spv,
+            'emp_employee_department_id' => $user->emp_employee_department_id,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+            // 'emp_permissions' => $user->getPermissionsViaRoles(),
+            'emp_groups' => $user->roles
+        ]
+    ], 200);
+        // return response()->json(['user' => Config::get('constants.groups.wo_issuer_spv')], 200);
 
         //Tes Has Many Through dengan EmployeeGroup model
         // $group = $user->group()->first();

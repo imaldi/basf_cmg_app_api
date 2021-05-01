@@ -6,6 +6,6 @@ use DB;
 
 class MasterLocation extends Model
 {
-	protected $table = 'm_location';
+	protected $table = 'm_locations';
 }
 
