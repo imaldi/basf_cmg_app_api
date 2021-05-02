@@ -6,6 +6,7 @@ use App\Models\FormWorkOrder;
 use App\Models\MasterDepartment;
 use App\Models\MEmployeeGroup;
 use App\Http\Resources\FormWorkOrderResource;
+use App\Http\Resources\EmployeeGroupResource;
 use Auth;
 use Config;
 use App\User;
@@ -49,7 +50,7 @@ class WorkOrderController extends Controller
             ]);
             
             $date = Carbon::now()
-            // ->format('Y-m-d H:i:s')
+            ->format('Y-m-d')
             ;
             $date->toDateTimeString();
             $department = $employee->department()->first();
@@ -82,7 +83,7 @@ class WorkOrderController extends Controller
                 $departmentId,
                 // $request->input('emp_employee_department_id'),
                 'wo_location_id' => $request->input('wo_location_id'),
-                'wo_reffered_dept' => $department->id,
+                'wo_reffered_dept' => $request->input('wo_reffered_dept'),
                 'wo_reffered_division' => $request->input('wo_reffered_division'),
                 'wo_description' => $request->input('wo_description'),
                 'wo_location_detail' => $request->input('location_detail'),
@@ -129,40 +130,50 @@ class WorkOrderController extends Controller
             // ->format('Y-m-d H:i:s')
             ;
             $date->toDateTimeString();
-            $department = $employee->department()->first();
-            $departmentId = $employee->emp_employee_department_id;
+            // $department = $employee->department()->first();
+            // $departmentId = $employee->emp_employee_department_id;
             //Ini saring berdasarkan group(role)
-            $wo_issuer_spv_id = User::role('Work Order - SPV')->where('emp_employee_department_id',$departmentId)->first()->id;
-            $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+            // $departmentAbr = substr(strtoupper($department->dept_name),0,3);
             $formStatus = (int)$request->input('wo_form_status');
-            $emergency = $request->input('wo_c_emergency');
-            $ranking_cust = $request->input('wo_c_ranking_cust');
-            $equipment_criteria = $request->input('wo_c_equipment_criteria');
+            $emergency = (int)$request->input('wo_c_emergency');
+            $ranking_cust = (int)$request->input('wo_c_ranking_cust');
+            $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
             // $recommendedDays = recommendedDays($emergency,$equipment_criteria,$equipment_criteria);
             // $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
-                
-            $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
+                try{
+                    $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
-            $formWorkOrder->update([
-                // 'wo_name' => $request->input('wo_name'),
-                'wo_date_issuer_submit' => $date,
-                'wo_category' => $request->input('wo_category'),
-                'wo_issuer_dept' => $request->input('emp_employee_department_id'),
-                'wo_location_id' => $request->input('wo_location_id'),
-                'wo_reffered_division' => $request->input('wo_reffered_division'),
-                'wo_description' => $request->input('wo_description'),
-                'wo_location_detail' => $request->input('location_detail'),
-                'wo_tag_no' => $request->input('wo_tag_no'),
-                'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
-                'wo_form_status' => $formStatus,
-                // 'wo_date_recomendation' => $date_recommendation,
-                'wo_is_open' => $formStatus == 1 ? 0 : 1,
-            ]);
+            $formWorkOrder->update($request->all()
+
+            //     [
+            //     // 'wo_name' => $request->input('wo_name'),
+            //     'wo_date_issuer_submit' => $date,
+            //     'wo_category' => $request->input('wo_category'),
+            //     'wo_issuer_dept' => $request->input('emp_employee_department_id'),
+            //     'wo_location_id' => $request->input('wo_location_id'),
+            //     'wo_reffered_division' => $request->input('wo_reffered_division'),
+            //     'wo_description' => $request->input('wo_description'),
+            //     'wo_location_detail' => $request->input('location_detail'),
+            //     'wo_tag_no' => $request->input('wo_tag_no'),
+            //     'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
+            //     'wo_form_status' => $formStatus,
+            //     // 'wo_date_recomendation' => $date_recommendation,
+            //     // 'wo_is_open' => $formStatus == 1 ? 0 : 1,
+            // ]
+        );
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Get All Data', 
-                'data' =>  $formWorkOrder,
-                ], 200);;
+                'message' => 'Success Saving Form Update', 
+                'data' => new FormWorkOrderResource($formWorkOrder),
+                ], 200);
+                } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    return response()->json([
+                        'code' => 404,
+                        'message' => 'Form ID not found', 
+                        'data' => []
+                        ], 404);
+                }
+            
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
@@ -215,9 +226,13 @@ class WorkOrderController extends Controller
 
     public function viewListWorkOrderAsIssuerSPV()
     {
+        $user = Auth::user();
         $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $forms = $groupUser->workOrderFormsOfSpv()->where('wo_is_open', 1)->where('wo_form_status',2)
-        ->get();
+        $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',2)
+        ->orderBy('wo_date_recomendation', 'desc')->get();
+        
+        // $groupUser->workOrderFormsOfSpv()->where('wo_is_open', 1)->where('wo_form_status',2)
+        // ->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
         return response()->json([
@@ -608,8 +623,8 @@ class WorkOrderController extends Controller
             'emp_employee_department_id' => $user->emp_employee_department_id,
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at,
-            // 'emp_permissions' => $user->getPermissionsViaRoles(),
-            'emp_groups' => $user->roles
+            'emp_permissions' => $user->getPermissionsViaRoles()->unique('name'),
+            'emp_groups' => EmployeeGroupResource::collection($user->roles)
         ]
     ], 200);
         // return response()->json(['user' => Config::get('constants.groups.wo_issuer_spv')], 200);

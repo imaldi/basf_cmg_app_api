@@ -18,6 +18,8 @@ use App\Models\FormsInspSafetyHarnest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\User;
+use Auth;
+
 
 
 class EmployeeController extends Controller{
@@ -35,8 +37,8 @@ class EmployeeController extends Controller{
 
         $employee = User::find($userId);
         // $employee->assignRole($group);
-        // $employee->removeRole($group);
-        return Auth::user()->getRoleNames();
+        $employee->removeRole($group);
+        return $employee->getRoleNames();
         // return $group;
     }
     

@@ -9,6 +9,10 @@ class EmployeeUserPermissions extends Permission implements \Spatie\Permission\C
 {
 	protected $table = 'm_employee_permissions';
 
+    protected $hidden = [
+		'pivot'
+	];
+
     
     public function group(){
         return $this->belongsToMany(MEmployeeGroup::class);
