@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Models\MEmployeeGroup;
 use App\Models\EmployeeUserPermissions;
+use App\User;
 
 class TestGroupsAndPermissionsController extends Controller
 {
@@ -35,7 +36,7 @@ class TestGroupsAndPermissionsController extends Controller
     }
 
     public function testAssignPermissionToGroup(){
-        $role = MEmployeeGroup::find(3);
+        $role = MEmployeeGroup::find(5);
         // $permissionsOfRole = $role->permissions;
         $permission = EmployeeUserPermissions::find(13);
         $role->givePermissionTo($permission);
@@ -48,9 +49,13 @@ class TestGroupsAndPermissionsController extends Controller
         return response(['permissions' => $permissions],200);
     }
 
-    public function testAssignGroupToUser(){
-        $user = Auth::user()->find(1);
-        $role = MEmployeeGroup::find(3);
+    public function testAssignGroupToUser(Request $request){
+
+        $userId = $request->input('user_id');
+        $groupId = $request->input('group_id');
+        $user = User::find($userId);
+        // $user = User::all()->where('id',)->first();
+        $role = MEmployeeGroup::find($groupId);
 
         
 
@@ -58,6 +63,8 @@ class TestGroupsAndPermissionsController extends Controller
         // Tes Remove Role
         // $user->removeRole($role);
         return response(['user_roles' => $user->roles],200);
+        // return response(['users' => $user],200);
+        // return $user;
         // return response(['role' => $role],200);
     }
 

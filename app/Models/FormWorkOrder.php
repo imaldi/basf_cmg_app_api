@@ -26,7 +26,9 @@ class FormWorkOrder extends Model
 		'wo_is_open',
 		'wo_reject_reason',
 		'wo_c_ranking_cust',
-		'wo_c_equipment_criteria'
+		'wo_c_equipment_criteria',
+		'wo_reffered_dept',
+		'wo_image'
 		// 'wo_date_pic_plan',
 	];
 
@@ -132,8 +134,9 @@ class FormWorkOrder extends Model
 	}
 
 
-	// public function getWoIssuerDeptAttribute(int $id){
-	// 	return MasterDepartment::find($id)->firstOrFail()->dept_name;
+	// public function setWoImageAttribute(String $name){
+	// 	return time().$request->file('wo_image')->getClientOriginalName();
+	// 	// return MasterDepartment::find($id)->firstOrFail()->dept_name;
 	// }
 
 	// public function getWoCEmergencyAttribute(int $value){
