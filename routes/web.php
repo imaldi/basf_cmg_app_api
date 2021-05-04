@@ -343,7 +343,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->get('get-scoring-work-order', 'HomeController@getScoringWorkOrder');
     $router->get('get-location-by-category', 'HomeController@getLocationByCategory');
 
-    $router->get('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
+    $router->post('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
 
 });
 

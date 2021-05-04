@@ -26,7 +26,9 @@ class FormWorkOrder extends Model
 		'wo_is_open',
 		'wo_reject_reason',
 		'wo_c_ranking_cust',
-		'wo_c_equipment_criteria'
+		'wo_c_equipment_criteria',
+		'wo_reffered_dept',
+		'wo_image'
 		// 'wo_date_pic_plan',
 	];
 
@@ -64,13 +66,13 @@ class FormWorkOrder extends Model
     }
 
 	public static function emergency(int $value){
-		if($value == 1){
+		if($value == 4){
 			return 'Keadaan darurat';
-		} else if($value == 2){
-			return 'Downtime';
 		} else if($value == 3){
+			return 'Downtime';
+		} else if($value == 2){
 			return 'Preventive Maintenance';
-		} else if($value == 4){
+		} else if($value == 1){
 			return 'Kosmetik';
 		} else  {
 			return 'Invalid Emergency Id';
@@ -78,26 +80,26 @@ class FormWorkOrder extends Model
 	}
 
 	public static function rankingCust(int $value){
-		if($value == 1){
+		if($value == 4){
 			return 'Top Management';
-		} else if($value == 2){
-			return 'Jalur produksi';
 		} else if($value == 3){
+			return 'Jalur produksi';
+		} else if($value == 2){
 			return 'Middle Management';
-		} else if($value == 4){
+		} else if($value == 1){
 			return 'Fasilitas Lain lain';
 		} else  {
 			return 'Invalid Ranking Customer Id';
 		}
 	}
 	public static function equipmentCriteria(int $value){
-		if($value == 1){
+		if($value == 4){
 			return 'Utilitas dan sistem keselamatan dengan efek luas';
-		} else if($value == 2){
-			return 'Peralatan atau fasilitas utama tanpa cadangan';
 		} else if($value == 3){
+			return 'Peralatan atau fasilitas utama tanpa cadangan';
+		} else if($value == 2){
 			return 'Sebagian besar berdampak pada moral dan produktivitas';
-		} else if($value == 4){
+		} else if($value == 1){
 			return 'Penggunaan rendah atau sedikit efek pada output';
 		} else  {
 			return 'Invalid Equipment Criteria';
@@ -132,8 +134,9 @@ class FormWorkOrder extends Model
 	}
 
 
-	// public function getWoIssuerDeptAttribute(int $id){
-	// 	return MasterDepartment::find($id)->firstOrFail()->dept_name;
+	// public function setWoImageAttribute(String $name){
+	// 	return time().$request->file('wo_image')->getClientOriginalName();
+	// 	// return MasterDepartment::find($id)->firstOrFail()->dept_name;
 	// }
 
 	// public function getWoCEmergencyAttribute(int $value){

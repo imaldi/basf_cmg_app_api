@@ -6,6 +6,7 @@ use App\Models\FormWorkOrder;
 use App\Models\MasterDepartment;
 use App\Models\MEmployeeGroup;
 use App\Http\Resources\FormWorkOrderResource;
+use App\Http\Resources\EmployeeGroupResource;
 use Auth;
 use Config;
 use App\User;
@@ -45,11 +46,14 @@ class WorkOrderController extends Controller
                 ],
                 'wo_c_emergency' => 'required|integer|between:1,4',
                 'wo_c_ranking_cust'=> 'required|integer|between:1,4',
-                'wo_c_equipment_criteria' => 'required|integer|between:1,4'
+                'wo_c_equipment_criteria' => 'required|integer|between:1,4',
+                'wo_image' => 'file'
             ]);
+
+            
             
             $date = Carbon::now()
-            // ->format('Y-m-d H:i:s')
+            // ->format('Y-m-d')
             ;
             $date->toDateTimeString();
             $department = $employee->department()->first();
@@ -61,41 +65,75 @@ class WorkOrderController extends Controller
             $emergency = (int)$request->input('wo_c_emergency');
             $ranking_cust = (int)$request->input('wo_c_ranking_cust');
             $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
-            $recommendedDays = FormWorkOrder::recommendedDays($formStatus,$emergency,$ranking_cust);
+            $recommendedDays = FormWorkOrder::recommendedDays($emergency,$ranking_cust,$equipment_criteria);
             
             // recommendedDays($emergency,$equipment_criteria,$equipment_criteria);
             $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
             $formID = FormWorkOrder::max('id') + 1;
             $formIDFormatted = str_pad($formID, 4, '0', STR_PAD_LEFT);
                 
+            if($request->file('wo_image')){
+                $name = time().$request->file('wo_image')->getClientOriginalName();
+                $request->file('wo_image')->move('uploads',$name);
+                $formWorkOrder = FormWorkOrder::create([
+                    'wo_name' => 'GU/F/'.$formIDFormatted.'-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
+                    'wo_issuer_id' => $employee->id,
+                    'wo_spv_issuer_id' => 
+                    $wo_issuer_spv_id,
+                    //ini kalau mau saring berdasarkan field 'emp_is_spv'
+                    // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
+                    'wo_date_issuer_submit' => $date,
+                    'wo_category' => $request->input('wo_category'),
+                    'wo_issuer_dept' => 
+                    $departmentId,
+                    // $request->input('emp_employee_department_id'),
+                    'wo_location_id' => $request->input('wo_location_id'),
+                    'wo_reffered_dept' => $request->input('wo_reffered_dept'),
+                    'wo_reffered_division' => $request->input('wo_reffered_division'),
+                    'wo_description' => $request->input('wo_description'),
+                    'wo_location_detail' => $request->input('location_detail'),
+                    'wo_tag_no' => $request->input('wo_tag_no'),
+                    'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
+                    'wo_form_status' => $formStatus,
+                    'wo_date_recomendation' => $date_recommendation,
+                    'wo_is_open' => 1,
+                    'wo_c_emergency' => $emergency,
+                    'wo_c_ranking_cust' => $ranking_cust,
+                    'wo_c_equipment_criteria' => $equipment_criteria,
+                    'wo_image' => $name
+                    //TODO upload file foto
+                ]);
+            } else {
+                $formWorkOrder = FormWorkOrder::create([
+                    'wo_name' => 'GU/F/'.$formIDFormatted.'-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
+                    'wo_issuer_id' => $employee->id,
+                    'wo_spv_issuer_id' => 
+                    $wo_issuer_spv_id,
+                    //ini kalau mau saring berdasarkan field 'emp_is_spv'
+                    // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
+                    'wo_date_issuer_submit' => $date,
+                    'wo_category' => $request->input('wo_category'),
+                    'wo_issuer_dept' => 
+                    $departmentId,
+                    // $request->input('emp_employee_department_id'),
+                    'wo_location_id' => $request->input('wo_location_id'),
+                    'wo_reffered_dept' => $request->input('wo_reffered_dept'),
+                    'wo_reffered_division' => $request->input('wo_reffered_division'),
+                    'wo_description' => $request->input('wo_description'),
+                    'wo_location_detail' => $request->input('location_detail'),
+                    'wo_tag_no' => $request->input('wo_tag_no'),
+                    'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
+                    'wo_form_status' => $formStatus,
+                    'wo_date_recomendation' => $date_recommendation,
+                    'wo_is_open' => 1,
+                    'wo_c_emergency' => $emergency,
+                    'wo_c_ranking_cust' => $ranking_cust,
+                    'wo_c_equipment_criteria' => $equipment_criteria,
+                    // 'wo_image' => $name
+                    //TODO upload file foto
+                ]);
+            }
             
-            $formWorkOrder = FormWorkOrder::create([
-                'wo_name' => 'GU/F/'.$formIDFormatted.'-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
-                'wo_issuer_id' => $employee->id,
-                'wo_spv_issuer_id' => 
-                $wo_issuer_spv_id,
-                //ini kalau mau saring berdasarkan field 'emp_is_spv'
-                // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
-                'wo_date_issuer_submit' => $date,
-                'wo_category' => $request->input('wo_category'),
-                'wo_issuer_dept' => 
-                $departmentId,
-                // $request->input('emp_employee_department_id'),
-                'wo_location_id' => $request->input('wo_location_id'),
-                'wo_reffered_dept' => $department->id,
-                'wo_reffered_division' => $request->input('wo_reffered_division'),
-                'wo_description' => $request->input('wo_description'),
-                'wo_location_detail' => $request->input('location_detail'),
-                'wo_tag_no' => $request->input('wo_tag_no'),
-                'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
-                'wo_form_status' => $formStatus,
-                'wo_date_recomendation' => $date_recommendation,
-                'wo_is_open' => 1,
-                'wo_c_emergency' => $emergency,
-                'wo_c_ranking_cust' => $ranking_cust,
-                'wo_c_equipment_criteria' => $equipment_criteria
-                //TODO upload file foto
-            ]);
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data', 
@@ -115,6 +153,10 @@ class WorkOrderController extends Controller
 
     public function saveFormWorkOrderDraft(Request $request, $idFormWOrder){
         try{
+
+            $response = null;
+
+        
             //get employee
             $employee = Auth::user();
             $this->validate($request, [
@@ -123,46 +165,57 @@ class WorkOrderController extends Controller
                     'integer',
                     Rule::in(['1', '2']),
                 ],
+                'wo_image' => 'file'
             ]);
             
             $date = Carbon::now()
             // ->format('Y-m-d H:i:s')
             ;
             $date->toDateTimeString();
-            $department = $employee->department()->first();
-            $departmentId = $employee->emp_employee_department_id;
+            // $department = $employee->department()->first();
+            // $departmentId = $employee->emp_employee_department_id;
             //Ini saring berdasarkan group(role)
-            $wo_issuer_spv_id = User::role('Work Order - SPV')->where('emp_employee_department_id',$departmentId)->first()->id;
-            $departmentAbr = substr(strtoupper($department->dept_name),0,3);
-            $formStatus = (int)$request->input('wo_form_status');
-            $emergency = $request->input('wo_c_emergency');
-            $ranking_cust = $request->input('wo_c_ranking_cust');
-            $equipment_criteria = $request->input('wo_c_equipment_criteria');
+            // $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+            // $formStatus = (int)$request->input('wo_form_status');
+            // $emergency = (int)$request->input('wo_c_emergency');
+            // $ranking_cust = (int)$request->input('wo_c_ranking_cust');
+            // $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
+            
             // $recommendedDays = recommendedDays($emergency,$equipment_criteria,$equipment_criteria);
             // $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
-                
-            $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
-
-            $formWorkOrder->update([
-                // 'wo_name' => $request->input('wo_name'),
-                'wo_date_issuer_submit' => $date,
-                'wo_category' => $request->input('wo_category'),
-                'wo_issuer_dept' => $request->input('emp_employee_department_id'),
-                'wo_location_id' => $request->input('wo_location_id'),
-                'wo_reffered_division' => $request->input('wo_reffered_division'),
-                'wo_description' => $request->input('wo_description'),
-                'wo_location_detail' => $request->input('location_detail'),
-                'wo_tag_no' => $request->input('wo_tag_no'),
-                'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
-                'wo_form_status' => $formStatus,
-                // 'wo_date_recomendation' => $date_recommendation,
-                'wo_is_open' => $formStatus == 1 ? 0 : 1,
-            ]);
+                try{
+                    $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
+                    if($request->file('wo_image')){
+                        $name = time().$request->file('wo_image')->getClientOriginalName();
+                        $request->file('wo_image')->move('uploads/work_order',$name);
+                        $formWorkOrder->update(
+                            [
+                                $request->except(['wo_image']),
+                                'wo_image' => $name,
+                            ]
+                        );
+                        return response()->json([
+                            'code' => 200,
+                            'message' => 'Success Saving Form Update', 
+                            'data' => new FormWorkOrderResource($formWorkOrder),
+                            ], 200);
+                    }
+            $formWorkOrder->update(
+                    $request->except(['wo_image']),
+            );
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Get All Data', 
-                'data' =>  $formWorkOrder,
-                ], 200);;
+                'message' => 'Success Saving Form Update', 
+                'data' => new FormWorkOrderResource($formWorkOrder),
+                ], 200);
+                } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    return response()->json([
+                        'code' => 404,
+                        'message' => 'Given Work Order Form ID not found', 
+                        'data' => []
+                        ], 404);
+                }
+            
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
@@ -174,20 +227,23 @@ class WorkOrderController extends Controller
     }
 
 
-    public function viewListWorkOrderAsIssuer(){
+    public function viewListWorkOrderAsIssuer(Request $request){
         $user = Auth::user();
 
         // try{
             $formWorkOrder = FormWorkOrder::where('wo_is_open', 1)
-            ->where('wo_issuer_id',$user->id)->orderBy("wo_form_status")->get();
-        
-            // return response()->json([
-            // 'code' => 200,
-            // 'message' => 'Success Get All Data', 
-            // 'data' =>  FormWorkOrder::where('wo_is_open', 1)
-            // ->where('wo_issuer_id',$user->id)->orderBy("wo_form_status")->get()
-            // // ->where('emp_employee_group_id',$groupId)->get()
-            // ], 200);
+            ->where('wo_issuer_id',$user->id)->orderBy($request->query('orderBy'))->get();
+            // ->orderBy("wo_form_status")->get()
+            ;
+            // if($request->input('orderBy') == 1){
+            //     $formWorkOrder = 
+            // } else if ($request->input('orderBy') == 2 ){
+            //     $formWorkOrder = $formWorkOrder->orderBy("wo_date_issuer_submit")->get();
+            // } else {
+            //     $formWorkOrder = $formWorkOrder->orderBy("id")->get();
+            // }
+
+            
 
             return response()->json([
                 'code' => 200,
@@ -198,6 +254,113 @@ class WorkOrderController extends Controller
         // }catch(){
 
         // }
+    }
+
+    public function viewListWorkOrderAsIssuerSPV(Request $request)
+    {
+        $user = Auth::user();
+        // $isDesc = $request->query('isDesc');
+        // $isDescOrderByParam = $isDesc ? "desc" : "asc"; 
+        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
+        
+        $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[1,2]);
+        if($request->query('orderBy') == 'wo_form_status'){
+            $forms = $forms->orderBy($request->query('orderBy'),'desc')->get();
+        } else {
+            $forms = $forms->orderBy($request->query('orderBy'))->get();
+        }
+        
+        // $groupUser->workOrderFormsOfSpv()->where('wo_is_open', 1)->where('wo_form_status',2)
+        // ->get();
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Data', 
+            'data' => 
+                FormWorkOrderResource::collection($forms)
+            ], 200);                    
+    }
+
+    public function viewListApprovedWorkOrderAsIssuerSPV(Request $request)
+    {
+        $user = Auth::user();
+
+        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
+        $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',9)
+        ->orderBy($request->query('orderBy'))->get();
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Data', 
+            'data' => 
+                FormWorkOrderResource::collection($forms)
+            ], 200); 
+    }
+
+    public function viewListWorkOrderAsPlanner(Request $request)
+    {
+        $user = Auth::user();
+
+        $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
+        $forms = FormWorkOrder::where('wo_planner_id', $user->id)->where('wo_is_open', 1)
+        ->orderBy($request->query('orderBy'))->get();
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Data', 
+            'data' => 
+                FormWorkOrderResource::collection($forms)
+            ], 200);                    
+    }
+
+    public function viewListWorkOrderAsPic(Request $request)
+    {
+        $user = Auth::user();
+
+        $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
+        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',6)
+        ->orderBy($request->query('orderBy'))->get();
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Data', 
+            'data' => 
+                FormWorkOrderResource::collection($forms)
+            ], 200);                    
+    }
+
+    public function viewListApprovedWorkOrderAsPic(Request $request)
+    {
+        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
+        $forms = $groupUser->workOrderFormsOfPic()->where('wo_is_open', 1)->where('wo_form_status',8)
+        ->orderBy($request->query('orderBy'))->get();
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Data', 
+            'data' => 
+                FormWorkOrderResource::collection($forms)
+            ], 200);                    
+    }
+
+    public function viewListWorkOrderAsPicSPV(Request $request)
+    {
+        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
+        $formsOfSpv = $groupUser->workOrderFormsOfPicSpv()->where('wo_is_open', 1)
+        ->orderBy($request->query('orderBy'))->get();
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Data', 
+            'data' => 
+                FormWorkOrderResource::collection($formsOfSpv)
+            ], 200);                    
     }
 
     public function getOneWorkOrderFormAsIssuer($idFormWOrder){
@@ -212,61 +375,12 @@ class WorkOrderController extends Controller
             ], 200);
     }
 
-
-    public function viewListWorkOrderAsIssuerSPV()
-    {
-        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $forms = $groupUser->workOrderFormsOfSpv()->where('wo_is_open', 1)->where('wo_form_status',2)
-        ->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
-        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
-                FormWorkOrderResource::collection($forms)
-            ], 200);                    
-    }
-
-
-
-    public function viewListApprovedWorkOrderAsIssuerSPV()
-    {
-        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $forms = $groupUser->workOrderFormsOfSpv()->where('wo_is_open', 1)->where('wo_form_status',9)
-        ->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
-        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
-                FormWorkOrderResource::collection($forms)
-            ], 200); 
-    }
-
     public function getOneWorkOrderFormAsIssuerSPV($idFormWOrder)
     {
         $group =  MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
         $forms = $group->workOrderFormsOfSpv()->get()->where('id',$idFormWOrder)->first();
         return response(['data' => $forms],200);
     }
-
-    public function viewListWorkOrderAsPlanner()
-    {
-        $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
-        $forms = $groupUser->workOrderFormsOfPlanner()->where('wo_is_open', 1)
-        ->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
-        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
-                FormWorkOrderResource::collection($forms)
-            ], 200);                    
-    }
-
 
     public function getOneWorkOrderFormAsPlanner($idFormWOrder)
     {
@@ -275,38 +389,6 @@ class WorkOrderController extends Controller
         return response(['data' => $forms],200);
     }
 
-
-    public function viewListWorkOrderAsPic()
-    {
-        $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
-        $forms = $groupUser->workOrderFormsOfPic()->where('wo_is_open', 1)->where('wo_form_status',6)
-        ->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
-        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
-                FormWorkOrderResource::collection($forms)
-            ], 200);                    
-    }
-
-    public function viewListApprovedWorkOrderAsPic()
-    {
-        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $forms = $groupUser->workOrderFormsOfPic()->where('wo_is_open', 1)->where('wo_form_status',8)
-        ->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
-        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
-                FormWorkOrderResource::collection($forms)
-            ], 200);                    
-    }
-
-
     public function getOneWorkOrderFormAsPic($idFormWOrder)
     {
         $group =  MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
@@ -314,22 +396,6 @@ class WorkOrderController extends Controller
         return response(['data' => $formOfSpv],200);
     }
     
-    public function viewListWorkOrderAsPicSPV()
-    {
-        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $formsOfSpv = $groupUser->workOrderFormsOfPicSpv()->where('wo_is_open', 1)
-        ->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
-        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
-                FormWorkOrderResource::collection($formsOfSpv)
-            ], 200);                    
-    }
-
-
     public function getOneWorkOrderFormPicSPV($idFormWOrder)
     {
         $group =  MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
@@ -337,9 +403,7 @@ class WorkOrderController extends Controller
         return response(['data' => $formOfSpv],200);
     }
 
-    
-
-    public function rejectFormWorkOrderAsIssuerSpv(Request $request, $idFormWOrder){
+        public function rejectFormWorkOrderAsIssuerSpv(Request $request, $idFormWOrder){
         try{
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
@@ -608,8 +672,8 @@ class WorkOrderController extends Controller
             'emp_employee_department_id' => $user->emp_employee_department_id,
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at,
-            // 'emp_permissions' => $user->getPermissionsViaRoles(),
-            'emp_groups' => $user->roles
+            'emp_permissions' => $user->getPermissionsViaRoles()->unique('name'),
+            'emp_groups' => EmployeeGroupResource::collection($user->roles)
         ]
     ], 200);
         // return response()->json(['user' => Config::get('constants.groups.wo_issuer_spv')], 200);
