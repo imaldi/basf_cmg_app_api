@@ -68,6 +68,25 @@ class TestGroupsAndPermissionsController extends Controller
         // return response(['role' => $role],200);
     }
 
+    public function tesRemovenGroupFromUser(Request $request){
+
+        $userId = $request->input('user_id');
+        $groupId = $request->input('group_id');
+        $user = User::find($userId);
+        // $user = User::all()->where('id',)->first();
+        $role = MEmployeeGroup::find($groupId);
+
+        
+
+        // $user->assignRole($role);
+        // Tes Remove Role
+        $user->removeRole($role);
+        return response(['user_roles' => $user->roles],200);
+        // return response(['users' => $user],200);
+        // return $user;
+        // return response(['role' => $role],200);
+    }
+
     public function testDapatkanGroupUserDenganForEach(){
         $user = Auth::user();
         

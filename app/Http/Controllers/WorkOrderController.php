@@ -675,6 +675,7 @@ class WorkOrderController extends Controller
     {
         //Tes profile department dan date
         $user = Auth::user();
+        // $user = User::find(4);
         // $employee = User::find($user->id);
         // $department = $employee->department()->first();
         // $date = Carbon::now()->format('Y-m-d H:i:s');
