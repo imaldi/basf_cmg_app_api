@@ -28,6 +28,8 @@ class FormWorkOrder extends Model
 		'wo_c_ranking_cust',
 		'wo_c_equipment_criteria',
 		'wo_reffered_dept',
+		'wo_reffered_division',
+		'wo_description',
 		'wo_image'
 		// 'wo_date_pic_plan',
 	];
@@ -76,6 +78,20 @@ class FormWorkOrder extends Model
 			return 'Kosmetik';
 		} else  {
 			return 'Invalid Emergency Id';
+		}
+	}
+
+	public static function category(int $value){
+		if($value == 1){
+			return 'Breakdown Production Equipment';
+		} else if($value == 2){
+			return 'Baru';
+		} else if($value == 3){
+			return 'Perbaikan';
+		} else if($value == 4){
+			return 'Modifikasi';
+		} else  {
+			return 'Invalid Category Id';
 		}
 	}
 

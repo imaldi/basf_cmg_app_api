@@ -15,23 +15,24 @@ class GroupCheckMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    // public function handle($request, Closure $next, ...$groups)
-    public function handle($request, Closure $next, $group)
+    public function handle($request, Closure $next, ...$groups)
+    // public function handle($request, Closure $next, $group)
     {
         $user = Auth::user();
-        $groupExplode = explode('_',$group);
-        $groupFinal = implode(' ', $groupExplode);
+        
 
         if(!$user->hasRole('Super Admin')) {
             
-            // foreach($groups as $group) {
+            foreach($groups as $group) {
+                $groupExplode = explode('_',$group);
+                $groupFinal = implode(' ', $groupExplode);
                 // Check if user has the role This check will depend on how your roles are set up
                 if($user->hasRole($groupFinal)){
                     // dd(count($groups));
                     // return redirect('api/work-order/get-all/'.$request->route('groupId'));
                     return $next($request);
                 }
-            // }    
+            }    
         } 
         // else {
         //     if($user->emp_employee_group_id == 2) {

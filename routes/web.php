@@ -71,6 +71,8 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
     // Matches "/api/users
     $router->get('users', 'WorkOrderController@allUsers');
+    $router->get('locations', 'WorkOrderController@getLocations');
+    $router->get('departments', 'WorkOrderController@getDepartments');
     // $router->post('login-employee', 'AuthController@login');
     // $router->post('update-password-employee', 'AuthController@updatePassword');
 
@@ -89,6 +91,11 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
 
         $router->group(['prefix' => 'view','middleware' => 'permission_check:view-work-order',], function () use ($router) {
+            $router->get('get/{idFormWOrder}',
+                [
+                    // 'middleware' => 'group_check:Work_Order_-_Issuer',
+                    'uses' => 'WorkOrderController@getOneWorkOrderForm'
+                ]);
             $router->group(['prefix' => 'as-issuer'], function () use ($router) {
                 $router->get('get-all',
                 [
@@ -98,11 +105,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 
                 //get forms by id per groups
                 //not yet done, still a few groups
-                $router->get('get/{idFormWOrder}',
-                [
-                    'middleware' => 'group_check:Work_Order_-_Issuer',
-                    'uses' => 'WorkOrderController@getOneWorkOrderFormAsIssuer'
-                ]);
+                
             });
             
             $router->group(['prefix' => 'as-issuer-spv'], function () use ($router) {
@@ -117,29 +120,13 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                     'middleware' => 'group_check:Work-Order-Issuer-SPV',
                     'uses' => 'WorkOrderController@viewListApprovedWorkOrderAsIssuerSPV'
                 ]);
-                
-                //get forms by id per groups
-                //not yet done, still a few groups
-                $router->get('get/{idFormWOrder}',
-                [
-                    'middleware' => 'group_check:Work_Order_-_SPV',
-                    'uses' => 'WorkOrderController@getOneWorkOrderFormAsIssuerSPV'
-                ]);
             });
     
             $router->group(['prefix' => 'as-planner'], function () use ($router) {
                 $router->get('get-all',
                 [
                     'middleware' => 'group_check:Work_Order_-_Planner',
-                    'uses' => 'WorkOrderController@viewListWorkOrderAsWork_Order_-_Planner'
-                ]);
-                
-                //get forms by id per groups
-                //not yet done, still a few groups
-                $router->get('get/{idFormWOrder}',
-                [
-                    'middleware' => 'group_check:Work_Order_-_Planner',
-                    'uses' => 'WorkOrderController@getOneWorkOrderFormAsWork_Order_-_Planner'
+                    'uses' => 'WorkOrderController@viewListWorkOrderAsPlanner'
                 ]);
             });
             $router->group(['prefix' => 'as-pic'], function () use ($router) {
@@ -154,28 +141,12 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                     'middleware' => 'group_check:Work_Order_-_PIC',
                     'uses' => 'WorkOrderController@viewListApprovedWorkOrderAsPic'
                 ]);
-                
-                //get forms by id per groups
-                //not yet done, still a few groups
-                $router->get('get/{idFormWOrder}',
-                [
-                    'middleware' => 'group_check:Work_Order_-_PIC',
-                    'uses' => 'WorkOrderController@getOneWorkOrderFormAsPic'
-                ]);
             });
             $router->group(['prefix' => 'as-pic-spv'], function () use ($router) {
                 $router->get('get-all',
                 [
                     'middleware' => 'group_check:Work_Order_-_PIC_-_SPV',
                     'uses' => 'WorkOrderController@viewListWorkOrderAsPicSPV'
-                ]);
-                
-                //get forms by id per groups
-                //not yet done, still a few groups
-                $router->get('get/{idFormWOrder}',
-                [
-                    'middleware' => 'group_check:Work_Order_-_PIC_-_SPV',
-                    'uses' => 'WorkOrderController@getOneWorkOrderFormPicSPV'
                 ]);
             });
         });
@@ -188,9 +159,6 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                     ],
                     'uses' => 'WorkOrderController@saveFormWorkOrderDraft'
                 ]);
-            // $router->post('save-draft', 'WorkOrderController@saveFormWorkOrderDraft');
-
-
         });
 
         $router->group(['prefix' => 'reject','middleware' => 'permission_check:edit-work-order',], function () use ($router) {
@@ -222,7 +190,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
         $router->group(['prefix' => 'approve','middleware' => 'permission_check:edit-work-order',], function () use ($router) {
                 
-            $router->get('as-issuer-spv/{idFormWOrder}', 
+            $router->post('as-issuer-spv/{idFormWOrder}', 
             [
                 'middleware' => [
                     'group_check:Work_Order_-_SPV'

@@ -36,8 +36,8 @@ class EmployeeController extends Controller{
         $group = MEmployeeGroup::find($groupId);
 
         $employee = User::find($userId);
-        // $employee->assignRole($group);
-        $employee->removeRole($group);
+        $employee->assignRole($group);
+        // $employee->removeRole($group);
         return $employee->getRoleNames();
         // return $group;
     }

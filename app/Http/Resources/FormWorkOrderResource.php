@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\MasterDepartment;
 use App\Models\FormWorkOrder;
 use App\Models\MasterLocation;
+use App\User;
+
 
 class FormWorkOrderResource extends JsonResource
 {
@@ -19,21 +21,23 @@ class FormWorkOrderResource extends JsonResource
     public function toArray($request)
     {
         $departmentName = MasterDepartment::find($this->wo_issuer_dept)->first()->dept_name;
-        $refferedDeptName = MasterDepartment::find($this->wo_reffered_dept)->first()->dept_name;
+        // $refferedDeptName = MasterDepartment::find($this->wo_reffered_dept)->first()->dept_name;
         $locationDetail = MasterLocation::find($this->wo_location_id)->first()->loc_name;
 
         return [
             'id' => $this->id,
             'wo_name' => $this->wo_name,
             'wo_issuer_id' => $this->wo_issuer_id,
+            'wo_issuer_name' => User::find($this->wo_issuer_id)->emp_name,
             'wo_spv_issuer_id' => $this->wo_spv_issuer_id,
             'wo_date_issuer_submit' => $this->wo_date_issuer_submit,
             'wo_category' => $this->wo_category,
+            'wo_category_detail' => FormWorkOrder::category($this->wo_category),
             'wo_issuer_dept' => $this->wo_issuer_dept,
             'wo_issuer_dept_name' => $departmentName,
             'wo_location_id' => $this->wo_location_id,
             'wo_reffered_dept' => $this->wo_reffered_dept,
-            'wo_reffered_dept_name' => $refferedDeptName,
+            // 'wo_reffered_dept_name' => $refferedDeptName,
             'wo_reffered_division' => $this->wo_reffered_division,
             'wo_description' => $this->wo_description,
             'wo_location_detail' => $locationDetail,
@@ -49,6 +53,7 @@ class FormWorkOrderResource extends JsonResource
             'wo_c_ranking_cust_detail' => FormWorkOrder::rankingCust($this->wo_c_ranking_cust),
             'wo_c_equipment_criteria' => (int) $this->wo_c_equipment_criteria,
             'wo_c_equipment_criteria_detail' => FormWorkOrder::equipmentCriteria($this->wo_c_equipment_criteria),
+            'wo_image' => $this->wo_image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             ];
