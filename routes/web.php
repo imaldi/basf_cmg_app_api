@@ -226,7 +226,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
                 //Controller fill : wo_form_status (update) =>  6. Waiting PIC Action Plan
 
-            $router->post('as-pic', 
+            $router->post('as-pic/{idFormWOrder}', 
             [
                 'middleware' => [
                     'group_check:Work_Order_-_PIC'

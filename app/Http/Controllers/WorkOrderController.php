@@ -164,7 +164,7 @@ class WorkOrderController extends Controller
                 'wo_form_status' => [
                     'required',
                     'integer',
-                    Rule::in(['1', '2', '3']),
+                    Rule::in(['1', '2', '3','7']),
                 ],
                 'wo_image' => 'file'
             ]);
@@ -334,7 +334,7 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
-        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',6)
+        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[6,8])
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
