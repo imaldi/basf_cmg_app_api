@@ -63,6 +63,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     //// Test jwt
      // Matches "/api/profile
     $router->get('profile', 'WorkOrderController@profile');
+    $router->get('get-all-pic', 'WorkOrderController@getAllPic');
     $router->post('profile', 'EmployeeController@addGroupToUser');
 
     // Matches "/api/user 
@@ -179,7 +180,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'middleware' => [
                     'group_check:Work_Order_-_Planner'
                 ],
-                'uses' => 'WorkOrderController@rejectFormWorkOrderAsWork_Order_-_Planner'
+                'uses' => 'WorkOrderController@rejectFormWorkOrderAsPlanner'
             ]);
                 //HTTP Params : wo_reject_reason
 
@@ -210,12 +211,12 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                     //Controller fill : wo_form_status (update) =>  3.Waiting Work_Order_-_Planner Approval
 
 
-            $router->post('as-planner', 
+            $router->post('as-planner/{idFormWOrder}', 
             [
                 'middleware' => [
                     'group_check:Work_Order_-_Planner'
                 ],
-                'uses' => 'WorkOrderController@approveFormWorkOrderAsWork_Order_-_Planner'
+                'uses' => 'WorkOrderController@approveFormWorkOrderAsPlanner'
             ]);
                 //HTTP Params :
                 // -date | wo_date_planner_approve

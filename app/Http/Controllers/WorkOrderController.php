@@ -8,6 +8,7 @@ use App\Models\MEmployeeGroup;
 use App\Models\MasterLocation;
 use App\Http\Resources\FormWorkOrderResource;
 use App\Http\Resources\EmployeeGroupResource;
+use App\Http\Resources\EmployeeResource;
 use Auth;
 use Config;
 use App\User;
@@ -316,7 +317,7 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
-        $forms = FormWorkOrder::where('wo_planner_id', $user->id)->where('wo_is_open', 1)
+        $forms = FormWorkOrder::where('wo_planner_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',3)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -652,6 +653,18 @@ class WorkOrderController extends Controller
 
     }
 
+    public function getAllPic()
+    {
+        $listPic = User::role('Work Order - PIC')->get();
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success',
+            'data' => EmployeeResource::collection($listPic)
+        // $user
+        
+        ], 200);
+    }
+
 
 
 
@@ -673,25 +686,25 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success',
-            'data' => 
+            'data' => [new EmployeeResource($user)]
         // $user
-        [
-            'emp_id' => $user->id,
-            'emp_name' => $user->emp_name,
-            'emp_username' => $user->emp_username,
-            'emp_email' => $user->emp_email,
-            'emp_nik' => $user->emp_nik,
-            'emp_birth_date' => $user->emp_birth_date,
-            'emp_phone_number' => $user->emp_phone_number,
-            'emp_is_spv' => $user->emp_is_spv,
-            'emp_employee_department_id' => $user->emp_employee_department_id,
-            'emp_employee_department_name' => MasterDepartment::find($user->emp_employee_department_id)->dept_name,
-            'created_at' => $user->created_at,
-            'updated_at' => $user->updated_at,
-            'emp_permissions' => $user->getPermissionsViaRoles()->unique('name'),
-            'emp_groups' => EmployeeGroupResource::collection($user->roles)
-        ]
-    ], 200);
+        // [
+        //     'emp_id' => $user->id,
+        //     'emp_name' => $user->emp_name,
+        //     'emp_username' => $user->emp_username,
+        //     'emp_email' => $user->emp_email,
+        //     'emp_nik' => $user->emp_nik,
+        //     'emp_birth_date' => $user->emp_birth_date,
+        //     'emp_phone_number' => $user->emp_phone_number,
+        //     'emp_is_spv' => $user->emp_is_spv,
+        //     'emp_employee_department_id' => $user->emp_employee_department_id,
+        //     'emp_employee_department_name' => MasterDepartment::find($user->emp_employee_department_id)->dept_name,
+        //     'created_at' => $user->created_at,
+        //     'updated_at' => $user->updated_at,
+        //     'emp_permissions' => $user->getPermissionsViaRoles()->unique('name'),
+        //     'emp_groups' => EmployeeGroupResource::collection($user->roles)
+        // ]
+        ], 200);
         // return response()->json(['user' => Config::get('constants.groups.wo_issuer_spv')], 200);
 
         //Tes Has Many Through dengan EmployeeGroup model
@@ -702,6 +715,8 @@ class WorkOrderController extends Controller
         // return response()->json(['group_forms' => $permissions], 200);
 
     }
+
+    
 
     public function allUsers()
     {
