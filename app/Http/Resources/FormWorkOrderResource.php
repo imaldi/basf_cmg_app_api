@@ -55,6 +55,7 @@ class FormWorkOrderResource extends JsonResource
             'wo_form_status' => FormWorkOrder::formStatusDetail($this->wo_form_status),
             'wo_date_recomendation' => $this->wo_date_recomendation,
             'wo_date_revision' => $this->wo_date_revision,
+            'wo_date_pic_plan' => $this->wo_date_pic_plan,
             'wo_is_open' => $this->wo_is_open,
             'wo_c_emergency' => (int) $this->wo_c_emergency,
             'wo_c_emergency_detail' => FormWorkOrder::emergency($this->wo_c_emergency),
