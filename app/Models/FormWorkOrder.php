@@ -26,11 +26,13 @@ class FormWorkOrder extends Model
 		'wo_is_open',
 		'wo_reject_reason',
 		'wo_c_ranking_cust',
+		'wo_c_cost',
 		'wo_c_equipment_criteria',
 		'wo_reffered_dept',
 		'wo_reffered_division',
 		'wo_description',
-		'wo_image'
+		'wo_image',
+		'wo_pic_action_plan'
 		// 'wo_date_pic_plan',
 	];
 

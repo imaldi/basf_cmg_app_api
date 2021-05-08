@@ -235,7 +235,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             ]);
                 //Controller fill : wo_form_status (update) =>  7. Waitng SPV PIC Approve | 9. Hand Over to User
 
-            $router->post('as-pic-spv', 
+            $router->post('as-pic-spv/{idFormWOrder}', 
             [
                 'middleware' => [
                     'group_check:Work_Order_-_PIC_-_SPV'
@@ -313,6 +313,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->get('get-location-by-category', 'HomeController@getLocationByCategory');
 
     $router->post('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
+    $router->post('remove-group-from-user','TestGroupsAndPermissionsController@tesRemovenGroupFromUser');
 
 });
 

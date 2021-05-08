@@ -45,7 +45,7 @@ class FormWorkOrderResource extends JsonResource
             'wo_issuer_dept_name' => $departmentName,
             'wo_location_id' => $this->wo_location_id,
             'wo_reffered_dept' => $this->wo_reffered_dept,
-            // 'wo_reffered_dept_name' => $refferedDeptName,
+            'wo_pic_action_plan' => $this->wo_pic_action_plan,
             'wo_reffered_division' => $this->wo_reffered_division,
             'wo_description' => $this->wo_description,
             'wo_location_detail' => $locationDetail,

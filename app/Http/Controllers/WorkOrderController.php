@@ -299,7 +299,7 @@ class WorkOrderController extends Controller
     {
         $user = Auth::user();
 
-        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
+        // $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
         $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',9)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
@@ -316,7 +316,7 @@ class WorkOrderController extends Controller
     {
         $user = Auth::user();
 
-        $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
+        // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
         $forms = FormWorkOrder::where('wo_planner_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',3)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
@@ -333,7 +333,7 @@ class WorkOrderController extends Controller
     {
         $user = Auth::user();
 
-        $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
+        // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
         $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[6,8])
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
@@ -348,8 +348,10 @@ class WorkOrderController extends Controller
 
     public function viewListApprovedWorkOrderAsPic(Request $request)
     {
-        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $forms = $groupUser->workOrderFormsOfPic()->where('wo_is_open', 1)->where('wo_form_status',8)
+        $user = Auth::user();
+
+        // $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
+        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',8)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -363,8 +365,11 @@ class WorkOrderController extends Controller
 
     public function viewListWorkOrderAsPicSPV(Request $request)
     {
-        $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $formsOfSpv = $groupUser->workOrderFormsOfPicSpv()->where('wo_is_open', 1)
+        $user = Auth::user();
+
+        // $groupUser = MEmployeeGroup::where('name','Work Order - PIC - SPV')->firstOrFail();
+        // $formsOfSpv = $groupUser->workOrderFormsOfPicSpv()->where('wo_is_open', 1)
+        $formsOfSpv = FormWorkOrder::where('wo_spv_pic_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',7)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -611,14 +616,10 @@ class WorkOrderController extends Controller
         try{
             //get employee
             $employee = Auth::user();
-            
-            $date = Carbon::now();
-            $date->toDateTimeString();
                 
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
             $formWorkOrder->update([
-                'wo_date_pic_plan' => $date,
                 'wo_form_status' => 8,
             ]);
             return response()->json([
@@ -639,7 +640,7 @@ class WorkOrderController extends Controller
     public function getLocations(){
         return response()->json([
             'code' => 200,
-            'message' => 'Success Approving Form', 
+            'message' => 'Success Get All Locations', 
             'data' => MasterLocation::all()
         ], 200);
     }
@@ -647,7 +648,7 @@ class WorkOrderController extends Controller
     public function getDepartments(){
         return response()->json([
             'code' => 200,
-            'message' => 'Success Approving Form', 
+            'message' => 'Success Get All Departments', 
             'data' => MasterDepartment::all()
         ], 200);
 
