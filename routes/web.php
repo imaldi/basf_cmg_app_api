@@ -233,6 +233,13 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 ],
                 'uses' => 'WorkOrderController@approveFormWorkOrderAsPic'
             ]);
+            $router->post('as-pic/hand-over/{idFormWOrder}', 
+            [
+                'middleware' => [
+                    'group_check:Work_Order_-_PIC'
+                ],
+                'uses' => 'WorkOrderController@approveFormWorkOrderAsPicHandOver'
+            ]);
                 //Controller fill : wo_form_status (update) =>  7. Waitng SPV PIC Approve | 9. Hand Over to User
 
             $router->post('as-pic-spv/{idFormWOrder}', 

@@ -32,7 +32,11 @@ class FormWorkOrder extends Model
 		'wo_reffered_division',
 		'wo_description',
 		'wo_image',
-		'wo_pic_action_plan'
+		'wo_pic_action_plan',
+		'wo_pic_attachment',
+		'wo_pic_image',
+		'wo_pic_start_time',
+		'wo_pic_finish_time'
 		// 'wo_date_pic_plan',
 	];
 
