@@ -605,7 +605,6 @@ class WorkOrderController extends Controller
 
             try{
                 $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
-                if($request->file('wo_pic_image') || $request->file('wo_pic_attachment')){
                     if($request->file('wo_pic_image')){
                     $name = time().$request->file('wo_pic_image')->getClientOriginalName();
                     $request->file('wo_pic_image')->move('uploads/work_order',$name);
@@ -625,6 +624,8 @@ class WorkOrderController extends Controller
                         );
                     }
                     
+                    $formWorkOrder->update(
+                        $request->except(['wo_pic_image','wo_pic_attachment']),);
                     return response()->json([
                         'code' => 200,
                         'message' => 'Success Saving Form Update',
@@ -633,16 +634,7 @@ class WorkOrderController extends Controller
                         new FormWorkOrderResource($formWorkOrder),
                         ]    
                     ], 200);
-                }
             }
-                $formWorkOrder->update(
-                        $request->except(['wo_pic_image','wo_pic_attachment']),
-                );
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Success Saving Form Update', 
-                    'data' => new FormWorkOrderResource($formWorkOrder),
-                    ], 200);
             } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                 return response()->json([
                     'code' => 404,
