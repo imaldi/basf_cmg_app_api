@@ -63,6 +63,7 @@ class FormWorkOrderResource extends JsonResource
             'wo_c_ranking_cust_detail' => FormWorkOrder::rankingCust($this->wo_c_ranking_cust),
             'wo_c_equipment_criteria' => (int) $this->wo_c_equipment_criteria,
             'wo_c_equipment_criteria_detail' => FormWorkOrder::equipmentCriteria($this->wo_c_equipment_criteria),
+            'wo_c_cost' => $this->wo_c_cost,
             'wo_image' => $this->wo_image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

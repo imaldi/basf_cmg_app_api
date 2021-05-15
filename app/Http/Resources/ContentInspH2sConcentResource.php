@@ -14,6 +14,16 @@ class ContentInspH2sConcentResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'ins_h2_form_id' => $this->,
+            'ins_h2_location_id' => $this->ins_h2_location_id,
+            'ins_h2_check_05_percentage' => $this->ins_h2_check_05_percentage,
+            'ins_h2_check_10_percentage' => $this->ins_h2_check_10_percentage,
+            'ins_h2_check_lel_percentage' => $this->ins_h2_check_lel_percentage,
+            'ins_h2_remark' => $this->ins_h2_remark,
+            // '' => $this->,
+
+        ];
     }
 }

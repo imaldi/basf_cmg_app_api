@@ -18,34 +18,23 @@ class FormsInspH2sConcentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $contents = ContentInspH2sConcentResource::where('id_insp_h2s_cnct',$this->id)->get();
+        $contents = ContentInspH2sConcent::where('id_insp_h2s_cnct',$this->id)->get();
         return [
             'id' => $this->id,
-            'id_supervisor' => $this->id_supervisor,
-            'supervisor_name' => User::find($this->id_supervisor),
-            'id_checker' => $this->id_checker,
-            'checker_name' => User::find($this->id_checker),
-            'id_location' => $this->id_location,
-            'location_name' => MasterLocation::find($this->id_location),
-            'brand' => $this->brand,
-            'specification' => $this->specification,
-            'inspection_date' => $this->inspection_date,
-            'upper_condition' => $this->upper_condition,
-            'bottom_condition' => $this->bottom_condition,
-            'fastener_condition' => $this->fastener_condition,
-            'construction_condition' => $this->construction_condition,
-            'stairs_condition' => $this->stairs_condition,
-            'upper_condition_desc' => $this->upper_condition_desc,
-            'bottom_condition_desc' => $this->bottom_condition_desc,
-            'fastener_condition_desc' => $this->fastener_condition_desc,
-            'construction_condition_desc' => $this->construction_condition_desc,
-            'stairs_condition_desc' => $this->stairs_condition_desc,
-            'notes' => $this->notes,
-            'ladder_category' => $this->ladder_category,
-            'supervisor_sign_pict' => $this->supervisor_sign_pict,
-            'checker_sign_pict' => $this->checker_sign_pict,
-            'is_active' => $this->is_active,
-            'contents' => ContentInspLadderResource::collection($contents);
+            'ins_h2_name' => $this->ins_h2_name,
+            'ins_h2_submited_date' => $this->ins_h2_submited_date,
+            'ins_h2_inspector_id' => $this->ins_h2_inspector_id,
+            'ins_h2_inspector_name' => User::find($this->ins_h2_inspector_id),
+            'ins_h2_approved_date' => $this->ins_h2_approved_date,
+            'ins_h2_inspector_spv_id' => $this->ins_h2_inspector_spv_id,
+            'ins_h2_inspector_spv_name' => User::find($this->ins_h2_inspector_spv_id),
+            'ins_h2_notes' => $this->ins_h2_notes,
+            'ins_h2_status' => $this->ins_h2_status,
+            'ins_h2_is_active' => $this->ins_h2_is_active,
+            'ins_created_at' => $this->createdAt,
+            'ins_updated_at' => $this->updatedAt,
+            // '' => $this->,
+            'contents' => ContentInspH2sConcentResource::collection($contents);
         ];
     }
 }

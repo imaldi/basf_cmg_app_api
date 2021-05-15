@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ContentInspLadderResource extends JsonResource
+class ContentInspSpillKitResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,19 @@ class ContentInspLadderResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return 
+        [
+            'id' => $this->id,
+            'ins_sk_form_id' => $this->ins_sk_form_id,
+            'ins_sk_location_id' => $this->ins_sk_location_id,
+            'ins_sk_location_id' => $this->ins_sk_location_id,
+            'ins_sk_box_condition' => $this->ins_sk_box_condition,
+            'ins_sk_contents' => $this->ins_sk_contents,
+            'ins_sk_documents' => $this->ins_sk_documents,
+            'ins_h2_remark' => $this->ins_h2_remark,
+            // '' => $this->,
+            // '' => $this->,
+
+        ];
     }
 }

@@ -9,7 +9,7 @@ class FormsInspLadder extends Model
 	protected $table = 'forms_insp_ladder';
 	protected $guarded = [];
 
-	public function getInspLadderStatusDetail($idInspLadder)
+	public function getStatusDetail($idInspLadder)
 	{
 		if($idInspLadder == 1){
 			return 'in progress';

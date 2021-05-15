@@ -227,52 +227,52 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->group(['prefix' => 'inspection'], function () use ($router){
         $router->group(['prefix' => 'ladder','middleware' => 'group_check:Inspection_-_Ladder,Inspection_-_Ladder_-_SPV'], function () use ($router){
             $router->get('all',['uses' => 'InspectionController@getAllLadder', 'middleware' => 'permission_check=view_Inspection_form']);
-            $router->get('get',['uses' => 'InspectionController@getOneLadder','middleware' => 'permission_check=view_Inspection_form']);
+            $router->get('get/{$id}',['uses' => 'InspectionController@getOneLadder','middleware' => 'permission_check=view_Inspection_form']);
             $router->post('create',['uses' => 'InspectionController@createLadder','middleware' => 'permission_check=create_Inspection_form']);
-            $router->post('save-draft',['uses' => 'InspectionController@saveDraftLadder','middleware' => 'permission_check=update_Inspection_form']);
-            $router->get('approve',['uses' => 'InspectionController@approveLadder','middleware' => 'permission_check=approve_Inspection_form']);
+            $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftLadder','middleware' => 'permission_check=update_Inspection_form']);
+            $router->get('approve/{$id}',['uses' => 'InspectionController@approveLadder','middleware' => 'permission_check=approve_Inspection_form']);
         });
         $router->group(['prefix' => 'h2s','middleware' => 'group_check:Inspection_-_H2S,Inspection_-_H2S_-_SPV'], function () use ($router){
             $router->get('all',['uses' => 'InspectionController@getAllH2s', 'middleware' => 'permission_check=view_Inspection_form']);
-            $router->get('get',['uses' => 'InspectionController@getOneH2s','middleware' => 'permission_check=view_Inspection_form']);
+            $router->get('get/{$id}',['uses' => 'InspectionController@getOneH2s','middleware' => 'permission_check=view_Inspection_form']);
             $router->post('create',['uses' => 'InspectionController@createH2s','middleware' => 'permission_check=create_Inspection_form']);
-            $router->post('save-draft',['uses' => 'InspectionController@saveDraftH2s','middleware' => 'permission_check=update_Inspection_form']);
-            $router->get('approve',['uses' => 'InspectionController@approveH2s','middleware' => 'permission_check=approve_Inspection_form']);
+            $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftH2s','middleware' => 'permission_check=update_Inspection_form']);
+            $router->get('approve/{$id}',['uses' => 'InspectionController@approveH2s','middleware' => 'permission_check=approve_Inspection_form']);
         });
         $router->group(['prefix' => 'fume-hood','middleware' => 'group_check:Inspection_-_Fume_-_Hood,Inspection_-_Fume_Hood_-_SPV'], function () use ($router){
             $router->get('all',['uses' => 'InspectionController@getAllFumeHood', 'middleware' => 'permission_check=view_Inspection_form']);
-            $router->get('get',['uses' => 'InspectionController@getOneFumeHood','middleware' => 'permission_check=view_Inspection_form']);
+            $router->get('get/{$id}',['uses' => 'InspectionController@getOneFumeHood','middleware' => 'permission_check=view_Inspection_form']);
             $router->post('create',['uses' => 'InspectionController@createFumeHood','middleware' => 'permission_check=create_Inspection_form']);
-            $router->post('save-draft',['uses' => 'InspectionController@saveDraftFumeHood','middleware' => 'permission_check=update_Inspection_form']);
-            $router->get('approve',['uses' => 'InspectionController@approveFumeHood','middleware' => 'permission_check=approve_Inspection_form']);
+            $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftFumeHood','middleware' => 'permission_check=update_Inspection_form']);
+            $router->get('approve/{$id}',['uses' => 'InspectionController@approveFumeHood','middleware' => 'permission_check=approve_Inspection_form']);
         });
         $router->group(['prefix' => 'spill-kit','middleware' => 'group_check:Inspection_-_Spill_Kit,Inspection_-_Spill_Kit_-_SPV'], function () use ($router){
             $router->get('all',['uses' => 'InspectionController@getAllSpillKit', 'middleware' => 'permission_check=view_Inspection_form']);
-            $router->get('get',['uses' => 'InspectionController@getOneSpillKit','middleware' => 'permission_check=view_Inspection_form']);
+            $router->get('get/{$id}',['uses' => 'InspectionController@getOneSpillKit','middleware' => 'permission_check=view_Inspection_form']);
             $router->post('create',['uses' => 'InspectionController@createSpillKit','middleware' => 'permission_check=create_Inspection_form']);
-            $router->post('save-draft',['uses' => 'InspectionController@saveDraftSpillKit','middleware' => 'permission_check=update_Inspection_form']);
-            $router->get('approve',['uses' => 'InspectionController@approveSpillKit','middleware' => 'permission_check=approve_Inspection_form']);
+            $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftSpillKit','middleware' => 'permission_check=update_Inspection_form']);
+            $router->get('approve/{$id}',['uses' => 'InspectionController@approveSpillKit','middleware' => 'permission_check=approve_Inspection_form']);
         });
         $router->group(['prefix' => 'safety-harness','middleware' => 'group_check:Inspection_-_Safety_Harness,Inspection_-_Safety_Harness_-_SPV'], function () use ($router){
             $router->get('all',['uses' => 'InspectionController@getAllSafetyHarness', 'middleware' => 'permission_check=view_Inspection_form']);
-            $router->get('get',['uses' => 'InspectionController@getOneSafetyHarness','middleware' => 'permission_check=view_Inspection_form']);
+            $router->get('get/{$id}',['uses' => 'InspectionController@getOneSafetyHarness','middleware' => 'permission_check=view_Inspection_form']);
             $router->post('create',['uses' => 'InspectionController@createSafetyHarness','middleware' => 'permission_check=create_Inspection_form']);
-            $router->post('save-draft',['uses' => 'InspectionController@saveDraftSafetyHarness','middleware' => 'permission_check=update_Inspection_form']);
-            $router->get('approve',['uses' => 'InspectionController@approveSafetyHarness','middleware' => 'permission_check=approve_Inspection_form']);
+            $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftSafetyHarness','middleware' => 'permission_check=update_Inspection_form']);
+            $router->get('approve/{$id}',['uses' => 'InspectionController@approveSafetyHarness','middleware' => 'permission_check=approve_Inspection_form']);
         });
         $router->group(['prefix' => 'scba','middleware' => 'group_check:Inspection_-_SCBA,Inspection_-_SCBA_-_SPV'], function () use ($router){
             $router->get('all',['uses' => 'InspectionController@getAllScba', 'middleware' => 'permission_check=view_Inspection_form']);
-            $router->get('get',['uses' => 'InspectionController@getOneScba','middleware' => 'permission_check=view_Inspection_form']);
+            $router->get('get/{$id}',['uses' => 'InspectionController@getOneScba','middleware' => 'permission_check=view_Inspection_form']);
             $router->post('create',['uses' => 'InspectionController@createScba','middleware' => 'permission_check=create_Inspection_form']);
-            $router->post('save-draft',['uses' => 'InspectionController@saveDraftScba','middleware' => 'permission_check=update_Inspection_form']);
-            $router->get('approve',['uses' => 'InspectionController@approveScba','middleware' => 'permission_check=approve_Inspection_form']);
+            $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftScba','middleware' => 'permission_check=update_Inspection_form']);
+            $router->get('approve/{$id}',['uses' => 'InspectionController@approveScba','middleware' => 'permission_check=approve_Inspection_form']);
         });
         $router->group(['prefix' => 'safety-shower','middleware' => 'group_check:Inspection_-_Safety_Shower,Inspection_-_Safety_Shower_-_SPV'], function () use ($router){
             $router->get('all',['uses' => 'InspectionController@getAllSafetyShower', 'middleware' => 'permission_check=view_Inspection_form']);
-            $router->get('get',['uses' => 'InspectionController@getOneSafetyShower','middleware' => 'permission_check=view_Inspection_form']);
+            $router->get('get/{$id}',['uses' => 'InspectionController@getOneSafetyShower','middleware' => 'permission_check=view_Inspection_form']);
             $router->post('create',['uses' => 'InspectionController@createSafetyShower','middleware' => 'permission_check=create_Inspection_form']);
-            $router->post('save-draft',['uses' => 'InspectionController@saveDraftSafetyShower','middleware' => 'permission_check=update_Inspection_form']);
-            $router->get('approve',['uses' => 'InspectionController@approveSafetyShower','middleware' => 'permission_check=approve_Inspection_form']);
+            $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftSafetyShower','middleware' => 'permission_check=update_Inspection_form']);
+            $router->get('approve/{$id}',['uses' => 'InspectionController@approveSafetyShower','middleware' => 'permission_check=approve_Inspection_form']);
         });
        
     });

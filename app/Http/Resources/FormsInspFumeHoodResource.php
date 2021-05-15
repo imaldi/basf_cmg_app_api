@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\ContentInspFumeHoodResource;
 use App\User;
 use App\Models\MasterLocation;
 
@@ -18,34 +17,42 @@ class FormsInspFumeHoodResource extends JsonResource
      */
     public function toArray($request)
     {
-        $contents = ContentInspFumeHoodResource::where('id_insp_f_hood',$this->id)->get();
+        // $contents = ContentInspFumeHood::where('id_insp_f_hood',$this->id)->get();
         return [
             'id' => $this->id,
-            'id_supervisor' => $this->id_supervisor,
-            'supervisor_name' => User::find($this->id_supervisor),
-            'id_checker' => $this->id_checker,
-            'checker_name' => User::find($this->id_checker),
-            'id_location' => $this->id_location,
-            'location_name' => MasterLocation::find($this->id_location),
-            'brand' => $this->brand,
-            'specification' => $this->specification,
-            'inspection_date' => $this->inspection_date,
-            'upper_condition' => $this->upper_condition,
-            'bottom_condition' => $this->bottom_condition,
-            'fastener_condition' => $this->fastener_condition,
-            'construction_condition' => $this->construction_condition,
-            'stairs_condition' => $this->stairs_condition,
-            'upper_condition_desc' => $this->upper_condition_desc,
-            'bottom_condition_desc' => $this->bottom_condition_desc,
-            'fastener_condition_desc' => $this->fastener_condition_desc,
-            'construction_condition_desc' => $this->construction_condition_desc,
-            'stairs_condition_desc' => $this->stairs_condition_desc,
-            'notes' => $this->notes,
-            'ladder_category' => $this->ladder_category,
-            'supervisor_sign_pict' => $this->supervisor_sign_pict,
-            'checker_sign_pict' => $this->checker_sign_pict,
-            'is_active' => $this->is_active,
-            'contents' => ContentInspLadderResource::collection($contents);
+            'ins_fh_name' => $this->ins_fh_name,
+            'ins_fh_submited_date' => $this->ins_fh_submited_date,
+            'ins_fh_inspector_id' => $this->ins_fh_inspector_id,
+            'ins_fh_inspector_name' => User::find($this->ins_fh_inspector_id),
+            'ins_fh_approved_date' => $this->ins_fh_approved_date,
+            'ins_fh_inspector_spv_id' => $this->ins_fh_inspector_spv_id,
+            'ins_fh_inspector_spv_name' => User::find($this->ins_fh_inspector_spv_id),
+            'ins_fh_QC1_opening_height' => $this->ins_fh_QC1_opening_height,
+            'ins_fh_QC1_a_f_standart' => $this->ins_fh_QC1_a_f_standart,
+            'ins_fh_QC1_a_f_results' => $this->ins_fh_QC1_a_f_results,
+            'ins_fh_QC1_remarks' => $this->ins_fh_QC1_remarks,
+            'ins_fh_QC2_opening_height' => $this->ins_fh_QC2_opening_height,
+            'ins_fh_QC2_a_f_standart' => $this->ins_fh_QC2_a_f_standart,
+            'ins_fh_QC2_a_f_results' => $this->ins_fh_QC2_a_f_results,
+            'ins_fh_QC2_remarks' => $this->ins_fh_QC2_remarks,
+            'ins_fh_QC3_opening_height' => $this->ins_fh_QC3_opening_height,
+            'ins_fh_QC3_a_f_standart' => $this->ins_fh_QC3_a_f_standart,
+            'ins_fh_QC3_a_f_results' => $this->ins_fh_QC3_a_f_results,
+            'ins_fh_QC3_remarks' => $this->ins_fh_QC3_remarks,
+            'ins_fh_QC4_opening_height' => $this->ins_fh_QC4_opening_height,
+            'ins_fh_QC4_a_f_standart' => $this->ins_fh_QC4_a_f_standart,
+            'ins_fh_QC4_a_f_results' => $this->ins_fh_QC4_a_f_results,
+            'ins_fh_QC4_remarks' => $this->ins_fh_QC4_remarks,
+            'ins_fh_QC5_opening_height' => $this->ins_fh_QC5_opening_height,
+            'ins_fh_QC5_a_f_standart' => $this->ins_fh_QC5_a_f_standart,
+            'ins_fh_QC5_a_f_results' => $this->ins_fh_QC5_a_f_results,
+            'ins_fh_QC5_remarks' => $this->ins_fh_QC5_remarks,
+            'ins_fh_status' => $this->ins_fh_status,
+            'ins_fh_is_active' => $this->ins_fh_is_active,
+            // '' => $this->,
+            'ins_created_at' => $this->createdAt,
+            'ins_updated_at' => $this->updatedAt,
+            // 'contents' => ContentInspFumeHoodResource::collection($contents);
         ];
     }
 }

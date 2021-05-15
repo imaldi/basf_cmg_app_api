@@ -20,6 +20,14 @@ use App\Models\FormsInspSafetyHarnest;
 use App\Models\FormsInspSafetyShower;
 use App\Models\FormsInspSCBA;
 use App\Models\FormsInspSpillKit;
+use App\Http\Resources\FormsInspLadderResource;
+use App\Http\Resources\FormsInspH2sConcentResource;
+use App\Http\Resources\FormsInspFumeHoodResource;
+use App\Http\Resources\FormsInspSpillKitResource;
+use App\Http\Resources\FormsInspSafetyHarnestResource;
+use App\Http\Resources\FormsInspSCBAResource;
+use App\Http\Resources\FormsInspSafetyShowerResource;
+
 
 class InspectionController extends Controller
 {
@@ -27,9 +35,9 @@ class InspectionController extends Controller
     public function getAllLadder()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Ladder - SPV') ? 'id_checker' : 'id_inspector';
-        $forms= FormsInspLadder::where('is_active',true)
-            ->where($role,$user->id)->orderBy('form_status')->get();
+        $role = $user->hasRole('Inspection - Ladder - SPV') ? 'ins_la_inspector_id' : 'ins_la_inspector_spv_id';
+        $forms= FormsInspLadder::where('ins_la_is_active',true)
+            ->where($role,$user->id)->orderBy('ins_la_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -41,9 +49,9 @@ class InspectionController extends Controller
     public function getAllH2s()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - H2S - SPV') ? 'id_checker' : 'id_inspector';
-        $forms= FormsInspH2sConcent::where('is_active',true)
-            ->where($role,$user->id)->orderBy('form_status')->get();
+        $role = $user->hasRole('Inspection - H2S - SPV') ? 'ins_h2_inspector_id' : 'ins_h2_inspector_spv_id';
+        $forms= FormsInspH2sConcent::where('ins_h2_is_active',true)
+            ->where($role,$user->id)->orderBy('ins_h2_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -55,9 +63,9 @@ class InspectionController extends Controller
     public function getAllFumeHood()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Fume Hood - SPV') ? 'id_checker' : 'id_inspector';
-        $forms= FormsInspFumeHood::where('is_active',true)
-            ->where($role,$user->id)->orderBy('form_status')->get();
+        $role = $user->hasRole('Inspection - Fume Hood - SPV') ? 'ins_fh_inspector_id' : 'ins_fh_inspector_spv_id';
+        $forms= FormsInspFumeHood::where('ins_fh_is_active',true)
+            ->where($role,$user->id)->orderBy('ins_fh_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -69,9 +77,9 @@ class InspectionController extends Controller
     public function getAllSpillKit()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Spill Kit - SPV') ? 'id_checker' : 'id_inspector';
-        $forms= FormsInspSpillKit::where('is_active',true)
-            ->where($role,$user->id)->orderBy('form_status')->get();
+        $role = $user->hasRole('Inspection - Spill Kit - SPV') ? 'ins_sk_inspector_id' : 'ins_sk_inspector_spv_id';
+        $forms= FormsInspSpillKit::where('ins_sk_is_active',true)
+            ->where($role,$user->id)->orderBy('ins_sk_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -83,9 +91,9 @@ class InspectionController extends Controller
     public function getAllSafetyHarness()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Ladder - SPV') ? 'id_checker' : 'id_inspector';
-        $forms= FormsInspSafetyHarnest::where('is_active',true)
-            ->where('id_checker',$user->id)->orderBy('form_status')->get();
+        $role = $user->hasRole('Inspection - Safety Harness - SPV') ? 'ins_sh_inspector_id' : 'ins_sh_inspector_spv_id';
+        $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',true)
+            ->where($role,$user->id)->orderBy('ins_sh_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -97,9 +105,9 @@ class InspectionController extends Controller
     public function getAllScba()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Ladder - SPV') ? 'id_checker' : 'id_inspector';
-        $forms= FormsInspSCBA::where('is_active',true)
-            ->where('id_checker',$user->id)->orderBy('form_status')->get();
+        $role = $user->hasRole('Inspection - SCBA - SPV') ? 'ins_sc_inspector_id' : 'ins_sc_checker_id';
+        $forms= FormsInspSCBA::where('ins_sc_is_active',true)
+            ->where($role,$user->id)->orderBy('ins_sc_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -127,80 +135,249 @@ class InspectionController extends Controller
 
     public function getOneLadder($id)
     {
-        return "yess";
+        $forms= [FormsInspLadder::find($id)];
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => 
+            FormsInspLadderResource::collection($forms)
+        ]);
     }
 
     public function getOneH2s($id)
     {
-        return "yess";
+        $forms= [FormsInspH2sConcent::find($id)];
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => 
+            FormsInspH2sConcentResource::collection($forms)
+        ]);
     }
     
     public function getOneFumeHood($id)
     {
-        return "yess";
+        $forms= [FormsInspFumeHood::find($id)];
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => 
+            FormsInspFumeHoodResource::collection($forms)
+        ]);
     }
     
     public function getOneSpillKit($id)
     {
-        return "yess";
+        $forms= [FormsInspSpillKit::find($id)];
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => 
+            FormsInspSpillKitResource::collection($forms)
+        ]);
     }
     
     public function getOneSafetyHarness($id)
     {
-        return "yess";
+        $forms= [FormsInspSafetyHarness::find($id)];
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => 
+            FormsInspSafetyHarnessResource::collection($forms)
+        ]);
     }
 
     public function getOneScba($id)
     {
-        return "yess";
+        $forms= [FormsInspSCBA::find($id)];
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => 
+            FormsInspSCBAResource::collection($forms)
+        ]);
     }
 
     public function getOneSafetyShower($id)
     {
-        return "yess";
+        $forms= [FormsInspSafetyShower::find($id)];
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => 
+            FormsInspSafetyShowerResource::collection($forms)
+        ]);
     }
 
     /// Create \\\
 
     public function createLadder(Request $request)
     {
-        return "yess";
+        $form = [FormsInspLadder::create(
+            $request->except([
+                'ins_la_approved_date',
+            ])
+        )->update([
+            'ins_la_inspector_id' => Auth::user()->id,
+            'ins_la_inspector_spv_id' => User::hasRole('Inspection - Ladder - SPV')->first(),
+            'ins_la_status' => 2,
+            'ins_la_submited_date' => Carbon::now()
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Create Data',
+            'data' => 
+            new FormsInspLadderResource($form)
+        ]);
     }
 
     public function createH2s(Request $request)
     {
-        return "yess";
+        $form = [FormsInspH2sConcent::create(
+            $request->except([
+                'ins_h2_approved_date',
+            ])
+        )->update([
+            'ins_h2_inspector_id' => Auth::user()->id,
+            'ins_h2_inspector_spv_id' => User::hasRole('Inspection - H2S - SPV')->first(),
+            'ins_h2_status' => 2,
+            'ins_h2_submited_date' => Carbon::now()
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Create Data',
+            'data' => 
+            new FormsInspH2sConcentResource($form)
+        ]);
     }
     
     public function createFumeHood(Request $request)
     {
-        return "yess";
+        $form = [FormsInspFumeHood::create(
+            $request->except([
+                'ins_fh_approved_date',
+            ])
+        )->update([
+            'ins_fh_inspector_id' => Auth::user()->id,
+            'ins_fh_inspector_spv_id' => User::hasRole('Inspection - Fume Hood - SPV')->first(),
+            'ins_fh_status' => 2,
+            'ins_fh_submited_date' => Carbon::now()
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Create Data',
+            'data' => 
+            new FormsInspFumeHoodResource($form)
+        ]);
     }
     
     public function createSpillKit(Request $request)
     {
-        return "yess";
+        $form = [FormsInspSpillKit::create(
+            $request->except([
+                'ins_sk_approved_date',
+            ])
+        )->update([
+            'ins_sk_inspector_id' => Auth::user()->id,
+            'ins_sk_inspector_spv_id' => User::hasRole('Inspection - Spill Kit - SPV')->first(),
+            'ins_sk_status' => 2,
+            'ins_sk_submited_date' => Carbon::now()
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Create Data',
+            'data' => 
+            new FormsInspSpillKitResource($form)
+        ]);
     }
     
     public function createSafetyHarness(Request $request)
     {
-        return "yess";
+        $form = [FormsInspSafetyHarnest::create(
+            $request->except([
+                'ins_sh_approved_date',
+            ])
+        )->update([
+            'ins_sh_inspector_id' => Auth::user()->id,
+            'ins_sh_inspector_spv_id' => User::hasRole('Inspection - Safety Harness - SPV')->first(),
+            'ins_sh_status' => 2,
+            'ins_sh_submited_date' => Carbon::now()
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Create Data',
+            'data' => 
+            new FormInsSafetyHarnessResource($form)
+        ]);
     }
 
     public function createScba(Request $request)
     {
-        return "yess";
+        $form = [FormsInspSCBA::create(
+            $request->except([
+                'ins_sc_approved_date',
+            ])
+        )->update([
+            'ins_sc_inspector_id' => Auth::user()->id,
+            'ins_sc_inspector_spv_id' => User::hasRole('Inspection - Ladder - SPV')->first(),
+            'ins_sc_status' => 2,
+            'ins_sc_submited_date' => Carbon::now()
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Create Data',
+            'data' => 
+            new FormsInsScbaResource($form)
+        ]);
     }
 
     public function createSafetyShower(Request $request)
     {
-        return "yess";
+        $form = [FormsInspSafetyShower::create(
+            $request->except([
+                'ins_ss_approved_date',
+            ])
+        )->update([
+            'ins_ss_inspector_id' => Auth::user()->id,
+            'ins_ss_inspector_spv_id' => User::hasRole('Inspection - Safety Shower - SPV')->first(),
+            'ins_ss_status' => 2,
+            'ins_ss_submited_date' => Carbon::now()
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Create Data',
+            'data' => 
+            new FormInsSafetyShowerResource($form)
+        ]);
     }
 
     /// Save Draft \\\
-    public function saveDraftLadder(Request $request)
+    public function saveDraftLadder(Request $request,$id)
     {
-        return "yess";
+        $form = [FormsInspLadder::firstOrCreate(['id' => $id])->update(
+            $request->except([
+                'ins_la_inspector_id',
+                'ins_la_inspector_spv_id',
+                'ins_la_approved_date',
+            ])
+        )->update([
+            'ins_la_status' => 1
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspLadderResource($form)
+        ]);
     }
 
     public function saveDraftH2s(Request $request)
@@ -237,7 +414,17 @@ class InspectionController extends Controller
 
     public function approveLadder($id)
     {
-        return "yess";
+        $form = [FormsInspLadder::find($id)->update([
+            'ins_la_status' => 3,
+            'ins_la_approved_date' => Carbon::now(),
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspLadderResource($form)
+        ]);
     }
 
     public function approveH2s($id)

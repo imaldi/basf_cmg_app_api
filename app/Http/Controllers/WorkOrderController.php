@@ -8,6 +8,7 @@ use App\Models\MEmployeeGroup;
 use App\Models\MasterLocation;
 use App\Http\Resources\FormWorkOrderResource;
 use App\Http\Resources\EmployeeGroupResource;
+use App\Http\Resources\LocationsResource;
 use App\Http\Resources\EmployeeResource;
 use Auth;
 use App\User;
@@ -616,10 +617,11 @@ class WorkOrderController extends Controller
                     );
 
                     if($request->input('wo_pic_attachment')){
+                        $fileExtension = $request->input('file_extension');
                         $decodedDocs = base64_decode($request->input('wo_pic_attachment'));
-                        $name = time().'work-order'.$fileNameFinal;
+                        $name = time().'Basf-work-order'.$fileNameFinal;
                         // $decodedDocs->move('uploads/work_order/file',$name);
-                        file_put_contents('uploads/work_order/file/'.$name.'.pdf', $decodedDocs);
+                        file_put_contents('uploads/work_order/file/'.$name.''.$fileExtension, $decodedDocs);
                         $formWorkOrder->update(
                             [
                                 'wo_pic_attachment' => $name,
@@ -684,7 +686,7 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Locations', 
-            'data' => MasterLocation::all()
+            'data' => LocationsResource::collection(MasterLocation::all())
         ], 200);
     }
 

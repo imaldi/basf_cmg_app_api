@@ -18,7 +18,6 @@ class FormsInspLadderResource extends JsonResource
      */
     public function toArray($request)
     {
-        $contents = ContentInspLadderResource::where('id_insp_h2s_cnct',$this->id);
         return [
             'id' => $this->id,
             'ins_la_name' => $this->ins_la_name,
@@ -42,14 +41,10 @@ class FormsInspLadderResource extends JsonResource
             'ins_la_inspector_spv_name' => User::find($this->ins_la_inspector_spv_id)->emp_name,
             'ins_la_approved_date' => $this->ins_la_approved_date,
             'ins_la_status' => $this->ins_la_status,
-            'ins_la_status_detil' => FormsInspLadder::getInspLadderStatusDetail($this->ins_la_status),
+            'ins_la_status_detail' => FormsInspLadder::getStatusDetail($this->ins_la_status),
             'ins_la_is_active' => $this->ins_la_is_active,
             'ins_created_at' => $this->createdAt,
-            'ins_updated_at' => $this->updatedAt,
-            '' => $this->,
-
-            
-            'contents' => ContentInspLadderResource::collection($contents);
+            'ins_updated_at' => $this->updatedAt,            
         ];
     }
 }
