@@ -277,6 +277,12 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
        
     });
 
+    $router->group(['prefix' => 'form5s'], function () use ($router){
+        $router->get('all',['uses' => 'InspectionController@getAllLadder', 'middleware' => 'permission_check=view_Inspection_form']);
+        $router->get('location-pics/{id}',['uses' => 'Form5sesController@getAllLocationsOfDepartment']);
+
+    });
+
     ///// Others
     $router->post('create-response-work-order', 'EmployeeController@createFormsResponseWorkOrder');
     $router->post('approve-form-safety-harnest', 'EmployeeController@approveFormSafetyHarnest');

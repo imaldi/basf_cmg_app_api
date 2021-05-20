@@ -382,32 +382,142 @@ class InspectionController extends Controller
 
     public function saveDraftH2s(Request $request)
     {
-        return "yess";
+        $form = [FormsInspH2sConcent::firstOrCreate(['id' => $id])->update(
+            $request->except([
+                'ins_h2_inspector_id',
+                'ins_h2_inspector_spv_id',
+                'ins_h2_approved_date',
+            ])
+        )->update([
+            'ins_h2_status' => 1
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspH2sConcent($form)
+        ]);
     }
     
     public function saveDraftFumeHood(Request $request)
     {
-        return "yess";
+        $form = [FormsInspFumeHood::firstOrCreate(['id' => $id])->update(
+            $request->except([
+                'ins_fh_inspector_id',
+                'ins_fh_inspector_spv_id',
+                'ins_fh_approved_date',
+            ])
+        )->update([
+            'ins_fh_status' => 1
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspFumeHoodResource($form)
+        ]);
     }
     
     public function saveDraftSpillKit(Request $request)
     {
-        return "yess";
+        $form = [FormsInspLadder::firstOrCreate(['id' => $id])->update(
+            $request->except([
+                'ins_sk_inspector_id',
+                'ins_sk_inspector_spv_id',
+                'ins_sk_approved_date',
+            ])
+        )->update([
+            'ins_sk_status' => 1
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspLadderResource($form)
+        ]);
     }
     
     public function saveDraftSafetyHarness(Request $request)
     {
-        return "yess";
+        $form = [FormsInspSafetyHarness::firstOrCreate(['id' => $id])->update(
+            $request->except([
+                'ins_sh_inspector_id',
+                'ins_sh_inspector_spv_id',
+                'ins_sh_approved_date',
+            ])
+        )->update([
+            'ins_sh_status' => 1
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspSafetyHarnessResource($form)
+        ]);
     }
 
     public function saveDraftScba(Request $request)
     {
-        return "yess";
+        $form = [FormsInspSCBA::firstOrCreate(['id' => $id])->update(
+            $request->except([
+                'ins_sc_inspector_id',
+                'ins_sc_inspector_spv_id',
+                'ins_sc_approved_date',
+            ])
+        )->update([
+            'ins_sc_status' => 1
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInsScbaResource($form)
+        ]);
     }
 
     public function saveDraftSafetyShower(Request $request)
     {
-        return "yess";
+        $form = [FormsInspSafetyShower::firstOrCreate(['id' => $id])->update(
+            $request->except([
+                'ins_sh_inspector_id',
+                'ins_sh_inspector_spv_id',
+                'ins_sh_approved_date',
+            ])
+        )->update([
+            'ins_sh_status' => 1
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspSafetyShowerResource($form)
+        ]);
+    }
+
+    public function saveDraftScba(Request $request)
+    {
+        $form = [FormsInspSCBA::firstOrCreate(['id' => $id])->update(
+            $request->except([
+                'ins_sc_inspector_id',
+                'ins_sc_inspector_spv_id',
+                'ins_sc_approved_date',
+            ])
+        )->update([
+            'ins_sc_status' => 1
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInsScbaResource($form)
+        ]);  
     }
 
     /// Approve \\\
@@ -429,31 +539,91 @@ class InspectionController extends Controller
 
     public function approveH2s($id)
     {
-        return "yess";
+        $form = [FormsInspH2sConcent::find($id)->update([
+            'ins_h2_status' => 3,
+            'ins_h2_approved_date' => Carbon::now(),
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspH2sConcentResource($form)
+        ]);
     }
     
     public function approveFumeHood($id)
     {
-        return "yess";
+        $form = [FormsInspFumeHood::find($id)->update([
+            'ins_fh_status' => 3,
+            'ins_fh_approved_date' => Carbon::now(),
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspFumeHoodResource($form)
+        ]);
     }
     
     public function approveSpillKit($id)
     {
-        return "yess";
+        $form = [FormsInspLadder::find($id)->update([
+            'ins_sk_status' => 3,
+            'ins_sk_approved_date' => Carbon::now(),
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspSpillKitResource($form)
+        ]);
     }
     
     public function approveSafetyHarness($id)
     {
-        return "yess";
+        $form = [FormsInspSafetyHarness::find($id)->update([
+            'ins_sh_status' => 3,
+            'ins_sh_approved_date' => Carbon::now(),
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspSafetyHarnessResource($form)
+        ]);
     }
 
     public function approveScba($id)
     {
-        return "yess";
+        $form = [FormsInspSCBA::find($id)->update([
+            'ins_sc_status' => 3,
+            'ins_sc_approved_date' => Carbon::now(),
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInsScbaResource($form)
+        ]);
     }
 
     public function approveSafetyShower($id)
     {
-        return "yess";
+        $form = [FormsInspSafetyShower::find($id)->update([
+            'ins_ss_status' => 3,
+            'ins_ss_approved_date' => Carbon::now(),
+        ])];
+
+        return return response()->json([
+            'code' => 200,
+            'message' => 'Success Save Draft',
+            'data' => 
+            new FormsInspSafetyShowerResource($form)
+        ]);
     }
 }

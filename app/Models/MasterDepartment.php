@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Models\MasterLocation;
 class MasterDepartment extends Model
 {
 	protected $table = 'm_departments';
@@ -10,6 +11,10 @@ class MasterDepartment extends Model
 
 	public function users(){
 		return $this->hasMany(User::class,'emp_employee_department_id');
+	}
+
+	public function areas(){
+		return $this->hasMany(MasterLocation::class,'loc_department_id');
 	}
 
 	// public function location(){

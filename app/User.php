@@ -79,6 +79,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsTo(MasterDepartment::class, 'emp_employee_department_id');
     }
 
+    public function locationAs5sPic(){
+        // ->role('Form 5s - PIC')->get()->where('id',$this->id)->first()
+		return $this->belongsToMany('App\Models\MasterLocation', 'form_5s_masters', 'id', 'id');
+	}
+
 	// public function group(){
 	// 	return $this->belongsTo(MEmployeeGroup::class, 'emp_employee_group_id');
 	// }

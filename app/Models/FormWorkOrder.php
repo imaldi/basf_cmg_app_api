@@ -37,7 +37,8 @@ class FormWorkOrder extends Model
 		'wo_pic_attachment',
 		'wo_pic_image',
 		'wo_pic_start_time',
-		'wo_pic_finish_time'
+		'wo_pic_finish_time',
+		'wo_pic_team'
 		// 'wo_date_pic_plan',
 	];
 
@@ -46,19 +47,19 @@ class FormWorkOrder extends Model
 	}
 
 	public function issuerSPV(){
-		return $this->belongsTo(Employees::class, 'wo_spv_issuer_id');
+		return $this->belongsTo(User::class, 'wo_spv_issuer_id');
 	}
 
 	public function planner(){
-		return $this->belongsTo(Employees::class, 'wo_planner_id');
+		return $this->belongsTo(User::class, 'wo_planner_id');
 	}
 
 	public function pic(){
-		return $this->belongsTo(Employees::class, 'wo_pic_id');
+		return $this->belongsTo(User::class, 'wo_pic_id');
 	}
 
 	public function picSPV(){
-		return $this->belongsTo(Employees::class, 'wo_spv_pic_id');
+		return $this->belongsTo(User::class, 'wo_spv_pic_id');
 	}
 
 	public static function recommendedDays(int $emergency, int $ranking_cust, int $equipment_criteria){

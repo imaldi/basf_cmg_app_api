@@ -559,6 +559,7 @@ class WorkOrderController extends Controller
             $formWorkOrder->update([
                 'wo_date_pic_plan' => $date,
                 'wo_form_status' => 7,
+                'wo_pic_team' => $request->input('wo_pic_team'),
                 'wo_pic_action_plan' => $request->input('wo_pic_action_plan'),
             ]);
 
