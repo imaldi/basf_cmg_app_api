@@ -46,7 +46,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 		'emp_birth_date',
 		'emp_phone_number',
 		'emp_is_spv',
-		'emp_employee_group_id',
 		'emp_employee_department_id',
 		'password'
 	];

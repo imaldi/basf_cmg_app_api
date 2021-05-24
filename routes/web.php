@@ -283,6 +283,12 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
     });
 
+    $router->group(['prefix' => 'attendance'], function () use ($router){
+        $router->post('array',['uses' => 'AttendanceController@testFromArrayStringToPHPArray']);
+        $router->post('create-attendance-event',['uses' => 'AttendanceController@createEventAttandance']);
+
+    });
+
     ///// Others
     $router->post('create-response-work-order', 'EmployeeController@createFormsResponseWorkOrder');
     $router->post('approve-form-safety-harnest', 'EmployeeController@approveFormSafetyHarnest');

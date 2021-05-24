@@ -29,7 +29,7 @@ class Form5sMasterResource extends JsonResource
         $PICs = User::whereIn('id',$PICIds)->get();
         return [
             'department_id' => $this->form_5s_m_dept_id,
-            'department_name' => MasterDepartment::find($this->form_5s_m_dept_id);
+            'department_name' => MasterDepartment::find($this->form_5s_m_dept_id),
             'location_id' => $this->form_5s_m_area_id,
             'location_name' => MasterLocation::find($this->form_5s_m_area_id),
             'pic' => $PICs,

@@ -77,7 +77,7 @@ class WorkOrderController extends Controller
                 $name = time().$request->file('wo_image')->getClientOriginalName();
                 $request->file('wo_image')->move('uploads/work_order',$name);
                 $formWorkOrder = FormWorkOrder::create([
-                    'wo_name' => 'GU/F/'.$formIDFormatted.'-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
+                    'wo_name' => 'GS/F/3002-4/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
                     'wo_issuer_id' => $employee->id,
                     'wo_spv_issuer_id' => 
                     $wo_issuer_spv_id,
@@ -169,29 +169,15 @@ class WorkOrderController extends Controller
                 'wo_image' => 'file'
             ]);
             
-            $date = Carbon::now()
-            // ->format('Y-m-d H:i:s')
-            ;
+            $date = Carbon::now();
             $date->toDateTimeString();
             $emergency = (int)$request->input('wo_c_emergency');
             $ranking_cust = (int)$request->input('wo_c_ranking_cust');
             $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
             $recommendedDays = FormWorkOrder::recommendedDays($emergency,$ranking_cust,$equipment_criteria);
             
-            // recommendedDays($emergency,$equipment_criteria,$equipment_criteria);
             $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
-            // $department = $employee->department()->first();
-            // $departmentId = $employee->emp_employee_department_id;
-            //Ini saring berdasarkan group(role)
-            // $departmentAbr = substr(strtoupper($department->dept_name),0,3);
-            // $formStatus = (int)$request->input('wo_form_status');
-            // $emergency = (int)$request->input('wo_c_emergency');
-            // $ranking_cust = (int)$request->input('wo_c_ranking_cust');
-            // $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
-            
-            // $recommendedDays = recommendedDays($emergency,$equipment_criteria,$equipment_criteria);
-            // $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
-                try{
+            try{
                     $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
                     if($request->file('wo_image')){
                         $name = time().$request->file('wo_image')->getClientOriginalName();
@@ -248,13 +234,6 @@ class WorkOrderController extends Controller
             ->where('wo_issuer_id',$user->id)->orderBy($request->query('orderBy'))->get();
             // ->orderBy("wo_form_status")->get()
             ;
-            // if($request->input('orderBy') == 1){
-            //     $formWorkOrder = 
-            // } else if ($request->input('orderBy') == 2 ){
-            //     $formWorkOrder = $formWorkOrder->orderBy("wo_date_issuer_submit")->get();
-            // } else {
-            //     $formWorkOrder = $formWorkOrder->orderBy("id")->get();
-            // }
 
             
 
@@ -272,10 +251,7 @@ class WorkOrderController extends Controller
     public function viewListWorkOrderAsIssuerSPV(Request $request)
     {
         $user = Auth::user();
-        // $isDesc = $request->query('isDesc');
-        // $isDescOrderByParam = $isDesc ? "desc" : "asc"; 
-        // $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        
+
         $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[1,2,9]);
         if($request->query('orderBy') == 'wo_form_status'){
             $forms = $forms->orderBy($request->query('orderBy'),'desc')->get();
@@ -283,10 +259,6 @@ class WorkOrderController extends Controller
             $forms = $forms->orderBy($request->query('orderBy'))->get();
         }
         
-        // $groupUser->workOrderFormsOfSpv()->where('wo_is_open', 1)->where('wo_form_status',2)
-        // ->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
-        //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data', 

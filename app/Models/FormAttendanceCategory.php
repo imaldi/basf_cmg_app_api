@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Form5ses extends Model
+class FormAttendanceCategory extends Model
 {
-    protected $table = 'form_5ses';
+    protected $table = 'form_attendance_category';
 
     protected $guarded = [];
 }
