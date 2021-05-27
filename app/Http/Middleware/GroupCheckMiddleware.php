@@ -19,21 +19,32 @@ class GroupCheckMiddleware
     // public function handle($request, Closure $next, $group)
     {
         $user = Auth::user();
-        
+
 
         if(!$user->hasRole('Super Admin')) {
-            
+            // if($user->hasAnyRole($groups)){
+            //     // dd(count($groups));
+            //     // return redirect('api/work-order/get-all/'.$request->route('groupId'));
+            //     return $next($request);
+            // } else {
+            //     return redirect('failMiddleware/'.$groups[0]);
+            // //     continue;
+            // }
             foreach($groups as $group) {
-                $groupExplode = explode('_',$group);
-                $groupFinal = implode(' ', $groupExplode);
+                // $groupExplode = explode('_',$group);
+                // $groupFinal = implode(' ', $groupExplode);
                 // Check if user has the role This check will depend on how your roles are set up
-                if($user->hasRole($groupFinal)){
+                if($user->hasRole($group)){
                     // dd(count($groups));
                     // return redirect('api/work-order/get-all/'.$request->route('groupId'));
                     return $next($request);
                 }
-            }    
-        } 
+                else {
+                    return redirect('failMiddleware/'.$group);
+                //     continue;
+                }
+            }
+        }
         // else {
         //     if($user->emp_employee_group_id == 2) {
         //         return $next($request);
@@ -42,7 +53,7 @@ class GroupCheckMiddleware
         //     } else  {
         //         return redirect('/');
         //     }
-            
+
         // }
 
         // return redirect('login');

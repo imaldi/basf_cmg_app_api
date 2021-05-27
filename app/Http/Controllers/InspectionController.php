@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -41,7 +41,7 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
-            'data' => 
+            'data' =>
             FormsInspLadderResource::collection($forms)
         ]);
     }
@@ -55,11 +55,11 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
-            'data' => 
+            'data' =>
             FormsInspH2sConcentResource::collection($forms)
         ]);
     }
-    
+
     public function getAllFumeHood()
     {
         $user = Auth::user();
@@ -69,11 +69,11 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
-            'data' => 
+            'data' =>
             FormsInspFumeHoodResource::collection($forms)
         ]);
     }
-    
+
     public function getAllSpillKit()
     {
         $user = Auth::user();
@@ -83,11 +83,11 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
-            'data' => 
+            'data' =>
             FormsInspSpillKitResource::collection($forms)
         ]);
     }
-    
+
     public function getAllSafetyHarness()
     {
         $user = Auth::user();
@@ -97,7 +97,7 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
-            'data' => 
+            'data' =>
             FormsInspSafetyHarnestResource::collection($forms)
         ]);
     }
@@ -111,7 +111,7 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
-            'data' => 
+            'data' =>
             FormsInspSCBAResource::collection($forms)
         ]);
     }
@@ -125,7 +125,7 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
-            'data' => 
+            'data' =>
             FormsInspSafetyShowerResource::collection($forms)
         ]);
     }
@@ -139,7 +139,7 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
-            'data' => 
+            'data' =>
             FormsInspLadderResource::collection($forms)
         ]);
     }
@@ -150,40 +150,40 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
-            'data' => 
+            'data' =>
             FormsInspH2sConcentResource::collection($forms)
         ]);
     }
-    
+
     public function getOneFumeHood($id)
     {
         $forms= [FormsInspFumeHood::find($id)];
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
-            'data' => 
+            'data' =>
             FormsInspFumeHoodResource::collection($forms)
         ]);
     }
-    
+
     public function getOneSpillKit($id)
     {
         $forms= [FormsInspSpillKit::find($id)];
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
-            'data' => 
+            'data' =>
             FormsInspSpillKitResource::collection($forms)
         ]);
     }
-    
+
     public function getOneSafetyHarness($id)
     {
         $forms= [FormsInspSafetyHarness::find($id)];
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
-            'data' => 
+            'data' =>
             FormsInspSafetyHarnessResource::collection($forms)
         ]);
     }
@@ -194,7 +194,7 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
-            'data' => 
+            'data' =>
             FormsInspSCBAResource::collection($forms)
         ]);
     }
@@ -205,7 +205,7 @@ class InspectionController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
-            'data' => 
+            'data' =>
             FormsInspSafetyShowerResource::collection($forms)
         ]);
     }
@@ -214,155 +214,243 @@ class InspectionController extends Controller
 
     public function createLadder(Request $request)
     {
-        $form = [FormsInspLadder::create(
+
+        $employee = Auth::user();
+
+        $date = Carbon::now();
+        $date->toDateTimeString();
+        $department = $employee->department()->first();
+        $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+
+        $formID = FormsInspLadder::max('id') + 1;
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+        $form = FormsInspLadder::create(
             $request->except([
+                'ins_la_name',
                 'ins_la_approved_date',
             ])
-        )->update([
+            );
+        $form->update([
             'ins_la_inspector_id' => Auth::user()->id,
-            'ins_la_inspector_spv_id' => User::hasRole('Inspection - Ladder - SPV')->first(),
-            'ins_la_status' => 2,
+            'ins_la_inspector_spv_id' => User::role('Inspection - Ladder - SPV')->first()->id,
+            // 'ins_la_status' => 2,
+            'ins_la_name' => 'GS-F-5003-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
             'ins_la_submited_date' => Carbon::now()
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => 
-            new FormsInspLadderResource($form)
+            'data' =>
+            // $form
+            [new FormsInspLadderResource($form)]
         ]);
     }
 
     public function createH2s(Request $request)
     {
-        $form = [FormsInspH2sConcent::create(
+        $employee = Auth::user();
+
+        $date = Carbon::now();
+        $date->toDateTimeString();
+        $department = $employee->department()->first();
+        $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+
+        $formID = FormsInspH2sConcent::max('id') + 1;
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+        $form = FormsInspH2sConcent::create(
             $request->except([
                 'ins_h2_approved_date',
             ])
-        )->update([
+            );
+        $form->update([
             'ins_h2_inspector_id' => Auth::user()->id,
-            'ins_h2_inspector_spv_id' => User::hasRole('Inspection - H2S - SPV')->first(),
+            'ins_h2_inspector_spv_id' => User::role('Inspection - H2S - SPV')->first()->id,
             'ins_h2_status' => 2,
-            'ins_h2_submited_date' => Carbon::now()
-        ])];
+            'ins_h2_submited_date' => Carbon::now(),
+            'ins_h2_name' => 'GS-F-5002-4/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => 
-            new FormsInspH2sConcentResource($form)
+            'data' =>
+            [new FormsInspH2sConcentResource($form)]
         ]);
     }
-    
+
     public function createFumeHood(Request $request)
     {
-        $form = [FormsInspFumeHood::create(
+        $employee = Auth::user();
+
+        $date = Carbon::now();
+        $date->toDateTimeString();
+        $department = $employee->department()->first();
+        $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+
+        $formID = FormsInspFumeHood::max('id') + 1;
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+        $form = FormsInspFumeHood::create(
             $request->except([
+                'ins_fh_name',
                 'ins_fh_approved_date',
             ])
-        )->update([
-            'ins_fh_inspector_id' => Auth::user()->id,
-            'ins_fh_inspector_spv_id' => User::hasRole('Inspection - Fume Hood - SPV')->first(),
+        );
+        $form->update([
+            'ins_fh_inspector_id' =>  $employee->id,
+            'ins_fh_inspector_spv_id' => User::role('Inspection - Fume Hood - SPV')->first()->id,
             'ins_fh_status' => 2,
-            'ins_fh_submited_date' => Carbon::now()
-        ])];
+            'ins_fh_submited_date' => Carbon::now(),
+            'ins_fh_is_active' => 1,
+            'ins_fh_name' => 'GS-F-5001-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => 
-            new FormsInspFumeHoodResource($form)
+            'data' =>
+           [new FormsInspFumeHoodResource($form)]
         ]);
     }
-    
+
     public function createSpillKit(Request $request)
     {
-        $form = [FormsInspSpillKit::create(
+        $employee = Auth::user();
+
+        $date = Carbon::now();
+        $date->toDateTimeString();
+        $department = $employee->department()->first();
+        $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+
+        $formID = FormsInspSpillKit::max('id') + 1;
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+        $form = FormsInspSpillKit::create(
             $request->except([
                 'ins_sk_approved_date',
             ])
-        )->update([
+        );
+        $form->update([
             'ins_sk_inspector_id' => Auth::user()->id,
-            'ins_sk_inspector_spv_id' => User::hasRole('Inspection - Spill Kit - SPV')->first(),
+            'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->first()->id,
             'ins_sk_status' => 2,
-            'ins_sk_submited_date' => Carbon::now()
-        ])];
+            'ins_sk_submited_date' => Carbon::now(),
+            'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => 
-            new FormsInspSpillKitResource($form)
+            'data' =>
+           [new FormsInspSpillKitResource($form)]
         ]);
     }
-    
+
     public function createSafetyHarness(Request $request)
     {
-        $form = [FormsInspSafetyHarnest::create(
+        $employee = Auth::user();
+
+        $date = Carbon::now();
+        $date->toDateTimeString();
+        $department = $employee->department()->first();
+        $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+
+        $formID = FormsInspSafetyHarnest::max('id') + 1;
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+        $form = FormsInspSafetyHarnest::create(
             $request->except([
                 'ins_sh_approved_date',
             ])
-        )->update([
+        );
+        $form->update([
             'ins_sh_inspector_id' => Auth::user()->id,
-            'ins_sh_inspector_spv_id' => User::hasRole('Inspection - Safety Harness - SPV')->first(),
+            'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->first()->id,
             'ins_sh_status' => 2,
-            'ins_sh_submited_date' => Carbon::now()
-        ])];
+            'ins_sh_submited_date' => Carbon::now(),
+            'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => 
-            new FormInsSafetyHarnessResource($form)
+            'data' =>
+           [new FormInsSafetyHarnessResource($form)]
         ]);
     }
 
     public function createScba(Request $request)
     {
-        $form = [FormsInspSCBA::create(
+        $employee = Auth::user();
+
+        $date = Carbon::now();
+        $date->toDateTimeString();
+        $department = $employee->department()->first();
+        $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+
+        $formID = FormsInspSCBA::max('id') + 1;
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+        $form = FormsInspSCBA::create(
             $request->except([
                 'ins_sc_approved_date',
             ])
-        )->update([
+        );
+        $form->update([
             'ins_sc_inspector_id' => Auth::user()->id,
-            'ins_sc_inspector_spv_id' => User::hasRole('Inspection - Ladder - SPV')->first(),
+            'ins_sc_inspector_spv_id' => User::role('Inspection - SCBA - SPV')->first()->id,
             'ins_sc_status' => 2,
             'ins_sc_submited_date' => Carbon::now()
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => 
-            new FormsInsScbaResource($form)
+            'data' =>
+           [new FormsInsScbaResource($form)]
         ]);
     }
 
     public function createSafetyShower(Request $request)
     {
-        $form = [FormsInspSafetyShower::create(
+        $employee = Auth::user();
+
+        $date = Carbon::now();
+        $date->toDateTimeString();
+        $department = $employee->department()->first();
+        $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+
+        $formID = FormsInspSafetyShower::max('id') + 1;
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+        $form = FormsInspSafetyShower::create(
             $request->except([
                 'ins_ss_approved_date',
             ])
-        )->update([
+        );
+        $form->update([
             'ins_ss_inspector_id' => Auth::user()->id,
-            'ins_ss_inspector_spv_id' => User::hasRole('Inspection - Safety Shower - SPV')->first(),
+            'ins_ss_inspector_spv_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
             'ins_ss_status' => 2,
             'ins_ss_submited_date' => Carbon::now()
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => 
-            new FormInsSafetyShowerResource($form)
+            'data' =>
+           [new FormInsSafetyShowerResource($form)]
         ]);
     }
 
     /// Save Draft \\\
     public function saveDraftLadder(Request $request,$id)
     {
-        $form = [FormsInspLadder::firstOrCreate(['id' => $id])->update(
+        $form = FormsInspLadder::firstOrFail(['id' => $id]);
+        $form->update(
             $request->except([
                 'ins_la_inspector_id',
                 'ins_la_inspector_spv_id',
@@ -370,19 +458,20 @@ class InspectionController extends Controller
             ])
         )->update([
             'ins_la_status' => 1
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspLadderResource($form)
+            'data' =>
+           [new FormsInspLadderResource($form)]
         ]);
     }
 
     public function saveDraftH2s(Request $request)
     {
-        $form = [FormsInspH2sConcent::firstOrCreate(['id' => $id])->update(
+        $form = FormsInspH2sConcent::firstOrFail(['id' => $id]);
+        $form->update(
             $request->except([
                 'ins_h2_inspector_id',
                 'ins_h2_inspector_spv_id',
@@ -390,19 +479,20 @@ class InspectionController extends Controller
             ])
         )->update([
             'ins_h2_status' => 1
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspH2sConcent($form)
+            'data' =>
+           [new FormsInspH2sConcent($form)]
         ]);
     }
-    
+
     public function saveDraftFumeHood(Request $request)
     {
-        $form = [FormsInspFumeHood::firstOrCreate(['id' => $id])->update(
+        $form = FormsInspFumeHood::firstOrFail(['id' => $id]);
+        $form->update(
             $request->except([
                 'ins_fh_inspector_id',
                 'ins_fh_inspector_spv_id',
@@ -410,19 +500,20 @@ class InspectionController extends Controller
             ])
         )->update([
             'ins_fh_status' => 1
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspFumeHoodResource($form)
+            'data' =>
+           [new FormsInspFumeHoodResource($form)]
         ]);
     }
-    
+
     public function saveDraftSpillKit(Request $request)
     {
-        $form = [FormsInspLadder::firstOrCreate(['id' => $id])->update(
+        $form = FormsInspLadder::firstOrFail(['id' => $id]);
+        $form->update(
             $request->except([
                 'ins_sk_inspector_id',
                 'ins_sk_inspector_spv_id',
@@ -430,19 +521,20 @@ class InspectionController extends Controller
             ])
         )->update([
             'ins_sk_status' => 1
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspLadderResource($form)
+            'data' =>
+            [new FormsInspLadderResource($form)]
         ]);
     }
-    
+
     public function saveDraftSafetyHarness(Request $request)
     {
-        $form = [FormsInspSafetyHarness::firstOrCreate(['id' => $id])->update(
+        $form = FormsInspSafetyHarness::firstOrFail(['id' => $id]);
+        $form->update(
             $request->except([
                 'ins_sh_inspector_id',
                 'ins_sh_inspector_spv_id',
@@ -450,19 +542,20 @@ class InspectionController extends Controller
             ])
         )->update([
             'ins_sh_status' => 1
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspSafetyHarnessResource($form)
+            'data' =>
+            [new FormsInspSafetyHarnessResource($form)]
         ]);
     }
 
     public function saveDraftScba(Request $request)
     {
-        $form = [FormsInspSCBA::firstOrCreate(['id' => $id])->update(
+        $form = FormsInspSCBA::firstOrFail(['id' => $id]);
+        $form->update(
             $request->except([
                 'ins_sc_inspector_id',
                 'ins_sc_inspector_spv_id',
@@ -470,19 +563,20 @@ class InspectionController extends Controller
             ])
         )->update([
             'ins_sc_status' => 1
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInsScbaResource($form)
+            'data' =>
+            [new FormsInsScbaResource($form)]
         ]);
     }
 
     public function saveDraftSafetyShower(Request $request)
     {
-        $form = [FormsInspSafetyShower::firstOrCreate(['id' => $id])->update(
+        $form = FormsInspSafetyShower::firstOrFail(['id' => $id]);
+        $form->update(
             $request->except([
                 'ins_sh_inspector_id',
                 'ins_sh_inspector_spv_id',
@@ -490,140 +584,147 @@ class InspectionController extends Controller
             ])
         )->update([
             'ins_sh_status' => 1
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspSafetyShowerResource($form)
+            'data' =>
+            [new FormsInspSafetyShowerResource($form)]
         ]);
     }
 
-    public function saveDraftScba(Request $request)
-    {
-        $form = [FormsInspSCBA::firstOrCreate(['id' => $id])->update(
-            $request->except([
-                'ins_sc_inspector_id',
-                'ins_sc_inspector_spv_id',
-                'ins_sc_approved_date',
-            ])
-        )->update([
-            'ins_sc_status' => 1
-        ])];
+    // public function saveDraftScba(Request $request)
+    // {
+    //     $form = FormsInspSCBA::firstOrFail(['id' => $id])->update(
+    //         $request->except([
+    //             'ins_sc_inspector_id',
+    //             'ins_sc_inspector_spv_id',
+    //             'ins_sc_approved_date',
+    //         ])
+    //     )->update([
+    //         'ins_sc_status' => 1
+    //     ]);
 
-        return return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInsScbaResource($form)
-        ]);  
-    }
+    //     return response()->json([
+    //         'code' => 200,
+    //         'message' => 'Success Save Draft',
+    //         'data' =>
+    //        [new FormsInsScbaResource($form)
+    //     ]);
+    // }
 
     /// Approve \\\
 
     public function approveLadder($id)
     {
-        $form = [FormsInspLadder::find($id)->update([
+        $form = FormsInspLadder::find($id);
+        $form->update([
             'ins_la_status' => 3,
             'ins_la_approved_date' => Carbon::now(),
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspLadderResource($form)
+            'data' =>
+            [new FormsInspLadderResource($form)]
         ]);
     }
 
     public function approveH2s($id)
     {
-        $form = [FormsInspH2sConcent::find($id)->update([
+        $form = FormsInspH2sConcent::find($id);
+        $form->update([
             'ins_h2_status' => 3,
             'ins_h2_approved_date' => Carbon::now(),
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspH2sConcentResource($form)
+            'data' =>
+            [new FormsInspH2sConcentResource($form)]
         ]);
     }
-    
+
     public function approveFumeHood($id)
     {
-        $form = [FormsInspFumeHood::find($id)->update([
+        $form = FormsInspFumeHood::find($id);
+        $form->update([
             'ins_fh_status' => 3,
             'ins_fh_approved_date' => Carbon::now(),
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspFumeHoodResource($form)
+            'data' =>
+            [new FormsInspFumeHoodResource($form)]
         ]);
     }
-    
+
     public function approveSpillKit($id)
     {
-        $form = [FormsInspLadder::find($id)->update([
+        $form = FormsInspLadder::find($id);
+        $form->update([
             'ins_sk_status' => 3,
             'ins_sk_approved_date' => Carbon::now(),
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspSpillKitResource($form)
+            'data' =>
+            [new FormsInspSpillKitResource($form)]
         ]);
     }
-    
+
     public function approveSafetyHarness($id)
     {
-        $form = [FormsInspSafetyHarness::find($id)->update([
+        $form = FormsInspSafetyHarness::find($id);
+        $form->update([
             'ins_sh_status' => 3,
             'ins_sh_approved_date' => Carbon::now(),
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspSafetyHarnessResource($form)
+            'data' =>
+            [new FormsInspSafetyHarnessResource($form)]
         ]);
     }
 
     public function approveScba($id)
     {
-        $form = [FormsInspSCBA::find($id)->update([
+        $form = FormsInspSCBA::find($id);
+        $form->update([
             'ins_sc_status' => 3,
             'ins_sc_approved_date' => Carbon::now(),
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInsScbaResource($form)
+            'data' =>
+            [new FormsInsScbaResource($form)]
         ]);
     }
 
     public function approveSafetyShower($id)
     {
-        $form = [FormsInspSafetyShower::find($id)->update([
+        $form = FormsInspSafetyShower::find($id);
+        $form->update([
             'ins_ss_status' => 3,
             'ins_ss_approved_date' => Carbon::now(),
-        ])];
+        ]);
 
-        return return response()->json([
+        return response()->json([
             'code' => 200,
             'message' => 'Success Save Draft',
-            'data' => 
-            new FormsInspSafetyShowerResource($form)
+            'data' =>
+            [new FormsInspSafetyShowerResource($form)]
         ]);
     }
 }

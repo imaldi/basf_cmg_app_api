@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormsInspLadder extends Model
 {
-	protected $table = 'forms_insp_ladder';
+	protected $table = 'form_ins_ladders';
 	protected $guarded = [];
 
-	public function getStatusDetail($idInspLadder)
+	public static function getStatusDetail($idInspLadder)
 	{
 		if($idInspLadder == 1){
 			return 'in progress';

@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormsInspFumeHood extends Model
 {
-	protected $table = 'forms_insp_fume_hood';
+	protected $table = 'form_ins_fume_hoods';
+
+    protected $guarded = [];
 
 	public function getStatusDetail($idInspLadder)
 	{

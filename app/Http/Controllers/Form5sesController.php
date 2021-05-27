@@ -8,6 +8,8 @@ use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
 use App\Http\Resources\Form5sMasterResource;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -30,24 +32,31 @@ class Form5sesController extends Controller
     {
         $employee = Auth::user();
 
+        if ($employee === null) {
+            return response()->json([
+                'code' => 401,
+                'message' => 'Auth',
+                ], 401);
+        }
+
         $date = Carbon::now();
         $date->toDateTimeString();
         $department = $employee->department()->first();
         $departmentId = $employee->emp_employee_department_id;
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
-        
+
         $form_5s_concise_score = $request->input('form_5s_concise_score');
         $form_5s_neat_score = $request->input('form_5s_neat_score');
         $form_5s_clean_score = $request->input('form_5s_clean_score');
         $form_5s_care_score = $request->input('form_5s_care_score');
         $form_5s_diligent_score = $request->input('form_5s_diligent_score');
 
-        $totalScore = 
+        $totalScore =
             (
-                $form_5s_concise_score + 
-                $form_5s_neat_score + 
-                $form_5s_clean_score + 
-                $form_5s_care_score + 
+                $form_5s_concise_score +
+                $form_5s_neat_score +
+                $form_5s_clean_score +
+                $form_5s_care_score +
                 $form_5s_diligent_score
             )/5;
 
@@ -76,7 +85,7 @@ class Form5sesController extends Controller
         );
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data', 
+            'message' => 'Success Create Data',
             'data' => $form5s
             ], 200);
     }
@@ -90,12 +99,12 @@ class Form5sesController extends Controller
         $form_5s_care_score = $request->input('form_5s_care_score');
         $form_5s_diligent_score = $request->input('form_5s_diligent_score');
 
-        $totalScore = 
+        $totalScore =
             (
-                $form_5s_concise_score + 
-                $form_5s_neat_score + 
-                $form_5s_clean_score + 
-                $form_5s_care_score + 
+                $form_5s_concise_score +
+                $form_5s_neat_score +
+                $form_5s_clean_score +
+                $form_5s_care_score +
                 $form_5s_diligent_score
             )/5;
 
@@ -119,7 +128,7 @@ class Form5sesController extends Controller
         ]);
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data', 
+            'message' => 'Success Create Data',
             'data' => $form5s
             ], 200);
     }
@@ -185,27 +194,27 @@ class Form5sesController extends Controller
                     'form_5s_status' => 3
                 ]
             );
-            
+
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Create Data', 
+                'message' => 'Success Create Data',
                 'data' => $form5s
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
-                'message' => 'Given Work Order Form ID not found', 
+                'message' => 'Given Work Order Form ID not found',
                 'data' => []
                 ], 404);
         }
-        
+
     }
 
     public function getDepartments(){
         $masterDepartment = MasterDepartment::All();
         return response()->json([
             'code' => 200,
-            'message' => 'Success Fetching All Department', 
+            'message' => 'Success Fetching All Department',
             'data' =>  $masterDepartment,
             ], 200);
     }
@@ -220,7 +229,7 @@ class Form5sesController extends Controller
         $PICList = Form5sMaster::whereIn('form_5s_m_area_id',$masterLocations)->get()->unique('form_5s_m_area_id');
         return response()->json([
             'code' => 200,
-            'message' => 'Success Fetching All Department', 
+            'message' => 'Success Fetching All Department',
             // 'data' =>  $PICList,
             'data' =>  Form5sMasterResource::collection($PICList),
             ], 200);

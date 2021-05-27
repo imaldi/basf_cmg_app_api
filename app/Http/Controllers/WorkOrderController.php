@@ -21,7 +21,7 @@ class WorkOrderController extends Controller
 {
     // protected $globalUser = Auth::user();
 
-    
+
     /**
      * Create a new controller instance.
      *
@@ -35,7 +35,7 @@ class WorkOrderController extends Controller
     // public $successStatus = 200;
 
     public function createFormWorkOrder(Request $request)
-    {     
+    {
         try{
             //get employee
             $employee = Auth::user();
@@ -51,41 +51,39 @@ class WorkOrderController extends Controller
                 'wo_image' => 'file'
             ]);
 
-            
-            
-            $date = Carbon::now()
-            // ->format('Y-m-d')
-            ;
+
+
+            $date = Carbon::now();
             $date->toDateTimeString();
             $department = $employee->department()->first();
             $departmentId = $employee->emp_employee_department_id;
             //Ini saring berdasarkan group(role)
-            $wo_issuer_spv_id = User::role('Work Order - SPV')->where('emp_employee_department_id',$departmentId)->first()->id;
+            $wo_issuer_spv_id = User::role('Work Order - SPV Issuer')->where('emp_employee_department_id',$departmentId)->first()->id;
             $departmentAbr = substr(strtoupper($department->dept_name),0,3);
             $formStatus = (int)$request->input('wo_form_status');
             $emergency = (int)$request->input('wo_c_emergency');
             $ranking_cust = (int)$request->input('wo_c_ranking_cust');
             $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
             $recommendedDays = FormWorkOrder::recommendedDays($emergency,$ranking_cust,$equipment_criteria);
-            
+
             // recommendedDays($emergency,$equipment_criteria,$equipment_criteria);
             $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
             $formID = FormWorkOrder::max('id') + 1;
-            $formIDFormatted = str_pad($formID, 4, '0', STR_PAD_LEFT);
-                
+            $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
             if($request->file('wo_image')){
                 $name = time().$request->file('wo_image')->getClientOriginalName();
                 $request->file('wo_image')->move('uploads/work_order',$name);
                 $formWorkOrder = FormWorkOrder::create([
                     'wo_name' => 'GS/F/3002-4/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
                     'wo_issuer_id' => $employee->id,
-                    'wo_spv_issuer_id' => 
+                    'wo_spv_issuer_id' =>
                     $wo_issuer_spv_id,
                     //ini kalau mau saring berdasarkan field 'emp_is_spv'
                     // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
                     'wo_date_issuer_submit' => $date,
                     'wo_category' => $request->input('wo_category'),
-                    'wo_issuer_dept' => 
+                    'wo_issuer_dept' =>
                     $departmentId,
                     // $request->input('emp_employee_department_id'),
                     'wo_location_id' => $request->input('wo_location_id'),
@@ -106,15 +104,15 @@ class WorkOrderController extends Controller
                 ]);
             } else {
                 $formWorkOrder = FormWorkOrder::create([
-                    'wo_name' => 'GU/F/'.$formIDFormatted.'-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
+                    'wo_name' => 'GS/F/3002-4/'.'-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
                     'wo_issuer_id' => $employee->id,
-                    'wo_spv_issuer_id' => 
+                    'wo_spv_issuer_id' =>
                     $wo_issuer_spv_id,
                     //ini kalau mau saring berdasarkan field 'emp_is_spv'
                     // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
                     'wo_date_issuer_submit' => $date,
                     'wo_category' => $request->input('wo_category'),
-                    'wo_issuer_dept' => 
+                    'wo_issuer_dept' =>
                     $departmentId,
                     // $request->input('emp_employee_department_id'),
                     'wo_location_id' => $request->input('wo_location_id'),
@@ -134,22 +132,22 @@ class WorkOrderController extends Controller
                     //TODO upload file foto
                 ]);
             }
-            
+
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Create Data', 
-                'data' => 
+                'message' => 'Success Create Data',
+                'data' =>
                 $formWorkOrder
-                
+
                 ], 200);
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];   
-            return $response; 
-        } 
+            ];
+            return $response;
+        }
     }
 
     public function saveFormWorkOrderDraft(Request $request, $idFormWOrder){
@@ -157,7 +155,7 @@ class WorkOrderController extends Controller
 
             $response = null;
 
-        
+
             //get employee
             $employee = Auth::user();
             $this->validate($request, [
@@ -168,14 +166,14 @@ class WorkOrderController extends Controller
                 ],
                 'wo_image' => 'file'
             ]);
-            
+
             $date = Carbon::now();
             $date->toDateTimeString();
             $emergency = (int)$request->input('wo_c_emergency');
             $ranking_cust = (int)$request->input('wo_c_ranking_cust');
             $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
             $recommendedDays = FormWorkOrder::recommendedDays($emergency,$ranking_cust,$equipment_criteria);
-            
+
             $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
             try{
                     $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
@@ -192,11 +190,11 @@ class WorkOrderController extends Controller
                         return response()->json([
                             'code' => 200,
                             'message' => 'Success Saving Form Update',
-                            'data' => 
+                            'data' =>
                             [
                             new FormWorkOrderResource($formWorkOrder),
                             'wo_date_recomendation' => $date_recommendation,
-                            ]    
+                            ]
                         ], 200);
                     }
             $formWorkOrder->update(
@@ -204,25 +202,25 @@ class WorkOrderController extends Controller
             );
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Saving Form Update', 
+                'message' => 'Success Saving Form Update',
                 'data' => new FormWorkOrderResource($formWorkOrder),
                 ], 200);
                 } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                     return response()->json([
                         'code' => 404,
-                        'message' => 'Given Work Order Form ID not found', 
+                        'message' => 'Given Work Order Form ID not found',
                         'data' => []
                         ], 404);
                 }
-            
+
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];   
-            return $response; 
-        } 
+            ];
+            return $response;
+        }
     }
 
 
@@ -235,12 +233,12 @@ class WorkOrderController extends Controller
             // ->orderBy("wo_form_status")->get()
             ;
 
-            
+
 
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Get All Data',
-                'data' => 
+                'data' =>
                 FormWorkOrderResource::collection($formWorkOrder)
                 ]);
         // }catch(){
@@ -258,13 +256,13 @@ class WorkOrderController extends Controller
         } else {
             $forms = $forms->orderBy($request->query('orderBy'))->get();
         }
-        
+
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
+            'message' => 'Success Get All Data',
+            'data' =>
                 FormWorkOrderResource::collection($forms)
-            ], 200);                    
+            ], 200);
     }
 
     public function viewListApprovedWorkOrderAsIssuerSPV(Request $request)
@@ -274,14 +272,14 @@ class WorkOrderController extends Controller
         // $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
         $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',9)
         ->orderBy($request->query('orderBy'))->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
+            'message' => 'Success Get All Data',
+            'data' =>
                 FormWorkOrderResource::collection($forms)
-            ], 200); 
+            ], 200);
     }
 
     public function viewListWorkOrderAsPlanner(Request $request)
@@ -291,14 +289,14 @@ class WorkOrderController extends Controller
         // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
         $forms = FormWorkOrder::where('wo_planner_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',3)
         ->orderBy($request->query('orderBy'))->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
+            'message' => 'Success Get All Data',
+            'data' =>
                 FormWorkOrderResource::collection($forms)
-            ], 200);                    
+            ], 200);
     }
 
     public function viewListWorkOrderAsPic(Request $request)
@@ -308,14 +306,14 @@ class WorkOrderController extends Controller
         // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
         $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[6,8])
         ->orderBy($request->query('orderBy'))->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
+            'message' => 'Success Get All Data',
+            'data' =>
                 FormWorkOrderResource::collection($forms)
-            ], 200);                    
+            ], 200);
     }
 
     public function viewListApprovedWorkOrderAsPic(Request $request)
@@ -325,14 +323,14 @@ class WorkOrderController extends Controller
         // $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
         $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',8)
         ->orderBy($request->query('orderBy'))->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
+            'message' => 'Success Get All Data',
+            'data' =>
                 FormWorkOrderResource::collection($forms)
-            ], 200);                    
+            ], 200);
     }
 
     public function viewListWorkOrderAsPicSPV(Request $request)
@@ -343,14 +341,14 @@ class WorkOrderController extends Controller
         // $formsOfSpv = $groupUser->workOrderFormsOfPicSpv()->where('wo_is_open', 1)
         $formsOfSpv = FormWorkOrder::where('wo_spv_pic_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',7)
         ->orderBy($request->query('orderBy'))->get();
-        //Note : nanti perlu d sort berdasarkan wo_c_emergency, 
+        //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Data', 
-            'data' => 
+            'message' => 'Success Get All Data',
+            'data' =>
                 FormWorkOrderResource::collection($formsOfSpv)
-            ], 200);                    
+            ], 200);
     }
 
     public function getOneWorkOrderForm($idFormWOrder){
@@ -358,7 +356,7 @@ class WorkOrderController extends Controller
             $forms = FormWorkOrder::where('id',$idFormWOrder)->firstOrFail();
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Data', 
+            'message' => 'Success Get All Data',
             'data' => [
                 new FormWorkOrderResource($forms)
             ]
@@ -366,7 +364,7 @@ class WorkOrderController extends Controller
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
-                'message' => 'Given Work Order Form ID not found', 
+                'message' => 'Given Work Order Form ID not found',
                 'data' => []
                 ], 404);
         }
@@ -380,11 +378,11 @@ class WorkOrderController extends Controller
             'wo_reject_reason' => $request->input('wo_reject_reason'),
             'wo_form_status' => 4,
             'wo_is_open' => 0,
-        
+
         ]);
         return response()->json([
             'code' => 200,
-            'message' => 'Success Rejecting Form', 
+            'message' => 'Success Rejecting Form',
             'data' =>  $formWorkOrder,
             ], 200);
     } catch (\PDOException $e) {
@@ -392,9 +390,9 @@ class WorkOrderController extends Controller
         $response = [
             'error' => true,
             'message' => $e->getMessage(),
-        ];   
-        return $response; 
-    } 
+        ];
+        return $response;
+    }
 }
 
     public function rejectFormWorkOrderAsPlanner(Request $request, $idFormWOrder){
@@ -408,7 +406,7 @@ class WorkOrderController extends Controller
             ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Rejecting Form', 
+                'message' => 'Success Rejecting Form',
                 'data' =>  [$formWorkOrder],
                 ], 200);
         } catch (\PDOException $e) {
@@ -419,60 +417,61 @@ class WorkOrderController extends Controller
                 'message' => $e->getMessage(),
                 'data' => []
 
-            ];   
-            return $response; 
-        } 
+            ];
+            return $response;
+        }
     }
 
     public function approveFormWorkOrderAsIssuerSPV(Request $request, $idFormWOrder){
         try{
             //get employee
             $employee = Auth::user();
-            
+
             $date = Carbon::now();
             $date->toDateTimeString();
-                
+
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
             $formWorkOrder->update([
                 $request->except([
                     'wo_date_spv_issuer_approve',
-                    'wo_form_status'    
+                    'wo_form_status'
                 ]),
                 'wo_date_spv_issuer_approve' => $date,
                 'wo_form_status' => 3,
             ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Approving Form', 
+                'message' => 'Success Approving Form',
                 'data' =>  $formWorkOrder,
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
-                'message' => 'Given Work Order Form ID not found', 
+                'message' => 'Given Work Order Form ID not found',
                 'data' => []
                 ], 404);
         }
     }
 
-    public function approveFormWorkOrderAsIssuerSPVHandOver($idFormWOrder){
+    public function approveFormWorkOrderAsIssuerSPVHandOver(Request $request, $idFormWOrder){
         try{
             //get employee
             $employee = Auth::user();
-            
+
             $date = Carbon::now();
             $date->toDateTimeString();
-                
+
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
             $formWorkOrder->update([
-                //Alasan ?
+                'wo_hand_over_reason' => $request->input('wo_hand_over_reason'),
                 'wo_form_status' => 10,
+                'wo_is_open' =>  0,
             ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Approving Form', 
+                'message' => 'Success Approving Form',
                 'data' =>  $formWorkOrder,
                 ], 200);
         } catch (\PDOException $e) {
@@ -480,19 +479,19 @@ class WorkOrderController extends Controller
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];   
-            return $response; 
-        } 
+            ];
+            return $response;
+        }
     }
 
     public function approveFormWorkOrderAsPlanner(Request $request, $idFormWOrder){
         try{
             //get employee
             $employee = Auth::user();
-            
+
             $date = Carbon::now();
             $date->toDateTimeString();
-                
+
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
             //Buat Validatore belum
 
@@ -505,7 +504,7 @@ class WorkOrderController extends Controller
             ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Approving Form', 
+                'message' => 'Success Approving Form',
                 'data' =>  $formWorkOrder,
                 ], 200);
         } catch (\PDOException $e) {
@@ -513,19 +512,19 @@ class WorkOrderController extends Controller
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];   
-            return $response; 
-        } 
+            ];
+            return $response;
+        }
     }
 
     public function approveFormWorkOrderAsPic(Request $request, $idFormWOrder){
         try{
             //get employee
             $employee = Auth::user();
-            
+
             $date = Carbon::now();
             $date->toDateTimeString();
-                
+
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
             $formWorkOrder->update([
@@ -537,7 +536,7 @@ class WorkOrderController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Approving Form', 
+                'message' => 'Success Approving Form',
                 'data' =>  $formWorkOrder,
                 ], 200);
         } catch (\PDOException $e) {
@@ -545,21 +544,21 @@ class WorkOrderController extends Controller
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];   
-            return $response; 
-        } 
+            ];
+            return $response;
+        }
     }
 
     public function approveFormWorkOrderAsPicHandOver(Request $request, $idFormWOrder){
         try{
             //get employee
             $employee = Auth::user();
-            
+
             $date = Carbon::now();
             $date->toDateTimeString();
             $fileName = explode(' ',$employee->emp_name);
             $fileNameFinal = implode('_', $fileName);
-                
+
             // $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
             // $formWorkOrder->update([
@@ -571,10 +570,10 @@ class WorkOrderController extends Controller
             //     'wo_pic_duration' => $request->input('wo_pic_duration'),
             //     'wo_pic_team' => $request->input('wo_pic_team'),
             // ]);
-            
+
             // return response()->json([
             //     'code' => 200,
-            //     'message' => 'Success Approving Form', 
+            //     'message' => 'Success Approving Form',
             //     'data' =>  $formWorkOrder,
             //     ], 200);
 
@@ -601,22 +600,22 @@ class WorkOrderController extends Controller
                             ]
                         );
                     }
-                    
+
                     $formWorkOrder->update(
                         $request->except(['wo_pic_image','wo_pic_attachment']),);
                     return response()->json([
                         'code' => 200,
                         'message' => 'Success Saving Form Update',
-                        'data' => 
+                        'data' =>
                         [
                         new FormWorkOrderResource($formWorkOrder),
-                        ]    
+                        ]
                     ], 200);
             }
             } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                 return response()->json([
                     'code' => 404,
-                    'message' => 'Given Work Order Form ID not found', 
+                    'message' => 'Given Work Order Form ID not found',
                     'data' => []
                     ], 404);
             }
@@ -625,16 +624,16 @@ class WorkOrderController extends Controller
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];   
-            return $response; 
-        } 
+            ];
+            return $response;
+        }
     }
 
     public function approveFormWorkOrderAsPicSpv($idFormWOrder){
         try{
             //get employee
             $employee = Auth::user();
-                
+
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
             $formWorkOrder->update([
@@ -642,7 +641,7 @@ class WorkOrderController extends Controller
             ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Approving Form', 
+                'message' => 'Success Approving Form',
                 'data' =>  $formWorkOrder,
                 ], 200);
         } catch (\PDOException $e) {
@@ -650,15 +649,15 @@ class WorkOrderController extends Controller
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];   
-            return $response; 
-        } 
+            ];
+            return $response;
+        }
     }
 
     public function getLocations(){
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Locations', 
+            'message' => 'Success Get All Locations',
             'data' => LocationsResource::collection(MasterLocation::all())
         ], 200);
     }
@@ -666,7 +665,7 @@ class WorkOrderController extends Controller
     public function getDepartments(){
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Departments', 
+            'message' => 'Success Get All Departments',
             'data' => MasterDepartment::all()
         ], 200);
 
@@ -680,7 +679,7 @@ class WorkOrderController extends Controller
             'message' => 'Success',
             'data' => EmployeeResource::collection($listPic)
         // $user
-        
+
         ], 200);
     }
 
@@ -739,7 +738,7 @@ class WorkOrderController extends Controller
 
     }
 
-    
+
 
     public function allUsers()
     {

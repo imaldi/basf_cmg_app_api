@@ -9,10 +9,8 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-
-
-  //Add this method to the Controller class
-  protected function respondWithToken($token)
+    //Add this method to the Controller class
+    protected function respondWithToken($token)
     {
         return response()->json([
             'token' => $token,

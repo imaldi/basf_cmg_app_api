@@ -10,7 +10,7 @@ use App\Models\MasterLocation;
 use App\User;
 
 
-class LocationsResource extends JsonResource
+class LocationsIdsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

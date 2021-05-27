@@ -5,6 +5,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormsInspSafetyHarnest extends Model
 {
-	protected $table = 'forms_insp_safety_h';
+	protected $table = 'form_ins_safety_harness_forms';
 }
 

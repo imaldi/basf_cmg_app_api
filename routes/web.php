@@ -37,7 +37,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->get('get-all-pic', 'WorkOrderController@getAllPic');
     $router->post('profile', 'EmployeeController@addGroupToUser');
 
-    // Matches "/api/user 
+    // Matches "/api/user
     //get one user by id
     $router->get('users/{id}', 'WorkOrderController@singleUser');
 
@@ -58,7 +58,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             'middleware' => [
                 'permission_check:create-work-order',
                 'group_check:Work_Order_-_Issuer'
-            ], 
+            ],
             'uses' => 'WorkOrderController@createFormWorkOrder']);
 
 
@@ -74,26 +74,26 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                     'middleware' => 'group_check:Work_Order_-_Issuer',
                     'uses' => 'WorkOrderController@viewListWorkOrderAsIssuer'
                 ]);
-                
+
                 //get forms by id per groups
                 //not yet done, still a few groups
-                
+
             });
-            
+
             $router->group(['prefix' => 'as-issuer-spv'], function () use ($router) {
                 $router->get('get-all',
                 [
-                    'middleware' => 'group_check:Work_Order_-_SPV',
+                    'middleware' => 'group_check:Work_Order_-_SPV_Issuer',
                     'uses' => 'WorkOrderController@viewListWorkOrderAsIssuerSPV'
                 ]);
-    
+
                 $router->get('get-all-approved',
                 [
                     'middleware' => 'group_check:Work-Order-Issuer-SPV',
                     'uses' => 'WorkOrderController@viewListApprovedWorkOrderAsIssuerSPV'
                 ]);
             });
-    
+
             $router->group(['prefix' => 'as-planner'], function () use ($router) {
                 $router->get('get-all',
                 [
@@ -107,7 +107,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                     'middleware' => 'group_check:Work_Order_-_PIC',
                     'uses' => 'WorkOrderController@viewListWorkOrderAsPic'
                 ]);
-    
+
                 $router->get('get-all-approved',
                 [
                     'middleware' => 'group_check:Work_Order_-_PIC',
@@ -124,20 +124,20 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
         });
 
         $router->group(['prefix' => 'update','middleware' => 'permission_check:edit-work-order',], function () use ($router) {
-            $router->post('save-draft/{idFormWOrder}', 
+            $router->post('save-draft/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work_Order_-_Issuer,Work_Order_-_SPV'
+                        'group_check:Work_Order_-_Issuer,Work_Order_-_SPV_Issuer'
                     ],
                     'uses' => 'WorkOrderController@saveFormWorkOrderDraft'
                 ]);
         });
 
         $router->group(['prefix' => 'reject','middleware' => 'permission_check:edit-work-order',], function () use ($router) {
-            $router->post('as-issuer-spv/{idFormWOrder}', 
+            $router->post('as-issuer-spv/{idFormWOrder}',
             [
                 'middleware' => [
-                    'group_check:Work_Order_-_SPV'
+                    'group_check:Work_Order_-_SPV_Issuer'
                 ],
                 'uses' => 'WorkOrderController@rejectFormWorkOrderAsIssuerSpv'
             ]);
@@ -146,7 +146,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 //Controller fill : wo_form_status (update) => 4.Rejected by Spv, wo_is_open => 0
 
 
-            $router->post('as-planner/{idFormWOrder}', 
+            $router->post('as-planner/{idFormWOrder}',
             [
                 'middleware' => [
                     'group_check:Work_Order_-_Planner'
@@ -157,32 +157,32 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
                 //Controller fill : wo_form_status (update) => 5.Rejected by Work_Order_-_Planner, wo_is_open => 0
 
-                
+
         });
 
         $router->group(['prefix' => 'approve','middleware' => 'permission_check:edit-work-order',], function () use ($router) {
-                
-            $router->post('as-issuer-spv/{idFormWOrder}', 
+
+            $router->post('as-issuer-spv/{idFormWOrder}',
             [
                 'middleware' => [
-                    'group_check:Work_Order_-_SPV'
+                    'group_check:Work_Order_-_SPV_Issuer'
                 ],
                 'uses' => 'WorkOrderController@approveFormWorkOrderAsIssuerSPV'
             ]);
                 //Controller fill : wo_form_status (update) =>  3.Waiting Work_Order_-_Planner Approval
 
-            
-                $router->post('as-issuer-spv-hand-over/{idFormWOrder}', 
+
+                $router->post('as-issuer-spv-hand-over/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work_Order_-_SPV'
+                        'group_check:Work_Order_-_SPV_Issuer'
                     ],
                     'uses' => 'WorkOrderController@approveFormWorkOrderAsIssuerSPVHandOver'
                 ]);
                     //Controller fill : wo_form_status (update) =>  3.Waiting Work_Order_-_Planner Approval
 
 
-            $router->post('as-planner/{idFormWOrder}', 
+            $router->post('as-planner/{idFormWOrder}',
             [
                 'middleware' => [
                     'group_check:Work_Order_-_Planner'
@@ -197,14 +197,14 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
                 //Controller fill : wo_form_status (update) =>  6. Waiting PIC Action Plan
 
-            $router->post('as-pic/{idFormWOrder}', 
+            $router->post('as-pic/{idFormWOrder}',
             [
                 'middleware' => [
                     'group_check:Work_Order_-_PIC'
                 ],
                 'uses' => 'WorkOrderController@approveFormWorkOrderAsPic'
             ]);
-            $router->post('as-pic/hand-over/{idFormWOrder}', 
+            $router->post('as-pic/hand-over/{idFormWOrder}',
             [
                 'middleware' => [
                     'group_check:Work_Order_-_PIC'
@@ -213,7 +213,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             ]);
                 //Controller fill : wo_form_status (update) =>  7. Waitng SPV PIC Approve | 9. Hand Over to User
 
-            $router->post('as-pic-spv/{idFormWOrder}', 
+            $router->post('as-pic-spv/{idFormWOrder}',
             [
                 'middleware' => [
                     'group_check:Work_Order_-_PIC_-_SPV'
@@ -225,10 +225,17 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     });
 
     $router->group(['prefix' => 'inspection'], function () use ($router){
-        $router->group(['prefix' => 'ladder','middleware' => 'group_check:Inspection_-_Ladder,Inspection_-_Ladder_-_SPV'], function () use ($router){
-            $router->get('all',['uses' => 'InspectionController@getAllLadder', 'middleware' => 'permission_check=view_Inspection_form']);
+        $router->group(['prefix' => 'ladder'
+        ,'middleware' => ['group_check:Inspection_-_Ladder,Inspection_-_Ladder_-_SPV']
+    ], function () use ($router){
+            $router->get('all',['uses' => 'InspectionController@getAllLadder',
+            //  'middleware' => 'permission_check=view_Inspection_form'
+             ]
+            );
             $router->get('get/{$id}',['uses' => 'InspectionController@getOneLadder','middleware' => 'permission_check=view_Inspection_form']);
-            $router->post('create',['uses' => 'InspectionController@createLadder','middleware' => 'permission_check=create_Inspection_form']);
+            $router->post('create',['uses' => 'InspectionController@createLadder',
+            // 'middleware' => 'permission_check=create_Inspection_form'
+            ]);
             $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftLadder','middleware' => 'permission_check=update_Inspection_form']);
             $router->get('approve/{$id}',['uses' => 'InspectionController@approveLadder','middleware' => 'permission_check=approve_Inspection_form']);
         });
@@ -239,10 +246,16 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftH2s','middleware' => 'permission_check=update_Inspection_form']);
             $router->get('approve/{$id}',['uses' => 'InspectionController@approveH2s','middleware' => 'permission_check=approve_Inspection_form']);
         });
-        $router->group(['prefix' => 'fume-hood','middleware' => 'group_check:Inspection_-_Fume_-_Hood,Inspection_-_Fume_Hood_-_SPV'], function () use ($router){
-            $router->get('all',['uses' => 'InspectionController@getAllFumeHood', 'middleware' => 'permission_check=view_Inspection_form']);
+        $router->group(['prefix' => 'fume-hood'
+        ,'middleware' => ['group_check:Inspection_-_Fume_Hood,Inspection_-_Fume_Hood_-_SPV']
+        ], function () use ($router){
+            $router->get('all',['uses' => 'InspectionController@getAllFumeHood',
+                // 'middleware' => ['permission_check=view_Inspection_form']
+                ]);
             $router->get('get/{$id}',['uses' => 'InspectionController@getOneFumeHood','middleware' => 'permission_check=view_Inspection_form']);
-            $router->post('create',['uses' => 'InspectionController@createFumeHood','middleware' => 'permission_check=create_Inspection_form']);
+            $router->post('create',['uses' => 'InspectionController@createFumeHood'
+                // ,'middleware' => 'permission_check=create_Inspection_form']
+            ]);
             $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftFumeHood','middleware' => 'permission_check=update_Inspection_form']);
             $router->get('approve/{$id}',['uses' => 'InspectionController@approveFumeHood','middleware' => 'permission_check=approve_Inspection_form']);
         });
@@ -274,7 +287,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             $router->post('save-draft/{$id}',['uses' => 'InspectionController@saveDraftSafetyShower','middleware' => 'permission_check=update_Inspection_form']);
             $router->get('approve/{$id}',['uses' => 'InspectionController@approveSafetyShower','middleware' => 'permission_check=approve_Inspection_form']);
         });
-       
+
     });
 
     $router->group(['prefix' => 'form5s'], function () use ($router){
@@ -338,7 +351,7 @@ $router->group(['prefix' => 'api'],function() use ($router){
     // $router->get('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
     $router->get('is-user-has-groups','TestGroupsAndPermissionsController@isUserHasGroup');
     $router->get('get-group','TestGroupsAndPermissionsController@testDapatkanGroupUserDenganForEach');
-    
+
 });
 
 

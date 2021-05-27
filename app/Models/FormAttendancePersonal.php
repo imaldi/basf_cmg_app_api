@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FormAttendancePeople extends Model
+class FormAttendancePersonal extends Model
 {
     protected $table = 'form_attendance_personal';
 

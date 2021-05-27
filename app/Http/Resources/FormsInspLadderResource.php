@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ContentInspLadderResource;
 use App\User;
 use App\Models\MasterLocation;
+use App\Models\FormsInspLadder;
+
 
 
 class FormsInspLadderResource extends JsonResource
