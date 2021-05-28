@@ -263,7 +263,7 @@ class InspectionController extends Controller
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
-        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $subArrayLocIds = substr($locationIds, 1, -1);
         $idLocArray = explode(",",$subArrayLocIds);
 
         $insH2Check05PercentageVal = $request->input('ins_h2_check_05_percentage_array');
@@ -287,12 +287,18 @@ class InspectionController extends Controller
         $form = FormsInspH2sConcent::create(
             $request->except([
                 'ins_h2_approved_date',
+                'location_ids',
+                'ins_h2_check_05_percentage_array',
+                'ins_h2_check_10_percentage_array',
+                'ins_h2_check_lel_percentage_array',
+                'ins_h2_remark_array'
             ])
             );
         $form->update([
             'ins_h2_inspector_id' => Auth::user()->id,
             'ins_h2_inspector_spv_id' => User::role('Inspection - H2S - SPV')->first()->id,
             'ins_h2_status' => 2,
+            'ins_h2_is_active' => 1,
             'ins_h2_submited_date' => Carbon::now(),
             'ins_h2_name' => 'GS-F-5002-4/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
         ]);
@@ -365,7 +371,7 @@ class InspectionController extends Controller
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
-        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $subArrayLocIds = substr($locationIds, 1, -1);
         $idLocArray = explode(",",$subArrayLocIds);
 
         $insSKBoxCondition = $request->input('ins_sk_box_condition');
@@ -387,7 +393,12 @@ class InspectionController extends Controller
         $form = FormsInspSpillKit::create(
             $request->except([
                 'ins_sk_approved_date',
-            ])
+                'location_ids',
+                'ins_sk_box_condition',
+                'ins_sk_contents',
+                'ins_sk_documents',
+                'ins_sk_remark_array'
+                ])
         );
         $form->update([
             'ins_sk_inspector_id' => Auth::user()->id,
@@ -398,13 +409,13 @@ class InspectionController extends Controller
         ]);
 
         foreach($idLocArray as $key=>$id){
-            ContentInspH2sCnct::create([
+            ContentInspSpillKit::create([
                 'ins_sk_form_id' => $form->id,
                 'ins_sk_location_id' => $id,
                 'ins_sk_box_condition' => $skBoxConditionArray[$key],
                 'ins_sk_contents' => $skContentsArray[$key],
                 'ins_sk_documents' => $skDocumentsArray[$key],
-                'ins_sk_remark_array' => $skRemarkValArray[$key]
+                'ins_sk_remark' => $skRemarkValArray[$key]
             ]);
         }
 
@@ -430,7 +441,7 @@ class InspectionController extends Controller
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
-        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $subArrayLocIds = substr($locationIds, 1, -1);
         $idLocArray = explode(",",$subArrayLocIds);
 
         $insSHWebbing = $request->input('ins_sh_webbing');
@@ -515,7 +526,7 @@ class InspectionController extends Controller
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
-        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $subArrayLocIds = substr($locationIds, 1, -1);
         $idLocArray = explode(",",$subArrayLocIds);
 
         $insScLeaka = $request->input('ins_sc_leaka');
@@ -585,7 +596,7 @@ class InspectionController extends Controller
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
-        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $subArrayLocIds = substr($locationIds, 1, -1);
         $idLocArray = explode(",",$subArrayLocIds);
 
         $insSSLeaka = $request->input('ins_ss_leaka');

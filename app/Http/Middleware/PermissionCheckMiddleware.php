@@ -19,11 +19,11 @@ class PermissionCheckMiddleware
     public function handle($request, Closure $next, $permission)
     {
         $user = Auth::user();
-        // $permissionExplode = explode('-',$permission);
-        // $permissionFinal = implode(' ', $permissionExplode);
+        $permissionExplode = explode('-',$permission);
+        $permissionFinal = implode(' ', $permissionExplode);
 
-        // $permissionViaRoles = Auth::user()->hasPermission($permissionFinal);
-        $permissionViaRoles = Auth::user()->hasPermission($permission);
+        $permissionViaRoles = Auth::user()->hasPermission($permissionFinal);
+        // $permissionViaRoles = Auth::user()->hasPermission($permission);
 
         if($permissionViaRoles){
             return $next($request);

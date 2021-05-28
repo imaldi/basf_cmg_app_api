@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContentInspSpillKit extends Model
 {
-	protected $table = 'content_insp_spill_kit';
+	protected $table = 'form_ins_spill_kits_contents';
+
+	protected $guarded = [];
+
 }
 
