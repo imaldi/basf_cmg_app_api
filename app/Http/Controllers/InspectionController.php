@@ -36,7 +36,7 @@ class InspectionController extends Controller
     {
         $user = Auth::user();
         $role = $user->hasRole('Inspection - Ladder - SPV') ? 'ins_la_inspector_id' : 'ins_la_inspector_spv_id';
-        $forms= FormsInspLadder::where('ins_la_is_active',true)
+        $forms= FormsInspLadder::where('ins_la_is_active',1)
             ->where($role,$user->id)->orderBy('ins_la_status')->get();
         return response()->json([
             'code' => 200,
@@ -50,7 +50,7 @@ class InspectionController extends Controller
     {
         $user = Auth::user();
         $role = $user->hasRole('Inspection - H2S - SPV') ? 'ins_h2_inspector_id' : 'ins_h2_inspector_spv_id';
-        $forms= FormsInspH2sConcent::where('ins_h2_is_active',true)
+        $forms= FormsInspH2sConcent::where('ins_h2_is_active',1)
             ->where($role,$user->id)->orderBy('ins_h2_status')->get();
         return response()->json([
             'code' => 200,
@@ -64,7 +64,7 @@ class InspectionController extends Controller
     {
         $user = Auth::user();
         $role = $user->hasRole('Inspection - Fume Hood - SPV') ? 'ins_fh_inspector_id' : 'ins_fh_inspector_spv_id';
-        $forms= FormsInspFumeHood::where('ins_fh_is_active',true)
+        $forms= FormsInspFumeHood::where('ins_fh_is_active',1)
             ->where($role,$user->id)->orderBy('ins_fh_status')->get();
         return response()->json([
             'code' => 200,
@@ -78,7 +78,7 @@ class InspectionController extends Controller
     {
         $user = Auth::user();
         $role = $user->hasRole('Inspection - Spill Kit - SPV') ? 'ins_sk_inspector_id' : 'ins_sk_inspector_spv_id';
-        $forms= FormsInspSpillKit::where('ins_sk_is_active',true)
+        $forms= FormsInspSpillKit::where('ins_sk_is_active',1)
             ->where($role,$user->id)->orderBy('ins_sk_status')->get();
         return response()->json([
             'code' => 200,
@@ -92,13 +92,13 @@ class InspectionController extends Controller
     {
         $user = Auth::user();
         $role = $user->hasRole('Inspection - Safety Harness - SPV') ? 'ins_sh_inspector_id' : 'ins_sh_inspector_spv_id';
-        $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',true)
+        $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
             ->where($role,$user->id)->orderBy('ins_sh_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
             'data' =>
-            FormsInspSafetyHarnestResource::collection($forms)
+            FormInsSafetyHarnessResource::collection($forms)
         ]);
     }
 
@@ -106,27 +106,27 @@ class InspectionController extends Controller
     {
         $user = Auth::user();
         $role = $user->hasRole('Inspection - SCBA - SPV') ? 'ins_sc_inspector_id' : 'ins_sc_checker_id';
-        $forms= FormsInspSCBA::where('ins_sc_is_active',true)
+        $forms= FormsInspSCBA::where('ins_sc_is_active',1)
             ->where($role,$user->id)->orderBy('ins_sc_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
             'data' =>
-            FormsInspSCBAResource::collection($forms)
+            FormsInsScbaResource::collection($forms)
         ]);
     }
 
     public function getAllSafetyShower()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Ladder - SPV') ? 'id_checker' : 'id_inspector';
-        $forms= FormsInspSafetyShower::where('is_active',true)
-            ->where('id_checker',$user->id)->orderBy('form_status')->get();
+        $role = $user->hasRole('Inspection - Safety Shower - SPV') ? 'ins_ss_checker_id' : 'ins_ss_inspector_id';
+        $forms= FormsInspSafetyShower::where('ins_ss_is_active',1)
+            ->where($role,$user->id)->orderBy('ins_ss_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
             'data' =>
-            FormsInspSafetyShowerResource::collection($forms)
+            FormInsSafetyShowerResource::collection($forms)
         ]);
     }
 
@@ -404,7 +404,7 @@ class InspectionController extends Controller
             'ins_sk_inspector_id' => Auth::user()->id,
             'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->first()->id,
             'ins_sk_status' => 2,
-            'ins_sk_status' => 1,
+            'ins_sk_is_active' => 1,
             'ins_sk_submited_date' => Carbon::now(),
             'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
         ]);
@@ -495,7 +495,7 @@ class InspectionController extends Controller
             'ins_sh_inspector_id' => Auth::user()->id,
             'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->first()->id,
             'ins_sh_status' => 2,
-            'ins_sh_status' => 1,
+            'ins_sh_is_active' => 1,
             'ins_sh_submited_date' => Carbon::now(),
             'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
         ]);
@@ -574,7 +574,7 @@ class InspectionController extends Controller
         );
         $form->update([
             'ins_sc_inspector_id' => Auth::user()->id,
-            // 'ins_sc_inspector_spv_id' => User::role('Inspection - SCBA - SPV')->first()->id,
+            'ins_sc_checker_id' => User::role('Inspection - SCBA - SPV')->first()->id,
             'ins_sc_status' => 2,
             'ins_sc_is_active' => 1,
             'ins_sc_submited_date' => Carbon::now()
@@ -665,9 +665,9 @@ class InspectionController extends Controller
         );
         $form->update([
             'ins_ss_inspector_id' => Auth::user()->id,
-            // 'ins_ss_inspector_spv_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
+            'ins_ss_checker_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
             'ins_ss_status' => 2,
-            'ins_ss_status' => 1,
+            'ins_ss_is_active' => 1,
             'ins_ss_submited_date' => Carbon::now()
         ]);
 

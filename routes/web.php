@@ -229,7 +229,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
         ,'middleware' => ['group_check:Inspection - Ladder,Inspection - Ladder - SPV']
         ], function () use ($router){
             $router->get('all',['uses' => 'InspectionController@getAllLadder',
-            //  'middleware' => 'permission_check:view inspection form'
+             'middleware' => 'permission_check:view inspection form'
              ]
             );
             $router->get('get/{$id}',['uses' => 'InspectionController@getOneLadder','middleware' => 'permission_check:view inspection form']);

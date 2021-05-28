@@ -25,7 +25,9 @@ class TestGroupsAndPermissionsController extends Controller
 
     public function testCreateAPermission($permissionArg){
         try{
-            $permission = EmployeeUserPermissions::create(['name' => $permissionArg]);
+            $permissionExplode = explode('%20',$permissionArg);
+            $permissionFinal = implode(' ', $permissionExplode);
+            $permission = EmployeeUserPermissions::create(['name' => $permissionFinal]);
             return response(['permission_created' => $permission],200);
         } catch(\Spatie\Permission\Exceptions\PermissionAlreadyExists $e){
             return response()->json([
@@ -36,9 +38,9 @@ class TestGroupsAndPermissionsController extends Controller
     }
 
     public function testAssignPermissionToGroup(){
-        $role = MEmployeeGroup::find(5);
+        $role = MEmployeeGroup::find(17);
         // $permissionsOfRole = $role->permissions;
-        $permission = EmployeeUserPermissions::find(13);
+        $permission = EmployeeUserPermissions::find(24);
         $role->givePermissionTo($permission);
         // return response(['is_succes' => true],200);
         return response(['role' => $role],200);
@@ -57,7 +59,7 @@ class TestGroupsAndPermissionsController extends Controller
         // $user = User::all()->where('id',)->first();
         $role = MEmployeeGroup::find($groupId);
 
-        
+
 
         $user->assignRole($role);
         // Tes Remove Role
@@ -76,7 +78,7 @@ class TestGroupsAndPermissionsController extends Controller
         // $user = User::all()->where('id',)->first();
         $role = MEmployeeGroup::find($groupId);
 
-        
+
 
         // $user->assignRole($role);
         // Tes Remove Role
@@ -89,7 +91,7 @@ class TestGroupsAndPermissionsController extends Controller
 
     public function testDapatkanGroupUserDenganForEach(){
         $user = Auth::user();
-        
+
         $groups = $user->roles;
         foreach($groups as $group){
             if($group->permissions
@@ -101,18 +103,18 @@ class TestGroupsAndPermissionsController extends Controller
             }
         }
 
-        
+
 
         // return response(['user_roles' => $groupUser],200);
-        
-        
+
+
     }
 
     public function isUserHasGroup(){
         $user = Auth::user();
         // $result = $user->hasAnyRole(Role::all());
         // $result = $user->hasAnyRole('Work Order - Issuer');
-        
+
         // $result = $user->getPermissionsViaRoles();
         $result = $user->hasPermission('view work order');
 
