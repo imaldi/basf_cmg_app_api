@@ -20,7 +20,7 @@ class AttendanceController extends Controller
         $attendanceCategories = FormAttendanceCategory::all();
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data', 
+            'message' => 'Success Create Data',
             'data' => $attendanceCategories
             ], 200);
     }
@@ -33,7 +33,7 @@ class AttendanceController extends Controller
         $department = $employee->department()->first();
         $departmentId = $employee->emp_employee_department_id;
         $employeeIds = $request->input('employee_ids');
-        $subArray = $dataList = substr($employeeIds, 1, -1);
+        $subArray = substr($employeeIds, 1, -1);
         $idArray = explode(",",$subArray);
 
         $formAttandance = FormAttendance::create([
@@ -56,7 +56,7 @@ class AttendanceController extends Controller
             'att_category_others' => $request->input('att_category_others'),
             'att_trainer_signature' => $request->input('att_trainer_signature'),
         ]);
-        
+
         try{
             if($request->file('att_signature')){
                 $name = time().'att_signature'.$request->file('att_signature')->getClientOriginalName();
@@ -70,7 +70,7 @@ class AttendanceController extends Controller
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
-                'message' => 'Given Personal Attandance ID not found', 
+                'message' => 'Given Personal Attandance ID not found',
                 'data' => []
                 ], 404);
         }
@@ -85,18 +85,18 @@ class AttendanceController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data', 
+            'message' => 'Success Create Data',
             'data' => $formAttandance
             ], 200);
     }
 
-    public function getPersonalAttendance($id)  
+    public function getPersonalAttendance($id)
     {
         $formPeople = FormAttendancePeople::find($id);
 
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data', 
+            'message' => 'Success Create Data',
             'data' => $formPeople
             ], 200);
     }
@@ -121,7 +121,7 @@ class AttendanceController extends Controller
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
-                'message' => 'Given Personal Attandance ID not found', 
+                'message' => 'Given Personal Attandance ID not found',
                 'data' => []
                 ], 404);
         }
@@ -144,12 +144,12 @@ class AttendanceController extends Controller
             ]);
         }
 
-        
+
 
         // return $arrayId
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data', 
+            'message' => 'Success Create Data',
             'data' => $attendance
             ], 200);
     }

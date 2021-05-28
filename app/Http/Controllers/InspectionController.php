@@ -248,6 +248,7 @@ class InspectionController extends Controller
         ]);
     }
 
+    //ready to test
     public function createH2s(Request $request)
     {
         $employee = Auth::user();
@@ -259,6 +260,29 @@ class InspectionController extends Controller
 
         $formID = FormsInspH2sConcent::max('id') + 1;
         $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+        //validation supaya bentuknya array
+        $locationIds = $request->input('location_ids');
+        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $idLocArray = explode(",",$subArrayLocIds);
+
+        $insH2Check05PercentageVal = $request->input('ins_h2_check_05_percentage_array');
+        $subArrayCheck05PercentIds = substr($insH2Check05PercentageVal, 1, -1);
+        $idCheck05PercentArray = explode(",",$subArrayCheck05PercentIds);
+
+        $insH2Check10PercentageVal = $request->input('ins_h2_check_10_percentage_array');
+        $subArrayCheck10PercentIds = substr($insH2Check10PercentageVal, 1, -1);
+        $idCheck10PercentArray = explode(",",$subArrayCheck10PercentIds);
+
+        $insH2CheckLelPercentageVal = $request->input('ins_h2_check_lel_percentage_array');
+        $subArrayCheckLelPercentIds = substr($insH2CheckLelPercentageVal, 1, -1);
+        $idCheckLelPercentArray = explode(",",$subArrayCheckLelPercentIds);
+
+        $insH2RemarkVal = $request->input('ins_h2_remark_array');
+        $subArrayRemarkVal = substr($insH2RemarkVal, 1, -1);
+        $remarkValArray = explode(",",$subArrayRemarkVal);
+
+
 
         $form = FormsInspH2sConcent::create(
             $request->except([
@@ -272,6 +296,17 @@ class InspectionController extends Controller
             'ins_h2_submited_date' => Carbon::now(),
             'ins_h2_name' => 'GS-F-5002-4/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
         ]);
+
+        foreach($idLocArray as $key=>$id){
+            ContentInspH2sCnct::create([
+                'ins_h2_form_id' => $form->id,
+                'ins_h2_location_id' => $id,
+                'ins_h2_check_05_percentage' => $idCheck05PercentArray[$key],
+                'ins_h2_check_10_percentage' => $idCheck10PercentArray[$key],
+                'ins_h2_check_lel_percentage' => $idCheckLelPercentArray[$key],
+                'ins_h2_remark' => $remarkValArray[$key]
+            ]);
+        }
 
         return response()->json([
             'code' => 200,
@@ -328,6 +363,27 @@ class InspectionController extends Controller
         $formID = FormsInspSpillKit::max('id') + 1;
         $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
 
+        //validation supaya bentuknya array
+        $locationIds = $request->input('location_ids');
+        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $idLocArray = explode(",",$subArrayLocIds);
+
+        $insSKBoxCondition = $request->input('ins_sk_box_condition');
+        $subArraySKBoxCondition = substr($insSKBoxCondition, 1, -1);
+        $skBoxConditionArray = explode(",",$subArraySKBoxCondition);
+
+        $insSKContents = $request->input('ins_sk_contents');
+        $subArraySKContents = substr($insSKContents, 1, -1);
+        $skContentsArray = explode(",",$subArraySKContents);
+
+        $insSKDocuments = $request->input('ins_sk_documents');
+        $subArraySKDocuments = substr($insSKDocuments, 1, -1);
+        $skDocumentsArray = explode(",",$subArraySKDocuments);
+
+        $insSKRemarkVal = $request->input('ins_sk_remark_array');
+        $subArraySKRemarkVal = substr($insSKRemarkVal, 1, -1);
+        $skRemarkValArray = explode(",",$subArraySKRemarkVal);
+
         $form = FormsInspSpillKit::create(
             $request->except([
                 'ins_sk_approved_date',
@@ -340,6 +396,17 @@ class InspectionController extends Controller
             'ins_sk_submited_date' => Carbon::now(),
             'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
         ]);
+
+        foreach($idLocArray as $key=>$id){
+            ContentInspH2sCnct::create([
+                'ins_sk_form_id' => $form->id,
+                'ins_sk_location_id' => $id,
+                'ins_sk_box_condition' => $skBoxConditionArray[$key],
+                'ins_sk_contents' => $skContentsArray[$key],
+                'ins_sk_documents' => $skDocumentsArray[$key],
+                'ins_sk_remark_array' => $skRemarkValArray[$key]
+            ]);
+        }
 
         return response()->json([
             'code' => 200,
@@ -361,6 +428,43 @@ class InspectionController extends Controller
         $formID = FormsInspSafetyHarnest::max('id') + 1;
         $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
 
+        //validation supaya bentuknya array
+        $locationIds = $request->input('location_ids');
+        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $idLocArray = explode(",",$subArrayLocIds);
+
+        $insSHWebbing = $request->input('ins_sh_webbing');
+        $subArrayInsSHWebbing = substr($insSHWebbing, 1, -1);
+        $insSHWebbingArray = explode(",",$subArrayInsSHWebbing);
+
+        $insSHDRings = $request->input('ins_sh_d_rings');
+        $subArraySHDRings = substr($insSHDRings, 1, -1);
+        $shDRingsArray = explode(",",$subArraySHDRings);
+
+        $insSHAttachmentBuckles = $request->input('ins_sh_attachment_buckles');
+        $subArraySHAttachmentBuckles = substr($insSHAttachmentBuckles, 1, -1);
+        $shAttachmentBucklesArray = explode(",",$subArraySHAttachmentBuckles);
+
+        $insSHHookOrCarabiner = $request->input('ins_sh_hook_or_carabiner');
+        $subArraySHHookOrCarabiner = substr($insSHHookOrCarabiner, 1, -1);
+        $shHookOrCarabinerArray = explode(",",$subArraySHHookOrCarabiner);
+
+        $insSHWebLanyard = $request->input('ins_sh_web_lanyard');
+        $subArraySHWebLanyard = substr($insSHWebLanyard, 1, -1);
+        $shWebLanyardArray = explode(",",$subArraySHWebLanyard);
+
+        $insSHRopeLanyard = $request->input('ins_sh_rope_lanyard');
+        $subArraySHRopeLanyard = substr($insSHRopeLanyard, 1, -1);
+        $shRopeLanyardArray = explode(",",$subArraySHRopeLanyard);
+
+        $insSHShockAbsorberPack = $request->input('ins_sh_shock_absorber_pack');
+        $subArraySHShockAbsorberPack = substr($insSHShockAbsorberPack, 1, -1);
+        $shShockAbsorberPackArray = explode(",",$subArraySHShockAbsorberPack);
+
+        $insSHRemarkVal = $request->input('ins_sh_remark');
+        $subArraySHRemarkVal = substr($insSHRemarkVal, 1, -1);
+        $shRemarkValArray = explode(",",$subArraySHRemarkVal);
+
         $form = FormsInspSafetyHarnest::create(
             $request->except([
                 'ins_sh_approved_date',
@@ -373,6 +477,21 @@ class InspectionController extends Controller
             'ins_sh_submited_date' => Carbon::now(),
             'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
         ]);
+
+        foreach($idLocArray as $key=>$id){
+            ContentInspH2sCnct::create([
+                'ins_sh_form_id' => $form->id,
+                'ins_sh_location_id' => $id,
+                'ins_sh_webbing' => $insSHWebbingArray[$key],
+                'ins_sh_d_rings' => $shDRingsArray[$key],
+                'ins_sh_attachment_buckles' => $shAttachmentBucklesArray[$key],
+                'ins_sh_hook_or_carabiner' => $shHookOrCarabinerArray[$key],
+                'ins_sh_web_lanyard' => $shWebLanyardArray[$key],
+                'ins_sh_rope_lanyard' => $shRopeLanyardArray[$key],
+                'ins_sh_shock_absorber_pack' => $shShockAbsorberPackArray[$key],
+                'ins_sh_remark' => $shRemarkValArray[$key]
+            ]);
+        }
 
         return response()->json([
             'code' => 200,
@@ -394,6 +513,32 @@ class InspectionController extends Controller
         $formID = FormsInspSCBA::max('id') + 1;
         $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
 
+        //validation supaya bentuknya array
+        $locationIds = $request->input('location_ids');
+        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $idLocArray = explode(",",$subArrayLocIds);
+
+        $insScLeaka = $request->input('ins_sc_leaka');
+        $subArrayInsScLeaka = substr($insScLeaka, 1, -1);
+        $insScLeakaArray = explode(",",$subArrayInsScLeaka);
+
+        $insSCPressureBar = $request->input('ins_sc_pressure_bar');
+        $subArrayInsSCPressureBar = substr($insSCPressureBar, 1, -1);
+        $insSCPressureBarArray = explode(",",$subArrayInsSCPressureBar);
+
+        $insSCWalveOrSeal = $request->input('ins_sc_walve_or_seal');
+        $subArrayInsSCWalveOrSeal = substr($insSCWalveOrSeal, 1, -1);
+        $insSCWalveOrSealArray = explode(",",$subArrayInsSCWalveOrSeal);
+
+        $insSCMaskerCondition = $request->input('ins_sc_masker_condition');
+        $subArrayInsSCMaskerCondition = substr($insScWalveOrSeal, 1, -1);
+        $insSCMaskerConditionArray = explode(",",$subArrayInsSCMaskerCondition);
+
+        $insSCRemarkVal = $request->input('ins_sc_remark');
+        $subArraySCRemarkVal = substr($insSCRemarkVal, 1, -1);
+        $scRemarkValArray = explode(",",$subArraySCRemarkVal);
+
+
         $form = FormsInspSCBA::create(
             $request->except([
                 'ins_sc_approved_date',
@@ -405,6 +550,18 @@ class InspectionController extends Controller
             'ins_sc_status' => 2,
             'ins_sc_submited_date' => Carbon::now()
         ]);
+
+        foreach($idLocArray as $key=>$id){
+            ContentInspSCBA::create([
+                'ins_sc_form_id' => $form->id,
+                'ins_sc_location_id' => $id,
+                'ins_sc_leaka' => $insScLeakaArray[$key],
+                'ins_sc_pressure_bar' => $insSCPressureBarArray[$key],
+                'ins_sc_walve_or_seal' => $insSCWalveOrSealArray[$key],
+                'ins_sc_masker_condition' => $insSCMaskerConditionArray[$key],
+                'ins_sc_remark' => $scRemarkValArray[$key]
+            ]);
+        }
 
         return response()->json([
             'code' => 200,
@@ -426,6 +583,43 @@ class InspectionController extends Controller
         $formID = FormsInspSafetyShower::max('id') + 1;
         $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
 
+        //validation supaya bentuknya array
+        $locationIds = $request->input('location_ids');
+        $subArrayLocIds = substr($employeeIds, 1, -1);
+        $idLocArray = explode(",",$subArrayLocIds);
+
+        $insSSLeaka = $request->input('ins_ss_leaka');
+        $subArrayInsSSLeaka = substr($insSSLeaka, 1, -1);
+        $insSSLeakaArray = explode(",",$subArrayInsSSLeaka);
+
+        $insSSWaterShower = $request->input('ins_ss_water_shower');
+        $subArrayInsSSWaterShower = substr($insSSWaterShower, 1, -1);
+        $insSSWaterShowerArray = explode(",",$subArrayInsSSWaterShower);
+
+        $insSSWaterEyeWash = $request->input('ins_ss_water_eye_wash');
+        $subArrayInsSSWaterEyeWash = substr($insSSWaterEyeWash, 1, -1);
+        $insSSWaterEyeWashArray = explode(",",$subArrayInsSSWaterEyeWash);
+
+        $insSSValveOrSeal = $request->input('ins_ss_valve_or_seal');
+        $subArrayInsSSValveOrSeal = substr($insSSValveOrSeal, 1, -1);
+        $insSSValveOrSealArray = explode(",",$subArrayInsSSValveOrSeal);
+
+        $insSSSignBoard = $request->input('ins_ss_sign_board');
+        $subArrayInsSSSignBoard = substr($insSSSignBoard, 1, -1);
+        $insSSSignBoardArray = explode(",",$subArrayInsSSSignBoard);
+
+        $insSSCleanliness = $request->input('ins_ss_cleanliness');
+        $subArrayInsSSCleanliness = substr($insSSCleanliness, 1, -1);
+        $insSSCleanlinessArray = explode(",",$subArrayInsSSCleanliness);
+
+        $insSSAlarmCondition = $request->input('ins_ss_alarm_condition');
+        $subArrayInsSSAlarmCondition = substr($insSSAlarmCondition, 1, -1);
+        $insSSAlarmConditionArray = explode(",",$subArrayInsSSAlarmCondition);
+
+        $insSSRemarkVal = $request->input('ins_ss_remarks');
+        $subArraySSRemarkVal = substr($insSSRemarkVal, 1, -1);
+        $ssRemarkValArray = explode(",",$subArraySSRemarkVal);
+
         $form = FormsInspSafetyShower::create(
             $request->except([
                 'ins_ss_approved_date',
@@ -437,6 +631,21 @@ class InspectionController extends Controller
             'ins_ss_status' => 2,
             'ins_ss_submited_date' => Carbon::now()
         ]);
+
+        foreach($idLocArray as $key=>$id){
+            ContentInspSCBA::create([
+                'ins_ss_form_id' => $form->id,
+                'ins_ss_location_id' => $id,
+                'ins_ss_leaka' => $insSSLeakaArray[$key],
+                'ins_ss_water_shower' => $insSSWaterShowerArray[$key],
+                'ins_ss_water_eye_wash' => $insSSWaterEyeWashArray[$key],
+                'ins_ss_valve_or_seal' => $insSSValveOrSealArray[$key],
+                'ins_ss_sign_board' => $insSSSignBoardArray[$key],
+                'ins_ss_cleanliness' => $insSSCleanlinessArray[$key],
+                'ins_ss_alarm_condition' => $insSSAlarmConditionArray[$key],
+                'ins_sc_remark' => $scRemarkValArray[$key]
+            ]);
+        }
 
         return response()->json([
             'code' => 200,

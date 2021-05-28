@@ -5,6 +5,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContentInspSCBA extends Model
 {
-	protected $table = 'content_insp_scba';
+	protected $table = 'form_ins_scba_contents';
 }
 

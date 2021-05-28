@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContentInspH2sCnct extends Model
 {
-	protected $table = 'content_insp_h2s_cnct';
+	protected $table = 'form_ins_h2s_contents';
 }
