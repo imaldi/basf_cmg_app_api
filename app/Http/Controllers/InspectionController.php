@@ -135,79 +135,146 @@ class InspectionController extends Controller
 
     public function getOneLadder($id)
     {
-        $forms= [FormsInspLadder::find($id)];
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get Data',
-            'data' =>
-            FormsInspLadderResource::collection($forms)
-        ]);
+        try{
+            $forms= [FormsInspLadder::findOrFail($id)];
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' =>
+                FormsInspLadderResource::collection($forms)
+            ]);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Ladder Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function getOneH2s($id)
     {
-        $forms= [FormsInspH2sConcent::find($id)];
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get Data',
-            'data' =>
-            FormsInspH2sConcentResource::collection($forms)
-        ]);
+        try{
+            $forms= [FormsInspH2sConcent::findOrFail($id)];
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' =>
+                FormsInspH2sConcentResource::collection($forms)
+            ]);
+        }
+
+        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection H2s Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function getOneFumeHood($id)
     {
-        $forms= [FormsInspFumeHood::find($id)];
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get Data',
-            'data' =>
-            FormsInspFumeHoodResource::collection($forms)
-        ]);
+        try{
+            $forms= [FormsInspFumeHood::findOrFail($id)];
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' =>
+                FormsInspFumeHoodResource::collection($forms)
+            ]);
+        }
+
+        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Fume Hood Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function getOneSpillKit($id)
     {
-        $forms= [FormsInspSpillKit::find($id)];
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get Data',
-            'data' =>
-            FormsInspSpillKitResource::collection($forms)
-        ]);
+        try{
+            $forms= [FormsInspSpillKit::findOrFail($id)];
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' =>
+                FormsInspSpillKitResource::collection($forms)
+            ]);
+        }
+        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Spill Kit Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function getOneSafetyHarness($id)
     {
-        $forms= [FormsInspSafetyHarness::find($id)];
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get Data',
-            'data' =>
-            FormsInspSafetyHarnessResource::collection($forms)
-        ]);
+        try{
+            $forms= [FormsInspSafetyHarnest::findOrFail($id)];
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' =>
+                FormInsSafetyHarnessResource::collection($forms)
+            ]);
+        }
+
+        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Safety Harness Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function getOneScba($id)
     {
-        $forms= [FormsInspSCBA::find($id)];
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get Data',
-            'data' =>
-            FormsInspSCBAResource::collection($forms)
-        ]);
+        try{
+            $forms= [FormsInspSCBA::findOrFail($id)];
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' =>
+                FormsInsScbaResource::collection($forms)
+            ]);
+        }
+
+        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection SCBA Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function getOneSafetyShower($id)
     {
-        $forms= [FormsInspSafetyShower::find($id)];
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Get Data',
-            'data' =>
-            FormsInspSafetyShowerResource::collection($forms)
-        ]);
+        try{
+            $forms= [FormsInspSafetyShower::findOrFail($id)];
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' =>
+                FormInsSafetyShowerResource::collection($forms)
+            ]);
+        }
+
+        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Safety Shower Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     /// Create \\\
