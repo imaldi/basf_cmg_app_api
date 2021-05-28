@@ -24,9 +24,9 @@ use App\Http\Resources\FormsInspLadderResource;
 use App\Http\Resources\FormsInspH2sConcentResource;
 use App\Http\Resources\FormsInspFumeHoodResource;
 use App\Http\Resources\FormsInspSpillKitResource;
-use App\Http\Resources\FormsInspSafetyHarnestResource;
-use App\Http\Resources\FormsInspSCBAResource;
-use App\Http\Resources\FormsInspSafetyShowerResource;
+use App\Http\Resources\FormInsSafetyHarnessResource;
+use App\Http\Resources\FormsInsScbaResource;
+use App\Http\Resources\FormInsSafetyShowerResource;
 
 
 class InspectionController extends Controller
@@ -404,6 +404,7 @@ class InspectionController extends Controller
             'ins_sk_inspector_id' => Auth::user()->id,
             'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->first()->id,
             'ins_sk_status' => 2,
+            'ins_sk_status' => 1,
             'ins_sk_submited_date' => Carbon::now(),
             'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
         ]);
@@ -472,25 +473,35 @@ class InspectionController extends Controller
         $subArraySHShockAbsorberPack = substr($insSHShockAbsorberPack, 1, -1);
         $shShockAbsorberPackArray = explode(",",$subArraySHShockAbsorberPack);
 
-        $insSHRemarkVal = $request->input('ins_sh_remark');
+        $insSHRemarkVal = $request->input('ins_sh_remark_array');
         $subArraySHRemarkVal = substr($insSHRemarkVal, 1, -1);
         $shRemarkValArray = explode(",",$subArraySHRemarkVal);
 
         $form = FormsInspSafetyHarnest::create(
             $request->except([
                 'ins_sh_approved_date',
+                'location_ids',
+                'ins_sh_webbing',
+                'ins_sh_d_rings',
+                'ins_sh_attachment_buckles',
+                'ins_sh_hook_or_carabiner',
+                'ins_sh_web_lanyard',
+                'ins_sh_rope_lanyard',
+                'ins_sh_shock_absorber_pack',
+                'ins_sh_remark_array',
             ])
         );
         $form->update([
             'ins_sh_inspector_id' => Auth::user()->id,
             'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->first()->id,
             'ins_sh_status' => 2,
+            'ins_sh_status' => 1,
             'ins_sh_submited_date' => Carbon::now(),
             'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
         ]);
 
         foreach($idLocArray as $key=>$id){
-            ContentInspH2sCnct::create([
+            ContentInspSafetyHarnest::create([
                 'ins_sh_form_id' => $form->id,
                 'ins_sh_location_id' => $id,
                 'ins_sh_webbing' => $insSHWebbingArray[$key],
@@ -542,10 +553,10 @@ class InspectionController extends Controller
         $insSCWalveOrSealArray = explode(",",$subArrayInsSCWalveOrSeal);
 
         $insSCMaskerCondition = $request->input('ins_sc_masker_condition');
-        $subArrayInsSCMaskerCondition = substr($insScWalveOrSeal, 1, -1);
+        $subArrayInsSCMaskerCondition = substr($insSCMaskerCondition, 1, -1);
         $insSCMaskerConditionArray = explode(",",$subArrayInsSCMaskerCondition);
 
-        $insSCRemarkVal = $request->input('ins_sc_remark');
+        $insSCRemarkVal = $request->input('ins_sc_remark_array');
         $subArraySCRemarkVal = substr($insSCRemarkVal, 1, -1);
         $scRemarkValArray = explode(",",$subArraySCRemarkVal);
 
@@ -553,12 +564,19 @@ class InspectionController extends Controller
         $form = FormsInspSCBA::create(
             $request->except([
                 'ins_sc_approved_date',
+                'location_ids',
+                'ins_sc_leaka',
+                'ins_sc_pressure_bar',
+                'ins_sc_walve_or_seal',
+                'ins_sc_masker_condition',
+                'ins_sc_remark_array',
             ])
         );
         $form->update([
             'ins_sc_inspector_id' => Auth::user()->id,
-            'ins_sc_inspector_spv_id' => User::role('Inspection - SCBA - SPV')->first()->id,
+            // 'ins_sc_inspector_spv_id' => User::role('Inspection - SCBA - SPV')->first()->id,
             'ins_sc_status' => 2,
+            'ins_sc_is_active' => 1,
             'ins_sc_submited_date' => Carbon::now()
         ]);
 
@@ -627,24 +645,34 @@ class InspectionController extends Controller
         $subArrayInsSSAlarmCondition = substr($insSSAlarmCondition, 1, -1);
         $insSSAlarmConditionArray = explode(",",$subArrayInsSSAlarmCondition);
 
-        $insSSRemarkVal = $request->input('ins_ss_remarks');
+        $insSSRemarkVal = $request->input('ins_ss_remarks_array');
         $subArraySSRemarkVal = substr($insSSRemarkVal, 1, -1);
         $ssRemarkValArray = explode(",",$subArraySSRemarkVal);
 
         $form = FormsInspSafetyShower::create(
             $request->except([
                 'ins_ss_approved_date',
+                'location_ids',
+                'ins_ss_leaka',
+                'ins_ss_water_shower',
+                'ins_ss_water_eye_wash',
+                'ins_ss_valve_or_seal',
+                'ins_ss_sign_board',
+                'ins_ss_cleanliness',
+                'ins_ss_alarm_condition',
+                'ins_ss_remarks_array',
             ])
         );
         $form->update([
             'ins_ss_inspector_id' => Auth::user()->id,
-            'ins_ss_inspector_spv_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
+            // 'ins_ss_inspector_spv_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
             'ins_ss_status' => 2,
+            'ins_ss_status' => 1,
             'ins_ss_submited_date' => Carbon::now()
         ]);
 
         foreach($idLocArray as $key=>$id){
-            ContentInspSCBA::create([
+            ContentInspSafetyShower::create([
                 'ins_ss_form_id' => $form->id,
                 'ins_ss_location_id' => $id,
                 'ins_ss_leaka' => $insSSLeakaArray[$key],
@@ -654,7 +682,7 @@ class InspectionController extends Controller
                 'ins_ss_sign_board' => $insSSSignBoardArray[$key],
                 'ins_ss_cleanliness' => $insSSCleanlinessArray[$key],
                 'ins_ss_alarm_condition' => $insSSAlarmConditionArray[$key],
-                'ins_sc_remark' => $scRemarkValArray[$key]
+                'ins_ss_remarks' => $ssRemarkValArray[$key]
             ]);
         }
 

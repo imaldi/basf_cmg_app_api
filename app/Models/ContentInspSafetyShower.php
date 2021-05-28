@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContentInspSafetyShower extends Model
 {
-	protected $table = 'content_insp_ss_ew';
+	protected $table = 'form_ins_safety_shower_contents';
+
+	protected $guarded = [];
+
 }
 

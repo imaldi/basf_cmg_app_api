@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\MasterLocation;
+
 
 class ContentInsSafetyShowerResource
  extends JsonResource
@@ -16,10 +18,10 @@ class ContentInsSafetyShowerResource
     public function toArray($request)
     {
         return [
-            'id' => $this->,
-            'ins_ss_form_id' => $this->,
+            'id' => $this->id,
+            'ins_ss_form_id' => $this->ins_ss_form_id,
             'ins_ss_location_id' => $this->ins_ss_location_id,
-            'ins_ss_location_name' => $this->ins_ss_location_id,
+            'ins_ss_location_name' => MasterLocation::find($this->ins_ss_location_id)->loc_name,
             'ins_ss_leaka' => $this->ins_ss_leaka,
             'ins_ss_water_shower' => $this->ins_ss_water_shower,
             'ins_ss_water_eye_wash' => $this->ins_ss_water_eye_wash,

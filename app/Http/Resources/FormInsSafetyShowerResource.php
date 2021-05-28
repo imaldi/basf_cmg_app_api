@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ContentInsSafetyShowerResource;
 use App\User;
 use App\Models\MasterLocation;
+use App\Models\ContentInspSafetyShower;
+
 
 
 class FormInsSafetyShowerResource extends JsonResource
@@ -18,13 +20,13 @@ class FormInsSafetyShowerResource extends JsonResource
      */
     public function toArray($request)
     {
-        $contents = ContentInsSafetyShowerResource::where('id_insp_h2s_cnct',$this->id)->get();
+        $contents = ContentInspSafetyShower::where('ins_ss_form_id',$this->id)->get();
         return [
             'id' => $this->id,
             'ins_ss_name' => $this->id,
             'ins_ss_submited_date' => $this->id,
             'ins_ss_inspector_id' => $this->ins_ss_inspector_id,
-            'ins_ss_inspector_name' => $this->ins_ss_inspector_id,
+            'ins_ss_inspector_name' => User::find($this->ins_ss_inspector_id)->emp_name,
             'ins_ss_approved_date' => $this->id,
             'ins_ss_checker_id' => $this->ins_ss_checker_id,
             'ins_ss_checker_name' => $this->ins_ss_checker_id,
@@ -33,7 +35,7 @@ class FormInsSafetyShowerResource extends JsonResource
             'ins_ss_is_active' => $this->id,
             'ins_created_at' => $this->createdAt,
             'ins_updated_at' => $this->updatedAt,
-            'contents' => ContentInsSafetyShowerResource::collection($contents);
+            'contents' => ContentInsSafetyShowerResource::collection($contents)
         ];
     }
 }

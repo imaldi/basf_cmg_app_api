@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormsInspSCBA extends Model
 {
-	protected $table = 'form_ins_scba';
+	protected $table = 'form_ins_scba_forms';
+
+	protected $guarded = [];
+
 }
 
