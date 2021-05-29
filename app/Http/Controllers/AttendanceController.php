@@ -103,9 +103,11 @@ class AttendanceController extends Controller
             ], 200);
     }
 
-    public function getAllAttendance()
+    public function getAllAttendance(Request $request)
     {
-        $formAttandance = FormAttendance::paginate(15);
+        $formAttandance = FormAttendance::
+            orderBy($request->query('orderBy'),'desc')->
+        paginate(15);
         // $request->query('orderBy')
 
         return response()->json([

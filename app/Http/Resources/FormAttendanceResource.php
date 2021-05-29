@@ -42,8 +42,8 @@ class FormAttendanceResource extends JsonResource
             'att_place_others' => $this->att_place_others,
             'att_category_others' => $this->att_category_others,
             'att_trainer_signature' => $this->att_trainer_signature,
-            'ins_created_at' => $this->created_at,
-            'ins_updated_at' => $this->updated_at,
+            'att_created_at' => $this->created_at,
+            'att_updated_at' => $this->updated_at,
             'contents' => FormAttendancePersonalResource::collection($contents)
         ];
     }
