@@ -33,8 +33,8 @@ class FormInsSafetyHarnessResource extends JsonResource
             'ins_sh_cp_actions' => $this->ins_sh_cp_actions,
             'ins_sh_status' => $this->ins_sh_status,
             'ins_sh_is_active' => $this->ins_sh_is_active,
-            'ins_created_at' => $this->createdAt,
-            'ins_updated_at' => $this->updatedAt,
+            'ins_created_at' => $this->created_at,
+            'ins_updated_at' => $this->updated_at,
             'contents' => ContentFormInsSafetyHarnessResource::collection($contents)
         ];
     }

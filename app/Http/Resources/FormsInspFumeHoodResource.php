@@ -50,8 +50,8 @@ class FormsInspFumeHoodResource extends JsonResource
             'ins_fh_status' => $this->ins_fh_status,
             'ins_fh_is_active' => $this->ins_fh_is_active,
             // '' => $this->,
-            'ins_created_at' => $this->createdAt,
-            'ins_updated_at' => $this->updatedAt,
+            'ins_created_at' => $this->created_at,
+            'ins_updated_at' => $this->updated_at,
             // 'contents' => ContentInspFumeHoodResource::collection($contents);
         ];
     }

@@ -27,6 +27,8 @@ use App\Http\Resources\FormsInspSpillKitResource;
 use App\Http\Resources\FormInsSafetyHarnessResource;
 use App\Http\Resources\FormsInsScbaResource;
 use App\Http\Resources\FormInsSafetyShowerResource;
+use App\Http\Resources\ContentInspH2sConcentResource;
+
 
 
 class InspectionController extends Controller
@@ -279,7 +281,7 @@ class InspectionController extends Controller
 
     /// Create \\\
 
-    public function createLadder(Request $request)
+    public function createOrSaveDraftLadder(Request $request)
     {
 
         $employee = Auth::user();
@@ -288,9 +290,10 @@ class InspectionController extends Controller
         $date->toDateTimeString();
         $department = $employee->department()->first();
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+        $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
-        $formID = FormsInspLadder::max('id') + 1;
-        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+        $idForm = $request->input('form_id');
+        if($idForm == null || $idForm  == 0){
 
         $form = FormsInspLadder::create(
             $request->except([
@@ -298,11 +301,13 @@ class InspectionController extends Controller
                 'ins_la_approved_date',
             ])
             );
+        $formID = FormsInspLadder::max('id');
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
         $form->update([
             'ins_la_inspector_id' => Auth::user()->id,
             'ins_la_inspector_spv_id' => User::role('Inspection - Ladder - SPV')->first()->id,
-            // 'ins_la_status' => 2,
-            'ins_la_name' => 'GS-F-5003-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
+            'ins_la_status' => 2,
+            'ins_la_name' => 'GS-F-5003-2/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             'ins_la_submited_date' => Carbon::now()
         ]);
 
@@ -313,10 +318,35 @@ class InspectionController extends Controller
             // $form
             [new FormsInspLadderResource($form)]
         ]);
+        } else {
+            try{
+                $form = FormsInspLadder::findOrFail($idForm);
+                $form->update(
+                    $request->except([
+                        'ins_la_inspector_id',
+                        'ins_la_inspector_spv_id',
+                        'ins_la_approved_date',
+                    ])
+                    );
+
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Success Save Draft',
+                    'data' =>
+                    [new FormsInspLadderResource($form)]
+                ]);
+            } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'Given Inspection Ladder Form ID not found',
+                    'data' => []
+                    ], 404);
+            }
+        }
     }
 
     //ready to test
-    public function createH2s(Request $request)
+    public function createOrSaveDraftH2s(Request $request)
     {
         $employee = Auth::user();
 
@@ -324,9 +354,8 @@ class InspectionController extends Controller
         $date->toDateTimeString();
         $department = $employee->department()->first();
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+        $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
-        $formID = FormsInspH2sConcent::max('id') + 1;
-        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
@@ -349,47 +378,96 @@ class InspectionController extends Controller
         $subArrayRemarkVal = substr($insH2RemarkVal, 1, -1);
         $remarkValArray = explode(",",$subArrayRemarkVal);
 
-
-
-        $form = FormsInspH2sConcent::create(
-            $request->except([
-                'ins_h2_approved_date',
-                'location_ids',
-                'ins_h2_check_05_percentage_array',
-                'ins_h2_check_10_percentage_array',
-                'ins_h2_check_lel_percentage_array',
-                'ins_h2_remark_array'
-            ])
+        $idForm = $request->input('form_id');
+        if($idForm == null || $idForm  == 0){
+            $form = FormsInspH2sConcent::create(
+                $request->except([
+                    'ins_h2_approved_date',
+                    'location_ids',
+                    'ins_h2_check_05_percentage_array',
+                    'ins_h2_check_10_percentage_array',
+                    'ins_h2_check_lel_percentage_array',
+                    'ins_h2_remark_array'
+                ])
             );
-        $form->update([
-            'ins_h2_inspector_id' => Auth::user()->id,
-            'ins_h2_inspector_spv_id' => User::role('Inspection - H2S - SPV')->first()->id,
-            'ins_h2_status' => 2,
-            'ins_h2_is_active' => 1,
-            'ins_h2_submited_date' => Carbon::now(),
-            'ins_h2_name' => 'GS-F-5002-4/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
-        ]);
 
-        foreach($idLocArray as $key=>$id){
-            ContentInspH2sCnct::create([
-                'ins_h2_form_id' => $form->id,
-                'ins_h2_location_id' => $id,
-                'ins_h2_check_05_percentage' => $idCheck05PercentArray[$key],
-                'ins_h2_check_10_percentage' => $idCheck10PercentArray[$key],
-                'ins_h2_check_lel_percentage' => $idCheckLelPercentArray[$key],
-                'ins_h2_remark' => $remarkValArray[$key]
+            $formID = FormsInspH2sConcent::max('id');
+            $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
+            $form->update([
+                'ins_h2_inspector_id' => Auth::user()->id,
+                'ins_h2_inspector_spv_id' => User::role('Inspection - H2S - SPV')->first()->id,
+                'ins_h2_status' => 2,
+                'ins_h2_is_active' => 1,
+                'ins_h2_submited_date' => Carbon::now(),
+                'ins_h2_name' => 'GS-F-5002-4/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             ]);
-        }
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Create Data',
-            'data' =>
-            [new FormsInspH2sConcentResource($form)]
-        ]);
+            foreach($idLocArray as $key=>$id){
+                ContentInspH2sCnct::create([
+                    'ins_h2_form_id' => $form->id,
+                    'ins_h2_location_id' => $id,
+                    'ins_h2_check_05_percentage' => $idCheck05PercentArray[$key],
+                    'ins_h2_check_10_percentage' => $idCheck10PercentArray[$key],
+                    'ins_h2_check_lel_percentage' => $idCheckLelPercentArray[$key],
+                    'ins_h2_remark' => $remarkValArray[$key]
+                ]);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Create Data',
+                'data' =>
+                [new FormsInspH2sConcentResource($form)]
+            ]);
+        } else {
+            try{
+                $form = FormsInspH2sConcent::findOrFail($idForm);
+                $contents = ContentInspH2sCnct::where('ins_h2_form_id',$idForm)->get();
+
+                $form->update(
+                    $request->except([
+                        'ins_h2_inspector_id',
+                        'ins_h2_inspector_spv_id',
+                        'ins_h2_approved_date',
+                        'location_ids',
+                        'ins_h2_check_05_percentage_array',
+                        'ins_h2_check_10_percentage_array',
+                        'ins_h2_check_lel_percentage_array',
+                        'ins_h2_remark_array',
+                        'form_id'
+                    ])
+                );
+
+                foreach($idLocArray as $key=>$id){
+                    // $formContent = $contents[$key]
+                    $contents[$key]->update([
+                        'ins_h2_check_05_percentage' => $idCheck05PercentArray[$key],
+                        'ins_h2_check_10_percentage' => $idCheck10PercentArray[$key],
+                        'ins_h2_check_lel_percentage' => $idCheckLelPercentArray[$key],
+                        'ins_h2_remark' => $remarkValArray[$key]
+                    ]);
+                }
+
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Success Save Draft',
+                    'data' =>
+                    // $idLocArray
+                    [new FormsInspH2sConcentResource($form)]
+                    // ContentInspH2sConcentResource::collection($contents)
+                ]);
+            } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'Given Inspection H2s Form ID not found',
+                    'data' => []
+                    ], 404);
+            }
+        }
     }
 
-    public function createFumeHood(Request $request)
+    public function createOrSaveDraftFumeHood(Request $request)
     {
         $employee = Auth::user();
 
@@ -397,9 +475,10 @@ class InspectionController extends Controller
         $date->toDateTimeString();
         $department = $employee->department()->first();
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
+        $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
-        $formID = FormsInspFumeHood::max('id') + 1;
-        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+        $idForm = $request->input('form_id');
+        if($idForm == null || $idForm  == 0){
 
         $form = FormsInspFumeHood::create(
             $request->except([
@@ -407,13 +486,15 @@ class InspectionController extends Controller
                 'ins_fh_approved_date',
             ])
         );
+        $formID = FormsInspFumeHood::max('id');
+        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
         $form->update([
             'ins_fh_inspector_id' =>  $employee->id,
             'ins_fh_inspector_spv_id' => User::role('Inspection - Fume Hood - SPV')->first()->id,
             'ins_fh_status' => 2,
             'ins_fh_submited_date' => Carbon::now(),
             'ins_fh_is_active' => 1,
-            'ins_fh_name' => 'GS-F-5001-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
+            'ins_fh_name' => 'GS-F-5001-2'.'/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
         ]);
 
         return response()->json([
@@ -422,9 +503,34 @@ class InspectionController extends Controller
             'data' =>
            [new FormsInspFumeHoodResource($form)]
         ]);
+        } else {
+            try{
+                $form = FormsInspFumeHood::findOrFail($idForm);
+                $form->update(
+                    $request->except([
+                        'ins_fh_inspector_id',
+                        'ins_fh_inspector_spv_id',
+                        'ins_fh_approved_date',
+                    ])
+                );
+
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Success Save Draft',
+                    'data' =>
+                    [new FormsInspFumeHoodResource($form)]
+                ]);
+            } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'Given Inspection Fume Hood Form ID not found',
+                    'data' => []
+                    ], 404);
+            }
+        }
     }
 
-    public function createSpillKit(Request $request)
+    public function createOrSaveDraftSpillKit(Request $request)
     {
         $employee = Auth::user();
 
@@ -457,45 +563,88 @@ class InspectionController extends Controller
         $subArraySKRemarkVal = substr($insSKRemarkVal, 1, -1);
         $skRemarkValArray = explode(",",$subArraySKRemarkVal);
 
-        $form = FormsInspSpillKit::create(
-            $request->except([
-                'ins_sk_approved_date',
-                'location_ids',
-                'ins_sk_box_condition',
-                'ins_sk_contents',
-                'ins_sk_documents',
-                'ins_sk_remark_array'
-                ])
-        );
-        $form->update([
-            'ins_sk_inspector_id' => Auth::user()->id,
-            'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->first()->id,
-            'ins_sk_status' => 2,
-            'ins_sk_is_active' => 1,
-            'ins_sk_submited_date' => Carbon::now(),
-            'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
-        ]);
-
-        foreach($idLocArray as $key=>$id){
-            ContentInspSpillKit::create([
-                'ins_sk_form_id' => $form->id,
-                'ins_sk_location_id' => $id,
-                'ins_sk_box_condition' => $skBoxConditionArray[$key],
-                'ins_sk_contents' => $skContentsArray[$key],
-                'ins_sk_documents' => $skDocumentsArray[$key],
-                'ins_sk_remark' => $skRemarkValArray[$key]
+        $idForm = $request->input('form_id');
+        if($idForm == null || $idForm  == 0){
+            $form = FormsInspSpillKit::create(
+                $request->except([
+                    'ins_sk_approved_date',
+                    'location_ids',
+                    'ins_sk_box_condition',
+                    'ins_sk_contents',
+                    'ins_sk_documents',
+                    'ins_sk_remark_array'
+                    ])
+            );
+            $form->update([
+                'ins_sk_inspector_id' => Auth::user()->id,
+                'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->first()->id,
+                'ins_sk_status' => 2,
+                'ins_sk_is_active' => 1,
+                'ins_sk_submited_date' => Carbon::now(),
+                'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
             ]);
-        }
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Create Data',
-            'data' =>
-           [new FormsInspSpillKitResource($form)]
-        ]);
+            foreach($idLocArray as $key=>$id){
+                ContentInspSpillKit::create([
+                    'ins_sk_box_condition' => $skBoxConditionArray[$key],
+                    'ins_sk_contents' => $skContentsArray[$key],
+                    'ins_sk_documents' => $skDocumentsArray[$key],
+                    'ins_sk_remark' => $skRemarkValArray[$key]
+                ]);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Create Data',
+                'data' =>
+                [new FormsInspSpillKitResource($form)]
+            ]);
+        }else {
+            try{
+            $form = FormsInspSpillKit::findOrFail($idForm);
+            $contents = ContentInspSpillKit::where('ins_sk_form_id',$idForm)->get();
+
+            $form->update(
+                $request->except([
+                    'ins_sk_inspector_id',
+                    'ins_sk_inspector_spv_id',
+                    'ins_sk_approved_date',
+                    'location_ids',
+                    'ins_sk_box_condition',
+                    'ins_sk_contents',
+                    'ins_sk_documents',
+                    'ins_sk_remark_array',
+                    'form_id'
+                ])
+            );
+
+            foreach($idLocArray as $key=>$id){
+                $formContent = $contents[$key];
+                $formContent->update([
+                    'ins_sk_box_condition' => $skBoxConditionArray[$key],
+                    'ins_sk_contents' => $skContentsArray[$key],
+                    'ins_sk_documents' => $skDocumentsArray[$key],
+                    'ins_sk_remark' => $skRemarkValArray[$key]
+                ]);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Update Data',
+                'data' =>
+                [new FormsInspSpillKitResource($form)]
+            ]);
+            }catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'Given Inspection Spill Kit Form ID not found',
+                    'data' => []
+                    ], 404);
+            }
+        }
     }
 
-    public function createSafetyHarness(Request $request)
+    public function createOrSaveDraftSafetyHarness(Request $request)
     {
         $employee = Auth::user();
 
@@ -544,53 +693,106 @@ class InspectionController extends Controller
         $subArraySHRemarkVal = substr($insSHRemarkVal, 1, -1);
         $shRemarkValArray = explode(",",$subArraySHRemarkVal);
 
-        $form = FormsInspSafetyHarnest::create(
-            $request->except([
-                'ins_sh_approved_date',
-                'location_ids',
-                'ins_sh_webbing',
-                'ins_sh_d_rings',
-                'ins_sh_attachment_buckles',
-                'ins_sh_hook_or_carabiner',
-                'ins_sh_web_lanyard',
-                'ins_sh_rope_lanyard',
-                'ins_sh_shock_absorber_pack',
-                'ins_sh_remark_array',
-            ])
-        );
-        $form->update([
-            'ins_sh_inspector_id' => Auth::user()->id,
-            'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->first()->id,
-            'ins_sh_status' => 2,
-            'ins_sh_is_active' => 1,
-            'ins_sh_submited_date' => Carbon::now(),
-            'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
-        ]);
-
-        foreach($idLocArray as $key=>$id){
-            ContentInspSafetyHarnest::create([
-                'ins_sh_form_id' => $form->id,
-                'ins_sh_location_id' => $id,
-                'ins_sh_webbing' => $insSHWebbingArray[$key],
-                'ins_sh_d_rings' => $shDRingsArray[$key],
-                'ins_sh_attachment_buckles' => $shAttachmentBucklesArray[$key],
-                'ins_sh_hook_or_carabiner' => $shHookOrCarabinerArray[$key],
-                'ins_sh_web_lanyard' => $shWebLanyardArray[$key],
-                'ins_sh_rope_lanyard' => $shRopeLanyardArray[$key],
-                'ins_sh_shock_absorber_pack' => $shShockAbsorberPackArray[$key],
-                'ins_sh_remark' => $shRemarkValArray[$key]
+        $idForm = $request->input('form_id');
+        if($idForm == null || $idForm  == 0){
+            $form = FormsInspSafetyHarnest::create(
+                $request->except([
+                    'ins_sh_approved_date',
+                    'location_ids',
+                    'ins_sh_webbing',
+                    'ins_sh_d_rings',
+                    'ins_sh_attachment_buckles',
+                    'ins_sh_hook_or_carabiner',
+                    'ins_sh_web_lanyard',
+                    'ins_sh_rope_lanyard',
+                    'ins_sh_shock_absorber_pack',
+                    'ins_sh_remark_array',
+                ])
+            );
+            $form->update([
+                'ins_sh_inspector_id' => Auth::user()->id,
+                'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->first()->id,
+                'ins_sh_status' => 2,
+                'ins_sh_is_active' => 1,
+                'ins_sh_submited_date' => Carbon::now(),
+                'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
             ]);
-        }
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Create Data',
-            'data' =>
-           [new FormInsSafetyHarnessResource($form)]
-        ]);
+            foreach($idLocArray as $key=>$id){
+                ContentInspSafetyHarnest::create([
+                    'ins_sh_form_id' => $form->id,
+                    'ins_sh_location_id' => $id,
+                    'ins_sh_webbing' => $insSHWebbingArray[$key],
+                    'ins_sh_d_rings' => $shDRingsArray[$key],
+                    'ins_sh_attachment_buckles' => $shAttachmentBucklesArray[$key],
+                    'ins_sh_hook_or_carabiner' => $shHookOrCarabinerArray[$key],
+                    'ins_sh_web_lanyard' => $shWebLanyardArray[$key],
+                    'ins_sh_rope_lanyard' => $shRopeLanyardArray[$key],
+                    'ins_sh_shock_absorber_pack' => $shShockAbsorberPackArray[$key],
+                    'ins_sh_remark' => $shRemarkValArray[$key]
+                ]);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Create Data',
+                'data' =>
+            [new FormInsSafetyHarnessResource($form)]
+            ]);
+        }else {
+            try{
+            $form = FormsInspSafetyHarnest::findOrFail($idForm);
+            $contents = ContentInspSafetyHarnest::where('ins_sh_form_id',$idForm)->get();
+
+            $form->update(
+                $request->except([
+                    'ins_sh_inspector_id',
+                    'ins_sh_inspector_spv_id',
+                    'ins_sh_approved_date',
+                    'location_ids',
+                    'ins_sh_webbing',
+                    'ins_sh_d_rings',
+                    'ins_sh_attachment_buckles',
+                    'ins_sh_hook_or_carabiner',
+                    'ins_sh_web_lanyard',
+                    'ins_sh_rope_lanyard',
+                    'ins_sh_shock_absorber_pack',
+                    'ins_sh_remark_array',
+                    'form_id'
+                ])
+                );
+
+            foreach($idLocArray as $key=>$id){
+                $formContent = $contents[$key];
+                $formContent->update([
+                    'ins_sh_webbing' => $insSHWebbingArray[$key],
+                    'ins_sh_d_rings' => $shDRingsArray[$key],
+                    'ins_sh_attachment_buckles' => $shAttachmentBucklesArray[$key],
+                    'ins_sh_hook_or_carabiner' => $shHookOrCarabinerArray[$key],
+                    'ins_sh_web_lanyard' => $shWebLanyardArray[$key],
+                    'ins_sh_rope_lanyard' => $shRopeLanyardArray[$key],
+                    'ins_sh_shock_absorber_pack' => $shShockAbsorberPackArray[$key],
+                    'ins_sh_remark' => $shRemarkValArray[$key]
+                ]);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Update Data',
+                'data' =>
+                [new FormInsSafetyHarnessResource($form)]
+            ]);
+        }catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Safety Harness Form ID not found',
+                'data' => []
+                ], 404);
+        }
+        }
     }
 
-    public function createScba(Request $request)
+    public function createOrSaveDraftScba(Request $request)
     {
         $employee = Auth::user();
 
@@ -627,47 +829,91 @@ class InspectionController extends Controller
         $subArraySCRemarkVal = substr($insSCRemarkVal, 1, -1);
         $scRemarkValArray = explode(",",$subArraySCRemarkVal);
 
-
-        $form = FormsInspSCBA::create(
-            $request->except([
-                'ins_sc_approved_date',
-                'location_ids',
-                'ins_sc_leaka',
-                'ins_sc_pressure_bar',
-                'ins_sc_walve_or_seal',
-                'ins_sc_masker_condition',
-                'ins_sc_remark_array',
-            ])
-        );
-        $form->update([
-            'ins_sc_inspector_id' => Auth::user()->id,
-            'ins_sc_checker_id' => User::role('Inspection - SCBA - SPV')->first()->id,
-            'ins_sc_status' => 2,
-            'ins_sc_is_active' => 1,
-            'ins_sc_submited_date' => Carbon::now()
-        ]);
-
-        foreach($idLocArray as $key=>$id){
-            ContentInspSCBA::create([
-                'ins_sc_form_id' => $form->id,
-                'ins_sc_location_id' => $id,
-                'ins_sc_leaka' => $insScLeakaArray[$key],
-                'ins_sc_pressure_bar' => $insSCPressureBarArray[$key],
-                'ins_sc_walve_or_seal' => $insSCWalveOrSealArray[$key],
-                'ins_sc_masker_condition' => $insSCMaskerConditionArray[$key],
-                'ins_sc_remark' => $scRemarkValArray[$key]
+        $idForm = $request->input('form_id');
+        if($idForm == null || $idForm  == 0){
+            $form = FormsInspSCBA::create(
+                $request->except([
+                    'ins_sc_approved_date',
+                    'location_ids',
+                    'ins_sc_leaka',
+                    'ins_sc_pressure_bar',
+                    'ins_sc_walve_or_seal',
+                    'ins_sc_masker_condition',
+                    'ins_sc_remark_array',
+                ])
+            );
+            $form->update([
+                'ins_sc_inspector_id' => Auth::user()->id,
+                'ins_sc_checker_id' => User::role('Inspection - SCBA - SPV')->first()->id,
+                'ins_sc_status' => 2,
+                'ins_sc_is_active' => 1,
+                'ins_sc_submited_date' => Carbon::now()
             ]);
-        }
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Create Data',
-            'data' =>
-           [new FormsInsScbaResource($form)]
-        ]);
+            foreach($idLocArray as $key=>$id){
+                ContentInspSCBA::create([
+                    'ins_sc_form_id' => $form->id,
+                    'ins_sc_location_id' => $id,
+                    'ins_sc_leaka' => $insScLeakaArray[$key],
+                    'ins_sc_pressure_bar' => $insSCPressureBarArray[$key],
+                    'ins_sc_walve_or_seal' => $insSCWalveOrSealArray[$key],
+                    'ins_sc_masker_condition' => $insSCMaskerConditionArray[$key],
+                    'ins_sc_remark' => $scRemarkValArray[$key]
+                ]);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Create Data',
+                'data' =>
+            [new FormsInsScbaResource($form)]
+            ]);
+        } else {
+            try {
+                $form = FormsInspSCBA::findOrFail($idForm);
+                $contents = ContentInspSCBA::where('ins_sc_form_id',$idForm)->get();
+
+                $form->update($request->except([
+                    'ins_sc_inspector_id',
+                    'ins_sc_inspector_spv_id',
+                    'ins_sc_approved_date',
+                    'location_ids',
+                    'ins_sc_leaka',
+                    'ins_sc_pressure_bar',
+                    'ins_sc_walve_or_seal',
+                    'ins_sc_masker_condition',
+                    'ins_sc_remark_array',
+                    'form_id'
+                ])
+                );
+                foreach($idLocArray as $key=>$id){
+                    $formContent = $contents[$key];
+                    $formContent->update([
+                        'ins_sc_leaka' => $insScLeakaArray[$key],
+                        'ins_sc_pressure_bar' => $insSCPressureBarArray[$key],
+                        'ins_sc_walve_or_seal' => $insSCWalveOrSealArray[$key],
+                        'ins_sc_masker_condition' => $insSCMaskerConditionArray[$key],
+                        'ins_sc_remark' => $scRemarkValArray[$key]
+                    ]);
+                }
+
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Success Create Data',
+                    'data' =>
+                    [new FormsInsScbaResource($form)]
+                ]);
+            } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'Given Inspection SCBA Form ID not found',
+                    'data' => []
+                    ], 404);
+            }
+        }
     }
 
-    public function createSafetyShower(Request $request)
+    public function createOrSaveDraftSafetyShower(Request $request)
     {
         $employee = Auth::user();
 
@@ -716,330 +962,273 @@ class InspectionController extends Controller
         $subArraySSRemarkVal = substr($insSSRemarkVal, 1, -1);
         $ssRemarkValArray = explode(",",$subArraySSRemarkVal);
 
-        $form = FormsInspSafetyShower::create(
-            $request->except([
-                'ins_ss_approved_date',
-                'location_ids',
-                'ins_ss_leaka',
-                'ins_ss_water_shower',
-                'ins_ss_water_eye_wash',
-                'ins_ss_valve_or_seal',
-                'ins_ss_sign_board',
-                'ins_ss_cleanliness',
-                'ins_ss_alarm_condition',
-                'ins_ss_remarks_array',
-            ])
-        );
-        $form->update([
-            'ins_ss_inspector_id' => Auth::user()->id,
-            'ins_ss_checker_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
-            'ins_ss_status' => 2,
-            'ins_ss_is_active' => 1,
-            'ins_ss_submited_date' => Carbon::now()
-        ]);
-
-        foreach($idLocArray as $key=>$id){
-            ContentInspSafetyShower::create([
-                'ins_ss_form_id' => $form->id,
-                'ins_ss_location_id' => $id,
-                'ins_ss_leaka' => $insSSLeakaArray[$key],
-                'ins_ss_water_shower' => $insSSWaterShowerArray[$key],
-                'ins_ss_water_eye_wash' => $insSSWaterEyeWashArray[$key],
-                'ins_ss_valve_or_seal' => $insSSValveOrSealArray[$key],
-                'ins_ss_sign_board' => $insSSSignBoardArray[$key],
-                'ins_ss_cleanliness' => $insSSCleanlinessArray[$key],
-                'ins_ss_alarm_condition' => $insSSAlarmConditionArray[$key],
-                'ins_ss_remarks' => $ssRemarkValArray[$key]
+        if($request->input('form_id') != 0 || $request->input('form_id') != null){
+            $form = FormsInspSafetyShower::create(
+                $request->except([
+                    'ins_ss_approved_date',
+                    'location_ids',
+                    'ins_ss_leaka',
+                    'ins_ss_water_shower',
+                    'ins_ss_water_eye_wash',
+                    'ins_ss_valve_or_seal',
+                    'ins_ss_sign_board',
+                    'ins_ss_cleanliness',
+                    'ins_ss_alarm_condition',
+                    'ins_ss_remarks_array',
+                    'form_id'
+                ])
+            );
+            $form->update([
+                'ins_ss_inspector_id' => Auth::user()->id,
+                'ins_ss_checker_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
+                'ins_ss_status' => 2,
+                'ins_ss_is_active' => 1,
+                'ins_ss_submited_date' => Carbon::now()
             ]);
+
+            foreach($idLocArray as $key=>$id){
+                ContentInspSafetyShower::create([
+                    'ins_ss_form_id' => $form->id,
+                    'ins_ss_location_id' => $id,
+                    'ins_ss_leaka' => $insSSLeakaArray[$key],
+                    'ins_ss_water_shower' => $insSSWaterShowerArray[$key],
+                    'ins_ss_water_eye_wash' => $insSSWaterEyeWashArray[$key],
+                    'ins_ss_valve_or_seal' => $insSSValveOrSealArray[$key],
+                    'ins_ss_sign_board' => $insSSSignBoardArray[$key],
+                    'ins_ss_cleanliness' => $insSSCleanlinessArray[$key],
+                    'ins_ss_alarm_condition' => $insSSAlarmConditionArray[$key],
+                    'ins_ss_remarks' => $ssRemarkValArray[$key]
+                ]);
+            }
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Create Data',
+                'data' =>
+               [new FormInsSafetyShowerResource($form)]
+            ]);
+        } else {
+            try{
+                $form = FormsInspSafetyShower::findOrFail($id);
+
+                $contents = ContentInspSafetyShower::where('ins_ss_form_id',$form->id)->get();
+
+                $form->update(
+                    $request->except([
+                        'ins_ss_inspector_id',
+                        'ins_ss_checker_id',
+                        'ins_ss_approved_date',
+                        'location_ids',
+                        'ins_ss_leaka',
+                        'ins_ss_water_shower',
+                        'ins_ss_water_eye_wash',
+                        'ins_ss_valve_or_seal',
+                        'ins_ss_sign_board',
+                        'ins_ss_cleanliness',
+                        'ins_ss_alarm_condition',
+                        'ins_ss_remarks_array',
+                    ])
+                );
+
+                foreach($idLocArray as $key=>$id){
+                    $formContent = $contents[$key];
+                    $formContent->update([
+                        'ins_ss_form_id' => $form->id,
+                        'ins_ss_location_id' => $id,
+                        'ins_ss_leaka' => $insSSLeakaArray[$key],
+                        'ins_ss_water_shower' => $insSSWaterShowerArray[$key],
+                        'ins_ss_water_eye_wash' => $insSSWaterEyeWashArray[$key],
+                        'ins_ss_valve_or_seal' => $insSSValveOrSealArray[$key],
+                        'ins_ss_sign_board' => $insSSSignBoardArray[$key],
+                        'ins_ss_cleanliness' => $insSSCleanlinessArray[$key],
+                        'ins_ss_alarm_condition' => $insSSAlarmConditionArray[$key],
+                        'ins_ss_remarks' => $ssRemarkValArray[$key]
+                    ]);
+                }
+
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Success Create Data',
+                    'data' =>
+                [new FormInsSafetyShowerResource($form)]
+                ]);
+            } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'Given Inspection Safety Shower Form ID not found',
+                    'data' => []
+                    ], 404);
+            }
         }
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Create Data',
-            'data' =>
-           [new FormInsSafetyShowerResource($form)]
-        ]);
     }
-
-    /// Save Draft \\\
-    public function saveDraftLadder(Request $request,$id)
-    {
-        $form = FormsInspLadder::firstOrFail(['id' => $id]);
-        $form->update(
-            $request->except([
-                'ins_la_inspector_id',
-                'ins_la_inspector_spv_id',
-                'ins_la_approved_date',
-            ])
-        )->update([
-            'ins_la_status' => 1
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-           [new FormsInspLadderResource($form)]
-        ]);
-    }
-
-    public function saveDraftH2s(Request $request)
-    {
-        $form = FormsInspH2sConcent::firstOrFail(['id' => $id]);
-        $form->update(
-            $request->except([
-                'ins_h2_inspector_id',
-                'ins_h2_inspector_spv_id',
-                'ins_h2_approved_date',
-            ])
-        )->update([
-            'ins_h2_status' => 1
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-           [new FormsInspH2sConcent($form)]
-        ]);
-    }
-
-    public function saveDraftFumeHood(Request $request)
-    {
-        $form = FormsInspFumeHood::firstOrFail(['id' => $id]);
-        $form->update(
-            $request->except([
-                'ins_fh_inspector_id',
-                'ins_fh_inspector_spv_id',
-                'ins_fh_approved_date',
-            ])
-        )->update([
-            'ins_fh_status' => 1
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-           [new FormsInspFumeHoodResource($form)]
-        ]);
-    }
-
-    public function saveDraftSpillKit(Request $request)
-    {
-        $form = FormsInspLadder::firstOrFail(['id' => $id]);
-        $form->update(
-            $request->except([
-                'ins_sk_inspector_id',
-                'ins_sk_inspector_spv_id',
-                'ins_sk_approved_date',
-            ])
-        )->update([
-            'ins_sk_status' => 1
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspLadderResource($form)]
-        ]);
-    }
-
-    public function saveDraftSafetyHarness(Request $request)
-    {
-        $form = FormsInspSafetyHarness::firstOrFail(['id' => $id]);
-        $form->update(
-            $request->except([
-                'ins_sh_inspector_id',
-                'ins_sh_inspector_spv_id',
-                'ins_sh_approved_date',
-            ])
-        )->update([
-            'ins_sh_status' => 1
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspSafetyHarnessResource($form)]
-        ]);
-    }
-
-    public function saveDraftScba(Request $request)
-    {
-        $form = FormsInspSCBA::firstOrFail(['id' => $id]);
-        $form->update(
-            $request->except([
-                'ins_sc_inspector_id',
-                'ins_sc_inspector_spv_id',
-                'ins_sc_approved_date',
-            ])
-        )->update([
-            'ins_sc_status' => 1
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInsScbaResource($form)]
-        ]);
-    }
-
-    public function saveDraftSafetyShower(Request $request)
-    {
-        $form = FormsInspSafetyShower::firstOrFail(['id' => $id]);
-        $form->update(
-            $request->except([
-                'ins_sh_inspector_id',
-                'ins_sh_inspector_spv_id',
-                'ins_sh_approved_date',
-            ])
-        )->update([
-            'ins_sh_status' => 1
-        ]);
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspSafetyShowerResource($form)]
-        ]);
-    }
-
-    // public function saveDraftScba(Request $request)
-    // {
-    //     $form = FormsInspSCBA::firstOrFail(['id' => $id])->update(
-    //         $request->except([
-    //             'ins_sc_inspector_id',
-    //             'ins_sc_inspector_spv_id',
-    //             'ins_sc_approved_date',
-    //         ])
-    //     )->update([
-    //         'ins_sc_status' => 1
-    //     ]);
-
-    //     return response()->json([
-    //         'code' => 200,
-    //         'message' => 'Success Save Draft',
-    //         'data' =>
-    //        [new FormsInsScbaResource($form)
-    //     ]);
-    // }
 
     /// Approve \\\
 
     public function approveLadder($id)
     {
-        $form = FormsInspLadder::find($id);
-        $form->update([
-            'ins_la_status' => 3,
-            'ins_la_approved_date' => Carbon::now(),
-        ]);
+        try {
+            $form = FormsInspLadder::find($id);
+            $form->update([
+                'ins_la_status' => 3,
+                'ins_la_approved_date' => Carbon::now(),
+            ]);
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspLadderResource($form)]
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve Form',
+                'data' =>
+                [new FormsInspLadderResource($form)]
+            ]);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Fume Hood Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function approveH2s($id)
     {
-        $form = FormsInspH2sConcent::find($id);
-        $form->update([
-            'ins_h2_status' => 3,
-            'ins_h2_approved_date' => Carbon::now(),
-        ]);
+        try {
+            $form = FormsInspH2sConcent::find($id);
+            $form->update([
+                'ins_h2_status' => 3,
+                'ins_h2_approved_date' => Carbon::now(),
+            ]);
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspH2sConcentResource($form)]
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve Form',
+                'data' =>
+                [new FormsInspH2sConcentResource($form)]
+            ]);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Fume Hood Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function approveFumeHood($id)
     {
-        $form = FormsInspFumeHood::find($id);
-        $form->update([
-            'ins_fh_status' => 3,
-            'ins_fh_approved_date' => Carbon::now(),
-        ]);
+        try {
+            $form = FormsInspFumeHood::find($id);
+            $form->update([
+                'ins_fh_status' => 3,
+                'ins_fh_approved_date' => Carbon::now(),
+            ]);
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspFumeHoodResource($form)]
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve Form',
+                'data' =>
+                [new FormsInspFumeHoodResource($form)]
+            ]);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Fume Hood Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function approveSpillKit($id)
     {
-        $form = FormsInspLadder::find($id);
-        $form->update([
-            'ins_sk_status' => 3,
-            'ins_sk_approved_date' => Carbon::now(),
-        ]);
+        try {
+            $form = FormsInspSpillKit::find($id);
+            $form->update([
+                'ins_sk_status' => 3,
+                'ins_sk_approved_date' => Carbon::now(),
+            ]);
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspSpillKitResource($form)]
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve Form',
+                'data' =>
+                [new FormsInspSpillKitResource($form)]
+            ]);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Spill Kit Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function approveSafetyHarness($id)
     {
-        $form = FormsInspSafetyHarness::find($id);
-        $form->update([
-            'ins_sh_status' => 3,
-            'ins_sh_approved_date' => Carbon::now(),
-        ]);
+        try {
+            $form = FormsInspSafetyHarnest::find($id);
+            $form->update([
+                'ins_sh_status' => 3,
+                'ins_sh_approved_date' => Carbon::now(),
+            ]);
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspSafetyHarnessResource($form)]
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve Form',
+                'data' =>
+                [new FormInsSafetyHarnessResource($form)]
+            ]);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Safety Harness Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function approveScba($id)
     {
-        $form = FormsInspSCBA::find($id);
-        $form->update([
-            'ins_sc_status' => 3,
-            'ins_sc_approved_date' => Carbon::now(),
-        ]);
+        try {
+            $form = FormsInspSCBA::find($id);
+            $form->update([
+                'ins_sc_status' => 3,
+                'ins_sc_approved_date' => Carbon::now(),
+            ]);
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInsScbaResource($form)]
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve Form',
+                'data' =>
+                [new FormsInsScbaResource($form)]
+            ]);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection SCBA Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function approveSafetyShower($id)
     {
-        $form = FormsInspSafetyShower::find($id);
-        $form->update([
-            'ins_ss_status' => 3,
-            'ins_ss_approved_date' => Carbon::now(),
-        ]);
+        try{
+            $form = FormsInspSafetyShower::find($id);
+            $form->update([
+                'ins_ss_status' => 3,
+                'ins_ss_approved_date' => Carbon::now(),
+            ]);
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Save Draft',
-            'data' =>
-            [new FormsInspSafetyShowerResource($form)]
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve Form',
+                'data' =>
+                [new FormInsSafetyShowerResource($form)]
+            ]);
+        }catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Inspection Safety Shower Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 }

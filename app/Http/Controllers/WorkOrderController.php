@@ -69,13 +69,13 @@ class WorkOrderController extends Controller
             // recommendedDays($emergency,$equipment_criteria,$equipment_criteria);
             $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
             $formID = FormWorkOrder::max('id') + 1;
+            $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
             $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
 
             if($request->file('wo_image')){
                 $name = time().$request->file('wo_image')->getClientOriginalName();
                 $request->file('wo_image')->move('uploads/work_order',$name);
                 $formWorkOrder = FormWorkOrder::create([
-                    'wo_name' => 'GS/F/3002-4/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.'77',
                     'wo_issuer_id' => $employee->id,
                     'wo_spv_issuer_id' =>
                     $wo_issuer_spv_id,
@@ -104,7 +104,6 @@ class WorkOrderController extends Controller
                 ]);
             } else {
                 $formWorkOrder = FormWorkOrder::create([
-                    'wo_name' => 'GS/F/3002-4/'.'-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
                     'wo_issuer_id' => $employee->id,
                     'wo_spv_issuer_id' =>
                     $wo_issuer_spv_id,
@@ -132,6 +131,10 @@ class WorkOrderController extends Controller
                     //TODO upload file foto
                 ]);
             }
+
+            $formWorkOrder->update([
+                'wo_name' => 'GS/F/3002-4/' .$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
+                ]);
 
             return response()->json([
                 'code' => 200,

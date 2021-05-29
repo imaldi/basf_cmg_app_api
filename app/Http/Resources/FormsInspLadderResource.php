@@ -45,8 +45,8 @@ class FormsInspLadderResource extends JsonResource
             'ins_la_status' => $this->ins_la_status,
             'ins_la_status_detail' => FormsInspLadder::getStatusDetail($this->ins_la_status),
             'ins_la_is_active' => $this->ins_la_is_active,
-            'ins_created_at' => $this->createdAt,
-            'ins_updated_at' => $this->updatedAt,            
+            'ins_created_at' => $this->created_at,
+            'ins_updated_at' => $this->updated_at,
         ];
     }
 }

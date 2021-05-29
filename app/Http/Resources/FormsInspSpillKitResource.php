@@ -26,16 +26,16 @@ class FormsInspSpillKitResource extends JsonResource
             'ins_sk_name' => $this->ins_sk_name,
             'ins_sk_submited_date' => $this->ins_sk_submited_date,
             'ins_sk_inspector_id' => $this->ins_sk_inspector_id,
-            'ins_sk_inspector_id' => User::find($this->ins_sk_inspector_id)->emp_name,
+            'ins_sk_inspector_name' => User::find($this->ins_sk_inspector_id)->emp_name,
             'ins_sk_approved_date' => $this->ins_sk_approved_date,
             'ins_sk_inspector_spv_id' => $this->ins_sk_inspector_spv_id,
-            'ins_sk_inspector_spv_id' => User::find($this->ins_sk_inspector_spv_id)->emp_name,
+            'ins_sk_inspector_spv_name' => User::find($this->ins_sk_inspector_spv_id)->emp_name,
             'ins_sk_cp_actions' => $this->ins_sk_cp_actions,
             'ins_sk_status' => $this->ins_sk_status,
             'ins_sk_is_active' => $this->ins_sk_is_active,
             // '' => $this->,
-            'ins_created_at' => $this->createdAt,
-            'ins_updated_at' => $this->updatedAt,
+            'ins_created_at' => $this->created_at,
+            'ins_updated_at' => $this->updated_at,
 
             'contents' => ContentInspSpillKitResource::collection($contents)
         ];

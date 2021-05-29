@@ -25,7 +25,7 @@ class ContentInspSpillKitResource extends JsonResource
             'ins_sk_box_condition' => $this->ins_sk_box_condition,
             'ins_sk_contents' => $this->ins_sk_contents,
             'ins_sk_documents' => $this->ins_sk_documents,
-            'ins_h2_remark' => $this->ins_h2_remark,
+            'ins_sk_remark' => $this->ins_sk_remark,
             // '' => $this->,
             // '' => $this->,
 

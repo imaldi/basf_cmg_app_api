@@ -28,10 +28,12 @@ class FormsInsScbaResource extends JsonResource
             'ins_sc_inspector_name' => User::find($this->ins_sc_inspector_id)->emp_name,
             'ins_sc_approved_date' => $this->ins_sc_approved_date,
             'ins_sc_checker_id' => $this->ins_sc_checker_id,
+            'ins_sc_checker_name' => User::find($this->ins_sc_checker_id)->emp_name,
+            'ins_sc_cp_actions' => $this->ins_sc_cp_actions,
             'ins_sc_status' => $this->ins_sc_status,
             'ins_sc_is_active' => $this->ins_sc_is_active,
-            'ins_created_at' => $this->createdAt,
-            'ins_updated_at' => $this->updatedAt,
+            'ins_created_at' => $this->created_at,
+            'ins_updated_at' => $this->updated_at,
             'contents' => ContentFormsInsScbaResource::collection($contents)
         ];
     }
