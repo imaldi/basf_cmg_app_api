@@ -1,15 +1,6 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
+
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\MEmployeeGroup;
@@ -380,7 +371,9 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     });
 
     $router->group([
-        'prefix' => 'attendance'], function () use ($router){
+        'prefix' => 'attendance',
+        'middleware' => 'group_check:Attendance Admin'], function () use ($router){
+    ], function () use ($router){
             // $router->post('array',['uses' => 'AttendanceController@testFromArrayStringToPHPArray']);
             $router->post('create-attendance-event',[
                 'uses' => 'AttendanceController@createOrEditEventAttandance']);
