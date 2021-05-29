@@ -364,7 +364,9 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->group(['prefix' => 'form5s'], function () use ($router){
         $router->get('all',['uses' => 'InspectionController@getAllLadder', 'middleware' => 'permission_check:view inspection form']);
         $router->get('location-pics/{id}',['uses' => 'Form5sesController@getAllLocationsOfDepartment']);
-
+        $router->post('create',[
+            'uses' => 'Form5sesController@createForm5s',
+            'middleware' => 'permission_check:create 5s form']);
     });
 
     $router->group(['prefix' => 'attendance'], function () use ($router){
@@ -373,29 +375,6 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
     });
 
-    ///// Others
-    $router->post('create-response-work-order', 'EmployeeController@createFormsResponseWorkOrder');
-    $router->post('approve-form-safety-harnest', 'EmployeeController@approveFormSafetyHarnest');
-    $router->get('location-answer-safety-harnest/{idForm}', 'EmployeeController@locationAnswerSafetyHarnest');
-    $router->post('save-edit-ins-safety-harnest', 'EmployeeController@saveEditDraftSafetyHarnest');
-    $router->get('get-all-safety-harnest', 'EmployeeController@getAllSafetyHarnest');
-    $router->post('create-draft-ins-safety-harnest', 'EmployeeController@createDraftInsSafetyHarnest');
-    $router->post('approve-form-fume-hood', 'EmployeeController@approveFormFumeHood');
-    $router->get('location-answer-fume-hood/{idForm}', 'EmployeeController@locationAnswerFumeHood');
-    $router->get('location-answer/{idForm}', 'EmployeeController@locationAnswerH2s');
-    $router->get('get-all-fume-hood', 'EmployeeController@getAllFumeHood');
-    $router->post('save-edit-ins-fume-hood', 'EmployeeController@saveEditInsFumeHood');
-    $router->post('create-draft-ins-fume-hood', 'EmployeeController@createDraftInsFumeHood');
-    $router->post('approve-form-ladder', 'EmployeeController@approveLadder');
-    $router->get('get-all-ladder', 'EmployeeController@getAllLadder');
-    $router->post('edit-draft-ins-ladder', 'EmployeeController@saveEditInsLadder');
-    $router->post('create-draft-ins-ladder', 'EmployeeController@createDraftLadder');
-    $router->get('get-all-h2s', 'EmployeeController@getAllH2s');
-    $router->post('approve-form-h2s', 'EmployeeController@approveFormH2s');
-    $router->post('save-edit-ins-h2s', 'EmployeeController@saveEditInsH2s');
-    $router->post('create-draft-ins-h2s', 'EmployeeController@createDraftInsH2s');
-    $router->get('get-profile-employee/{idEmployee}', 'EmployeeController@getProfileEmployee');
-    $router->post('update-profile-employee/{idEmployee}', 'EmployeeController@updateProfileEmployee');
 
     ///////////// home controller
     $router->get('get-data-department', 'HomeController@getDataDepartment');//akan tidak dipakai

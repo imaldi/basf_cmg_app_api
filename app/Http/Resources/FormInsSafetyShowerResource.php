@@ -23,7 +23,7 @@ class FormInsSafetyShowerResource extends JsonResource
         $contents = ContentInspSafetyShower::where('ins_ss_form_id',$this->id)->get();
         return [
             'id' => $this->id,
-            'ins_ss_name' => $this->id,
+            'ins_ss_name' => $this->ins_ss_name,
             'ins_ss_submited_date' => $this->ins_ss_submited_date,
             'ins_ss_inspector_id' => $this->ins_ss_inspector_id,
             'ins_ss_inspector_name' => User::find($this->ins_ss_inspector_id)->emp_name,

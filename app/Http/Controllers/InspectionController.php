@@ -538,9 +538,7 @@ class InspectionController extends Controller
         $date->toDateTimeString();
         $department = $employee->department()->first();
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
-
-        $formID = FormsInspSpillKit::max('id') + 1;
-        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+        $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
@@ -575,13 +573,17 @@ class InspectionController extends Controller
                     'ins_sk_remark_array'
                     ])
             );
+
+            $formID = FormsInspSpillKit::max('id');
+            $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
             $form->update([
                 'ins_sk_inspector_id' => Auth::user()->id,
                 'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->first()->id,
                 'ins_sk_status' => 2,
                 'ins_sk_is_active' => 1,
                 'ins_sk_submited_date' => Carbon::now(),
-                'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
+                'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             ]);
 
             foreach($idLocArray as $key=>$id){
@@ -652,9 +654,7 @@ class InspectionController extends Controller
         $date->toDateTimeString();
         $department = $employee->department()->first();
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
-
-        $formID = FormsInspSafetyHarnest::max('id') + 1;
-        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+        $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
@@ -709,13 +709,17 @@ class InspectionController extends Controller
                     'ins_sh_remark_array',
                 ])
             );
+
+            $formID = FormsInspSafetyHarnest::max('id');
+            $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
             $form->update([
                 'ins_sh_inspector_id' => Auth::user()->id,
                 'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->first()->id,
                 'ins_sh_status' => 2,
                 'ins_sh_is_active' => 1,
                 'ins_sh_submited_date' => Carbon::now(),
-                'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$formIDFormatted,
+                'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             ]);
 
             foreach($idLocArray as $key=>$id){
@@ -800,9 +804,7 @@ class InspectionController extends Controller
         $date->toDateTimeString();
         $department = $employee->department()->first();
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
-
-        $formID = FormsInspSCBA::max('id') + 1;
-        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+        $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
@@ -842,12 +844,17 @@ class InspectionController extends Controller
                     'ins_sc_remark_array',
                 ])
             );
+
+            $formID = FormsInspSCBA::max('id');
+            $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+
             $form->update([
                 'ins_sc_inspector_id' => Auth::user()->id,
                 'ins_sc_checker_id' => User::role('Inspection - SCBA - SPV')->first()->id,
                 'ins_sc_status' => 2,
                 'ins_sc_is_active' => 1,
-                'ins_sc_submited_date' => Carbon::now()
+                'ins_sc_submited_date' => Carbon::now(),
+                'ins_sc_name' => 'GS-F-3014-2/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             ]);
 
             foreach($idLocArray as $key=>$id){
@@ -899,7 +906,7 @@ class InspectionController extends Controller
 
                 return response()->json([
                     'code' => 200,
-                    'message' => 'Success Create Data',
+                    'message' => 'Success Save Draft',
                     'data' =>
                     [new FormsInsScbaResource($form)]
                 ]);
@@ -921,9 +928,7 @@ class InspectionController extends Controller
         $date->toDateTimeString();
         $department = $employee->department()->first();
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
-
-        $formID = FormsInspSafetyShower::max('id') + 1;
-        $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
+        $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
         //validation supaya bentuknya array
         $locationIds = $request->input('location_ids');
@@ -962,7 +967,8 @@ class InspectionController extends Controller
         $subArraySSRemarkVal = substr($insSSRemarkVal, 1, -1);
         $ssRemarkValArray = explode(",",$subArraySSRemarkVal);
 
-        if($request->input('form_id') != 0 || $request->input('form_id') != null){
+        $idForm = $request->input('form_id');
+        if($idForm == 0 || $idForm == null){
             $form = FormsInspSafetyShower::create(
                 $request->except([
                     'ins_ss_approved_date',
@@ -978,12 +984,15 @@ class InspectionController extends Controller
                     'form_id'
                 ])
             );
+            $formID = FormsInspSafetyShower::max('id');
+            $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
             $form->update([
                 'ins_ss_inspector_id' => Auth::user()->id,
                 'ins_ss_checker_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
                 'ins_ss_status' => 2,
                 'ins_ss_is_active' => 1,
-                'ins_ss_submited_date' => Carbon::now()
+                'ins_ss_submited_date' => Carbon::now(),
+                'ins_ss_name' => 'GS-F-3014-2/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             ]);
 
             foreach($idLocArray as $key=>$id){
@@ -1009,9 +1018,9 @@ class InspectionController extends Controller
             ]);
         } else {
             try{
-                $form = FormsInspSafetyShower::findOrFail($id);
+                $form = FormsInspSafetyShower::findOrFail($idForm);
 
-                $contents = ContentInspSafetyShower::where('ins_ss_form_id',$form->id)->get();
+                $contents = ContentInspSafetyShower::where('ins_ss_form_id',$idForm)->get();
 
                 $form->update(
                     $request->except([
@@ -1027,7 +1036,9 @@ class InspectionController extends Controller
                         'ins_ss_cleanliness',
                         'ins_ss_alarm_condition',
                         'ins_ss_remarks_array',
+                        'form_id'
                     ])
+
                 );
 
                 foreach($idLocArray as $key=>$id){
@@ -1048,7 +1059,7 @@ class InspectionController extends Controller
 
                 return response()->json([
                     'code' => 200,
-                    'message' => 'Success Create Data',
+                    'message' => 'Success Save Draft',
                     'data' =>
                 [new FormInsSafetyShowerResource($form)]
                 ]);

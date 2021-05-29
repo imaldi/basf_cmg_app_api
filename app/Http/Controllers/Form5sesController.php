@@ -78,9 +78,11 @@ class Form5sesController extends Controller
             'form_5s_diligent_desc' => $request->input('form_5s_diligent_desc'),
             'form_5s_total_score' => $totalScore,
             'form_5s_status' => 2,
-        ])->update(
+        ]);
+
+        $form5s->update(
             [
-                'form_5s_name' => 'GS-F-0011-1'.$departmentAbr.$date->month.$date->year.$this->id,
+                'form_5s_name' => 'GS-F-0011-1/'.$departmentAbr.'/'.$date->month.'/'.$date->year.'/'.$this->id,
             ]
         );
         return response()->json([
