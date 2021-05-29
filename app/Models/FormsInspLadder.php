@@ -9,13 +9,13 @@ class FormsInspLadder extends Model
 	protected $table = 'form_ins_ladders';
 	protected $guarded = [];
 
-	public static function getStatusDetail($idInspLadder)
+	public static function getStatusDetail($id)
 	{
-		if($idInspLadder == 1){
+		if($id == 1){
 			return 'in progress';
-		}else if($idInspLadder == 2){
+		}else if($id == 2){
 			return 'waiting spv approve';
-		} else if($idInspLadder == 3){
+		} else if($id == 3){
 			return 'completed';
 		} else {
 			return 'invalid inspection ladder status value';

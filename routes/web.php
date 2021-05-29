@@ -361,18 +361,39 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
     });
 
-    $router->group(['prefix' => 'form5s'], function () use ($router){
-        $router->get('all',['uses' => 'InspectionController@getAllLadder', 'middleware' => 'permission_check:view inspection form']);
-        $router->get('location-pics/{id}',['uses' => 'Form5sesController@getAllLocationsOfDepartment']);
-        $router->post('create',[
-            'uses' => 'Form5sesController@createForm5s',
-            'middleware' => 'permission_check:create 5s form']);
+    $router->group([
+        'prefix' => 'form5s'], function () use ($router){
+            $router->get('all',[
+                'uses' => 'Form5sesController@getAll5s',
+                'middleware' => 'permission_check:view 5s form']);
+            $router->get('get/{id}',[
+                'uses' => 'Form5sesController@getOne5s']);
+            $router->post('create',[
+                'uses' => 'Form5sesController@createOrUpdateForm5s',
+                'middleware' => 'permission_check:create 5s form']);
+            $router->post('save-draft',[
+                'uses' => 'Form5sesController@createOrUpdateForm5s',
+                'middleware' => 'permission_check:update 5s form']);
+            $router->post('approve',[
+                'uses' => 'Form5sesController@approveForm5s',
+                'middleware' => 'permission_check:approve 5s form']);
     });
 
-    $router->group(['prefix' => 'attendance'], function () use ($router){
-        $router->post('array',['uses' => 'AttendanceController@testFromArrayStringToPHPArray']);
-        $router->post('create-attendance-event',['uses' => 'AttendanceController@createEventAttandance']);
-
+    $router->group([
+        'prefix' => 'attendance'], function () use ($router){
+            $router->post('array',['uses' => 'AttendanceController@testFromArrayStringToPHPArray']);
+            $router->post('create-attendance-event',[
+                'uses' => 'AttendanceController@createEventAttandance']);
+            $router->post('fill-personal-attendance/{id}',[
+                'uses' => 'AttendanceController@fillPersonalAttendance']);
+            $router->get('get/{id}',[
+            'uses' => 'AttendanceController@getPersonalAttendance',
+            // 'middleware' => 'permission_check:view 5s form'
+            ]);
+            $router->get('all',[
+                'uses' => 'AttendanceController@getAllAttendance',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
     });
 
 

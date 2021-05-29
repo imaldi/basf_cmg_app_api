@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\FormAttendance;
-use App\Models\FormAttendancePeople;
+use App\Models\FormAttendancePersonal;
 use App\Models\FormAttendanceCategory;
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
+use App\Http\Resources\FormAttendanceResource;
+use App\Http\Resources\FormAttendancePersonalResource;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -75,37 +77,50 @@ class AttendanceController extends Controller
                 ], 404);
         }
 
-        foreach($idArray as $id){
-            FormAttendancePeople::create([
-                'att_p_attendance_id' => $formAttandance->id,
-                'att_p_employee_id' => $id,
-                'att_p_department_id' => User::find($id)->emp_employee_department_id,
-            ]);
-        }
+        // foreach($idArray as $id){
+        //     FormAttendancePersonal::create([
+        //         'att_p_attendance_id' => $formAttandance->id,
+        //         'att_p_employee_id' => $id,
+        //         'att_p_department_id' => User::find($id)->emp_employee_department_id,
+        //     ]);
+        // }
 
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => $formAttandance
+            'data' => [new FormAttendanceResource($formAttandance)]
             ], 200);
     }
 
     public function getPersonalAttendance($id)
     {
-        $formPeople = FormAttendancePeople::find($id);
+        $formPeople = FormAttendancePersonal::find($id);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => [new FormAttendancePersonalResource($formPeople)]
+            ], 200);
+    }
+
+    public function getAllAttendance()
+    {
+        $formAttandance = FormAttendance::paginate(15);
+        // $request->query('orderBy')
 
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
-            'data' => $formPeople
+            'data' => FormAttendanceResource::collection($formAttandance)
             ], 200);
     }
 
-    public function fillPersonalAttendance(Request $request, $id)
+    public function createOrUpdatePersonalAttendance(Request $request, $id)
     {
+        $idForm = $request->input('form_id');
+        if($idForm == 0 || $idForm == null){
+            $formPeople->create($request->except(['att_p_signature']));
 
-        try{
-            $formPeople = FormAttendancePeople::findOrFail($id);
             if($request->file('att_p_signature')){
                 $name = time().$request->file('att_p_signature')->getClientOriginalName();
                 $request->file('att_p_signature')->move('uploads/attendance/signatures',$name);
@@ -115,16 +130,38 @@ class AttendanceController extends Controller
                     ]
                 );
             }
-            $formPeople->update([
-                'att_p_remark' => $request->input('att_p_remark')
-            ]);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' => [new FormAttendancePersonalResource($formPeople)]
+                ], 200);
+        }else{
+        try{
+            $formPeople = FormAttendancePersonal::findOrFail($id);
+            if($request->file('att_p_signature')){
+                $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                $request->file('att_p_signature')->move('uploads/attendance/signatures',$name);
+                $formPeople->update(
+                    [
+                        'att_p_signature' => $name,
+                    ]
+                );
+            }
+            $formPeople->update($request->except(['att_p_signature']));
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Get Data',
+                'data' => [new FormAttendancePersonalResource($formPeople)]
+                ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
                 'message' => 'Given Personal Attandance ID not found',
                 'data' => []
                 ], 404);
-        }
+        }}
     }
 
     public function testFromArrayStringToPHPArray(Request $request){
@@ -137,7 +174,7 @@ class AttendanceController extends Controller
         ]);
 
         foreach($idArray as $id){
-            FormAttendancePeople::create([
+            FormAttendancePersonal::create([
                 'att_p_attendance_id' => $attendance->id,
                 'att_p_employee_id' => $id,
                 'att_p_department_id' => User::find($id)->emp_employee_department_id,
