@@ -40,6 +40,7 @@ class FormAttendanceResource extends JsonResource
             'att_total_hours' => $this->att_total_hours,
             'att_total_manhours' => $this->att_total_manhours,
             'att_place_others' => $this->att_place_others,
+            'att_category' => $this->att_category,
             'att_category_others' => $this->att_category_others,
             'att_trainer_signature' => $this->att_trainer_signature,
             'att_created_at' => $this->created_at,

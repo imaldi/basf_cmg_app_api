@@ -381,9 +381,9 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
     $router->group([
         'prefix' => 'attendance'], function () use ($router){
-            $router->post('array',['uses' => 'AttendanceController@testFromArrayStringToPHPArray']);
+            // $router->post('array',['uses' => 'AttendanceController@testFromArrayStringToPHPArray']);
             $router->post('create-attendance-event',[
-                'uses' => 'AttendanceController@createEventAttandance']);
+                'uses' => 'AttendanceController@createOrEditEventAttandance']);
             $router->post('fill-personal-attendance/{id}',[
                 'uses' => 'AttendanceController@fillPersonalAttendance']);
             $router->get('get/{id}',[
