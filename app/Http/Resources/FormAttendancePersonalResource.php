@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\ContentInsSafetyShowerResource;
 use App\User;
 use App\Models\MasterLocation;
+use App\Models\MasterDepartment;
 use App\Models\ContentInspSafetyShower;
 
 
@@ -26,7 +27,7 @@ class FormAttendancePersonalResource extends JsonResource
             'att_p_employee_id' => $this->att_p_employee_id,
             'att_p_employee_name' => User::find($this->att_p_employee_id)->emp_name,
             'att_p_department_id' => $this->att_p_department_id,
-            'att_p_department_name' => $this->att_p_department_id,
+            'att_p_department_name' => MasterDepartment::find($this->att_p_department_id)->dept_name,
             'att_p_score' => $this->att_p_score,
             'att_p_signature' => $this->att_p_signature,
             'att_p_date' => $this->att_p_date,

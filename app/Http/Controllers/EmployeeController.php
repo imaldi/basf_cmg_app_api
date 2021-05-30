@@ -41,7 +41,7 @@ class EmployeeController extends Controller{
         return $employee->getRoleNames();
         // return $group;
     }
-    
+
     public function approveFormSafetyHarnest(Request $request)
     {
         try{
@@ -60,7 +60,7 @@ class EmployeeController extends Controller{
                 $statusCode = 404;
                 $response = [
                     'error' => true,
-                    'message' => 'apprive form safety harnest Gagal',
+                    'message' => 'approve form safety harnest Gagal',
                 ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
@@ -68,7 +68,7 @@ class EmployeeController extends Controller{
     }
 
     public function saveEditDraftSafetyHarnest(Request $request)
-    {     
+    {
         try{
             $editFormsInspSafetyHarnest= FormsInspSafetyHarnest::find($request->id_form);
             $editFormsInspSafetyHarnest->description= $request->description;
@@ -98,18 +98,18 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => ' edit form inspection safety harnest Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];    
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
-    
+
     public function locationAnswerSafetyHarnest($idForm)
     {
         try{
@@ -143,14 +143,14 @@ class EmployeeController extends Controller{
             $listDataSafetyHarnest= array();
             $dataSafetyHarnest= FormsInspSafetyHarnest::join('m_employee','m_employee.id','forms_insp_safety_h.id_inspector')
             ->join('m_department','m_department.id','forms_insp_safety_h.id_department')
-            ->select('forms_insp_safety_h.checker_sign_pict', 'forms_insp_safety_h.created_at', 'forms_insp_safety_h.description', 'forms_insp_safety_h.id_checker', 'forms_insp_safety_h.id_inspector', 
+            ->select('forms_insp_safety_h.checker_sign_pict', 'forms_insp_safety_h.created_at', 'forms_insp_safety_h.description', 'forms_insp_safety_h.id_checker', 'forms_insp_safety_h.id_inspector',
                      'forms_insp_safety_h.id_department', 'm_employee.employee_name as inspector_name', 'forms_insp_safety_h.id as id_form', 'm_department.dept_name', 'forms_insp_safety_h.is_active')
             ->where(function($q) {
                 $q->where('forms_insp_safety_h.is_active', 1)
                     ->orWhereNull('forms_insp_safety_h.is_active');
                 })
             ->get();
-            
+
             if($dataSafetyHarnest){
                 foreach($dataSafetyHarnest as $safetyHarnest){
                     if($safetyHarnest->id_checker != null){
@@ -158,7 +158,7 @@ class EmployeeController extends Controller{
                         $safetyHarnest->checker_name = $dataChecker->employee_name;
                     } else {
                         $safetyHarnest->checker_name = null;
-                    } 
+                    }
 
                     array_push($listDataSafetyHarnest, $safetyHarnest);
                 }
@@ -187,7 +187,7 @@ class EmployeeController extends Controller{
     }
 
     public function createDraftInsSafetyHarnest(Request $request)
-    {     
+    {
         try{
             $createFormsInspSafetyHarnest= new FormsInspSafetyHarnest();
             $createFormsInspSafetyHarnest->id_inspector= $request->id_inspector;
@@ -221,13 +221,13 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => ' tambah form inspection safety harnest Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];    
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
@@ -263,15 +263,15 @@ class EmployeeController extends Controller{
         try{
             $dataFumeHood= FormsInspFumeHood::join('m_employee','m_employee.id','forms_insp_fume_hood.id_inspector')
             ->join('m_department','m_department.id','m_employee.id_department')
-            ->select('m_department.dept_name', 'm_employee.employee_name as inspected_name', 'forms_insp_fume_hood.id as id_form', 'forms_insp_fume_hood.checker_sign_date', 'forms_insp_fume_hood.created_at', 
-            'forms_insp_fume_hood.id_checker', 'forms_insp_fume_hood.id_inspector', 
+            ->select('m_department.dept_name', 'm_employee.employee_name as inspected_name', 'forms_insp_fume_hood.id as id_form', 'forms_insp_fume_hood.checker_sign_date', 'forms_insp_fume_hood.created_at',
+            'forms_insp_fume_hood.id_checker', 'forms_insp_fume_hood.id_inspector',
             'forms_insp_fume_hood.is_active', 'forms_insp_fume_hood.description')
             ->where(function($q) {
                 $q->where('forms_insp_fume_hood.is_active', 1)
                     ->orWhereNull('forms_insp_fume_hood.is_active');
                 })
             ->get();
-            
+
             if($dataFumeHood){
                 $statusCode = 200;
                 $response = [
@@ -298,7 +298,7 @@ class EmployeeController extends Controller{
     }
 
     public function saveEditInsFumeHood(Request $request)
-    {     
+    {
         try{
             $editFormsInspFumeHood= FormsInspFumeHood::find($request->id_form);
             $editFormsInspFumeHood->id_inspector= $request->id_inspector;
@@ -324,20 +324,20 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => ' edit form inspection fume hood Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];    
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
 
     public function createDraftInsFumeHood(Request $request)
-    {     
+    {
         try{
             $createFormsInspFumeHood= new FormsInspFumeHood();
             $createFormsInspFumeHood->id_inspector= $request->id_inspector;
@@ -366,13 +366,13 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => ' tambah form inspection fume hood Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];    
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
@@ -384,8 +384,8 @@ class EmployeeController extends Controller{
             $dataLadder= FormsInspLadder::join('m_employee','m_employee.id','forms_insp_ladder.id_supervisor')
             ->join('m_department','m_department.id','m_employee.id_department')
             ->join('m_location','m_location.id','forms_insp_ladder.id_location')
-            ->select('m_employee.employee_name as inspected_name', 'forms_insp_ladder.id as id_form', 'forms_insp_ladder.checker_sign_pict', 'forms_insp_ladder.created_at', 
-            'forms_insp_ladder.id_checker', 'm_location.location_name', 'forms_insp_ladder.brand', 'forms_insp_ladder.specification', 'forms_insp_ladder.id_supervisor', 
+            ->select('m_employee.employee_name as inspected_name', 'forms_insp_ladder.id as id_form', 'forms_insp_ladder.checker_sign_pict', 'forms_insp_ladder.created_at',
+            'forms_insp_ladder.id_checker', 'm_location.location_name', 'forms_insp_ladder.brand', 'forms_insp_ladder.specification', 'forms_insp_ladder.id_supervisor',
             'forms_insp_ladder.is_active', 'forms_insp_ladder.id_location', 'forms_insp_ladder.upper_condition', 'forms_insp_ladder.bottom_condition', 'forms_insp_ladder.fastener_condition', 'forms_insp_ladder.construction_condition'
             , 'forms_insp_ladder.stairs_condition', 'forms_insp_ladder.upper_condition_desc', 'forms_insp_ladder.bottom_condition_desc', 'forms_insp_ladder.fastener_condition_desc', 'forms_insp_ladder.construction_condition_desc', 'forms_insp_ladder.stairs_condition_desc'
             , 'forms_insp_ladder.notes')
@@ -394,7 +394,7 @@ class EmployeeController extends Controller{
                     ->orWhereNull('forms_insp_ladder.is_active');
                 })
             ->get();
-            
+
             if($dataLadder){
                 $statusCode = 200;
                 $response = [
@@ -421,7 +421,7 @@ class EmployeeController extends Controller{
     }
 
     public function saveEditInsLadder(Request $request)
-    {     
+    {
         try{
             $editFormsInspLadder= FormsInspLadder::find($request->id_form);
             $editFormsInspLadder->id_supervisor= $request->id_supervisor;
@@ -463,20 +463,20 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => ' tambah form inspection h2s Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];    
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
 
     public function createDraftLadder(Request $request)
-    {     
+    {
         try{
             $createFormsInspLadder= new FormsInspLadder();
             $createFormsInspLadder->id_supervisor= $request->id_supervisor;
@@ -524,13 +524,13 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => ' tambah form inspection h2s Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];    
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
@@ -584,9 +584,9 @@ class EmployeeController extends Controller{
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
-    
+
     public function saveEditInsH2s(Request $request)
-    {     
+    {
         try{
             $editFormsInspH2sConcent= FormsInspH2sConcent::find($request->id_form);
             $editFormsInspH2sConcent->description= $request->description;
@@ -611,13 +611,13 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => ' tambah form inspection h2s Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];    
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
@@ -683,7 +683,7 @@ class EmployeeController extends Controller{
                     ->orWhereNull('forms_insp_h2s_concent.is_active');
                 })
             ->get();
-            
+
             if($dataH2s){
                 foreach($dataH2s as $h2s){
                     if($h2s->id_checker != null){
@@ -719,7 +719,7 @@ class EmployeeController extends Controller{
     }
 
     public function createDraftInsH2s(Request $request)
-    {     
+    {
         try{
             $createFormsInspH2sConcent= new FormsInspH2sConcent();
             $createFormsInspH2sConcent->id_inspector= $request->id_inspector;
@@ -748,19 +748,19 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => ' tambah form inspection h2s Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => $e->getMessage(),
-            ];    
+            ];
         } finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }
     }
 
-    
+
 
     // public function getProfileEmployee($idEmployee)
     // {
@@ -772,7 +772,7 @@ class EmployeeController extends Controller{
     //                             'm_department.dept_name', 'm_employee.id_department', 'm_employee.email','m_employee.phone_number','m_employee.is_active', 'm_employee_group.id as id_employee_group')
     //                     ->where('m_employee.id',$idEmployee)
     //                     ->first();
-            
+
     //         if($dataEmployee){
     //             $dataEmployeePrivilege = EmployeePrivilege::join('employee_user_permission','employee_user_permission.id','m_employee_privilege.id_e_u_permission')
     //             ->select('m_employee_privilege.id_employee_group', 'employee_user_permission.name as permission_name')
@@ -802,7 +802,7 @@ class EmployeeController extends Controller{
     // }
 
     public function updateProfileEmployee(Request $request, $idEmployee)
-    {     
+    {
         try{
             $employee=MasterEmployee::where('id','=',$idEmployee)->first();
             $employee->employee_name= $request->employee_name;
@@ -818,14 +818,14 @@ class EmployeeController extends Controller{
             $response = [
                 'error' => false,
                 'message' => 'update profil Berhasil',
-            ];    
+            ];
         } catch (\PDOException $e) {
             $statusCode = 404;
             $response = [
                 'error' => true,
                 'message' => 'update profil Gagal',
             ];
-        } 
+        }
         finally {
             return response($response,$statusCode)->header('Content-Type','application/json');
         }

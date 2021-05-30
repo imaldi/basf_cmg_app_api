@@ -34,7 +34,7 @@ class AttendanceController extends Controller
 
         $department = $employee->department()->first();
         $departmentId = $employee->emp_employee_department_id;
-        $subArray = substr($employeeIds, 1, -1);
+        $subArray = substr($departmentId, 1, -1);
         $idArray = explode(",",$subArray);
 
         $idForm = $request->input('form_id');
@@ -60,23 +60,16 @@ class AttendanceController extends Controller
                 'att_trainer_signature' => $request->input('att_trainer_signature'),
             ]);
 
-            try{
-                if($request->file('att_signature')){
-                    $name = time().'att_signature'.$request->file('att_signature')->getClientOriginalName();
-                    $request->file('att_signature')->move('uploads/attendance/signatures',$name);
-                    $formAttandance->update(
-                        [
-                            'att_signature' => $name,
-                        ]
-                    );
-                }
-            } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-                return response()->json([
-                    'code' => 404,
-                    'message' => 'Given Personal Attandance ID not found',
-                    'data' => []
-                    ], 404);
+            if($request->file('att_signature')){
+                $name = time().'att_signature'.$request->file('att_signature')->getClientOriginalName();
+                $request->file('att_signature')->move('uploads/attendance/signatures',$name);
+                $formAttandance->update(
+                    [
+                        'att_signature' => $name,
+                    ]
+                );
             }
+
 
             // foreach($idArray as $id){
             //     FormAttendancePersonal::create([
@@ -116,9 +109,24 @@ class AttendanceController extends Controller
                     'att_trainer_signature' => $request->input('att_trainer_signature'),
                 ]);
 
+                if($request->file('att_signature')){
+                    $file = 'uploads/attendance/signatures/'.$form->att_signature;
+                    if (is_file($file)) {
+                        unlink(public_path($file));
+                    }
+                    $name = time().'att_signature'.$request->file('att_signature')->getClientOriginalName();
+                    $request->file('att_signature')->move('uploads/attendance/signatures',$name);
+                    $form->update(
+                        [
+                            'att_signature' => $name,
+                        ]
+                    );
+                }
+
+
                 return response()->json([
                     'code' => 200,
-                    'message' => 'Success Create Data',
+                    'message' => 'Success Update Data',
                     'data' => [new FormAttendanceResource($form)]
                     ], 200);
 
@@ -143,6 +151,17 @@ class AttendanceController extends Controller
             ], 200);
     }
 
+    public function getAttendance($id)
+    {
+        $formPeople = FormAttendance::find($id);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get Data',
+            'data' => [new FormAttendanceResource($formPeople)]
+            ], 200);
+    }
+
     public function getAllAttendance(Request $request)
     {
         $formAttandance = FormAttendance::
@@ -154,14 +173,15 @@ class AttendanceController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' => FormAttendanceResource::collection($formAttandance)
-            ], 200);
+        ], 200);
     }
 
     public function createOrUpdatePersonalAttendance(Request $request, $id)
     {
+        $employee = Auth::user();
         $idForm = $request->input('form_id');
         if($idForm == 0 || $idForm == null){
-            $formPeople->create($request->except(['att_p_signature']));
+            $formPeople = FormAttendancePersonal::create($request->except(['att_p_signature']));
 
             if($request->file('att_p_signature')){
                 $name = time().$request->file('att_p_signature')->getClientOriginalName();
@@ -169,11 +189,16 @@ class AttendanceController extends Controller
                 $formPeople->update(
                     [
                         'att_p_signature' => $name,
-                    ]
-                );
-            }
+                        ]
+                    );
+                }
 
-            $formPeople->update($request->except(['att_p_signature']));
+                $formPeople->update($request->except([
+                    'att_p_signature','att_p_employee_id']));
+                $formPeople->update([
+                    'att_p_employee_id' => $employee->id,
+                    'att_p_department_id' => $employee->emp_employee_department_id
+                    ]);
 
 
             return response()->json([

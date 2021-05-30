@@ -36,7 +36,7 @@ class WorkOrderController extends Controller
 
     public function createFormWorkOrder(Request $request)
     {
-        try{
+        // try{
             //get employee
             $employee = Auth::user();
             $this->validate($request, [
@@ -72,63 +72,37 @@ class WorkOrderController extends Controller
             $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
             $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
 
+
+            $formWorkOrder = FormWorkOrder::create([
+                'wo_issuer_id' => $employee->id,
+                'wo_spv_issuer_id' =>
+                $wo_issuer_spv_id,
+                //ini kalau mau saring berdasarkan field 'emp_is_spv'
+                // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
+                'wo_date_issuer_submit' => $date,
+                'wo_category' => $request->input('wo_category'),
+                'wo_issuer_dept' =>
+                $departmentId,
+                // $request->input('emp_employee_department_id'),
+                'wo_location_id' => $request->input('wo_location_id'),
+                'wo_reffered_dept' => $request->input('wo_reffered_dept'),
+                'wo_reffered_division' => $request->input('wo_reffered_division'),
+                'wo_description' => $request->input('wo_description'),
+                'wo_location_detail' => $request->input('location_detail'),
+                'wo_tag_no' => $request->input('wo_tag_no'),
+                'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
+                'wo_form_status' => $formStatus,
+                'wo_date_recomendation' => $date_recommendation,
+                'wo_is_open' => 1,
+                'wo_c_emergency' => $emergency,
+                'wo_c_ranking_cust' => $ranking_cust,
+                'wo_c_equipment_criteria' => $equipment_criteria,
+            ]);
             if($request->file('wo_image')){
                 $name = time().$request->file('wo_image')->getClientOriginalName();
                 $request->file('wo_image')->move('uploads/work_order',$name);
-                $formWorkOrder = FormWorkOrder::create([
-                    'wo_issuer_id' => $employee->id,
-                    'wo_spv_issuer_id' =>
-                    $wo_issuer_spv_id,
-                    //ini kalau mau saring berdasarkan field 'emp_is_spv'
-                    // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
-                    'wo_date_issuer_submit' => $date,
-                    'wo_category' => $request->input('wo_category'),
-                    'wo_issuer_dept' =>
-                    $departmentId,
-                    // $request->input('emp_employee_department_id'),
-                    'wo_location_id' => $request->input('wo_location_id'),
-                    'wo_reffered_dept' => $request->input('wo_reffered_dept'),
-                    'wo_reffered_division' => $request->input('wo_reffered_division'),
-                    'wo_description' => $request->input('wo_description'),
-                    'wo_location_detail' => $request->input('location_detail'),
-                    'wo_tag_no' => $request->input('wo_tag_no'),
-                    'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
-                    'wo_form_status' => $formStatus,
-                    'wo_date_recomendation' => $date_recommendation,
-                    'wo_is_open' => 1,
-                    'wo_c_emergency' => $emergency,
-                    'wo_c_ranking_cust' => $ranking_cust,
-                    'wo_c_equipment_criteria' => $equipment_criteria,
-                    'wo_image' => $name
-                    //TODO upload file foto
-                ]);
-            } else {
-                $formWorkOrder = FormWorkOrder::create([
-                    'wo_issuer_id' => $employee->id,
-                    'wo_spv_issuer_id' =>
-                    $wo_issuer_spv_id,
-                    //ini kalau mau saring berdasarkan field 'emp_is_spv'
-                    // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
-                    'wo_date_issuer_submit' => $date,
-                    'wo_category' => $request->input('wo_category'),
-                    'wo_issuer_dept' =>
-                    $departmentId,
-                    // $request->input('emp_employee_department_id'),
-                    'wo_location_id' => $request->input('wo_location_id'),
-                    'wo_reffered_dept' => $request->input('wo_reffered_dept'),
-                    'wo_reffered_division' => $request->input('wo_reffered_division'),
-                    'wo_description' => $request->input('wo_description'),
-                    'wo_location_detail' => $request->input('location_detail'),
-                    'wo_tag_no' => $request->input('wo_tag_no'),
-                    'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
-                    'wo_form_status' => $formStatus,
-                    'wo_date_recomendation' => $date_recommendation,
-                    'wo_is_open' => 1,
-                    'wo_c_emergency' => $emergency,
-                    'wo_c_ranking_cust' => $ranking_cust,
-                    'wo_c_equipment_criteria' => $equipment_criteria,
-                    // 'wo_image' => $name
-                    //TODO upload file foto
+                $formWorkOrder->update([
+                'wo_image' => $name
                 ]);
             }
 
@@ -143,63 +117,58 @@ class WorkOrderController extends Controller
                 $formWorkOrder
 
                 ], 200);
-        } catch (\PDOException $e) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => $e->getMessage(),
-            ];
-            return $response;
-        }
     }
 
     public function saveFormWorkOrderDraft(Request $request, $idFormWOrder){
+        $response = null;
+
+        //get employee
+        $employee = Auth::user();
+        $this->validate($request, [
+            'wo_form_status' => [
+                'required',
+                'integer',
+                Rule::in(['1', '2', '3','7']),
+            ],
+            'wo_image' => 'file'
+        ]);
+
+        $date = Carbon::now();
+        $date->toDateTimeString();
+        $emergency = (int)$request->input('wo_c_emergency');
+        $ranking_cust = (int)$request->input('wo_c_ranking_cust');
+        $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
+        $recommendedDays = FormWorkOrder::recommendedDays($emergency,$ranking_cust,$equipment_criteria);
+
+        $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
         try{
-
-            $response = null;
-
-
-            //get employee
-            $employee = Auth::user();
-            $this->validate($request, [
-                'wo_form_status' => [
-                    'required',
-                    'integer',
-                    Rule::in(['1', '2', '3','7']),
-                ],
-                'wo_image' => 'file'
-            ]);
-
-            $date = Carbon::now();
-            $date->toDateTimeString();
-            $emergency = (int)$request->input('wo_c_emergency');
-            $ranking_cust = (int)$request->input('wo_c_ranking_cust');
-            $equipment_criteria = (int)$request->input('wo_c_equipment_criteria');
-            $recommendedDays = FormWorkOrder::recommendedDays($emergency,$ranking_cust,$equipment_criteria);
-
-            $date_recommendation = date('Y-m-d', strtotime("+".$recommendedDays." days"));
-            try{
-                    $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
-                    if($request->file('wo_image')){
-                        $name = time().$request->file('wo_image')->getClientOriginalName();
-                        $request->file('wo_image')->move('uploads/work_order',$name);
-                        $formWorkOrder->update(
-                            [
-                                $request->except(['wo_image']),
-                                'wo_image' => $name,
-                                'wo_date_recomendation' => $date_recommendation,
-                            ]
-                        );
-                        return response()->json([
-                            'code' => 200,
-                            'message' => 'Success Saving Form Update',
-                            'data' =>
-                            [
-                            new FormWorkOrderResource($formWorkOrder),
-                            'wo_date_recomendation' => $date_recommendation,
-                            ]
-                        ], 200);
-                    }
+            $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
+            if($request->file('wo_image')){
+                // try{
+                $file = 'uploads/work_order'.$formWorkOrder->wo_image;
+                if(is_file($file)){
+                    unlink(public_path($file));
+                }
+                // }
+                $name = time().$request->file('wo_image')->getClientOriginalName();
+                $request->file('wo_image')->move('uploads/work_order',$name);
+                $formWorkOrder->update(
+                    [
+                        $request->except(['wo_image']),
+                        'wo_image' => $name,
+                        'wo_date_recomendation' => $date_recommendation,
+                    ]
+                );
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Success Saving Form Update',
+                    'data' =>
+                    [
+                    new FormWorkOrderResource($formWorkOrder),
+                    'wo_date_recomendation' => $date_recommendation,
+                    ]
+                ], 200);
+            }
             $formWorkOrder->update(
                     $request->except(['wo_image']),
             );
@@ -208,22 +177,15 @@ class WorkOrderController extends Controller
                 'message' => 'Success Saving Form Update',
                 'data' => new FormWorkOrderResource($formWorkOrder),
                 ], 200);
-                } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-                    return response()->json([
-                        'code' => 404,
-                        'message' => 'Given Work Order Form ID not found',
-                        'data' => []
-                        ], 404);
-                }
-
-        } catch (\PDOException $e) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => $e->getMessage(),
-            ];
-            return $response;
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Work Order Form ID not found',
+                'data' => []
+                ], 404);
         }
+
+
     }
 
 

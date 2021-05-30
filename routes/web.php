@@ -372,16 +372,20 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
     $router->group([
         'prefix' => 'attendance',
-        'middleware' => 'group_check:Attendance Admin'], function () use ($router){
+        // 'middleware' => 'group_check:Attendance Admin'
     ], function () use ($router){
             // $router->post('array',['uses' => 'AttendanceController@testFromArrayStringToPHPArray']);
             $router->post('create-attendance-event',[
                 'uses' => 'AttendanceController@createOrEditEventAttandance']);
             $router->post('fill-personal-attendance/{id}',[
-                'uses' => 'AttendanceController@fillPersonalAttendance']);
+                'uses' => 'AttendanceController@createOrUpdatePersonalAttendance']);
             $router->get('get/{id}',[
-            'uses' => 'AttendanceController@getPersonalAttendance',
-            // 'middleware' => 'permission_check:view 5s form'
+                'uses' => 'AttendanceController@getPersonalAttendance',
+                // 'middleware' => 'permission_check:view 5s form'
+            ]);
+            $router->get('get-one/{id}',[
+                'uses' => 'AttendanceController@getAttendance',
+                // 'middleware' => 'permission_check:view 5s form'
             ]);
             $router->get('all',[
                 'uses' => 'AttendanceController@getAllAttendance',
