@@ -34,7 +34,7 @@ class AuthController extends Controller
 //hanya untuk tes-tes
 public function register(Request $request)
 {
-    //validate incoming request 
+    //validate incoming request
     $this->validate($request, [
         'emp_name' => 'required|string',
         'emp_email' => 'required|email|unique:m_employees',
@@ -91,7 +91,12 @@ public function register(Request $request)
 
         if (! $token = JWTAuth::attempt($credentials)) {
         // if (! $token = Auth::attempt(['emp_email'=>$email, 'emp_password' =>$password])) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json([
+                "token" => "",
+                "token_type" =>"",
+                "expires_in" => 0,
+                // 'message' => 'Unauthorized'
+            ], 401);
         }
 
         return $this->respondWithToken($token);
@@ -119,30 +124,30 @@ public function register(Request $request)
         return 'emp_username';
     }
 
-   
+
 
 //     protected function credentials(Request $request)
 //     {
 //         return $request->only($this->username(), 'emp_password');
 //     }
-    // {     
+    // {
     //     $statusCode=401;
     //     $response=[];
     //     try{
     //         $loginEmployee=MasterEmployee::where('emp_username','=',$request->username)->first();
     //         if(Hash::check($request->input_password, $loginEmployee->emp_password)){
     //             $statusCode = 200;
-                
+
     //             $response = [
     //                 'error' => true,
     //                 'message' => 'Login Berhasil',
     //                 'dataEmployee' => [$loginEmployee]
-    //             ];    
+    //             ];
     //         } else {
     //             $response = [
     //                 'error' => false,
     //                 'message' => 'Password False',
-    //             ];    
+    //             ];
     //         }
     //     } catch (Exception $ex) {
     //         $statusCode = 401;
@@ -158,7 +163,7 @@ public function register(Request $request)
 
     ///masih belum d urus dan belum perlu
     // public function updatePassword(Request $request)
-    // {     
+    // {
     //     try{
     //         $data=MasterEmployee::where('emp_email','=',$request->email)->first();
     //         $data->emp_password= Hash::make($request->new_password);
@@ -168,14 +173,14 @@ public function register(Request $request)
     //         $response = [
     //             'error' => false,
     //             'message' => 'update password Berhasil',
-    //         ];    
+    //         ];
     //     } catch (Exception $ex) {
     //         $statusCode = 404;
     //         $response = [
     //             'error' => true,
     //             'message' => 'update password Gagal',
     //         ];
-    //     } 
+    //     }
     //     finally {
     //         return response($response,$statusCode)->header('Content-Type','application/json');
     //     }

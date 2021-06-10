@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\EmployeeGroupResource;
+use App\Http\Resources\EmployeePermissionResource;
 use App\Models\MasterDepartment;
 
 
@@ -31,7 +32,7 @@ class EmployeeResource extends JsonResource
             'emp_employee_department_name' => MasterDepartment::find($this->emp_employee_department_id)->dept_name,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'emp_permissions' => $this->getPermissionsViaRoles()->unique('name'),
+            'emp_permissions' => EmployeePermissionResource::collection($this->getPermissionsViaRoles()->unique('name')),
             'emp_groups' => EmployeeGroupResource::collection($this->roles)
         ];
     }

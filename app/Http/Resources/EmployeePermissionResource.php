@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EmployeeGroupResource extends JsonResource
+class EmployeePermissionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,8 @@ class EmployeeGroupResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'e_group_is_active' =>$this->e_group_is_active,
+            'e_permission_desc' =>$this->e_permission_desc,
+            'e_permission_category' =>$this->e_permission_category,
             // 'created_at' => $this->created_at,
             // 'updated_at' => $this->updated_at,
             // 'guard_name' => $this->guard_name,

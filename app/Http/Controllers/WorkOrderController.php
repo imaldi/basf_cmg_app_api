@@ -113,9 +113,9 @@ class WorkOrderController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
-                'data' =>
-                $formWorkOrder
-
+                'data' =>[
+                    new FormWorkOrderResource($formWorkOrder)
+                ]
                 ], 200);
     }
 
@@ -165,7 +165,7 @@ class WorkOrderController extends Controller
                     'data' =>
                     [
                     new FormWorkOrderResource($formWorkOrder),
-                    'wo_date_recomendation' => $date_recommendation,
+                    // 'wo_date_recomendation' => $date_recommendation,
                     ]
                 ], 200);
             }
@@ -193,8 +193,9 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         // try{
+            $orderBy = $request->query('orderBy');
             $formWorkOrder = FormWorkOrder::where('wo_is_open', 1)
-            ->where('wo_issuer_id',$user->id)->orderBy($request->query('orderBy'))->get();
+            ->where('wo_issuer_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'wo_form_status')->get();
             // ->orderBy("wo_form_status")->get()
             ;
 
@@ -707,7 +708,7 @@ class WorkOrderController extends Controller
 
     public function allUsers()
     {
-         return response()->json(['users' =>  User::all()], 200);
+         return response()->json(['users' =>  EmployeeResource::collection(User::all())], 200);
     }
 
     public function singleUser($id)
