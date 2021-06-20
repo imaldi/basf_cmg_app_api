@@ -84,7 +84,7 @@ class WorkOrderController extends Controller
                 'wo_issuer_dept' =>
                 $departmentId,
                 // $request->input('emp_employee_department_id'),
-                'wo_location_id' => $request->input('wo_location_id'),
+                'wo_location_id' => (int)$request->input('wo_location_id'),
                 'wo_reffered_dept' => $request->input('wo_reffered_dept'),
                 'wo_reffered_division' => $request->input('wo_reffered_division'),
                 'wo_description' => $request->input('wo_description'),
@@ -524,6 +524,7 @@ class WorkOrderController extends Controller
             $date->toDateTimeString();
             $fileName = explode(' ',$employee->emp_name);
             $fileNameFinal = implode('_', $fileName);
+            $formStatus = (int)$request->input('wo_form_status');
 
             // $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
@@ -567,8 +568,11 @@ class WorkOrderController extends Controller
                         );
                     }
 
-                    $formWorkOrder->update(
-                        $request->except(['wo_pic_image','wo_pic_attachment']),);
+                        $formWorkOrder->update(
+                            $request->except(['wo_pic_image','wo_pic_attachment','wo_form_status']),);
+                        $formWorkOrder>update([
+                            'wo_form_status' => $formStatus
+                        ]);
                     return response()->json([
                         'code' => 200,
                         'message' => 'Success Saving Form Update',

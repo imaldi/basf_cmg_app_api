@@ -153,7 +153,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
         $router->group(['prefix' => 'approve','middleware' => 'permission_check:edit work order',], function () use ($router) {
 
-            $router->post('as-issuer-spv/{idFormWOrder}',
+            $router->get('as-issuer-spv/{idFormWOrder}',
             [
                 'middleware' => [
                     'group_check:Work Order - SPV Issuer'
@@ -204,7 +204,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             ]);
                 //Controller fill : wo_form_status (update) =>  7. Waitng SPV PIC Approve | 9. Hand Over to User
 
-            $router->post('as-pic-spv/{idFormWOrder}',
+            $router->get('as-pic-spv/{idFormWOrder}',
             [
                 'middleware' => [
                     'group_check:Work Order - PIC - SPV'
