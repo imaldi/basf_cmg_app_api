@@ -169,8 +169,21 @@ class WorkOrderController extends Controller
                     ]
                 ], 200);
             }
-            $formWorkOrder->update(
-                    $request->except(['wo_image']),
+            $formWorkOrder->update([
+                    $request->except([
+                        'wo_image',
+                        'wo_location_id',
+                        'wo_c_emergency',
+                        'wo_c_ranking_cust',
+                        'wo_c_equipment_criteria',
+                        'wo_form_status_id'
+                    ]),
+                    'wo_location_id' => (int) $request->input('wo_location_id'),
+                    'wo_c_emergency' => (int) $request->input('wo_c_emergency'),
+                    'wo_c_ranking_cust' => (int) $request->input('wo_c_ranking_cust'),
+                    'wo_c_equipment_criteria' => (int) $request->input('wo_c_equipment_criteria'),
+                    'wo_form_status_id' => (int) $request->input('wo_form_status_id'),
+            ]
             );
             return response()->json([
                 'code' => 200,
