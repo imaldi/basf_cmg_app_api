@@ -395,16 +395,16 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
 
     ///////////// home controller
-    $router->get('get-data-department', 'HomeController@getDataDepartment');//akan tidak dipakai
-    $router->get('get-departments', 'HomeController@getDepartements');
-    $router->get('get-locations-by-department', 'HomeController@getLocationByDepartment');
+    // $router->get('get-data-department', 'HomeController@getDataDepartment');//akan tidak dipakai
+    // $router->get('get-departments', 'HomeController@getDepartements');
+    // $router->get('get-locations-by-department', 'HomeController@getLocationByDepartment');
 
-    $router->get('get-all-employee', 'HomeController@viewAllEmployee');
-    $router->get('get-all-location', 'HomeController@viewAllLocation');
-    $router->get('get-employee-group', 'HomeController@viewAllEmployeeGroup');
-    $router->get('get-employee-title', 'HomeController@viewAllEmployeeTitle');
-    $router->get('get-scoring-work-order', 'HomeController@getScoringWorkOrder');
-    $router->get('get-location-by-category', 'HomeController@getLocationByCategory');
+    // $router->get('get-all-employee', 'HomeController@viewAllEmployee');
+    // $router->get('get-all-location', 'HomeController@viewAllLocation');
+    // $router->get('get-employee-group', 'HomeController@viewAllEmployeeGroup');
+    // $router->get('get-employee-title', 'HomeController@viewAllEmployeeTitle');
+    // $router->get('get-scoring-work-order', 'HomeController@getScoringWorkOrder');
+    // $router->get('get-location-by-category', 'HomeController@getLocationByCategory');
 
     $router->post('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
     $router->post('remove-group-from-user','TestGroupsAndPermissionsController@tesRemovenGroupFromUser');

@@ -39,11 +39,12 @@ class GroupCheckMiddleware
                     // return redirect('api/work-order/get-all/'.$request->route('groupId'));
                     return $next($request);
                 }
-                else {
-                    return redirect('failMiddleware/'.$group);
-                //     continue;
-                }
+                // else {
+                // //     continue;
+                // }
             }
+            return redirect('failMiddleware/group');
+
         }
         // else {
         //     if($user->emp_employee_group_id == 2) {

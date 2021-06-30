@@ -45,6 +45,7 @@ class WorkOrderController extends Controller
                     'integer',
                     Rule::in(['1', '2']),
                 ],
+                'wo_location_id' => 'required|integer',
                 'wo_c_emergency' => 'required|integer|between:1,4',
                 'wo_c_ranking_cust'=> 'required|integer|between:1,4',
                 'wo_c_equipment_criteria' => 'required|integer|between:1,4',
@@ -172,23 +173,23 @@ class WorkOrderController extends Controller
             $formWorkOrder->update([
                     $request->except([
                         'wo_image',
-                        'wo_location_id',
+                        // 'wo_location_id',
                         'wo_c_emergency',
                         'wo_c_ranking_cust',
                         'wo_c_equipment_criteria',
-                        'wo_form_status_id'
+                        'wo_form_status'
                     ]),
-                    'wo_location_id' => (int) $request->input('wo_location_id'),
-                    'wo_c_emergency' => (int) $request->input('wo_c_emergency'),
-                    'wo_c_ranking_cust' => (int) $request->input('wo_c_ranking_cust'),
-                    'wo_c_equipment_criteria' => (int) $request->input('wo_c_equipment_criteria'),
-                    'wo_form_status_id' => (int) $request->input('wo_form_status_id'),
+                    // 'wo_location_id' => (int) $request->input('wo_location_id'),
+                    'wo_c_emergency' => $request->input('wo_c_emergency'),
+                    'wo_c_ranking_cust' => $request->input('wo_c_ranking_cust'),
+                    'wo_c_equipment_criteria' => $request->input('wo_c_equipment_criteria'),
+                    'wo_form_status' => (int) $request->input('wo_form_status'),
             ]
             );
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Saving Form Update',
-                'data' => new FormWorkOrderResource($formWorkOrder),
+                'data' => [new FormWorkOrderResource($formWorkOrder)],
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
@@ -362,7 +363,8 @@ class WorkOrderController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Rejecting Form',
-            'data' =>  $formWorkOrder,
+            'data' =>  [
+                new FormWorkOrderResource($formWorkOrder) ]
             ], 200);
     } catch (\PDOException $e) {
         $statusCode = 404;
@@ -408,21 +410,25 @@ class WorkOrderController extends Controller
 
             $date = Carbon::now();
             $date->toDateTimeString();
+            $wo_planner_id = User::role('Work Order - Planner')->where('emp_employee_department_id',$departmentId)->first()->id;
 
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
             $formWorkOrder->update([
                 $request->except([
                     'wo_date_spv_issuer_approve',
-                    'wo_form_status'
+                    'wo_form_status',
+                    'wo_planner_id'
                 ]),
                 'wo_date_spv_issuer_approve' => $date,
                 'wo_form_status' => 3,
+                'wo_planner_id' => $wo_planner_id
             ]);
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approving Form',
-                'data' =>  $formWorkOrder,
+                'data' =>  [
+                new FormWorkOrderResource($formWorkOrder) ]
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
@@ -451,7 +457,8 @@ class WorkOrderController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approving Form',
-                'data' =>  $formWorkOrder,
+                'data' =>  [
+                new FormWorkOrderResource($formWorkOrder) ]
                 ], 200);
         } catch (\PDOException $e) {
             $statusCode = 404;
@@ -476,7 +483,7 @@ class WorkOrderController extends Controller
 
             $formWorkOrder->update([
                 'wo_date_planner_approve' => $date,
-                'wo_pic_id' => $request->input('wo_pic_id'),
+                'wo_pic_id' => (int)$request->input('wo_pic_id'),
                 'wo_form_status' => 6,
                 'wo_c_cost' => $request->input('wo_c_cost'),
                 'wo_date_revision' => $request->input('wo_date_revision'),
@@ -484,7 +491,8 @@ class WorkOrderController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approving Form',
-                'data' =>  $formWorkOrder,
+                'data' =>  [
+                new FormWorkOrderResource($formWorkOrder) ]
                 ], 200);
         } catch (\PDOException $e) {
             $statusCode = 404;
@@ -516,7 +524,8 @@ class WorkOrderController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approving Form',
-                'data' =>  $formWorkOrder,
+                'data' =>  [
+                new FormWorkOrderResource($formWorkOrder) ]
                 ], 200);
         } catch (\PDOException $e) {
             $statusCode = 404;
@@ -554,7 +563,8 @@ class WorkOrderController extends Controller
             // return response()->json([
             //     'code' => 200,
             //     'message' => 'Success Approving Form',
-            //     'data' =>  $formWorkOrder,
+            //     'data' =>  [
+                // new FormWorkOrderResource($formWorkOrder) ]
             //     ], 200);
 
             try{
@@ -625,7 +635,8 @@ class WorkOrderController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approving Form',
-                'data' =>  $formWorkOrder,
+                'data' =>  [
+                new FormWorkOrderResource($formWorkOrder) ]
                 ], 200);
         } catch (\PDOException $e) {
             $statusCode = 404;

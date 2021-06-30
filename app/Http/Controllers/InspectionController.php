@@ -292,7 +292,7 @@ class InspectionController extends Controller
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
-        $idForm = $request->input('form_id');
+        $idForm = (int) $request->input('form_id');
         if($idForm == null || $idForm  == 0){
 
         $form = FormsInspLadder::create(
@@ -378,7 +378,7 @@ class InspectionController extends Controller
         $subArrayRemarkVal = substr($insH2RemarkVal, 1, -1);
         $remarkValArray = explode(",",$subArrayRemarkVal);
 
-        $idForm = $request->input('form_id');
+        $idForm = (int) $request->input('form_id');
         if($idForm == null || $idForm  == 0){
             $form = FormsInspH2sConcent::create(
                 $request->except([
@@ -477,7 +477,7 @@ class InspectionController extends Controller
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
-        $idForm = $request->input('form_id');
+        $idForm = (int) $request->input('form_id');
         if($idForm == null || $idForm  == 0){
 
         $form = FormsInspFumeHood::create(
@@ -561,7 +561,7 @@ class InspectionController extends Controller
         $subArraySKRemarkVal = substr($insSKRemarkVal, 1, -1);
         $skRemarkValArray = explode(",",$subArraySKRemarkVal);
 
-        $idForm = $request->input('form_id');
+        $idForm = (int) $request->input('form_id');
         if($idForm == null || $idForm  == 0){
             $form = FormsInspSpillKit::create(
                 $request->except([
@@ -588,6 +588,8 @@ class InspectionController extends Controller
 
             foreach($idLocArray as $key=>$id){
                 ContentInspSpillKit::create([
+                    'ins_sk_form_id' => $formID,
+                    'ins_sk_location_id' => $idLocArray[$key],
                     'ins_sk_box_condition' => $skBoxConditionArray[$key],
                     'ins_sk_contents' => $skContentsArray[$key],
                     'ins_sk_documents' => $skDocumentsArray[$key],
@@ -693,7 +695,7 @@ class InspectionController extends Controller
         $subArraySHRemarkVal = substr($insSHRemarkVal, 1, -1);
         $shRemarkValArray = explode(",",$subArraySHRemarkVal);
 
-        $idForm = $request->input('form_id');
+        $idForm = (int) $request->input('form_id');
         if($idForm == null || $idForm  == 0){
             $form = FormsInspSafetyHarnest::create(
                 $request->except([
@@ -831,7 +833,7 @@ class InspectionController extends Controller
         $subArraySCRemarkVal = substr($insSCRemarkVal, 1, -1);
         $scRemarkValArray = explode(",",$subArraySCRemarkVal);
 
-        $idForm = $request->input('form_id');
+        $idForm = (int) $request->input('form_id');
         if($idForm == null || $idForm  == 0){
             $form = FormsInspSCBA::create(
                 $request->except([
@@ -967,7 +969,7 @@ class InspectionController extends Controller
         $subArraySSRemarkVal = substr($insSSRemarkVal, 1, -1);
         $ssRemarkValArray = explode(",",$subArraySSRemarkVal);
 
-        $idForm = $request->input('form_id');
+        $idForm = (int) $request->input('form_id');
         if($idForm == 0 || $idForm == null){
             $form = FormsInspSafetyShower::create(
                 $request->except([

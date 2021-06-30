@@ -197,6 +197,7 @@ class AttendanceController extends Controller
                     'att_p_signature','att_p_employee_id']));
                 $formPeople->update([
                     'att_p_employee_id' => $employee->id,
+                    'att_p_attendance_id' => $id,
                     'att_p_department_id' => $employee->emp_employee_department_id
                     ]);
 
@@ -218,7 +219,10 @@ class AttendanceController extends Controller
                     ]
                 );
             }
-            $formPeople->update($request->except(['att_p_signature']));
+            $formPeople->update([
+                $request->except(['att_p_signature','att_p_attendance_id']),
+                'att_p_attendance_id' => $id
+            ]);
 
             return response()->json([
                 'code' => 200,
