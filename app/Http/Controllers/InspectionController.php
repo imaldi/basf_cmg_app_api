@@ -306,7 +306,7 @@ class InspectionController extends Controller
         $form->update([
             'ins_la_inspector_id' => Auth::user()->id,
             'ins_la_inspector_spv_id' => User::role('Inspection - Ladder - SPV')->first()->id,
-            'ins_la_status' => 2,
+            // 'ins_la_status' => 2,
             'ins_la_name' => 'GS-F-5003-2/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             'ins_la_submited_date' => Carbon::now()
         ]);
@@ -397,7 +397,7 @@ class InspectionController extends Controller
             $form->update([
                 'ins_h2_inspector_id' => Auth::user()->id,
                 'ins_h2_inspector_spv_id' => User::role('Inspection - H2S - SPV')->first()->id,
-                'ins_h2_status' => 2,
+                // 'ins_h2_status' => 2,
                 'ins_h2_is_active' => 1,
                 'ins_h2_submited_date' => Carbon::now(),
                 'ins_h2_name' => 'GS-F-5002-4/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
@@ -491,7 +491,7 @@ class InspectionController extends Controller
         $form->update([
             'ins_fh_inspector_id' =>  $employee->id,
             'ins_fh_inspector_spv_id' => User::role('Inspection - Fume Hood - SPV')->first()->id,
-            'ins_fh_status' => 2,
+            // 'ins_fh_status' => 2,
             'ins_fh_submited_date' => Carbon::now(),
             'ins_fh_is_active' => 1,
             'ins_fh_name' => 'GS-F-5001-2'.'/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
@@ -580,7 +580,7 @@ class InspectionController extends Controller
             $form->update([
                 'ins_sk_inspector_id' => Auth::user()->id,
                 'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->first()->id,
-                'ins_sk_status' => 2,
+                // 'ins_sk_status' => 2,
                 'ins_sk_is_active' => 1,
                 'ins_sk_submited_date' => Carbon::now(),
                 'ins_sk_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
@@ -718,7 +718,7 @@ class InspectionController extends Controller
             $form->update([
                 'ins_sh_inspector_id' => Auth::user()->id,
                 'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->first()->id,
-                'ins_sh_status' => 2,
+                // 'ins_sh_status' => 2,
                 'ins_sh_is_active' => 1,
                 'ins_sh_submited_date' => Carbon::now(),
                 'ins_sh_name' => 'GS-F-3014-2'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
@@ -853,7 +853,7 @@ class InspectionController extends Controller
             $form->update([
                 'ins_sc_inspector_id' => Auth::user()->id,
                 'ins_sc_checker_id' => User::role('Inspection - SCBA - SPV')->first()->id,
-                'ins_sc_status' => 2,
+                // 'ins_sc_status' => 2,
                 'ins_sc_is_active' => 1,
                 'ins_sc_submited_date' => Carbon::now(),
                 'ins_sc_name' => 'GS-F-3014-2/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
@@ -991,7 +991,7 @@ class InspectionController extends Controller
             $form->update([
                 'ins_ss_inspector_id' => Auth::user()->id,
                 'ins_ss_checker_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
-                'ins_ss_status' => 2,
+                // 'ins_ss_status' => 2,
                 'ins_ss_is_active' => 1,
                 'ins_ss_submited_date' => Carbon::now(),
                 'ins_ss_name' => 'GS-F-3014-2/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,

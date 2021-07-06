@@ -70,6 +70,16 @@ class AttendanceController extends Controller
                 );
             }
 
+            if($request->file('att_trainer_signature')){
+                $name = time().'att_trainer_signature'.$request->file('att_trainer_signature')->getClientOriginalName();
+                $request->file('att_trainer_signature')->move('uploads/attendance/signatures',$name);
+                $formAttandance->update(
+                    [
+                        'att_trainer_signature' => $name,
+                    ]
+                );
+            }
+
 
             // foreach($idArray as $id){
             //     FormAttendancePersonal::create([
@@ -106,7 +116,7 @@ class AttendanceController extends Controller
                     'att_total_manhours' => $request->input('att_total_manhours'),
                     'att_place_others' => $request->input('att_place_others'),
                     'att_category_others' => $request->input('att_category_others'),
-                    'att_trainer_signature' => $request->input('att_trainer_signature'),
+                    // 'att_trainer_signature' => $request->input('att_trainer_signature'),
                 ]);
 
                 if($request->file('att_signature')){
