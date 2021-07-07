@@ -22,7 +22,7 @@ class Form5sesController extends Controller
         $form5s = Form5ses::all();
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch Data',
             'data' => Form5sesResource::collection($form5s)
             ], 200);
     }

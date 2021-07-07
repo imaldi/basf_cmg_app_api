@@ -33,9 +33,10 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->get('users/{id}', 'WorkOrderController@singleUser');
 
     // Matches "/api/users
-    $router->get('users', 'WorkOrderController@allUsers');
-    $router->get('locations', 'WorkOrderController@getLocations');
-    $router->get('departments', 'WorkOrderController@getDepartments');
+    $router->get('users', 'HomeController@allUsers');
+    $router->get('locations', 'HomeController@getLocations');
+    $router->get('departments/all', 'HomeController@getDepartments');
+    $router->get('departments', 'HomeController@getLocationsByLocModule');
     // $router->post('login-employee', 'AuthController@login');
     // $router->post('update-password-employee', 'AuthController@updatePassword');
 
@@ -359,6 +360,8 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'middleware' => 'permission_check:view 5s form']);
             $router->get('get/{id}',[
                 'uses' => 'Form5sesController@getOne5s']);
+                $router->get('locations-of-department/{id}',[
+                    'uses' => 'Form5sesController@getAllLocationsOfDepartment']);
             $router->post('create',[
                 'uses' => 'Form5sesController@createOrUpdateForm5s',
                 'middleware' => 'permission_check:create 5s form']);

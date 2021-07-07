@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
+use App\Models\Form5sMaster;
 use App\User;
 
 
@@ -28,9 +29,9 @@ class Form5sMasterResource extends JsonResource
         $PICs = User::whereIn('id',$PICIds)->get();
         return [
             'department_id' => $this->form_5s_m_dept_id,
-            'department_name' => MasterDepartment::find($this->form_5s_m_dept_id),
+            'department_name' => MasterDepartment::find($this->form_5s_m_dept_id)->first()->dept_name,
             'location_id' => $this->form_5s_m_area_id,
-            'location_name' => MasterLocation::find($this->form_5s_m_area_id),
+            'location_name' => MasterLocation::find($this->form_5s_m_area_id)->first()->loc_name,
             'pic' => $PICs,
             // 'pic_name' => $user$this->loc_name,
             //kemungkinan bermasalah

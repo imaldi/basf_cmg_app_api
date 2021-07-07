@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
 use App\Models\MasterEmployee;
-use App\Models\MEmployeeGroup;
-use App\Models\MEmployeeTitle;
-use App\Models\MScoringWorkOrder;
-use App\Models\LocationPrevillege;
+// use App\Models\MEmployeeGroup;
+// use App\Models\MEmployeeTitle;
+// use App\Models\MScoringWorkOrder;
+// use App\Models\LocationPrevillege;
 
 use Illuminate\Support\Facades\DB;
 
@@ -19,221 +19,123 @@ class HomeController extends Controller{
     public function __construct(){
         $this->middleware('auth');
     }
-    
-    public function getLocationByDepartment(Request $request)
-    {     
-        try{
-            $listLocationByDepartment=MasterLocation::where('id_department', $request->id_department)->get();
-            $newLocationDepartment = array();
-            foreach($listLocationByDepartment as $location){
-                if(in_array($request->category_department, json_decode($location->location_description))){
-                    array_push($newLocationDepartment, $location);
-                }
-            }
-            $statusCode = 200;
-            $response = [
-                'listLocationByDepartment' => $newLocationDepartment
-            ];    
 
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response['message'] = 'Server Error';
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
+    public function getLocations(){
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Locations',
+            'data' => LocationsResource::collection(MasterLocation::all())
+        ], 200);
     }
 
-    public function getDepartements(Request $request)
-    {     
-        try{
-            $getLocationPrevillege = LocationPrevillege::where('previllage_name', '=', $request->previllage_name)->first();
-            if($getLocationPrevillege){
-                $arrayIdLocation = json_decode($getLocationPrevillege->array_id_location);
-                $dataLocations = array();
-                $dataDepartment = array();
-                $arrayidDepartment = array();
-                foreach($arrayIdLocation as $idLocation){
-                    $getDataLocation = MasterLocation::find($idLocation);
-                    if($getDataLocation->id_department != null){
-                        array_push($arrayidDepartment, $getDataLocation->id_department);
-                    }
-                    array_push($dataLocations, $getDataLocation);
-                }
-                if(sizeof($arrayidDepartment) > 0){
-                    foreach(array_unique($arrayidDepartment) as $idDepartment){
-                        $getDataDepartment = MasterDepartment::find($idDepartment);
-                        array_push($dataDepartment, $getDataDepartment);
-                    }
-                }
-                $statusCode = 200;
-                $response = [
-                    "listDepartment"=>$dataDepartment,
-                    "listLocations"=>$dataLocations
-                ];    
-            } else {
-                $statusCode = 200;
-                $response = [
-                    'message' => "Data Not Found"
-                ];    
-            }
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response['message'] = 'Server Error';
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
+    public function getLocationsByLocModule(Request $request){
+        $locModule = $request->query('locModule');
+            $locations = MasterLocation::where('loc_module', $locModule)
+            // ->where('wo_issuer_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'wo_form_status')
+            ->get();
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Locations',
+            'data' => LocationsResource::collection($locations)
+        ], 200);
     }
 
-    public function getLocationByCategory(Request $request)
-    {     
-        try{
-            $dataLocationByCategeroy=MasterLocation::where('location_category', '=', $request->location_category)->get();
-            $statusCode = 200;
-            $response = [
-                'dataLocationByCategeroy' => $dataLocationByCategeroy
-            ];    
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response['message'] = 'Server Error';
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
+
+    public function getDepartments(){
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Get All Departments',
+            'data' => MasterDepartment::all()
+        ], 200);
+
     }
 
-    public function getScoringWorkOrder()
-    {     
-        try{
-            $getScoringWorkOrder=MScoringWorkOrder::get();
-            $statusCode = 200;
-            $response = [
-                'dataScoringWorkOrder' => $getScoringWorkOrder
-            ];    
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response['message'] = 'Server Error';
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
-    }
-
-    public function getDataDepartment()
-    {     
-        try{
-            $getDataDepartment=MasterDepartment::where('is_active', 1)->get();
-            $statusCode = 200;
-            $response = [
-                'dataAllDepartment' => $getDataDepartment
-            ];    
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response['message'] = 'Server Error';
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
-    }
-
-    public function viewAllEmployee()
+    public function getAllPic()
     {
-        try{
-            $allEmployee= MasterEmployee::where('is_active',1)->get();
-            if($allEmployee){
-                $statusCode = 200;
-                $response = [
-                    'message' => ' tampilkan data seluru karyawan',
-                    'dataAllEmployee' => $allEmployee,
-                ];
-            }else{
-                $response = [
-                'message' => ' data kosong',
-                ];
-            }
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'tampilkan data karyawan Gagal',
-            ];
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
+        $listPic = User::role('Work Order - PIC')->get();
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success',
+            'data' => EmployeeResource::collection($listPic)
+        // $user
+
+        ], 200);
     }
 
-    public function viewAllLocation()
+
+
+
+
+
+    /// Test JWT
+    public function profile()
     {
-        try{
-            $allLocation= MasterLocation::get();
-            if($allLocation){
-                $statusCode = 200;
-                $response = [
-                    'message' => ' tampilkan data seluruh lokasi',
-                    'dataAllLocation' => $allLocation,
-                ];
-            }else{
-                $response = [
-                'message' => ' data kosong',
-                ];
-            }
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'tampilkan data lokasi Gagal',
-            ];
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
+        //Tes profile department dan date
+        $user = [Auth::user()];
+        // $user = User::find(1);
+        // $employee = User::find($user->id);
+        // $department = $employee->department()->first();
+        // $date = Carbon::now()->format('Y-m-d H:i:s');
+        // $department = MasterDepartment::find(3);
+        // $userSpv = $department->users()->where('emp_is_spv',1)->first();
+        // $employee->removeRole('Super Admin Mobile');
+        // $user->update([
+        //     'emp_name' => 'aldi'
+        // ]);
+
+        // $department->users();
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success',
+            'data' =>  EmployeeResource::collection($user)
+        // $user
+        // [
+        //     'emp_id' => $user->id,
+        //     'emp_name' => $user->emp_name,
+        //     'emp_username' => $user->emp_username,
+        //     'emp_email' => $user->emp_email,
+        //     'emp_nik' => $user->emp_nik,
+        //     'emp_birth_date' => $user->emp_birth_date,
+        //     'emp_phone_number' => $user->emp_phone_number,
+        //     'emp_is_spv' => $user->emp_is_spv,
+        //     'emp_employee_department_id' => $user->emp_employee_department_id,
+        //     'emp_employee_department_name' => MasterDepartment::find($user->emp_employee_department_id)->dept_name,
+        //     'created_at' => $user->created_at,
+        //     'updated_at' => $user->updated_at,
+        //     'emp_permissions' => $user->getPermissionsViaRoles()->unique('name'),
+        //     'emp_groups' => EmployeeGroupResource::collection($user->roles)
+        // ]
+        ], 200);
+        // return response()->json(['user' => Config::get('constants.groups.wo_issuer_spv')], 200);
+
+        //Tes Has Many Through dengan EmployeeGroup model
+        // $group = $user->group()->first();
+        // $forms = $group->workOrderForms()->get();
+        // $permissions = $group->permissions()->get()->where('id',13)->first();
+        // // return response()->json(['group_forms' => $forms], 200);
+        // return response()->json(['group_forms' => $permissions], 200);
+
     }
 
-    public function viewAllEmployeeGroup(Request $request)
+
+
+    public function allUsers()
     {
-        try{
-            $allEmployeeGroup= MEmployeeGroup::where('is_active',1)->get();
-            if($allEmployeeGroup){
-                $statusCode = 200;
-                $response = [
-                    'message' => ' tampilkan data grup karyawan',
-                    'dataEmployeeGroup' => $allEmployeeGroup,
-                ];
-            }else{
-                $response = [
-                'message' => ' data kosong',
-                ];
-            }
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'tampilkan data grup karyawan Gagal',
-            ];
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
-        }
+         return response()->json(['users' =>  EmployeeResource::collection(User::all())], 200);
     }
 
-    public function viewAllEmployeeTitle(Request $request)
+    public function singleUser($id)
     {
-        try{
-            $allEmployeeTitle= MEmployeeTitle::get();
-            if($allEmployeeTitle){
-                $statusCode = 200;
-                $response = [
-                    'message' => ' tampilkan data jabatan karyawan',
-                    'dataEmployeeTitle' => $allEmployeeTitle,
-                ];
-            }else{
-                $response = [
-                'message' => ' data kosong',
-                ];
-            }
-        } catch (Exception $ex) {
-            $statusCode = 404;
-            $response = [
-                'error' => true,
-                'message' => 'tampilkan data jabatan karyawan Gagal',
-            ];
-        } finally {
-            return response($response,$statusCode)->header('Content-Type','application/json');
+        try {
+            $user = User::findOrFail($id);
+
+            return response()->json(['user' => $user], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json(['message' => 'user not found!'], 404);
         }
+
     }
 
 }

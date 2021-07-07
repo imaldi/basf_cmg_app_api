@@ -80,7 +80,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function locationAs5sPic(){
         // ->role('Form 5s - PIC')->get()->where('id',$this->id)->first()
-		return $this->belongsToMany('App\Models\MasterLocation', 'form_5s_masters', 'id', 'id');
+		return $this->belongsToMany('App\Models\MasterLocation', 'form_5s_masters', 'form_5s_m_pic_id', 'form_5s_m_area_id');
 	}
 
 	// public function group(){

@@ -14,7 +14,7 @@ class MasterLocation extends Model
 		return $this->belongsTo(MasterDepartment::class, 'id');
 	}
 	public function form5sMasterPic(){
-		return $this->belongsToMany('App\User', 'form_5s_masters', 'id', 'id');
+		return $this->belongsToMany('App\User', 'form_5s_masters', 'form_5s_m_area_id', 'form_5s_m_pic_id');
 	}
 }
 
