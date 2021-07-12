@@ -33,7 +33,7 @@ class Form5sesController extends Controller
             $form5s = Form5ses::find($id);
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch Data',
             'data' => [new Form5sesResource($form5s)]
             ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
@@ -249,6 +249,7 @@ class Form5sesController extends Controller
             'message' => 'Success Fetching All Department',
             // 'data' =>  $PICList,
             'data' =>  Form5sMasterResource::collection($PICList),
+            // 'list_department' => MasterDepartment::All()
             ], 200);
     }
 }

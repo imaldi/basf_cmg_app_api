@@ -100,47 +100,47 @@ class PermissionSeeder extends Seeder
             //     'e_permission_desc' => 'create inspection form',
             //     'e_permission_category' => 'work order',
             // ],
-            [
-                'name' => 'view 5s form',
-                'e_permission_desc' => 'view 5s form',
-                'e_permission_category' => '5s form',
-            ],
-            [
-                'name' => 'create 5s form',
-                'e_permission_desc' => 'create 5s form',
-                'e_permission_category' => '5s form',
-            ],
-            [
-                'name' => 'update 5s form',
-                'e_permission_desc' => 'update 5s form',
-                'e_permission_category' => '5s form',
-            ],
-            [
-                'name' => 'approve 5s form',
-                'e_permission_desc' => 'approve 5s form',
-                'e_permission_category' => '5s form',
-            ],
-            //attendance
-            [
-                'name' => 'view attendance form',
-                'e_permission_desc' => 'view attendance form',
-                'e_permission_category' => 'attendance form',
-            ],
-            [
-                'name' => 'create attendance form',
-                'e_permission_desc' => 'create attendance form',
-                'e_permission_category' => 'attendance form',
-            ],
-            [
-                'name' => 'update attendance form',
-                'e_permission_desc' => 'update attendance form',
-                'e_permission_category' => 'attendance form',
-            ],
-            [
-                'name' => 'approve attendance form',
-                'e_permission_desc' => 'approve attendance form',
-                'e_permission_category' => 'attendance form',
-            ],
+            // [
+            //     'name' => 'view 5s form',
+            //     'e_permission_desc' => 'view 5s form',
+            //     'e_permission_category' => '5s form',
+            // ],
+            // [
+            //     'name' => 'create 5s form',
+            //     'e_permission_desc' => 'create 5s form',
+            //     'e_permission_category' => '5s form',
+            // ],
+            // [
+            //     'name' => 'update 5s form',
+            //     'e_permission_desc' => 'update 5s form',
+            //     'e_permission_category' => '5s form',
+            // ],
+            // [
+            //     'name' => 'approve 5s form',
+            //     'e_permission_desc' => 'approve 5s form',
+            //     'e_permission_category' => '5s form',
+            // ],
+            // //attendance
+            // [
+            //     'name' => 'view attendance form',
+            //     'e_permission_desc' => 'view attendance form',
+            //     'e_permission_category' => 'attendance form',
+            // ],
+            // [
+            //     'name' => 'create attendance form',
+            //     'e_permission_desc' => 'create attendance form',
+            //     'e_permission_category' => 'attendance form',
+            // ],
+            // [
+            //     'name' => 'update attendance form',
+            //     'e_permission_desc' => 'update attendance form',
+            //     'e_permission_category' => 'attendance form',
+            // ],
+            // [
+            //     'name' => 'approve attendance form',
+            //     'e_permission_desc' => 'approve attendance form',
+            //     'e_permission_category' => 'attendance form',
+            // ],
         ]);
     }
 }

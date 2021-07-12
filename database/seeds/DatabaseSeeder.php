@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
             // EmployeesSeeder::class,
             // GroupSeeder::class,
             // PermissionSeeder::class,
-            // PrivilegeSeeder::class,
+            PrivilegeSeeder::class,
             // UserGroupSeeder::class,
-            Form5sMasterSeeder::class,
+            // Form5sMasterSeeder::class,
             // WorkOrderSeeder::class
         ]);
     }

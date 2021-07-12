@@ -24,8 +24,8 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->post('register', 'AuthController@register');
     //// Test jwt
      // Matches "/api/profile
-    $router->get('profile', 'WorkOrderController@profile');
-    $router->get('get-all-pic', 'WorkOrderController@getAllPic');
+    $router->get('profile', 'HomeController@profile');
+    $router->get('get-all-pic', 'HomeController@getAllPic');
     $router->post('profile', 'EmployeeController@addGroupToUser');
 
     // Matches "/api/user
@@ -109,7 +109,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             $router->group(['prefix' => 'as-pic-spv'], function () use ($router) {
                 $router->get('get-all',
                 [
-                    'middleware' => 'group_check:Work Order - PIC - SPV',
+                    'middleware' => 'group_check:Work Order - SPV PIC',
                     'uses' => 'WorkOrderController@viewListWorkOrderAsPicSPV'
                 ]);
             });
@@ -208,7 +208,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             $router->get('as-pic-spv/{idFormWOrder}',
             [
                 'middleware' => [
-                    'group_check:Work Order - PIC - SPV'
+                    'group_check:Work Order - SPV PIC'
                 ],
                 'uses' => 'WorkOrderController@approveFormWorkOrderAsPicSpv'
             ]);
@@ -360,6 +360,8 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'middleware' => 'permission_check:view 5s form']);
             $router->get('get/{id}',[
                 'uses' => 'Form5sesController@getOne5s']);
+                $router->get('departments',[
+                    'uses' => 'Form5sesController@getDepartments']);
                 $router->get('locations-of-department/{id}',[
                     'uses' => 'Form5sesController@getAllLocationsOfDepartment']);
             $router->post('create',[

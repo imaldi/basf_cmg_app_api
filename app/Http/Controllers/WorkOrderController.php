@@ -410,6 +410,7 @@ class WorkOrderController extends Controller
 
             $date = Carbon::now();
             $date->toDateTimeString();
+            $departmentId = $employee->emp_employee_department_id;
             $wo_planner_id = User::role('Work Order - Planner')->where('emp_employee_department_id',$departmentId)->first()->id;
 
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
@@ -483,7 +484,7 @@ class WorkOrderController extends Controller
 
             $formWorkOrder->update([
                 'wo_date_planner_approve' => $date,
-                'wo_pic_id' => (int)$request->input('wo_pic_id'),
+                'wo_pic_id' => $request->input('wo_pic_id'),
                 'wo_form_status' => 6,
                 'wo_c_cost' => $request->input('wo_c_cost'),
                 'wo_date_revision' => $request->input('wo_date_revision'),
@@ -513,11 +514,14 @@ class WorkOrderController extends Controller
             $date->toDateTimeString();
 
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
+            $departmentId = $employee->emp_employee_department_id;
+            $wo_pic_spv_id = User::role('Work Order - SPV PIC')->where('emp_employee_department_id',$departmentId)->first()->id;
+
 
             $formWorkOrder->update([
                 'wo_date_pic_plan' => $date,
                 'wo_form_status' => 7,
-                'wo_pic_team' => $request->input('wo_pic_team'),
+                'wo_spv_pic_id' => $wo_pic_spv_id,
                 'wo_pic_action_plan' => $request->input('wo_pic_action_plan'),
             ]);
 
@@ -593,8 +597,10 @@ class WorkOrderController extends Controller
 
                         $formWorkOrder->update(
                             $request->except(['wo_pic_image','wo_pic_attachment','wo_form_status']),);
-                        $formWorkOrder>update([
-                            'wo_form_status' => $formStatus
+                        $formWorkOrder->update([
+                            'wo_form_status' => $formStatus,
+                                'wo_pic_team' => $request->input('wo_pic_team'),
+
                         ]);
                     return response()->json([
                         'code' => 200,

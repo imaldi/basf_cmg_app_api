@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
 use App\Models\MasterEmployee;
+use App\Http\Resources\FormWorkOrderResource;
+use App\Http\Resources\EmployeeGroupResource;
+use App\Http\Resources\LocationsResource;
+use App\Http\Resources\EmployeeResource;
 // use App\Models\MEmployeeGroup;
 // use App\Models\MEmployeeTitle;
 // use App\Models\MScoringWorkOrder;

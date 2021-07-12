@@ -32,6 +32,8 @@ class FormWorkOrder extends Model
 		'wo_reffered_division',
 		'wo_description',
 		'wo_image',
+        'wo_pic_id',
+        'wo_spv_pic_id',
 		'wo_pic_action_plan',
 		'wo_pic_action',
 		'wo_pic_attachment',
@@ -205,8 +207,8 @@ class FormWorkOrder extends Model
 	// }
 
 	//OTO -> One To One;
-	//OTM -> One To Many; 
-	//HM -> Has Many; 
+	//OTM -> One To Many;
+	//HM -> Has Many;
 	//HMT -> Has Many Through;
 
 	//TODO belongsTo Category - MTO buat tabel dan model Category

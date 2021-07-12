@@ -90,42 +90,84 @@ class PrivilegeSeeder extends Seeder{
             //     'permission_id' => '17',
             // ],
 
-            //5s
-            //Harus perbaiki dulu kalau migrate:refresh
             [
-                'role_id' => '8',
-                'permission_id' => '22',
+                'role_id' => '6',
+                'permission_id' => '13',
             ],
             [
-                'role_id' => '8',
-                'permission_id' => '23',
+                'role_id' => '6',
+                'permission_id' => '14',
             ],
             [
-                'role_id' => '8',
-                'permission_id' => '24',
+                'role_id' => '6',
+                'permission_id' => '15',
             ],
             [
-                'role_id' => '8',
-                'permission_id' => '26',
+                'role_id' => '6',
+                'permission_id' => '16',
+            ],
+            [
+                'role_id' => '6',
+                'permission_id' => '17',
             ],
 
-            //attendance
             [
-                'role_id' => '23',
-                'permission_id' => '27',
+                'role_id' => '7',
+                'permission_id' => '13',
             ],
             [
-                'role_id' => '23',
-                'permission_id' => '28',
+                'role_id' => '7',
+                'permission_id' => '14',
             ],
             [
-                'role_id' => '23',
-                'permission_id' => '29',
+                'role_id' => '7',
+                'permission_id' => '15',
             ],
             [
-                'role_id' => '23',
-                'permission_id' => '31',
+                'role_id' => '7',
+                'permission_id' => '16',
             ],
+            [
+                'role_id' => '7',
+                'permission_id' => '17',
+            ],
+
+            //5s
+            //Harus perbaiki dulu kalau migrate:refresh
+            // [
+            //     'role_id' => '8',
+            //     'permission_id' => '22',
+            // ],
+            // [
+            //     'role_id' => '8',
+            //     'permission_id' => '23',
+            // ],
+            // [
+            //     'role_id' => '8',
+            //     'permission_id' => '24',
+            // ],
+            // [
+            //     'role_id' => '8',
+            //     'permission_id' => '26',
+            // ],
+
+            // //attendance
+            // [
+            //     'role_id' => '23',
+            //     'permission_id' => '27',
+            // ],
+            // [
+            //     'role_id' => '23',
+            //     'permission_id' => '28',
+            // ],
+            // [
+            //     'role_id' => '23',
+            //     'permission_id' => '29',
+            // ],
+            // [
+            //     'role_id' => '23',
+            //     'permission_id' => '31',
+            // ],
         ]);
     }
 }
