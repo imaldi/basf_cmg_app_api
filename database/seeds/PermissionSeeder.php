@@ -120,27 +120,27 @@ class PermissionSeeder extends Seeder
             //     'e_permission_desc' => 'approve 5s form',
             //     'e_permission_category' => '5s form',
             // ],
-            // //attendance
-            // [
-            //     'name' => 'view attendance form',
-            //     'e_permission_desc' => 'view attendance form',
-            //     'e_permission_category' => 'attendance form',
-            // ],
-            // [
-            //     'name' => 'create attendance form',
-            //     'e_permission_desc' => 'create attendance form',
-            //     'e_permission_category' => 'attendance form',
-            // ],
-            // [
-            //     'name' => 'update attendance form',
-            //     'e_permission_desc' => 'update attendance form',
-            //     'e_permission_category' => 'attendance form',
-            // ],
-            // [
-            //     'name' => 'approve attendance form',
-            //     'e_permission_desc' => 'approve attendance form',
-            //     'e_permission_category' => 'attendance form',
-            // ],
+            //inspection
+            [
+                'name' => 'view inspection form',
+                'e_permission_desc' => 'view inspection form',
+                'e_permission_category' => 'inspection form',
+            ],
+            [
+                'name' => 'create inspection form',
+                'e_permission_desc' => 'create inspection form',
+                'e_permission_category' => 'inspection form',
+            ],
+            [
+                'name' => 'update inspection form',
+                'e_permission_desc' => 'update inspection form',
+                'e_permission_category' => 'inspection form',
+            ],
+            [
+                'name' => 'approve inspection form',
+                'e_permission_desc' => 'approve inspection form',
+                'e_permission_category' => 'inspection form',
+            ],
         ]);
     }
 }

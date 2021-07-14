@@ -61,12 +61,18 @@ class EmployeesSeeder extends Seeder
             //     'emp_username' => 'inspection',
             //     'password'	=> app('hash')->make('secret')
             // ],
-            [
-                'emp_name'	=> 'attendance',
-                'emp_email'	=> 'attendance@gmail.com',
-                'emp_username' => 'attendance',
-                'password'	=> app('hash')->make('secret')
-            ],
+            // [
+            //         'emp_name'	=> 'inspection spv',
+            //         'emp_email'	=> 'inspection_spv@gmail.com',
+            //         'emp_username' => 'inspection spv',
+            //         'password'	=> app('hash')->make('secret')
+            //     ],
+            // [
+            //     'emp_name'	=> 'attendance',
+            //     'emp_email'	=> 'attendance@gmail.com',
+            //     'emp_username' => 'attendance',
+            //     'password'	=> app('hash')->make('secret')
+            // ],
         ]);
     }
 }

@@ -47,7 +47,7 @@ class FormsInspFumeHoodResource extends JsonResource
             'ins_fh_QC5_a_f_standart' => $this->ins_fh_QC5_a_f_standart,
             'ins_fh_QC5_a_f_results' => $this->ins_fh_QC5_a_f_results,
             'ins_fh_QC5_remarks' => $this->ins_fh_QC5_remarks,
-            'ins_fh_status' => $this->ins_fh_status,
+            'ins_fh_status' => (int) $this->ins_fh_status,
             'ins_fh_is_active' => $this->ins_fh_is_active,
             // '' => $this->,
             'ins_created_at' => $this->created_at,

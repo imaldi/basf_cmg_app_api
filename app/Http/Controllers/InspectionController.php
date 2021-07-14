@@ -37,9 +37,17 @@ class InspectionController extends Controller
     public function getAllLadder()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Ladder - SPV') ? 'ins_la_inspector_id' : 'ins_la_inspector_spv_id';
-        $forms= FormsInspLadder::where('ins_la_is_active',1)
-            ->where($role,$user->id)->orderBy('ins_la_status')->get();
+        if($user->hasRole('Inspection - Ladder - SPV')){
+            $forms= FormsInspLadder::where('ins_la_is_active',1)
+                ->where('ins_la_inspector_spv_id',$user->id)->where('ins_la_status','>',1)->orderBy('ins_la_status')->get();
+        } else {
+            $forms= FormsInspLadder::where('ins_la_is_active',1)
+            ->where('ins_la_inspector_id',$user->id)->orderBy('ins_la_status')->get();
+        }
+        // $role = $user->hasRole('Inspection - Ladder - SPV') ? 'ins_la_inspector_spv_id' :  'ins_la_inspector_id';
+        // $forms= FormsInspLadder::where('ins_la_is_active',1)
+        //     ->where($role,$user->id)->orderBy('ins_la_status')->get();
+
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -65,9 +73,17 @@ class InspectionController extends Controller
     public function getAllFumeHood()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Fume Hood - SPV') ? 'ins_fh_inspector_id' : 'ins_fh_inspector_spv_id';
-        $forms= FormsInspFumeHood::where('ins_fh_is_active',1)
-            ->where($role,$user->id)->orderBy('ins_fh_status')->get();
+
+        if($user->hasRole('Inspection - Fume Hood - SPV')){
+            $forms= FormsInspFumeHood::where('ins_fh_is_active',1)
+                ->where('ins_fh_inspector_spv_id',$user->id)->where('ins_fh_status','>',1)->orderBy('ins_fh_status')->get();
+        } else {
+            $forms= FormsInspFumeHood::where('ins_fh_is_active',1)
+            ->where('ins_fh_inspector_id',$user->id)->orderBy('ins_fh_status')->get();
+        }
+        // $role = $user->hasRole('Inspection - Fume Hood - SPV') ? 'ins_fh_inspector_id' : 'ins_fh_inspector_spv_id';
+        // $forms= FormsInspFumeHood::where('ins_fh_is_active',1)
+        //     ->where($role,$user->id)->orderBy('ins_fh_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -289,6 +305,8 @@ class InspectionController extends Controller
         $date = Carbon::now();
         $date->toDateTimeString();
         $department = $employee->department()->first();
+        $departmentId = $employee->emp_employee_department_id;
+
         $departmentAbr = substr(strtoupper($department->dept_name),0,3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
@@ -299,14 +317,16 @@ class InspectionController extends Controller
             $request->except([
                 'ins_la_name',
                 'ins_la_approved_date',
+                'form_id'
             ])
             );
         $formID = FormsInspLadder::max('id');
         $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
         $form->update([
             'ins_la_inspector_id' => Auth::user()->id,
-            'ins_la_inspector_spv_id' => User::role('Inspection - Ladder - SPV')->first()->id,
-            // 'ins_la_status' => 2,
+            'ins_la_inspector_spv_id' => User::role('Inspection - Ladder - SPV')->where('emp_employee_department_id',$departmentId)->first()->id,
+            'ins_la_status' => (int) $request->input('ins_la_status'),
+            // 'ins_la_is_active' => 1,
             'ins_la_name' => 'GS-F-5003-2/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             'ins_la_submited_date' => Carbon::now()
         ]);
@@ -323,11 +343,18 @@ class InspectionController extends Controller
                 $form = FormsInspLadder::findOrFail($idForm);
                 $form->update(
                     $request->except([
+                        'form_id',
                         'ins_la_inspector_id',
                         'ins_la_inspector_spv_id',
                         'ins_la_approved_date',
+                        'updated_at',
+                        'created_at'
                     ])
-                    );
+                    //harus cek lagi
+                );
+                // $form->update([
+                //     'ins_la_is_active' => (int) $request->input('ins_la_is_active'),
+                // ]);
 
                 return response()->json([
                     'code' => 200,
@@ -484,6 +511,7 @@ class InspectionController extends Controller
             $request->except([
                 'ins_fh_name',
                 'ins_fh_approved_date',
+                'form_id'
             ])
         );
         $formID = FormsInspFumeHood::max('id');
@@ -511,6 +539,7 @@ class InspectionController extends Controller
                         'ins_fh_inspector_id',
                         'ins_fh_inspector_spv_id',
                         'ins_fh_approved_date',
+                        'form_id'
                     ])
                 );
 

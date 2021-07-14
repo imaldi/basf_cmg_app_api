@@ -89,7 +89,7 @@ class WorkOrderController extends Controller
                 'wo_reffered_dept' => $request->input('wo_reffered_dept'),
                 'wo_reffered_division' => $request->input('wo_reffered_division'),
                 'wo_description' => $request->input('wo_description'),
-                'wo_location_detail' => $request->input('location_detail'),
+                'wo_location_detail' => $request->input('wo_location_detail'),
                 'wo_tag_no' => $request->input('wo_tag_no'),
                 'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
                 'wo_form_status' => $formStatus,

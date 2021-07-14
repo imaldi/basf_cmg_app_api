@@ -42,31 +42,31 @@ class UserGroupSeeder extends Seeder{
             ],
             [
                 'role_id' => '9',
-                'model_id' => '8',
+                'model_id' => '10',
             ],
             [
                 'role_id' => '10',
-                'model_id' => '8',
+                'model_id' => '10',
             ],
             [
                 'role_id' => '11',
-                'model_id' => '8',
+                'model_id' => '10',
             ],
             [
                 'role_id' => '12',
-                'model_id' => '8',
+                'model_id' => '10',
             ],
             [
                 'role_id' => '13',
-                'model_id' => '8',
+                'model_id' => '10',
             ],
             [
                 'role_id' => '14',
-                'model_id' => '8',
+                'model_id' => '10',
             ],
             [
                 'role_id' => '15',
-                'model_id' => '8',
+                'model_id' => '10',
             ],
             [
                 'role_id' => '16',
