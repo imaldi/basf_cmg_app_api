@@ -31,7 +31,7 @@ class FormsInspH2sConcentResource extends JsonResource
             'ins_h2_inspector_spv_id' => $this->ins_h2_inspector_spv_id,
             'ins_h2_inspector_spv_name' => User::find($this->ins_h2_inspector_spv_id)->emp_name,
             'ins_h2_notes' => $this->ins_h2_notes,
-            'ins_h2_status' => $this->ins_h2_status,
+            'ins_h2_status' => (int)$this->ins_h2_status,
             'ins_h2_is_active' => $this->ins_h2_is_active,
             'ins_created_at' => $this->created_at,
             'ins_updated_at' => $this->updated_at,

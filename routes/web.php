@@ -36,7 +36,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->get('users', 'HomeController@allUsers');
     $router->get('locations', 'HomeController@getLocations');
     $router->get('departments/all', 'HomeController@getDepartments');
-    $router->get('departments', 'HomeController@getLocationsByLocModule');
+    $router->get('departments_locations', 'HomeController@getLocationsByLocModule');
     // $router->post('login-employee', 'AuthController@login');
     // $router->post('update-password-employee', 'AuthController@updatePassword');
 

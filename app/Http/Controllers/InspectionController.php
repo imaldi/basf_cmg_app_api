@@ -59,9 +59,17 @@ class InspectionController extends Controller
     public function getAllH2s()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - H2S - SPV') ? 'ins_h2_inspector_id' : 'ins_h2_inspector_spv_id';
-        $forms= FormsInspH2sConcent::where('ins_h2_is_active',1)
-            ->where($role,$user->id)->orderBy('ins_h2_status')->get();
+        // $role = $user->hasRole('Inspection - H2S - SPV') ? 'ins_h2_inspector_id' : 'ins_h2_inspector_spv_id';
+        // $forms= FormsInspH2sConcent::where('ins_h2_is_active',1)
+        //     ->where($role,$user->id)->orderBy('ins_h2_status')->get();
+
+            if($user->hasRole('Inspection - H2S - SPV')){
+                $forms= FormsInspH2sConcent::where('ins_h2_is_active',1)
+                    ->where('ins_h2_inspector_spv_id',$user->id)->where('ins_h2_status','>',1)->orderBy('ins_h2_status')->get();
+            } else {
+                $forms= FormsInspH2sConcent::where('ins_h2_is_active',1)
+                ->where('ins_h2_inspector_id',$user->id)->orderBy('ins_h2_status')->get();
+            }
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
