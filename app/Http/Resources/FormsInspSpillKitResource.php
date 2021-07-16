@@ -31,7 +31,7 @@ class FormsInspSpillKitResource extends JsonResource
             'ins_sk_inspector_spv_id' => $this->ins_sk_inspector_spv_id,
             'ins_sk_inspector_spv_name' => User::find($this->ins_sk_inspector_spv_id)->emp_name,
             'ins_sk_cp_actions' => $this->ins_sk_cp_actions,
-            'ins_sk_status' => $this->ins_sk_status,
+            'ins_sk_status' => (int)$this->ins_sk_status,
             'ins_sk_is_active' => $this->ins_sk_is_active,
             // '' => $this->,
             'ins_created_at' => $this->created_at,

@@ -31,7 +31,7 @@ class FormInsSafetyShowerResource extends JsonResource
             'ins_ss_checker_id' => $this->ins_ss_checker_id,
             'ins_ss_checker_name' => $this->ins_ss_checker_id,
             'ins_ss_cp_actions' => $this->ins_ss_cp_actions,
-            'ins_ss_status' => $this->ins_ss_status,
+            'ins_ss_status' => (int) $this->ins_ss_status,
             'ins_ss_is_active' => $this->ins_ss_is_active,
             'ins_created_at' => $this->created_at,
             'ins_updated_at' => $this->updated_at,

@@ -607,7 +607,7 @@ class InspectionController extends Controller
                     'ins_sk_box_condition',
                     'ins_sk_contents',
                     'ins_sk_documents',
-                    'ins_sk_remark_array'
+                    'ins_sk_remark_array',
                     ])
             );
 
@@ -655,7 +655,7 @@ class InspectionController extends Controller
                     'ins_sk_contents',
                     'ins_sk_documents',
                     'ins_sk_remark_array',
-                    'form_id'
+                    'form_id',
                 ])
             );
 
@@ -1020,7 +1020,9 @@ class InspectionController extends Controller
                     'ins_ss_cleanliness',
                     'ins_ss_alarm_condition',
                     'ins_ss_remarks_array',
-                    'form_id'
+                    'form_id',
+                    'ins_ss_inspector_id',
+                    'ins_ss_checker_id'
                 ])
             );
             $formID = FormsInspSafetyShower::max('id');
