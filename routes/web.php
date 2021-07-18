@@ -49,7 +49,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
         $router->post('create', [
             'middleware' => [
                 'permission_check:create work order',
-                'group_check:Work Order - Issuer'
+                // 'group_check:Work Order - Issuer'
             ],
             'uses' => 'WorkOrderController@createFormWorkOrder']);
 

@@ -103,9 +103,14 @@ class InspectionController extends Controller
     public function getAllSpillKit()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Spill Kit - SPV') ? 'ins_sk_inspector_id' : 'ins_sk_inspector_spv_id';
-        $forms= FormsInspSpillKit::where('ins_sk_is_active',1)
-            ->where($role,$user->id)->orderBy('ins_sk_status')->get();
+
+        if($user->hasRole('Inspection - Spill Kit - SPV')){
+            $forms= FormsInspSpillKit::where('ins_sk_is_active',1)
+                ->where('ins_fh_inspector_spv_id',$user->id)->where('ins_sk_inspector_spv_id','>',1)->orderBy('ins_sk_status')->get();
+        } else {
+            $forms= FormsInspSpillKit::where('ins_sk_is_active',1)
+            ->where('ins_sk_inspector_id',$user->id)->orderBy('ins_sk_status')->get();
+        }
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -117,9 +122,18 @@ class InspectionController extends Controller
     public function getAllSafetyHarness()
     {
         $user = Auth::user();
-        $role = $user->hasRole('Inspection - Safety Harness - SPV') ? 'ins_sh_inspector_id' : 'ins_sh_inspector_spv_id';
-        $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
-            ->where($role,$user->id)->orderBy('ins_sh_status')->get();
+
+        if($user->hasRole('Inspection - Safety Harness - SPV')){
+            $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
+                ->where('ins_sh_inspector_spv_id',$user->id)->where('ins_sh_inspector_spv_id','>',1)->orderBy('ins_sh_status')->get();
+        } else {
+            $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
+            ->where('ins_sh_inspector_id',$user->id)->orderBy('ins_sh_status')->get();
+        }
+
+        // $role = $user->hasRole('Inspection - Safety Harness - SPV') ? 'ins_sh_inspector_id' : 'ins_sh_inspector_spv_id';
+        // $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
+        //     ->where($role,$user->id)->orderBy('ins_sh_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',

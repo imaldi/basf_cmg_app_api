@@ -388,7 +388,7 @@ class WorkOrderController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Rejecting Form',
-                'data' =>  [$formWorkOrder],
+                'data' =>  [new FormWorkOrderResource($formWorkOrder)],
                 ], 200);
         } catch (\PDOException $e) {
             $statusCode = 404;
@@ -480,11 +480,12 @@ class WorkOrderController extends Controller
             $date->toDateTimeString();
 
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
+            $picId = User::find($request->input('wo_pic_id'))->id;
             //Buat Validatore belum
 
             $formWorkOrder->update([
                 'wo_date_planner_approve' => $date,
-                'wo_pic_id' => $request->input('wo_pic_id'),
+                'wo_pic_id' => $picId,
                 'wo_form_status' => 6,
                 'wo_c_cost' => $request->input('wo_c_cost'),
                 'wo_date_revision' => $request->input('wo_date_revision'),
