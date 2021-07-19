@@ -30,7 +30,7 @@ class Form5sesController extends Controller
     public function getOne5s($id)
     {
         try {
-            $form5s = Form5ses::find($id);
+            $form5s = Form5ses::findOrFail($id);
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch Data',
@@ -238,7 +238,8 @@ class Form5sesController extends Controller
 
     //data belum ada untuk bukti berhasil tapi request berhasil
     public function getAllLocationsOfDepartment($id){
-        $masterLocations = MasterDepartment::find($id)->areas()->select(['id'])->get()
+        try{
+        $masterLocations = MasterDepartment::findOrFail($id)->areas()->select(['id'])->get()
         ->map(function($model) {
             return $model->id;
         })->toArray();
@@ -251,5 +252,12 @@ class Form5sesController extends Controller
             'data' =>  Form5sMasterResource::collection($PICList),
             // 'list_department' => MasterDepartment::All()
             ], 200);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Department Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 }

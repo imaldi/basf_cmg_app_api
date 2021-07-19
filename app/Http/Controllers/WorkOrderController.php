@@ -284,7 +284,7 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
-        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[6,8])
+        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[6,7,8,9])
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -549,9 +549,11 @@ class WorkOrderController extends Controller
 
             $date = Carbon::now();
             $date->toDateTimeString();
-            $fileName = explode(' ',$employee->emp_name);
-            $fileNameFinal = implode('_', $fileName);
-            $formStatus = (int)$request->input('wo_form_status');
+            // $fileName = explode(' ',$employee->emp_name);
+            // $fileNameFinal = implode('_', $fileName);
+            // $formStatus = (int)$request->input('wo_form_status');
+            $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
+
 
             // $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
@@ -573,7 +575,6 @@ class WorkOrderController extends Controller
             //     ], 200);
 
             try{
-                $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
                     if($request->file('wo_pic_image')){
                     $name = time().$request->file('wo_pic_image')->getClientOriginalName();
                     $request->file('wo_pic_image')->move('uploads/work_order',$name);
@@ -582,6 +583,7 @@ class WorkOrderController extends Controller
                             'wo_pic_image' => $name,
                         ]
                     );
+                }
 
                     if($request->input('wo_pic_attachment')){
                         $fileExtension = $request->input('file_extension');
@@ -599,19 +601,22 @@ class WorkOrderController extends Controller
                         $formWorkOrder->update(
                             $request->except(['wo_pic_image','wo_pic_attachment','wo_form_status']),);
                         $formWorkOrder->update([
-                            'wo_form_status' => $formStatus,
+                            'wo_form_status' => 9,
+                            'wo_pic_start_time' => $request->input('wo_pic_start_time'),
+                            'wo_pic_finish_time' => $request->input('wo_pic_finish_time'),
+                            'wo_pic_action' => $request->input('wo_pic_action'),
                                 'wo_pic_team' => $request->input('wo_pic_team'),
 
                         ]);
                     return response()->json([
                         'code' => 200,
-                        'message' => 'Success Saving Form Update',
+                        'message' => 'Success Approving Form',
                         'data' =>
                         [
                         new FormWorkOrderResource($formWorkOrder),
                         ]
                     ], 200);
-            }
+
             } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                 return response()->json([
                     'code' => 404,
