@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class FormEGateCheck extends Model
 {
@@ -18,13 +17,4 @@ class FormEGateCheck extends Model
     {
         return $this->morphTo();
     }
-    // /**
-    //  * @return HasOne|void
-    //  */
-    // public function getLoadingOrUnloading()
-    // {
-    //     if($this->gate_model_type == "form_unloading_fa_1eo"){
-    //         return $this->hasOne("");
-    //     }
-    // }
 }

@@ -1,0 +1,403 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\FormEGateCheck;
+use Auth;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
+
+class FormEGateCheckController extends Controller
+{
+    public function viewAllEgateForm(){
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Create Data',
+            'data' =>
+                FormEGateCheck::all()
+            ], 200);
+    }
+    public function createOrUpdateEgateForm(Request $request)
+    {
+        $this->validate($request, [
+            'form_id' => 'integer',
+            'gate_report_status' => ['integer',Rule::in(['0','1']),],
+            'gate_is_in' => ['integer',Rule::in(['0','1']),],
+            'gate_is_out' => ['integer',Rule::in(['0','1']),],
+            'gate_formulir_sopir_telp_darurat' => ['integer',Rule::in(['0','1']),],
+            'gate_kondisi_cukup_istirahat' => ['integer',Rule::in(['0','1']),],
+            'gate_kondisi_tidak_pengaruh_obat_alkohol' => ['integer',Rule::in(['0','1']),],
+            'gate_APD' => ['integer',Rule::in(['0','1']),],
+            'gate_traffic_tool' => ['integer',Rule::in(['0','1']),],
+            'gate_senter' => ['integer',Rule::in(['0','1']),],
+            'gate_kotak_p3k' => ['integer',Rule::in(['0','1']),],
+            'gate_pemadam_kebakaran' => ['integer',Rule::in(['0','1']),],
+            'gate_spill_kit' => ['integer',Rule::in(['0','1']),],
+            'gate_b_sarung_tangan' => ['integer',Rule::in(['0','1']),],
+            'gate_b_respirator' => ['integer',Rule::in(['0','1']),],
+            'gate_b_plakat_tanda_bahaya' => ['integer',Rule::in(['0','1']),],
+            'gate_b_battery_breaker' => ['integer',Rule::in(['0','1']),],
+            'gate_b_hazard' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_kemudi_rem_berfungsi' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_sabuk_pengaman_berfungsi' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_lampu_nyala' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_kaca' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_ban' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_ban_not_vulkanisir' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_dongkrak_toolkit' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_tutup_tangki' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_chasis' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_tutup_cairan_aki' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_twist_lock' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_landing_leg' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_kontainer' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_valve' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_cleanliness_certificate' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_oli_tidak_bocor' => ['integer',Rule::in(['0','1']),],
+            'gate_kend_tachograph' => ['integer',Rule::in(['0','1']),],
+            'gate_pintu_kanan' => ['integer',Rule::in(['0','1']),],
+            'gate_pintu_kiri' => ['integer',Rule::in(['0','1']),],
+            'gate_tdk_ada_benda_asing_laci_dashboard' => ['integer',Rule::in(['0','1']),],
+            'gate_tdk_ada_benda_asing_diatas_dashboard' => ['integer',Rule::in(['0','1']),],
+            'gate_tdk_ada_benda_asing_dicelah_kursi' => ['integer',Rule::in(['0','1']),],
+            'gate_tdk_ada_benda_asing_dibawah_kursi' => ['integer',Rule::in(['0','1']),],
+            'gate_tdk_ada_benda_asing_dibelakang_kursi' => ['integer',Rule::in(['0','1']),],
+            'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu' => ['integer',Rule::in(['0','1']),],
+            'gate_bagian_atap_rapi_tdk_ada_benda_asing' => ['integer',Rule::in(['0','1']),],
+            'gate_is_approve' => ['integer',Rule::in(['0','1']),],
+            'gate_email_sent' => ['integer',Rule::in(['0','1']),],
+            'gate_exit_dokumen_pengantar_barang_lengkap' => ['integer',Rule::in(['0','1']),],
+            'gate_exit_muatan_disegel' => ['integer',Rule::in(['0','1']),],
+            'gate_exit_tidak_tercecer' => ['integer',Rule::in(['0','1']),],
+            'gate_exit_petunjuk_darurat_transportasi' => ['integer',Rule::in(['0','1']),],
+            'gate_report_code' => 'string',
+            'gate_formulir_sopir_telp_darurat_desc' => 'string',
+            'gate_kondisi_cukup_istirahat_desc' => 'string',
+            'gate_kondisi_tidak_pengaruh_obat_alkohol_desc' => 'string',
+            'gate_APD_desc' => 'string',
+            'gate_traffic_tool_desc' => 'string',
+            'gate_senter_desc' => 'string',
+            'gate_kotak_p3k_desc' => 'string',
+            'gate_pemadam_kebakaran_desc' => 'string',
+            'gate_spill_kit_desc' => 'string',
+            'gate_sarung_tangan_desc' => 'string',
+            'gate_respirator_desc' => 'string',
+            'gate_plakat_tanda_bahaya_desc' => 'string',
+            'gate_battery_breaker_desc' => 'string',
+            'gate_hazard_desc' => 'string',
+            'gate_kend_kemudi_rem_berfungsi_desc' => 'string',
+            'gate_kend_sabuk_pengaman_berfungsi_desc' => 'string',
+            'gate_kend_lampu_nyala_desc' => 'string',
+            'gate_kend_kaca_desc' => 'string',
+            'gate_kend_ban_desc' => 'string',
+            'gate_kend_dongkrak_toolkit_desc' => 'string',
+            'gate_kend_tutup_tangki_desc' => 'string',
+            'gate_kend_tutup_cairan_aki_desc' => 'string',
+            'gate_kend_chasis_desc' => 'string',
+            'gate_kend_twist_lock_desc' => 'string',
+            'gate_kend_landing_leg_desc' => 'string',
+            'gate_kend_kontainer_desc' => 'string',
+            'gate_kend_valve_desc' => 'string',
+            'gate_kend_cleanliness_certificate_desc' => 'string',
+            'gate_kend_oli_tidak_bocor_desc' => 'string',
+            'gate_kend_tachograph_desc' => 'string',
+            'gate_pintu_kanan_desc' => 'string',
+            'gate_pintu_kiri_desc' => 'string',
+            'gate_tdk_ada_benda_asing_laci_dashboard_desc' => 'string',
+            'gate_tdk_ada_benda_asing_diatas_dashboard_desc' => 'string',
+            'gate_tdk_ada_benda_asing_dicelah_kursi_desc' => 'string',
+            'gate_tdk_ada_benda_asing_dibawah_kursi_desc' => 'string',
+            'gate_tdk_ada_benda_asing_dibelakang_kursi_desc' => 'string',
+            'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu_desc' => 'string',
+            'gate_bagian_atap_rapi_tdk_ada_benda_asing_desc' => 'string',
+            'gate_not_approve_reason' => 'string',
+            'gate_exit_dokumen_pengantar_barang_lengkap_desc' => 'string',
+            'gate_exit_muatan_disegel_desc' => 'string',
+            'gate_exit_tidak_tercecer_desc' => 'string',
+            'gate_exit_petunjuk_darurat_transportasi_desc' => 'string',
+            'gate_exit_plakat_tanda_bahaya_terpasang_desc' => 'string',
+            'gate_signature_employee_check_in' => 'string',
+            'gate_delete_reason' => 'string',
+            'gate_approve_admin_message' => 'string',
+            'gate_signature_driver_check_in' => 'string',
+            'gate_signature_employee_check_out' => 'string',
+            'gate_signature_driver_check_out' => 'string',
+            // 'gateable_type' => 'string',
+        ]);
+        if($request->input('form_id') != null || $request->input('form_id') != 0){
+            try{
+                $formEGate = FormEGateCheck::findOrFail($idForm);
+
+                $formEGate->update([
+                    'gate_report_status' => $request->input('gate_report_status'),
+                    'gate_is_in' => $request->input('gate_is_in'),
+                    'gate_is_out' => $request->input('gate_is_out'),
+                    'gate_formulir_sopir_telp_darurat' => $request->input('gate_formulir_sopir_telp_darurat'),
+                    'gate_kondisi_cukup_istirahat' => $request->input('gate_kondisi_cukup_istirahat'),
+                    'gate_kondisi_tidak_pengaruh_obat_alkohol' => $request->input('gate_kondisi_tidak_pengaruh_obat_alkohol'),
+                    'gate_APD' => $request->input('gate_APD'),
+                    'gate_traffic_tool' => $request->input('gate_traffic_tool'),
+                    'gate_senter' => $request->input('gate_senter'),
+                    'gate_kotak_p3k' => $request->input('gate_kotak_p3k'),
+                    'gate_pemadam_kebakaran' => $request->input('gate_pemadam_kebakaran'),
+                    'gate_spill_kit' => $request->input('gate_spill_kit'),
+                    'gate_b_sarung_tangan' => $request->input('gate_b_sarung_tangan'),
+                    'gate_b_respirator' => $request->input('gate_b_respirator'),
+                    'gate_b_plakat_tanda_bahaya' => $request->input('gate_b_plakat_tanda_bahaya'),
+                    'gate_b_battery_breaker' => $request->input('gate_b_battery_breaker'),
+                    'gate_b_hazard' => $request->input('gate_b_hazard'),
+                    'gate_kend_kemudi_rem_berfungsi' => $request->input('gate_kend_kemudi_rem_berfungsi'),
+                    'gate_kend_sabuk_pengaman_berfungsi' => $request->input('gate_kend_sabuk_pengaman_berfungsi'),
+                    'gate_kend_lampu_nyala' => $request->input('gate_kend_lampu_nyala'),
+                    'gate_kend_kaca' => $request->input('gate_kend_kaca'),
+                    'gate_kend_ban' => $request->input('gate_kend_ban'),
+                    'gate_kend_ban_not_vulkanisir' => $request->input('gate_kend_ban_not_vulkanisir'),
+                    'gate_kend_dongkrak_toolkit' => $request->input('gate_kend_dongkrak_toolkit'),
+                    'gate_kend_tutup_tangki' => $request->input('gate_kend_tutup_tangki'),
+                    'gate_kend_chasis' => $request->input('gate_kend_chasis'),
+                    'gate_kend_tutup_cairan_aki' => $request->input('gate_kend_tutup_cairan_aki'),
+                    'gate_kend_twist_lock' => $request->input('gate_kend_twist_lock'),
+                    'gate_kend_landing_leg' => $request->input('gate_kend_landing_leg'),
+                    'gate_kend_kontainer' => $request->input('gate_kend_kontainer'),
+                    'gate_kend_valve' => $request->input('gate_kend_valve'),
+                    'gate_kend_cleanliness_certificate' => $request->input('gate_kend_cleanliness_certificate'),
+                    'gate_kend_oli_tidak_bocor' => $request->input('gate_kend_oli_tidak_bocor'),
+                    'gate_kend_tachograph' => $request->input('gate_kend_tachograph'),
+                    'gate_pintu_kanan' => $request->input('gate_pintu_kanan'),
+                    'gate_pintu_kiri' => $request->input('gate_pintu_kiri'),
+                    'gate_tdk_ada_benda_asing_laci_dashboard' => $request->input('gate_tdk_ada_benda_asing_laci_dashboard'),
+                    'gate_tdk_ada_benda_asing_diatas_dashboard' => $request->input('gate_tdk_ada_benda_asing_diatas_dashboard'),
+                    'gate_tdk_ada_benda_asing_dicelah_kursi' => $request->input('gate_tdk_ada_benda_asing_dicelah_kursi'),
+                    'gate_tdk_ada_benda_asing_dibawah_kursi' => $request->input('gate_tdk_ada_benda_asing_dibawah_kursi'),
+                    'gate_tdk_ada_benda_asing_dibelakang_kursi' => $request->input('gate_tdk_ada_benda_asing_dibelakang_kursi'),
+                    'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu' => $request->input('gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu'),
+                    'gate_bagian_atap_rapi_tdk_ada_benda_asing' => $request->input('gate_bagian_atap_rapi_tdk_ada_benda_asing'),
+                    'gate_is_approve' => $request->input('gate_is_approve'),
+                    'gate_email_sent' => $request->input('gate_email_sent'),
+                    'gate_exit_dokumen_pengantar_barang_lengkap' => $request->input('gate_exit_dokumen_pengantar_barang_lengkap'),
+                    'gate_exit_muatan_disegel' => $request->input('gate_exit_muatan_disegel'),
+                    'gate_exit_tidak_tercecer' => $request->input('gate_exit_tidak_tercecer'),
+                    'gate_exit_petunjuk_darurat_transportasi' => $request->input('gate_exit_petunjuk_darurat_transportasi'),
+                    'gate_report_code' => $request->input('gate_report_code'),
+                    'gate_formulir_sopir_telp_darurat_desc' => $request->input('gate_formulir_sopir_telp_darurat_desc'),
+                    'gate_kondisi_cukup_istirahat_desc' => $request->input('gate_kondisi_cukup_istirahat_desc'),
+                    'gate_kondisi_tidak_pengaruh_obat_alkohol_desc' => $request->input('gate_kondisi_tidak_pengaruh_obat_alkohol_desc'),
+                    'gate_APD_desc' => $request->input('gate_APD_desc'),
+                    'gate_traffic_tool_desc' => $request->input('gate_traffic_tool_desc'),
+                    'gate_senter_desc' => $request->input('gate_senter_desc'),
+                    'gate_kotak_p3k_desc' => $request->input('gate_kotak_p3k_desc'),
+                    'gate_pemadam_kebakaran_desc' => $request->input('gate_pemadam_kebakaran_desc'),
+                    'gate_spill_kit_desc' => $request->input('gate_spill_kit_desc'),
+                    'gate_sarung_tangan_desc' => $request->input('gate_sarung_tangan_desc'),
+                    'gate_respirator_desc' => $request->input('gate_respirator_desc'),
+                    'gate_plakat_tanda_bahaya_desc' => $request->input('gate_plakat_tanda_bahaya_desc'),
+                    'gate_battery_breaker_desc' => $request->input('gate_battery_breaker_desc'),
+                    'gate_hazard_desc' => $request->input('gate_hazard_desc'),
+                    'gate_kend_kemudi_rem_berfungsi_desc' => $request->input('gate_kend_kemudi_rem_berfungsi_desc'),
+                    'gate_kend_sabuk_pengaman_berfungsi_desc' => $request->input('gate_kend_sabuk_pengaman_berfungsi_desc'),
+                    'gate_kend_lampu_nyala_desc' => $request->input('gate_kend_lampu_nyala_desc'),
+                    'gate_kend_kaca_desc' => $request->input('gate_kend_kaca_desc'),
+                    'gate_kend_ban_desc' => $request->input('gate_kend_ban_desc'),
+                    'gate_kend_dongkrak_toolkit_desc' => $request->input('gate_kend_dongkrak_toolkit_desc'),
+                    'gate_kend_tutup_tangki_desc' => $request->input('gate_kend_tutup_tangki_desc'),
+                    'gate_kend_tutup_cairan_aki_desc' => $request->input('gate_kend_tutup_cairan_aki_desc'),
+                    'gate_kend_chasis_desc' => $request->input('gate_kend_chasis_desc'),
+                    'gate_kend_twist_lock_desc' => $request->input('gate_kend_twist_lock_desc'),
+                    'gate_kend_landing_leg_desc' => $request->input('gate_kend_landing_leg_desc'),
+                    'gate_kend_kontainer_desc' => $request->input('gate_kend_kontainer_desc'),
+                    'gate_kend_valve_desc' => $request->input('gate_kend_valve_desc'),
+                    'gate_kend_cleanliness_certificate_desc' => $request->input('gate_kend_cleanliness_certificate_desc'),
+                    'gate_kend_oli_tidak_bocor_desc' => $request->input('gate_kend_oli_tidak_bocor_desc'),
+                    'gate_kend_tachograph_desc' => $request->input('gate_kend_tachograph_desc'),
+                    'gate_pintu_kanan_desc' => $request->input('gate_pintu_kanan_desc'),
+                    'gate_pintu_kiri_desc' => $request->input('gate_pintu_kiri_desc'),
+                    'gate_tdk_ada_benda_asing_laci_dashboard_desc' => $request->input('gate_tdk_ada_benda_asing_laci_dashboard_desc'),
+                    'gate_tdk_ada_benda_asing_diatas_dashboard_desc' => $request->input('gate_tdk_ada_benda_asing_diatas_dashboard_desc'),
+                    'gate_tdk_ada_benda_asing_dicelah_kursi_desc' => $request->input('gate_tdk_ada_benda_asing_dicelah_kursi_desc'),
+                    'gate_tdk_ada_benda_asing_dibawah_kursi_desc' => $request->input('gate_tdk_ada_benda_asing_dibawah_kursi_desc'),
+                    'gate_tdk_ada_benda_asing_dibelakang_kursi_desc' => $request->input('gate_tdk_ada_benda_asing_dibelakang_kursi_desc'),
+                    'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu_desc' => $request->input('gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu_desc'),
+                    'gate_bagian_atap_rapi_tdk_ada_benda_asing_desc' => $request->input('gate_bagian_atap_rapi_tdk_ada_benda_asing_desc'),
+                    'gate_not_approve_reason' => $request->input('gate_not_approve_reason'),
+                    'gate_exit_dokumen_pengantar_barang_lengkap_desc' => $request->input('gate_exit_dokumen_pengantar_barang_lengkap_desc'),
+                    'gate_exit_muatan_disegel_desc' => $request->input('gate_exit_muatan_disegel_desc'),
+                    'gate_exit_tidak_tercecer_desc' => $request->input('gate_exit_tidak_tercecer_desc'),
+                    'gate_exit_petunjuk_darurat_transportasi_desc' => $request->input('gate_exit_petunjuk_darurat_transportasi_desc'),
+                    'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
+                    'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
+                    'gate_delete_reason' => $request->input('gate_delete_reason'),
+                    'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
+                    'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
+                    'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
+                    'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
+                ]);
+                response()->json([
+                    'code' => 200,
+                    'message' => 'Success Create Data',
+                    'data' =>
+                        [$formEGate]
+                    ], 200);
+
+            } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'Given E Gate Form ID not found',
+                    'data' => []
+                    ], 404);
+            }
+        } else {
+            $formEGate = FormEGateCheck::create(
+                [
+                    'gate_report_status' => $request->input('gate_report_status'),
+                    'gate_is_in' => $request->input('gate_is_in'),
+                    'gate_is_out' => $request->input('gate_is_out'),
+                    'gate_formulir_sopir_telp_darurat' => $request->input('gate_formulir_sopir_telp_darurat'),
+                    'gate_kondisi_cukup_istirahat' => $request->input('gate_kondisi_cukup_istirahat'),
+                    'gate_kondisi_tidak_pengaruh_obat_alkohol' => $request->input('gate_kondisi_tidak_pengaruh_obat_alkohol'),
+                    'gate_APD' => $request->input('gate_APD'),
+                    'gate_traffic_tool' => $request->input('gate_traffic_tool'),
+                    'gate_senter' => $request->input('gate_senter'),
+                    'gate_kotak_p3k' => $request->input('gate_kotak_p3k'),
+                    'gate_pemadam_kebakaran' => $request->input('gate_pemadam_kebakaran'),
+                    'gate_spill_kit' => $request->input('gate_spill_kit'),
+                    'gate_b_sarung_tangan' => $request->input('gate_b_sarung_tangan'),
+                    'gate_b_respirator' => $request->input('gate_b_respirator'),
+                    'gate_b_plakat_tanda_bahaya' => $request->input('gate_b_plakat_tanda_bahaya'),
+                    'gate_b_battery_breaker' => $request->input('gate_b_battery_breaker'),
+                    'gate_b_hazard' => $request->input('gate_b_hazard'),
+                    'gate_kend_kemudi_rem_berfungsi' => $request->input('gate_kend_kemudi_rem_berfungsi'),
+                    'gate_kend_sabuk_pengaman_berfungsi' => $request->input('gate_kend_sabuk_pengaman_berfungsi'),
+                    'gate_kend_lampu_nyala' => $request->input('gate_kend_lampu_nyala'),
+                    'gate_kend_kaca' => $request->input('gate_kend_kaca'),
+                    'gate_kend_ban' => $request->input('gate_kend_ban'),
+                    'gate_kend_ban_not_vulkanisir' => $request->input('gate_kend_ban_not_vulkanisir'),
+                    'gate_kend_dongkrak_toolkit' => $request->input('gate_kend_dongkrak_toolkit'),
+                    'gate_kend_tutup_tangki' => $request->input('gate_kend_tutup_tangki'),
+                    'gate_kend_chasis' => $request->input('gate_kend_chasis'),
+                    'gate_kend_tutup_cairan_aki' => $request->input('gate_kend_tutup_cairan_aki'),
+                    'gate_kend_twist_lock' => $request->input('gate_kend_twist_lock'),
+                    'gate_kend_landing_leg' => $request->input('gate_kend_landing_leg'),
+                    'gate_kend_kontainer' => $request->input('gate_kend_kontainer'),
+                    'gate_kend_valve' => $request->input('gate_kend_valve'),
+                    'gate_kend_cleanliness_certificate' => $request->input('gate_kend_cleanliness_certificate'),
+                    'gate_kend_oli_tidak_bocor' => $request->input('gate_kend_oli_tidak_bocor'),
+                    'gate_kend_tachograph' => $request->input('gate_kend_tachograph'),
+                    'gate_pintu_kanan' => $request->input('gate_pintu_kanan'),
+                    'gate_pintu_kiri' => $request->input('gate_pintu_kiri'),
+                    'gate_tdk_ada_benda_asing_laci_dashboard' => $request->input('gate_tdk_ada_benda_asing_laci_dashboard'),
+                    'gate_tdk_ada_benda_asing_diatas_dashboard' => $request->input('gate_tdk_ada_benda_asing_diatas_dashboard'),
+                    'gate_tdk_ada_benda_asing_dicelah_kursi' => $request->input('gate_tdk_ada_benda_asing_dicelah_kursi'),
+                    'gate_tdk_ada_benda_asing_dibawah_kursi' => $request->input('gate_tdk_ada_benda_asing_dibawah_kursi'),
+                    'gate_tdk_ada_benda_asing_dibelakang_kursi' => $request->input('gate_tdk_ada_benda_asing_dibelakang_kursi'),
+                    'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu' => $request->input('gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu'),
+                    'gate_bagian_atap_rapi_tdk_ada_benda_asing' => $request->input('gate_bagian_atap_rapi_tdk_ada_benda_asing'),
+                    'gate_is_approve' => $request->input('gate_is_approve'),
+                    'gate_email_sent' => $request->input('gate_email_sent'),
+                    'gate_exit_dokumen_pengantar_barang_lengkap' => $request->input('gate_exit_dokumen_pengantar_barang_lengkap'),
+                    'gate_exit_muatan_disegel' => $request->input('gate_exit_muatan_disegel'),
+                    'gate_exit_tidak_tercecer' => $request->input('gate_exit_tidak_tercecer'),
+                    'gate_exit_petunjuk_darurat_transportasi' => $request->input('gate_exit_petunjuk_darurat_transportasi'),
+                    'gate_report_code' => $request->input('gate_report_code'),
+                    'gate_formulir_sopir_telp_darurat_desc' => $request->input('gate_formulir_sopir_telp_darurat_desc'),
+                    'gate_kondisi_cukup_istirahat_desc' => $request->input('gate_kondisi_cukup_istirahat_desc'),
+                    'gate_kondisi_tidak_pengaruh_obat_alkohol_desc' => $request->input('gate_kondisi_tidak_pengaruh_obat_alkohol_desc'),
+                    'gate_APD_desc' => $request->input('gate_APD_desc'),
+                    'gate_traffic_tool_desc' => $request->input('gate_traffic_tool_desc'),
+                    'gate_senter_desc' => $request->input('gate_senter_desc'),
+                    'gate_kotak_p3k_desc' => $request->input('gate_kotak_p3k_desc'),
+                    'gate_pemadam_kebakaran_desc' => $request->input('gate_pemadam_kebakaran_desc'),
+                    'gate_spill_kit_desc' => $request->input('gate_spill_kit_desc'),
+                    'gate_sarung_tangan_desc' => $request->input('gate_sarung_tangan_desc'),
+                    'gate_respirator_desc' => $request->input('gate_respirator_desc'),
+                    'gate_plakat_tanda_bahaya_desc' => $request->input('gate_plakat_tanda_bahaya_desc'),
+                    'gate_battery_breaker_desc' => $request->input('gate_battery_breaker_desc'),
+                    'gate_hazard_desc' => $request->input('gate_hazard_desc'),
+                    'gate_kend_kemudi_rem_berfungsi_desc' => $request->input('gate_kend_kemudi_rem_berfungsi_desc'),
+                    'gate_kend_sabuk_pengaman_berfungsi_desc' => $request->input('gate_kend_sabuk_pengaman_berfungsi_desc'),
+                    'gate_kend_lampu_nyala_desc' => $request->input('gate_kend_lampu_nyala_desc'),
+                    'gate_kend_kaca_desc' => $request->input('gate_kend_kaca_desc'),
+                    'gate_kend_ban_desc' => $request->input('gate_kend_ban_desc'),
+                    'gate_kend_dongkrak_toolkit_desc' => $request->input('gate_kend_dongkrak_toolkit_desc'),
+                    'gate_kend_tutup_tangki_desc' => $request->input('gate_kend_tutup_tangki_desc'),
+                    'gate_kend_tutup_cairan_aki_desc' => $request->input('gate_kend_tutup_cairan_aki_desc'),
+                    'gate_kend_chasis_desc' => $request->input('gate_kend_chasis_desc'),
+                    'gate_kend_twist_lock_desc' => $request->input('gate_kend_twist_lock_desc'),
+                    'gate_kend_landing_leg_desc' => $request->input('gate_kend_landing_leg_desc'),
+                    'gate_kend_kontainer_desc' => $request->input('gate_kend_kontainer_desc'),
+                    'gate_kend_valve_desc' => $request->input('gate_kend_valve_desc'),
+                    'gate_kend_cleanliness_certificate_desc' => $request->input('gate_kend_cleanliness_certificate_desc'),
+                    'gate_kend_oli_tidak_bocor_desc' => $request->input('gate_kend_oli_tidak_bocor_desc'),
+                    'gate_kend_tachograph_desc' => $request->input('gate_kend_tachograph_desc'),
+                    'gate_pintu_kanan_desc' => $request->input('gate_pintu_kanan_desc'),
+                    'gate_pintu_kiri_desc' => $request->input('gate_pintu_kiri_desc'),
+                    'gate_tdk_ada_benda_asing_laci_dashboard_desc' => $request->input('gate_tdk_ada_benda_asing_laci_dashboard_desc'),
+                    'gate_tdk_ada_benda_asing_diatas_dashboard_desc' => $request->input('gate_tdk_ada_benda_asing_diatas_dashboard_desc'),
+                    'gate_tdk_ada_benda_asing_dicelah_kursi_desc' => $request->input('gate_tdk_ada_benda_asing_dicelah_kursi_desc'),
+                    'gate_tdk_ada_benda_asing_dibawah_kursi_desc' => $request->input('gate_tdk_ada_benda_asing_dibawah_kursi_desc'),
+                    'gate_tdk_ada_benda_asing_dibelakang_kursi_desc' => $request->input('gate_tdk_ada_benda_asing_dibelakang_kursi_desc'),
+                    'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu_desc' => $request->input('gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu_desc'),
+                    'gate_bagian_atap_rapi_tdk_ada_benda_asing_desc' => $request->input('gate_bagian_atap_rapi_tdk_ada_benda_asing_desc'),
+                    'gate_not_approve_reason' => $request->input('gate_not_approve_reason'),
+                    'gate_exit_dokumen_pengantar_barang_lengkap_desc' => $request->input('gate_exit_dokumen_pengantar_barang_lengkap_desc'),
+                    'gate_exit_muatan_disegel_desc' => $request->input('gate_exit_muatan_disegel_desc'),
+                    'gate_exit_tidak_tercecer_desc' => $request->input('gate_exit_tidak_tercecer_desc'),
+                    'gate_exit_petunjuk_darurat_transportasi_desc' => $request->input('gate_exit_petunjuk_darurat_transportasi_desc'),
+                    'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
+                    'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
+                    'gate_delete_reason' => $request->input('gate_delete_reason'),
+                    'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
+                    'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
+                    'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
+                    'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
+                ]
+            );
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Create Data',
+                'data' =>
+                    [$formEGate]
+                ], 200);
+        }
+    }
+
+    public function deleteEgateForm($id){
+        try{
+            $gateForm = FormEGateCheck::findOrFail($id);
+            $gateable = $gateForm->gateable;
+            $gateable->delete();
+            $gateForm->delete();
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given E Gate Form ID not found',
+                'data' => []
+                ], 404);
+        }
+
+
+    }
+
+    // public function approveEgateForm(){
+    //     try{
+    //         $employee = Auth::user();
+
+    //         $formEGate = FormEGateCheck::findOrFail($idForm);
+
+    //         $formEGate->update([
+    //             'gate_approve_admin' => $employee->id,
+    //             'gate_approve_admin_date' => Carbon::now(),
+    //             'gate_report_status' => 3,
+    //             'gate_is_approve' => 1,
+    //         ]);
+    //     } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+    //         return response()->json([
+    //             'code' => 404,
+    //             'message' => 'Given E Gate Form ID not found',
+    //             'data' => []
+    //             ], 404);
+    //     }
+    // }
+}

@@ -398,19 +398,35 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 ]);
     });
 
+    $router->group(['prefix' => 'e-gate',], function () use ($router){
+        $router->get('all',[
+            'uses' => 'FormEGateCheckController@viewAllEgateForm',
+            // 'middleware' => 'permission_check:view 5s form'
+            ]);
+        $router->post('create',[
+            'uses' => 'FormEGateCheckController@createOrUpdateEgateForm',
+            // 'middleware' => 'permission_check:create 5s form'
+        ]);
+    });
 
-    ///////////// home controller
-    // $router->get('get-data-department', 'HomeController@getDataDepartment');//akan tidak dipakai
-    // $router->get('get-departments', 'HomeController@getDepartements');
-    // $router->get('get-locations-by-department', 'HomeController@getLocationByDepartment');
-
-    // $router->get('get-all-employee', 'HomeController@viewAllEmployee');
-    // $router->get('get-all-location', 'HomeController@viewAllLocation');
-    // $router->get('get-employee-group', 'HomeController@viewAllEmployeeGroup');
-    // $router->get('get-employee-title', 'HomeController@viewAllEmployeeTitle');
-    // $router->get('get-scoring-work-order', 'HomeController@getScoringWorkOrder');
-    // $router->get('get-location-by-category', 'HomeController@getLocationByCategory');
-
+    $router->group(['prefix' => 'loading-tex-n701s',], function () use ($router){
+        $router->get('all',[
+            'uses' => 'FormLoadingTexN701SController@viewAllFormLoadingTexN701S',
+            // 'middleware' => 'permission_check:view 5s form'
+            ]);
+        $router->post('create',[
+            'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
+            // 'middleware' => 'permission_check:create 5s form'
+        ]);
+        $router->post('update',[
+            'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
+            // 'middleware' => 'permission_check:create 5s form'
+        ]);
+        $router->post('approve',[
+            'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
+            // 'middleware' => 'permission_check:create 5s form'
+        ]);
+    });
     $router->post('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
     $router->post('remove-group-from-user','TestGroupsAndPermissionsController@tesRemovenGroupFromUser');
 
