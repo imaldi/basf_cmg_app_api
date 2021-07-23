@@ -125,9 +125,12 @@ class HomeController extends Controller{
 
 
 
-    public function allUsers()
+    public function allEmployee()
     {
-         return response()->json(['users' =>  EmployeeResource::collection(User::all())], 200);
+         return response()->json([
+            'code' => 200,
+            'message' => 'Success Fetch All Employee',
+            'data'  =>  EmployeeResource::collection(User::all())], 200);
     }
 
     public function singleUser($id)
@@ -135,7 +138,10 @@ class HomeController extends Controller{
         try {
             $user = User::findOrFail($id);
 
-            return response()->json(['user' => $user], 200);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch An Employee',
+                'data' => $user], 200);
 
         } catch (\Exception $e) {
 

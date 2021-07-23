@@ -97,7 +97,7 @@ class Form5sesController extends Controller
                 'form_5s_diligent_score' => $form_5s_diligent_score,
                 'form_5s_diligent_desc' => $request->input('form_5s_diligent_desc'),
                 'form_5s_total_score' => $totalScore,
-                'form_5s_status' => 2,
+                'form_5s_status' => $request->input('form_5s_status'),
             ]);
 
             $formID = Form5ses::max('id');

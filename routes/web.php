@@ -33,7 +33,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->get('users/{id}', 'WorkOrderController@singleUser');
 
     // Matches "/api/users
-    $router->get('users', 'HomeController@allUsers');
+    $router->get('employee/all', 'HomeController@allEmployee');
     $router->get('locations', 'HomeController@getLocations');
     $router->get('departments/all', 'HomeController@getDepartments');
     $router->get('departments_locations', 'HomeController@getLocationsByLocModule');
@@ -390,6 +390,10 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             ]);
             $router->get('get-one/{id}',[
                 'uses' => 'AttendanceController@getAttendance',
+                // 'middleware' => 'permission_check:view 5s form'
+            ]);
+            $router->get('delete-event/{id}',[
+                'uses' => 'AttendanceController@setAttendanceInactive',
                 // 'middleware' => 'permission_check:view 5s form'
             ]);
             $router->get('all',[

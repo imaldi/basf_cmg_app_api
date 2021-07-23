@@ -7,6 +7,7 @@ use App\Models\FormAttendancePersonal;
 use App\Models\FormAttendanceCategory;
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
+// use App\Models\FormAttendanceCategory;
 use App\Http\Resources\FormAttendanceResource;
 use App\Http\Resources\FormAttendancePersonalResource;
 use App\User;
@@ -22,7 +23,7 @@ class AttendanceController extends Controller
         $attendanceCategories = FormAttendanceCategory::all();
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch All Data',
             'data' => $attendanceCategories
             ], 200);
     }
@@ -48,7 +49,8 @@ class AttendanceController extends Controller
                 'att_date' => $request->input('att_date'),
                 'att_place' => $request->input('att_place'),
                 'att_pic' => $request->input('att_pic'),
-                'att_category' => $request->input('att_category'),
+                // 'att_category' => $request->input('att_category'),
+                'att_category' => FormAttendanceCategory::find(1)->id,
                 'att_with_test' => $request->input('att_with_test'),
                 'att_is_active' => $request->input('att_is_active'),
                 'att_additional_remark' => $request->input('att_additional_remark'),
@@ -107,7 +109,8 @@ class AttendanceController extends Controller
                     'att_date' => $request->input('att_date'),
                     'att_place' => $request->input('att_place'),
                     'att_pic' => $request->input('att_pic'),
-                    'att_category' => $request->input('att_category'),
+                    // 'att_category' => $request->input('att_category'),
+                    'att_category' => FormAttendanceCategory::find(1)->id,
                     'att_with_test' => $request->input('att_with_test'),
                     'att_is_active' => $request->input('att_is_active'),
                     'att_additional_remark' => $request->input('att_additional_remark'),
@@ -152,24 +155,61 @@ class AttendanceController extends Controller
 
     public function getPersonalAttendance($id)
     {
-        $formPeople = FormAttendancePersonal::find($id);
+        try{
+        $formPeople = FormAttendancePersonal::findOrFail($id);
 
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
             'data' => [new FormAttendancePersonalResource($formPeople)]
-            ], 200);
-    }
+            ], 200);}
+            catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                return response()->json([
+                    'code' => 404,
+                    'message' => 'Given Department Form ID not found',
+                    'data' => []
+                    ], 404);
+            }
+        }
 
     public function getAttendance($id)
     {
-        $formPeople = FormAttendance::find($id);
+        try{
+        $formPeople = FormAttendance::findOrFail($id);
 
         return response()->json([
             'code' => 200,
             'message' => 'Success Get Data',
             'data' => [new FormAttendanceResource($formPeople)]
             ], 200);
+        }  catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Department Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function setAttendanceInactive($id)
+    {
+        try{
+        $formAttandance = FormAttendance::findOrFail($id);
+        $formAttandance->update([
+            "att_is_active" => 0]);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Update Data',
+            'data' => [new FormAttendanceResource($formAttandance)]
+            ], 200);
+        }  catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given Attendance Form ID not found',
+                'data' => []
+                ], 404);
+        }
     }
 
     public function getAllAttendance(Request $request)
@@ -181,7 +221,7 @@ class AttendanceController extends Controller
 
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch All Data',
             'data' => FormAttendanceResource::collection($formAttandance)
         ], 200);
     }

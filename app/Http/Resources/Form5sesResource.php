@@ -51,7 +51,7 @@ class Form5sesResource extends JsonResource
             "form_5s_diligent_desc" => $this->form_5s_diligent_desc,
             "form_5s_diligent_photo" => $this->form_5s_diligent_photo,
             "form_5s_total_score" => (int)$this->form_5s_total_score,
-            "form_5s_status" => $this->form_5s_status,
+            "form_5s_status" => (int)$this->form_5s_status,
             "form_5s_status_detail" => Form5ses::getStatusDetail($this->form_5s_status),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
