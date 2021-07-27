@@ -58,8 +58,7 @@ class WorkOrderController extends Controller
             $date->toDateTimeString();
             $department = $employee->department()->first();
             $departmentId = $employee->emp_employee_department_id;
-            //Ini saring berdasarkan group(role)
-            $wo_issuer_spv_id = User::role('Work Order - SPV Issuer')->where('emp_employee_department_id',$departmentId)->first()->id;
+
             $departmentAbr = substr(strtoupper($department->dept_name),0,3);
             $formStatus = (int)$request->input('wo_form_status');
             $emergency = (int)$request->input('wo_c_emergency');
@@ -76,8 +75,8 @@ class WorkOrderController extends Controller
 
             $formWorkOrder = FormWorkOrder::create([
                 'wo_issuer_id' => $employee->id,
-                'wo_spv_issuer_id' =>
-                $wo_issuer_spv_id,
+                //ini diberikan ketika meng aprove, nanti edit
+
                 //ini kalau mau saring berdasarkan field 'emp_is_spv'
                 // $employee->department()->first()->users()->where('emp_is_spv',1)->first()->id,
                 'wo_date_issuer_submit' => $date,
@@ -157,33 +156,41 @@ class WorkOrderController extends Controller
                     [
                         $request->except(['wo_image']),
                         'wo_image' => $name,
-                        'wo_date_recomendation' => $date_recommendation,
                     ]
                 );
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Success Saving Form Update',
-                    'data' =>
-                    [
-                    new FormWorkOrderResource($formWorkOrder),
-                    // 'wo_date_recomendation' => $date_recommendation,
-                    ]
-                ], 200);
+                // return response()->json([
+                //     'code' => 200,
+                //     'message' => 'Success Saving Form Update',
+                //     'data' =>
+                //     [
+                //     new FormWorkOrderResource($formWorkOrder),
+                //     // 'wo_date_recomendation' => $date_recommendation,
+                //     ]
+                // ], 200);
             }
             $formWorkOrder->update([
-                    $request->except([
-                        'wo_image',
-                        // 'wo_location_id',
-                        'wo_c_emergency',
-                        'wo_c_ranking_cust',
-                        'wo_c_equipment_criteria',
-                        'wo_form_status'
-                    ]),
-                    // 'wo_location_id' => (int) $request->input('wo_location_id'),
-                    'wo_c_emergency' => $request->input('wo_c_emergency'),
-                    'wo_c_ranking_cust' => $request->input('wo_c_ranking_cust'),
-                    'wo_c_equipment_criteria' => $request->input('wo_c_equipment_criteria'),
+                    // $request->except([
+                    //     'wo_image',
+                    //     // 'wo_location_id',
+                    //     'wo_c_emergency',
+                    //     'wo_c_ranking_cust',
+                    //     'wo_c_equipment_criteria',
+                    //     'wo_form_status'
+                    // ]),
+                    'wo_location_id' => (int) $request->input('wo_location_id'),
+                    'wo_c_emergency' => (int)$request->input('wo_c_emergency'),
+                    'wo_c_ranking_cust' => (int)$request->input('wo_c_ranking_cust'),
+                    'wo_c_equipment_criteria' => (int)$request->input('wo_c_equipment_criteria'),
                     'wo_form_status' => (int) $request->input('wo_form_status'),
+                    'wo_reffered_dept' => $request->input('wo_reffered_dept'),
+                    'wo_reffered_division' => $request->input('wo_reffered_division'),
+                    'wo_description' => $request->input('wo_description'),
+                    'wo_location_detail' => $request->input('wo_location_detail'),
+                    'wo_tag_no' => $request->input('wo_tag_no'),
+                    'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
+                    'wo_date_recomendation' => $date_recommendation,
+
+
             ]
             );
             return response()->json([
@@ -230,7 +237,12 @@ class WorkOrderController extends Controller
     {
         $user = Auth::user();
 
-        $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[1,2,9]);
+        $forms = FormWorkOrder::where(
+            // 'wo_spv_issuer_id'
+            'wo_issuer_dept'
+            , $user->emp_employee_department_id)->where('wo_is_open', 1)
+            // ->whereIn('wo_form_status',[1,2,9])
+            ;
         if($request->query('orderBy') == 'wo_form_status'){
             $forms = $forms->orderBy($request->query('orderBy'),'desc')->get();
         } else {
@@ -267,7 +279,9 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
-        $forms = FormWorkOrder::where('wo_planner_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',3)
+        $forms = FormWorkOrder::
+            // where('wo_planner_id', $user->id)->
+            where('wo_is_open', 1)->where('wo_form_status',3)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -411,6 +425,9 @@ class WorkOrderController extends Controller
             $date = Carbon::now();
             $date->toDateTimeString();
             $departmentId = $employee->emp_employee_department_id;
+            //Ini saring berdasarkan group(role)
+            $wo_issuer_spv_id = $employee->id;
+
             $wo_planner_id = User::role('Work Order - Planner')->where('emp_employee_department_id',$departmentId)->first()->id;
 
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
@@ -421,6 +438,8 @@ class WorkOrderController extends Controller
                     'wo_form_status',
                     'wo_planner_id'
                 ]),
+                'wo_spv_issuer_id' =>
+                $wo_issuer_spv_id,
                 'wo_date_spv_issuer_approve' => $date,
                 'wo_form_status' => 3,
                 'wo_planner_id' => $wo_planner_id
@@ -549,8 +568,8 @@ class WorkOrderController extends Controller
 
             $date = Carbon::now();
             $date->toDateTimeString();
-            // $fileName = explode(' ',$employee->emp_name);
-            // $fileNameFinal = implode('_', $fileName);
+            $fileName = explode(' ',$employee->emp_name);
+            $fileNameFinal = implode('_', $fileName);
             // $formStatus = (int)$request->input('wo_form_status');
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
 
@@ -576,8 +595,13 @@ class WorkOrderController extends Controller
 
             try{
                     if($request->file('wo_pic_image')){
+                        $file = 'uploads/work_order'.$formWorkOrder->wo_pic_image;
+                if(is_file($file)){
+                    unlink(public_path($file));
+                }
                     $name = time().$request->file('wo_pic_image')->getClientOriginalName();
-                    $request->file('wo_pic_image')->move('uploads/work_order',$name);
+                    // ?? ini aku tambahkan / d ujung
+                    $request->file('wo_pic_image')->move('uploads/work_order/',$name);
                     $formWorkOrder->update(
                         [
                             'wo_pic_image' => $name,
@@ -585,12 +609,19 @@ class WorkOrderController extends Controller
                     );
                 }
 
-                    if($request->input('wo_pic_attachment')){
+                    if($request->file('wo_pic_attachment')){
+
+                        $file = 'uploads/work_order/file'.$formWorkOrder->wo_pic_image;
+                        if(is_file($file)){
+                            unlink(public_path($file));
+                        }
+
+
                         $fileExtension = $request->input('file_extension');
                         $decodedDocs = base64_decode($request->input('wo_pic_attachment'));
                         $name = time().'Basf-work-order'.$fileNameFinal;
                         // $decodedDocs->move('uploads/work_order/file',$name);
-                        file_put_contents('uploads/work_order/file/'.$name.''.$fileExtension, $decodedDocs);
+                        file_put_contents('uploads/work_order/file/'.$name.'.'.$fileExtension, $decodedDocs);
                         $formWorkOrder->update(
                             [
                                 'wo_pic_attachment' => $name,
@@ -598,8 +629,8 @@ class WorkOrderController extends Controller
                         );
                     }
 
-                        $formWorkOrder->update(
-                            $request->except(['wo_pic_image','wo_pic_attachment','wo_form_status']),);
+                        // $formWorkOrder->update(
+                        //     $request->except(['wo_pic_image','wo_pic_attachment','wo_form_status']),);
                         $formWorkOrder->update([
                             'wo_form_status' => 9,
                             'wo_pic_start_time' => $request->input('wo_pic_start_time'),

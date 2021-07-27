@@ -31,12 +31,16 @@ class AttendanceController extends Controller
     public function createOrEditEventAttandance(Request $request)
     {
 
+        // $this->validate($request, [
+        //     'att_place' => 'integer|required'
+        // ]);
         $employee = Auth::user();
 
         $department = $employee->department()->first();
         $departmentId = $employee->emp_employee_department_id;
         $subArray = substr($departmentId, 1, -1);
         $idArray = explode(",",$subArray);
+
 
         $idForm = $request->input('form_id');
         if($idForm == 0 || $idForm == null){
@@ -47,7 +51,7 @@ class AttendanceController extends Controller
                 'att_topic2' => $request->input('att_topic2'),
                 'att_reference' => $request->input('att_reference'),
                 'att_date' => $request->input('att_date'),
-                'att_place' => $request->input('att_place'),
+                // 'att_place' => ,
                 // 'att_pic' => $request->input('att_pic'),
                 'att_pic' => User::find((int) $request->input('att_pic'))->id,
                 // 'att_category' => $request->input('att_category'),
@@ -136,6 +140,22 @@ class AttendanceController extends Controller
                             'att_signature' => $name,
                         ]
                     );
+                }
+
+
+                if($request->input('att_place') != null){
+                    try{
+                        $placeId = MasterLocation::findOrFail($request->input('att_place'));
+
+                    $form->update([
+                        'att_place' => $placeId]);}
+                        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                            return response()->json([
+                                'code' => 404,
+                                'message' => 'Given Location ID not found',
+                                'data' => []
+                                ], 404);
+                        }
                 }
 
 
@@ -230,22 +250,38 @@ class AttendanceController extends Controller
 
     public function createOrUpdatePersonalAttendance(Request $request, $id)
     {
+        $this->validate($request, [
+            'att_p_attendance_id' => 'integer|required',
+            'att_p_score' => 'integer'
+        ]);
         try{
             $formEvent = FormAttendance::findOrFail($request->input('att_p_attendance_id'));
 
+            // // $formEvent = FormAttendance::findOrFail(1);
 
 
-        $employee = Auth::user();
-        $employee = User::find((int) $request->input('att_p_employee_id'));
-        // $idForm = $request->input('form_id');
-        $idForm = $id;
-        if($idForm == 0 || $idForm == null){
+
+        if($id == 0 || $id == null){
             // $formPeople = FormAttendancePersonal::create($request->except(['att_p_signature']));
-            $formPeople = FormAttendancePersonal::create($request->only([
-                'att_p_attendance_id'
-            ]));
 
-
+            if($request->input('att_p_employee_id') != null){
+                $employee = User::find($request->input('att_p_employee_id'));
+                $formPeople = FormAttendancePersonal::create([
+                    'att_p_attendance_id' => $formEvent->id,
+                    'att_p_employee_id' => $employee->id,
+                    'att_p_department_id' => $employee->emp_employee_department_id,
+                ]);
+            } else{
+                $formPeople = FormAttendancePersonal::create([
+                    'att_p_attendance_id' => $formEvent->id,
+                    'att_p_person_name' => $request->input('att_p_person_name'),
+                    'att_p_person_type' => $request->input('att_p_person_type'),
+                ]);
+            }
+            $formPeople->update([
+                'att_p_score' => (int) $request->input('att_p_score'),
+                'att_p_remark' => $request->input('att_p_remark'),
+            ]);
             if($request->file('att_p_signature')){
                 $name = time().$request->file('att_p_signature')->getClientOriginalName();
                 $request->file('att_p_signature')->move('uploads/attendance/signatures',$name);
@@ -256,24 +292,21 @@ class AttendanceController extends Controller
                     );
                 }
 
-                // $formPeople->update($request->except([
-                //     'att_p_signature','att_p_employee_id']));
-                $formPeople->update(($request->only([
-                    // 'att_p_employee_id' => $employee->id,
-                    'att_p_employee_id' => $employee->id,
-                    // 'att_p_attendance_id' => $formEvent->id,
-                    'att_p_department_id' => MasterDepartment::find($employee->emp_employee_department_id)->id,
-                    'att_p_person_name' => (int) $request->input('att_p_person_name'),
-                    'att_p_score' => (int) $request->input('att_p_score')
-                    ])));
+
+
+
+
+
+
 
 
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
-                'data' =>  MasterDepartment::find($employee->emp_employee_department_id)->id
+                'data' =>
+                // MasterDepartment::find($employee->emp_employee_department_id)->id
                 // $formPeople->att_p_department_id
-                // [new FormAttendancePersonalResource($formPeople)]
+                [new FormAttendancePersonalResource($formPeople)]
                 ], 200);
         }else{
         try{
@@ -287,14 +320,17 @@ class AttendanceController extends Controller
                     ]
                 );
             }
-            $formPeople->update([
-                $request->except(['att_p_signature','att_p_attendance_id']),
-                'att_p_attendance_id' => $formEvent->id
-            ]);
+            $formPeople->update(
+                [
+                'att_p_attendance_id' => $formEvent->id,
+                    'att_p_score' => $request->input('att_p_score'),
+                    'att_p_remark' => $request->input('att_p_remark'),
+                ]
+            );
 
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Get Data',
+                'message' => 'Success Update Data',
                 'data' => [new FormAttendancePersonalResource($formPeople)]
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){

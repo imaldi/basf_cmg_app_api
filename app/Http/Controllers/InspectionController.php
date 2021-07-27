@@ -106,7 +106,7 @@ class InspectionController extends Controller
 
         if($user->hasRole('Inspection - Spill Kit - SPV')){
             $forms= FormsInspSpillKit::where('ins_sk_is_active',1)
-                ->where('ins_fh_inspector_spv_id',$user->id)->where('ins_sk_inspector_spv_id','>',1)->orderBy('ins_sk_status')->get();
+                ->where('ins_sk_inspector_spv_id',$user->id)->where('ins_sk_status','>',1)->orderBy('ins_sk_status')->get();
         } else {
             $forms= FormsInspSpillKit::where('ins_sk_is_active',1)
             ->where('ins_sk_inspector_id',$user->id)->orderBy('ins_sk_status')->get();

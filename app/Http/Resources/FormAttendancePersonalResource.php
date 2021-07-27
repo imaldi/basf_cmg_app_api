@@ -27,7 +27,7 @@ class FormAttendancePersonalResource extends JsonResource
             'att_p_employee_id' => (int)$this->att_p_employee_id,
             // 'att_p_employee_name' => User::find($this->att_p_employee_id)->emp_name,
             'att_p_department_id' => (int) $this->att_p_department_id,
-            'att_p_department_name' => MasterDepartment::find($this->att_p_department_id)->dept_name,
+            'att_p_department_name' => MasterDepartment::find($this->att_p_department_id)->dept_name ?? null,
             'att_p_score' => (int)$this->att_p_score,
             'att_p_signature' => $this->att_p_signature,
             'att_p_date' => $this->att_p_date,
@@ -35,7 +35,7 @@ class FormAttendancePersonalResource extends JsonResource
             'att_p_attendance_id' => (int)$this->att_p_attendance_id,
             'att_p_person_type' => $this->att_p_person_type,
             // 'att_p_person_name' => $this->att_p_person_name,
-            'att_p_person_name' => User::find($this->att_p_employee_id)->emp_name,
+            'att_p_person_name' => User::find($this->att_p_employee_id)->emp_name ?? null,
             'att_p_created_at' => $this->created_at,
             'att_p_updated_at' => $this->updated_at,
         ];
