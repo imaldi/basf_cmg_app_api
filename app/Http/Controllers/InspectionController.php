@@ -34,15 +34,17 @@ use App\Http\Resources\ContentInspH2sConcentResource;
 class InspectionController extends Controller
 {
     /// Get All \\\
-    public function getAllLadder()
+    public function getAllLadder(Request $request)
     {
         $user = Auth::user();
+        $orderBy = $request->query('orderBy');
+
         if($user->hasRole('Inspection - Ladder - SPV')){
             $forms= FormsInspLadder::where('ins_la_is_active',1)
-                ->where('ins_la_inspector_spv_id',$user->id)->where('ins_la_status','>',1)->orderBy('ins_la_status')->get();
+                ->where('ins_la_inspector_spv_id',$user->id)->where('ins_la_status','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_la_status')->get();
         } else {
             $forms= FormsInspLadder::where('ins_la_is_active',1)
-            ->where('ins_la_inspector_id',$user->id)->orderBy('ins_la_status')->get();
+            ->where('ins_la_inspector_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_la_status')->get();
         }
         // $role = $user->hasRole('Inspection - Ladder - SPV') ? 'ins_la_inspector_spv_id' :  'ins_la_inspector_id';
         // $forms= FormsInspLadder::where('ins_la_is_active',1)
@@ -56,19 +58,21 @@ class InspectionController extends Controller
         ]);
     }
 
-    public function getAllH2s()
+    public function getAllH2s(Request $request)
     {
         $user = Auth::user();
+        $orderBy = $request->query('orderBy');
+
         // $role = $user->hasRole('Inspection - H2S - SPV') ? 'ins_h2_inspector_id' : 'ins_h2_inspector_spv_id';
         // $forms= FormsInspH2sConcent::where('ins_h2_is_active',1)
         //     ->where($role,$user->id)->orderBy('ins_h2_status')->get();
 
             if($user->hasRole('Inspection - H2S - SPV')){
                 $forms= FormsInspH2sConcent::where('ins_h2_is_active',1)
-                    ->where('ins_h2_inspector_spv_id',$user->id)->where('ins_h2_status','>',1)->orderBy('ins_h2_status')->get();
+                    ->where('ins_h2_inspector_spv_id',$user->id)->where('ins_h2_status','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_h2_status')->get();
             } else {
                 $forms= FormsInspH2sConcent::where('ins_h2_is_active',1)
-                ->where('ins_h2_inspector_id',$user->id)->orderBy('ins_h2_status')->get();
+                ->where('ins_h2_inspector_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_h2_status')->get();
             }
         return response()->json([
             'code' => 200,
@@ -78,16 +82,18 @@ class InspectionController extends Controller
         ]);
     }
 
-    public function getAllFumeHood()
+    public function getAllFumeHood(Request $request)
     {
         $user = Auth::user();
+        $orderBy = $request->query('orderBy');
+
 
         if($user->hasRole('Inspection - Fume Hood - SPV')){
             $forms= FormsInspFumeHood::where('ins_fh_is_active',1)
-                ->where('ins_fh_inspector_spv_id',$user->id)->where('ins_fh_status','>',1)->orderBy('ins_fh_status')->get();
+                ->where('ins_fh_inspector_spv_id',$user->id)->where('ins_fh_status','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_fh_status')->get();
         } else {
             $forms= FormsInspFumeHood::where('ins_fh_is_active',1)
-            ->where('ins_fh_inspector_id',$user->id)->orderBy('ins_fh_status')->get();
+            ->where('ins_fh_inspector_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_fh_status')->get();
         }
         // $role = $user->hasRole('Inspection - Fume Hood - SPV') ? 'ins_fh_inspector_id' : 'ins_fh_inspector_spv_id';
         // $forms= FormsInspFumeHood::where('ins_fh_is_active',1)
@@ -100,16 +106,18 @@ class InspectionController extends Controller
         ]);
     }
 
-    public function getAllSpillKit()
+    public function getAllSpillKit(Request $request)
     {
         $user = Auth::user();
+        $orderBy = $request->query('orderBy');
+
 
         if($user->hasRole('Inspection - Spill Kit - SPV')){
             $forms= FormsInspSpillKit::where('ins_sk_is_active',1)
-                ->where('ins_sk_inspector_spv_id',$user->id)->where('ins_sk_status','>',1)->orderBy('ins_sk_status')->get();
+                ->where('ins_sk_inspector_spv_id',$user->id)->where('ins_sk_status','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sk_status')->get();
         } else {
             $forms= FormsInspSpillKit::where('ins_sk_is_active',1)
-            ->where('ins_sk_inspector_id',$user->id)->orderBy('ins_sk_status')->get();
+            ->where('ins_sk_inspector_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sk_status')->get();
         }
         return response()->json([
             'code' => 200,
@@ -119,16 +127,18 @@ class InspectionController extends Controller
         ]);
     }
 
-    public function getAllSafetyHarness()
+    public function getAllSafetyHarness(Request $request)
     {
         $user = Auth::user();
+        $orderBy = $request->query('orderBy');
+
 
         if($user->hasRole('Inspection - Safety Harness - SPV')){
             $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
-                ->where('ins_sh_inspector_spv_id',$user->id)->where('ins_sh_inspector_spv_id','>',1)->orderBy('ins_sh_status')->get();
+                ->where('ins_sh_inspector_spv_id',$user->id)->where('ins_sh_inspector_spv_id','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sh_status')->get();
         } else {
             $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
-            ->where('ins_sh_inspector_id',$user->id)->orderBy('ins_sh_status')->get();
+            ->where('ins_sh_inspector_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sh_status')->get();
         }
 
         // $role = $user->hasRole('Inspection - Safety Harness - SPV') ? 'ins_sh_inspector_id' : 'ins_sh_inspector_spv_id';
@@ -142,12 +152,14 @@ class InspectionController extends Controller
         ]);
     }
 
-    public function getAllScba()
+    public function getAllScba(Request $request)
     {
         $user = Auth::user();
+        $orderBy = $request->query('orderBy');
+
         $role = $user->hasRole('Inspection - SCBA - SPV') ? 'ins_sc_inspector_id' : 'ins_sc_checker_id';
         $forms= FormsInspSCBA::where('ins_sc_is_active',1)
-            ->where($role,$user->id)->orderBy('ins_sc_status')->get();
+            ->where($role,$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sc_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -156,12 +168,14 @@ class InspectionController extends Controller
         ]);
     }
 
-    public function getAllSafetyShower()
+    public function getAllSafetyShower(Request $request)
     {
         $user = Auth::user();
+        $orderBy = $request->query('orderBy');
+
         $role = $user->hasRole('Inspection - Safety Shower - SPV') ? 'ins_ss_checker_id' : 'ins_ss_inspector_id';
         $forms= FormsInspSafetyShower::where('ins_ss_is_active',1)
-            ->where($role,$user->id)->orderBy('ins_ss_status')->get();
+            ->where($role,$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_ss_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',

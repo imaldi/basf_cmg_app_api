@@ -22,7 +22,7 @@ class FormWorkOrderResource extends JsonResource
     {
         $departmentName = MasterDepartment::find($this->wo_issuer_dept)->first()->dept_name;
         // $refferedDeptName = MasterDepartment::find($this->wo_reffered_dept)->first()->dept_name;
-        $locationDetail = MasterLocation::find($this->wo_location_id)->first()->loc_name;
+        // $locationDetail = MasterLocation::find($this->wo_location_id)->first()->loc_name;
 
         return [
             'id' => $this->id,
@@ -48,7 +48,7 @@ class FormWorkOrderResource extends JsonResource
             'wo_pic_action_plan' => $this->wo_pic_action_plan,
             'wo_reffered_division' => $this->wo_reffered_division,
             'wo_description' => $this->wo_description,
-            'wo_location_detail' => $locationDetail,
+            'wo_location_detail' => $this->wo_location_detail,
             'wo_tag_no' => $this->wo_tag_no,
             'wo_issuer_attachment' => $this->wo_issuer_attachment,
             'wo_pic_action' => $this->wo_pic_action,
