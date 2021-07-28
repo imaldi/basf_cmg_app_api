@@ -382,27 +382,27 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             // $router->post('array',['uses' => 'AttendanceController@testFromArrayStringToPHPArray']);
             $router->post('create-attendance-event',[
                 'uses' => 'AttendanceController@createOrEditEventAttandance',
-                'middleware' => 'permission_check:create-attendance-form'
+                'middleware' => 'permission_check:create attendance form'
             ]);
             $router->post('fill-personal-attendance/{id}',[
                 'uses' => 'AttendanceController@createOrUpdatePersonalAttendance',
-                'middleware' => 'permission_check:create-attendance-form'
+                'middleware' => 'permission_check:create attendance form'
             ]);
             $router->get('get/{id}',[
                 'uses' => 'AttendanceController@getPersonalAttendance',
-                'middleware' => 'permission_check:view-attendance-form'
+                'middleware' => 'permission_check:view attendance form'
             ]);
             $router->get('get-one/{id}',[
                 'uses' => 'AttendanceController@getAttendance',
-                'middleware' => 'permission_check:view-attendance-form'
+                'middleware' => 'permission_check:view attendance form'
             ]);
             $router->get('delete-event/{id}',[
                 'uses' => 'AttendanceController@setAttendanceInactive',
-                'middleware' => 'permission_check:update-attendance-form'
+                'middleware' => 'permission_check:update attendance form'
             ]);
             $router->get('all',[
                 'uses' => 'AttendanceController@getAllAttendance',
-                'middleware' => 'permission_check:view-attendance-form'
+                'middleware' => 'permission_check:view attendance form'
                 ]);
     });
 
