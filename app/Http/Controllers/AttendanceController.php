@@ -268,19 +268,19 @@ class AttendanceController extends Controller
                 $employee = User::find($request->input('att_p_employee_id'));
                 $formPeople = FormAttendancePersonal::create([
                     'att_p_attendance_id' => $formEvent->id,
-                    'att_p_employee_id' => $employee->id,
-                    'att_p_department_id' => $employee->emp_employee_department_id,
+                    'att_p_employee_id' => $employee->id ?? null,
+                    'att_p_department_id' => $employee->emp_employee_department_id ?? null,
                 ]);
             } else{
                 $formPeople = FormAttendancePersonal::create([
                     'att_p_attendance_id' => $formEvent->id,
-                    'att_p_person_name' => $request->input('att_p_person_name'),
                     'att_p_person_type' => $request->input('att_p_person_type'),
                 ]);
             }
             $formPeople->update([
                 'att_p_score' => (int) $request->input('att_p_score'),
                 'att_p_remark' => $request->input('att_p_remark'),
+                'att_p_person_name' => $request->input('att_p_person_name'),
             ]);
             if($request->file('att_p_signature')){
                 $name = time().$request->file('att_p_signature')->getClientOriginalName();
