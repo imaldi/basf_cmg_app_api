@@ -51,7 +51,7 @@ class AttendanceController extends Controller
                 'att_topic2' => $request->input('att_topic2'),
                 'att_reference' => $request->input('att_reference'),
                 'att_date' => $request->input('att_date'),
-                // 'att_place' => ,
+                'att_place' => MasterLocation::find((int) $request->input('att_place'))->id ?? null,
                 // 'att_pic' => $request->input('att_pic'),
                 'att_pic' => User::find((int) $request->input('att_pic'))->id,
                 // 'att_category' => $request->input('att_category'),
@@ -64,28 +64,49 @@ class AttendanceController extends Controller
                 'att_total_manhours' => $request->input('att_total_manhours'),
                 'att_place_others' => $request->input('att_place_others'),
                 'att_category_others' => $request->input('att_category_others'),
-                'att_trainer_signature' => $request->input('att_trainer_signature'),
+                // 'att_trainer_signature' => $request->input('att_trainer_signature'),
             ]);
 
-            if($request->file('att_signature')){
-                $name = time().'att_signature'.$request->file('att_signature')->getClientOriginalName();
-                $request->file('att_signature')->move('uploads/attendance/signatures',$name);
-                $formAttandance->update(
-                    [
-                        'att_signature' => $name,
-                    ]
-                );
-            }
+            // if($request->file('att_trainer_signature')){
+            //     $name = time().'att_signature'.$request->file('att_signature')->getClientOriginalName();
+            //     $request->file('att_signature')->move('uploads/attendance/signatures',$name);
+            //     $formAttandance->update(
+            //         [
+            //             'att_signature' => $name,
+            //         ]
+            //     );
+            // }
 
-            if($request->file('att_trainer_signature')){
-                $name = time().'att_trainer_signature'.$request->file('att_trainer_signature')->getClientOriginalName();
-                $request->file('att_trainer_signature')->move('uploads/attendance/signatures',$name);
+            if($request->input('att_trainer_signature')){
+                // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+
+                // if (is_file($file)) {
+                //     unlink(public_path($file));
+                // }
+                $decodedDocs = base64_decode($request->input('att_trainer_signature'));
+
+
+                // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                $name = time()."someone_that_i_used_to_know.png";
+                file_put_contents('uploads/attendance/signatures/'.$name, $decodedDocs);
+
+
                 $formAttandance->update(
                     [
                         'att_trainer_signature' => $name,
-                    ]
-                );
+                        ]
+                    );
+
             }
+            // if($request->file('att_trainer_signature')){
+            //     $name = time().'att_trainer_signature.pdf';
+            //     $request->file('att_trainer_signature')->move('uploads/attendance/signatures',$name);
+            //     $formAttandance->update(
+            //         [
+            //             'att_trainer_signature' => $name,
+            //         ]
+            //     );
+            // }
 
 
             // foreach($idArray as $id){
@@ -112,7 +133,7 @@ class AttendanceController extends Controller
                     'att_topic2' => $request->input('att_topic2'),
                     'att_reference' => $request->input('att_reference'),
                     'att_date' => $request->input('att_date'),
-                    'att_place' => $request->input('att_place'),
+                    'att_place' => MasterLocation::find((int) $request->input('att_place'))->id ?? null,
                     'att_pic' => User::find((int) $request->input('att_pic'))->id,
                     // 'att_pic' => $request->input('att_pic'),
                     // 'att_category' => $request->input('att_category'),
@@ -128,35 +149,44 @@ class AttendanceController extends Controller
                     // 'att_trainer_signature' => $request->input('att_trainer_signature'),
                 ]);
 
-                if($request->file('att_signature')){
-                    $file = 'uploads/attendance/signatures/'.$form->att_signature;
+
+                if($request->input('att_trainer_signature')){
+                    $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+
                     if (is_file($file)) {
                         unlink(public_path($file));
                     }
-                    $name = time().'att_signature'.$request->file('att_signature')->getClientOriginalName();
-                    $request->file('att_signature')->move('uploads/attendance/signatures',$name);
+                    $decodedDocs = base64_decode($request->input('att_trainer_signature'));
+
+
+                    // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/attendance/signatures/'.$name, $decodedDocs);
+
+
                     $form->update(
                         [
-                            'att_signature' => $name,
-                        ]
-                    );
+                            'att_trainer_signature' => $name,
+                            ]
+                        );
+
                 }
 
 
-                if($request->input('att_place') != null){
-                    try{
-                        $placeId = MasterLocation::findOrFail($request->input('att_place'));
+                // if($request->input('att_place') != null){
+                //     try{
+                //         $placeId = MasterLocation::findOrFail($request->input('att_place'));
 
-                    $form->update([
-                        'att_place' => $placeId]);}
-                        catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-                            return response()->json([
-                                'code' => 404,
-                                'message' => 'Given Location ID not found',
-                                'data' => []
-                                ], 404);
-                        }
-                }
+                //     $form->update([
+                //         'att_place' => $placeId]);}
+                //         catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                //             return response()->json([
+                //                 'code' => 404,
+                //                 'message' => 'Given Location ID not found',
+                //                 'data' => []
+                //                 ], 404);
+                //         }
+                // }
 
 
                 return response()->json([
