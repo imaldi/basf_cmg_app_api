@@ -282,9 +282,19 @@ class AttendanceController extends Controller
                 'att_p_remark' => $request->input('att_p_remark'),
                 'att_p_person_name' => $request->input('att_p_person_name'),
             ]);
-            if($request->file('att_p_signature')){
-                $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                $request->file('att_p_signature')->move('uploads/attendance/signatures',$name);
+            if($request->input('att_p_signature') != null){
+                // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                // $request->file('att_p_signature')->move('uploads/attendance/signatures/',$name);
+
+
+                $decodedDocs = base64_decode($request->input('att_p_signature'));
+
+
+                // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                $name = time()."someone_that_i_used_to_know.png";
+                file_put_contents('uploads/attendance/signatures/'.$name, $decodedDocs);
+
+
                 $formPeople->update(
                     [
                         'att_p_signature' => $name,
@@ -311,9 +321,21 @@ class AttendanceController extends Controller
         }else{
         try{
             $formPeople = FormAttendancePersonal::findOrFail($id);
-            if($request->file('att_p_signature')){
-                $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                $request->file('att_p_signature')->move('uploads/attendance/signatures',$name);
+
+            if($request->input('att_p_signature') != null){
+                $file = 'uploads/attendance/signatures/'.$formPeople->att_p_signature;
+
+                if(is_file($file)){
+                    unlink(public_path($file));
+                }
+                $decodedDocs = base64_decode($request->input('att_p_signature'));
+
+
+                // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                $name = time()."someone_that_i_used_to_know.png";
+                file_put_contents('uploads/attendance/signatures/'.$name, $decodedDocs);
+
+                // $request->file('att_p_signature')->move('uploads/attendance/signatures/',$name);
                 $formPeople->update(
                     [
                         'att_p_signature' => $name,
