@@ -31,7 +31,7 @@ class Form5sesResource extends JsonResource
             "id" => $this->id,
             "form_5s_name" => $this->form_5s_name,
             "form_5s_submit_date" => $this->form_5s_submit_date,
-            "form_5s_auditor_id" => $this->form_5s_auditor_id,
+            "form_5s_auditor_id" => (int)$this->form_5s_auditor_id,
             "form_5s_auditor_name" => User::find($this->form_5s_auditor_id)->emp_name,
             "form_5s_dept_id" => (int)$this->form_5s_dept_id,
             "form_5s_area_id" => (int)$this->form_5s_area_id,

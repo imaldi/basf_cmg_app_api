@@ -364,7 +364,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                     'uses' => 'Form5sesController@getDepartments']);
                 $router->get('locations-of-department/{id}',[
                     'uses' => 'Form5sesController@getAllLocationsOfDepartment']);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'Form5sesController@createOrUpdateForm5s',
                 'middleware' => 'permission_check:create 5s form']);
             $router->post('save-draft',[
