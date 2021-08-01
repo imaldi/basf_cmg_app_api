@@ -18,7 +18,7 @@ class FormUnloadingFaC12Controller extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            FormUnloadingFaC12::all()
+            [FormUnloadingFaC12::all()]
             ], 200);
     }
     public function createOrUpdateFormUnloadingFaC12(Request $request){
@@ -315,6 +315,13 @@ class FormUnloadingFaC12Controller extends Controller
             $formUnloadingFaC12->update([
                 'un1_status' => 2,
             ]);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve FormUnloadingFaC12 Form',
+                'data' => [
+                    $formUnloadingFaC12]
+                ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

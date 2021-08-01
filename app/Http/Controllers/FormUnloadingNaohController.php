@@ -18,7 +18,7 @@ class FormUnloadingNaohController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            FormUnloadingNaoh::all()
+            [FormUnloadingNaoh::all()]
             ], 200);
     }
     public function createOrUpdateFormUnloadingNaoh(Request $request){
@@ -257,7 +257,7 @@ class FormUnloadingNaohController extends Controller
                 ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Update FormUnloadingNaoh Form',
+                'message' => 'Success '.$isCreate.' FormUnloadingNaoh Form',
                 'data' => [
                     $formUnloadingNaoh]
                 ], 200);
@@ -279,6 +279,13 @@ class FormUnloadingNaohController extends Controller
             $formUnloadingNaoh->update([
                 'un4_status' => 2,
             ]);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve FormUnloadingNaoh Form',
+                'data' => [
+                    $formUnloadingNaoh]
+                ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

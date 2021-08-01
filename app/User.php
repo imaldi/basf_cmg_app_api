@@ -11,6 +11,16 @@ use App\Models\MasterDepartment;
 use App\Models\MEmployeeGroup;
 use App\Models\FormLoadingPackedGoods;
 use App\Models\FormLoadingTexN701S;
+use App\Models\FormUnloadingFa1eo;
+use App\Models\FormUnloadingFaC12;
+use App\Models\FormUnloadingPac;
+use App\Models\FormUnloadingCitricAcid;
+use App\Models\FormUnloadingDehytonKe;
+use App\Models\FormUnloadingDieselOil;
+use App\Models\FormUnloadingNaoh;
+use App\Models\FormUnloadingPackedGood;
+use App\Models\FormUnloadingStearicAcid;
+use App\Models\FormUnloadingSulphurLiquid;
 use Spatie\Permission\Traits\HasRoles;
 
 
@@ -102,17 +112,46 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany(FormLoadingTexN701S::class,'ul1_employee_id');
     }
 
-    public function formUnloadingFa1eo(){
-        return $this->hasMany(FormUnloadingFa1eo::class,'un2_employee_id');
-    }
-
     public function formUnloadingFaC12(){
         return $this->hasMany(FormUnloadingFaC12::class,'un1_employee_id');
+    }
+
+    public function formUnloadingFa1eo(){
+        return $this->hasMany(FormUnloadingFa1eo::class,'un2_employee_id');
     }
 
     public function formUnloadingPac(){
         return $this->hasMany(FormUnloadingPac::class,'un3_employee_id');
     }
+
+    public function formUnloadingNaoh(){
+        return $this->hasMany(FormUnloadingNaoh::class,'un4_employee_id');
+    }
+
+    public function formUnloadingStearicAcid(){
+        return $this->hasMany(FormUnloadingStearicAcid::class,'un5_employee_id');
+    }
+
+    public function formUnloadingSulphurLiquid(){
+        return $this->hasMany(FormUnloadingSulphurLiquid::class,'un6_employee_id');
+    }
+
+    public function formUnloadingDieselOil(){
+        return $this->hasMany(FormUnloadingDieselOil::class,'un7_employee_id');
+    }
+
+    public function formUnloadingDehytonKe(){
+        return $this->hasMany(FormUnloadingDehytonKe::class,'un8_employee_id');
+    }
+
+    public function formUnloadingCitricAcid(){
+        return $this->hasMany(FormUnloadingCitricAcid::class,'un9_employee_id');
+    }
+
+    public function formUnloadingPackedGood(){
+        return $this->hasMany(FormUnloadingPackedGood::class,'un10_employee_id');
+    }
+
 
     //Ternyata ini penyebab tidak bisa login dari tadi
 

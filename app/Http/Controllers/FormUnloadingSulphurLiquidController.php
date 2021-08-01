@@ -251,7 +251,7 @@ class FormUnloadingSulphurLiquidController extends Controller
                 ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Update FormUnloadingSulphurLiquid Form',
+                'message' => 'Success '.$isCreate.' FormUnloadingSulphurLiquid Form',
                 'data' => [
                     $formUnloadingSulphurLiquid]
                 ], 200);
@@ -274,10 +274,17 @@ class FormUnloadingSulphurLiquidController extends Controller
                 'un6_status' => 2,
             ]);
 
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve FormUnloadingSulphurLiquid Form',
+                'data' => [
+                    $formUnloadingSulphurLiquid]
+                ], 200);
+
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
-                'message' => 'Given formUnloadingSulphurLiquid Form ID not found',
+                'message' => 'Given FormUnloadingSulphurLiquid Form ID not found',
                 'data' => []
                 ], 404);
         }

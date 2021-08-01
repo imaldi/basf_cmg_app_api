@@ -18,7 +18,7 @@ class FormUnloadingPacController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            FormUnloadingPac::all()
+            [FormUnloadingPac::all()]
             ], 200);
     }
     public function createOrUpdateFormUnloadingPac(Request $request){
@@ -232,7 +232,7 @@ class FormUnloadingPacController extends Controller
                 ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Update FormUnloadingPac Form',
+                'message' => 'Success '.$isCreate.' FormUnloadingPac Form',
                 'data' => [
                     $formUnloadingPac]
                 ], 200);
@@ -254,6 +254,13 @@ class FormUnloadingPacController extends Controller
             $formUnloadingPac->update([
                 'un3_status' => 2,
             ]);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve FormUnloadingPac Form',
+                'data' => [
+                    $formUnloadingPac]
+                ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

@@ -18,7 +18,7 @@ class FormLoadingTexN701SController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            FormLoadingTexN701S::all()
+            [FormLoadingTexN701S::all()]
             ], 200);
     }
     public function createOrUpdateFormLoadingTexN701S(Request $request){
@@ -285,6 +285,13 @@ class FormLoadingTexN701SController extends Controller
             $formLoadingTexN701S->update([
                 'ul1_status' => 2,
             ]);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve FormLoadingTexN701S Form',
+                'data' => [
+                    $formLoadingTexN701S]
+                ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

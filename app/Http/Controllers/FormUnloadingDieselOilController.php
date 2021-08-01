@@ -18,7 +18,7 @@ class FormUnloadingDieselOilController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            FormUnloadingDieselOil::all()
+            [FormUnloadingDieselOil::all()]
             ], 200);
     }
     public function createOrUpdateFormUnloadingDieselOil(Request $request){
@@ -281,7 +281,7 @@ class FormUnloadingDieselOilController extends Controller
                 ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Update FormUnloadingDieselOil Form',
+                'message' => 'Success '.$isCreate.' FormUnloadingDieselOil Form',
                 'data' => [
                     $formUnloadingDieselOil]
                 ], 200);
@@ -303,6 +303,13 @@ class FormUnloadingDieselOilController extends Controller
             $formUnloadingDieselOil->update([
                 'un7_status' => 2,
             ]);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve FormUnloadingDieselOil Form',
+                'data' => [
+                    $formUnloadingDieselOil]
+                ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

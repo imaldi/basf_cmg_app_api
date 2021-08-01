@@ -18,7 +18,7 @@ class FormUnloadingDehytonKeController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            FormUnloadingDehytonKe::all()
+            [FormUnloadingDehytonKe::all()]
             ], 200);
     }
     public function createOrUpdateFormUnloadingDehytonKe(Request $request){
@@ -305,7 +305,7 @@ class FormUnloadingDehytonKeController extends Controller
                 ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Update FormUnloadingDehytonKe Form',
+                'message' => 'Success '.$isCreate.' FormUnloadingDehytonKe Form',
                 'data' => [
                     $formUnloadingDehytonKe]
                 ], 200);
@@ -327,6 +327,12 @@ class FormUnloadingDehytonKeController extends Controller
             $formUnloadingDehytonKe->update([
                 'un8_status' => 2,
             ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Update FormUnloadingDehytonKe Form',
+                'data' => [
+                    $formUnloadingDehytonKe]
+                ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

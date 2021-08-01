@@ -18,7 +18,7 @@ class FormLoadingPackedGoodsController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-                FormLoadingPackedGoods::all()
+                [FormLoadingPackedGoods::all()]
             ], 200);
     }
 
@@ -306,6 +306,13 @@ class FormLoadingPackedGoodsController extends Controller
             $formLoadingPackedGoods->update([
                 'ul2_status' => 2,
             ]);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve FormLoadingPackedGoods Form',
+                'data' => [
+                    $formLoadingPackedGoods
+                ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

@@ -18,7 +18,7 @@ class FormUnloadingStearicAcidController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            FormUnloadingStearicAcid::all()
+            [FormUnloadingStearicAcid::all()]
             ], 200);
     }
     public function createOrUpdateFormUnloadingStearicAcid(Request $request){
@@ -249,7 +249,7 @@ class FormUnloadingStearicAcidController extends Controller
                 ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Update FormUnloadingStearicAcid Form',
+                'message' => 'Success '.$isCreate.' FormUnloadingStearicAcid Form',
                 'data' => [
                     $formUnloadingStearicAcid]
                 ], 200);
@@ -272,10 +272,17 @@ class FormUnloadingStearicAcidController extends Controller
                 'un5_status' => 2,
             ]);
 
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve FormUnloadingStearicAcid Form',
+                'data' => [
+                    $formUnloadingStearicAcid]
+                ], 200);
+
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
-                'message' => 'Given formUnloadingStearicAcid Form ID not found',
+                'message' => 'Given FormUnloadingStearicAcid Form ID not found',
                 'data' => []
                 ], 404);
         }
