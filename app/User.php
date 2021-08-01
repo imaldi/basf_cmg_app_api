@@ -102,6 +102,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany(FormLoadingTexN701S::class,'ul1_employee_id');
     }
 
+    public function formLoadingPackedGoods(){
+        return $this->hasMany(FormLoadingPackedGoods::class,'ul2_employee_id');
+    }
+
+    public function formLoadingTexN701S(){
+        return $this->hasMany(FormLoadingTexN701S::class,'ul1_employee_id');
+    }
+
     //Ternyata ini penyebab tidak bisa login dari tadi
 
 

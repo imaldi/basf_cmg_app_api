@@ -417,24 +417,64 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
         ]);
     });
 
-    $router->group(['prefix' => 'loading-tex-n701s',], function () use ($router){
-        $router->get('all',[
-            'uses' => 'FormLoadingTexN701SController@viewAllFormLoadingTexN701S',
-            // 'middleware' => 'permission_check:view 5s form'
+    $router->group(['prefix' => 'loading',], function () use ($router){
+        $router->group(['prefix' => 'loading-tex-n701s',], function () use ($router){
+            $router->get('all',[
+                'uses' => 'FormLoadingTexN701SController@viewAllFormLoadingTexN701S',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->post('create',[
+                'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
+                // 'middleware' => 'permission_check:create 5s form'
             ]);
-        $router->post('create',[
-            'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
-            // 'middleware' => 'permission_check:create 5s form'
+            $router->post('update',[
+                'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('approve',[
+                'uses' => 'FormLoadingTexN701SController@approveFormLoadingTexN701S',
+                // 'middleware' => 'permission_check:create 5s form'
         ]);
-        $router->post('update',[
-            'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
-            // 'middleware' => 'permission_check:create 5s form'
-        ]);
-        $router->post('approve',[
-            'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
-            // 'middleware' => 'permission_check:create 5s form'
-        ]);
+
+        $router->group(['prefix' => 'form-loading-packed-goods',], function () use ($router){
+            $router->get('all',[
+                'uses' => 'FormLoadingTexN701SController@viewAllFormFormLoadingPackedGoods',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->post('create',[
+                'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingPackedGoods',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('update',[
+                'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingPackedGoods',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('approve',[
+                'uses' => 'FormLoadingTexN701SController@approveFormLoadingPackedGoods',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+        });
     });
+
+    $router->group(['prefix' => 'unloading',], function () use ($router){
+        $router->group(['prefix' => 'loading-tex-n701s',], function () use ($router){
+            $router->get('all',[
+                'uses' => 'FormLoadingTexN701SController@viewAllFormLoadingTexN701S',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->post('create',[
+                'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('update',[
+                'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('approve',[
+                'uses' => 'FormLoadingTexN701SController@approveFormLoadingTexN701S',
+                // 'middleware' => 'permission_check:create 5s form'
+        ]);
+    ]);
     $router->post('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
     $router->post('remove-group-from-user','TestGroupsAndPermissionsController@tesRemovenGroupFromUser');
 
