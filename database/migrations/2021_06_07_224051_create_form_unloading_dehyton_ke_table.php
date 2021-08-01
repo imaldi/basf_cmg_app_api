@@ -70,27 +70,26 @@ class CreateFormUnloadingDehytonKeTable extends Migration
             $table->tinyInteger('un8_cancel_load_unload')->nullable()->comment('Tidak Jadi Unloading');
 
             // khusus table ini varcha diganti text karena ada error "SQLSTATE[42000]: Syntax error or access violation: 1118 Row size too large."
-            $table->text('un8_persiapan_memakai_ppe_desc')->nullable()->comment('1');
-            $table->text('un8_persiapan_cek_hose_piping_desc')->nullable()->comment('2');
-            $table->text('un8_persiapan_safety_shower_desc')->nullable()->comment('3');
-            $table->text('un8_persiapan_operator_terima_dokumen_desc')->nullable()->comment('4');
-            $table->text('un8_persiapan_arahkan_truk_parkir_desc')->nullable()->comment('5');
-            $table->text('un8_persiapan_ganjal_roda_desc')->nullable()->comment('6');
-            $table->text('un8_persiapan_safety_cone_desc')->nullable()->comment('7');
-            $table->text('un8_persiapan_verifikasi_fisik_desc')->nullable()->comment('8');
-            $table->text('un8_persiapan_sopir_serahkan_kunci_desc')->nullable()->comment('9');
-            $table->text('un8_persiapan_sopir_kenek_leave_pemanasan_desc')->nullable()->comment('10');
-            $table->text('un8_persiapan_isotank_bersih_desc')->nullable()->comment('11');
-            $table->text('un8_persiapan_label_segel_terpasang_desc')->nullable()->comment('12');
-            $table->text('un8_persiapan_pasang_hose_steam_desc')->nullable()->comment('13');
-            $table->text('un8_persiapan_setelah_produk_mencair_dec')->nullable()->comment('14');
-            $table->text('un8_persiapan_ambil_safety_cone_pemanasan_desc')->nullable()->comment('15');
-            $table->text('un8_persiapan_sopir_kenek_leave_unloading_desc')->nullable()->comment('16');
-            $table->text('un8_persiapan_kenakan_ppe_tambahan_desc')->nullable()->comment('17');
-            $table->text('un8_persiapan_pasang_penampung_tetesan_desc')->nullable()->comment('18');
-            $table->text('un8_persiapan_bukasegel_ambil_sampel_desc')->nullable()->comment('19');
-            $table->text('un8_persiapan_kirim_sample_desc')->nullable()->comment('20');
-
+              $table->text('un8_persiapan_memakai_ppe_desc')->nullable()->comment('1');
+              $table->text('un8_persiapan_cek_hose_piping_desc')->nullable()->comment('2');
+              $table->text('un8_persiapan_safety_shower_desc')->nullable()->comment('3');
+              $table->text('un8_persiapan_operator_terima_dokumen_desc')->nullable()->comment('4');
+              $table->text('un8_persiapan_arahkan_truk_parkir_desc')->nullable()->comment('5');
+              $table->text('un8_persiapan_ganjal_roda_desc')->nullable()->comment('6');
+              $table->text('un8_persiapan_safety_cone_desc')->nullable()->comment('7');
+              $table->text('un8_persiapan_verifikasi_fisik_desc')->nullable()->comment('8');
+              $table->text('un8_persiapan_sopir_serahkan_kunci_desc')->nullable()->comment('9');
+              $table->text('un8_persiapan_sopir_kenek_leave_pemanasan_desc')->nullable()->comment('10');
+              $table->text('un8_persiapan_isotank_bersih_desc')->nullable()->comment('11');
+              $table->text('un8_persiapan_label_segel_terpasang_desc')->nullable()->comment('12');
+              $table->text('un8_persiapan_pasang_hose_steam_desc')->nullable()->comment('13');
+              $table->text('un8_persiapan_setelah_produk_mencair_dec')->nullable()->comment('14');
+              $table->text('un8_persiapan_ambil_safety_cone_pemanasan_desc')->nullable()->comment('15');
+              $table->text('un8_persiapan_sopir_kenek_leave_unloading_desc')->nullable()->comment('16');
+              $table->text('un8_persiapan_kenakan_ppe_tambahan_desc')->nullable()->comment('17');
+              $table->text('un8_persiapan_pasang_penampung_tetesan_desc')->nullable()->comment('18');
+              $table->text('un8_persiapan_bukasegel_ambil_sampel_desc')->nullable()->comment('19');
+              $table->text('un8_persiapan_kirim_sample_desc')->nullable()->comment('20');
             $table->string('un8_report_code',255)->nullable()->comment('random code 9 character kombinasi huruf dan angka');
             $table->string('un8_batch_no',255)->nullable()->comment('batch no');
             $table->string('un8_no_storage1',255)->nullable()->comment('No Storage');
