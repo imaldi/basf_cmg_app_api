@@ -5,9 +5,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FormUnloadingFa1eo extends Model
+class FormUnloadingNaoh extends Model
 {
-    protected $table = 'form_unloading_fa_1eo';
+    protected $table = 'form_unloading_naoh';
 
     protected $guarded = [];
 
