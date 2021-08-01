@@ -93,7 +93,6 @@ class CreateFormUnloadingPacTable extends Migration
             $table->string('un3_selesai_lepas_pengganjal_roda_safetycone_desc',255)->nullable()->comment('9');
             $table->string('un3_selesai_pastikan_peralatan_tidak_terbawa_truk_desc',255)->nullable()->comment('10');
             $table->string('un3_selesai_lakukan_timbang_akhir_desc',255)->nullable()->comment('11');
-
             $table->string('un3_netto_disuratjalan',255)->nullable()->comment('Berat Netto yang tertera di Surat Jalan/DO');
             $table->string('un3_netto_hasil_timbang',255)->nullable()->comment('Berat Netto hasil penimbangan yang aktual diterima');
             $table->string('un3_pemeriksa',255)->nullable()->comment('Diperiksa Oleh: ');
