@@ -15,64 +15,85 @@ class FormEGateCheckController extends Controller
     public function viewAllEgateForm(){
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch Data',
             'data' =>
                 FormEGateCheck::all()
             ], 200);
+    }
+
+    public function getOneEgateForm($id){
+        try{
+            $gateForm = FormEGateCheck::findOrFail($id);
+
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch Data',
+                'data' =>
+                    [$gateForm]
+                ], 200);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given E Gate Form ID not found',
+                'data' => []
+                ], 404);
+        }
+
     }
     public function createOrUpdateEgateForm(Request $request)
     {
         $this->validate($request, [
             'form_id' => 'integer',
             'gate_report_status' => ['integer',Rule::in(['0','1']),],
-            'gate_is_in' => ['integer',Rule::in(['0','1']),],
-            'gate_is_out' => ['integer',Rule::in(['0','1']),],
-            'gate_formulir_sopir_telp_darurat' => ['integer',Rule::in(['0','1']),],
-            'gate_kondisi_cukup_istirahat' => ['integer',Rule::in(['0','1']),],
-            'gate_kondisi_tidak_pengaruh_obat_alkohol' => ['integer',Rule::in(['0','1']),],
-            'gate_APD' => ['integer',Rule::in(['0','1']),],
-            'gate_traffic_tool' => ['integer',Rule::in(['0','1']),],
-            'gate_senter' => ['integer',Rule::in(['0','1']),],
-            'gate_kotak_p3k' => ['integer',Rule::in(['0','1']),],
-            'gate_pemadam_kebakaran' => ['integer',Rule::in(['0','1']),],
-            'gate_spill_kit' => ['integer',Rule::in(['0','1']),],
-            'gate_b_sarung_tangan' => ['integer',Rule::in(['0','1']),],
-            'gate_b_respirator' => ['integer',Rule::in(['0','1']),],
-            'gate_b_plakat_tanda_bahaya' => ['integer',Rule::in(['0','1']),],
-            'gate_b_battery_breaker' => ['integer',Rule::in(['0','1']),],
-            'gate_b_hazard' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_kemudi_rem_berfungsi' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_sabuk_pengaman_berfungsi' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_lampu_nyala' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_kaca' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_ban' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_ban_not_vulkanisir' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_dongkrak_toolkit' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_tutup_tangki' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_chasis' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_tutup_cairan_aki' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_twist_lock' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_landing_leg' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_kontainer' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_valve' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_cleanliness_certificate' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_oli_tidak_bocor' => ['integer',Rule::in(['0','1']),],
-            'gate_kend_tachograph' => ['integer',Rule::in(['0','1']),],
-            'gate_pintu_kanan' => ['integer',Rule::in(['0','1']),],
-            'gate_pintu_kiri' => ['integer',Rule::in(['0','1']),],
-            'gate_tdk_ada_benda_asing_laci_dashboard' => ['integer',Rule::in(['0','1']),],
-            'gate_tdk_ada_benda_asing_diatas_dashboard' => ['integer',Rule::in(['0','1']),],
-            'gate_tdk_ada_benda_asing_dicelah_kursi' => ['integer',Rule::in(['0','1']),],
-            'gate_tdk_ada_benda_asing_dibawah_kursi' => ['integer',Rule::in(['0','1']),],
-            'gate_tdk_ada_benda_asing_dibelakang_kursi' => ['integer',Rule::in(['0','1']),],
-            'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu' => ['integer',Rule::in(['0','1']),],
-            'gate_bagian_atap_rapi_tdk_ada_benda_asing' => ['integer',Rule::in(['0','1']),],
-            'gate_is_approve' => ['integer',Rule::in(['0','1']),],
-            'gate_email_sent' => ['integer',Rule::in(['0','1']),],
-            'gate_exit_dokumen_pengantar_barang_lengkap' => ['integer',Rule::in(['0','1']),],
-            'gate_exit_muatan_disegel' => ['integer',Rule::in(['0','1']),],
-            'gate_exit_tidak_tercecer' => ['integer',Rule::in(['0','1']),],
-            'gate_exit_petunjuk_darurat_transportasi' => ['integer',Rule::in(['0','1']),],
+            'gate_is_in' => ['integer',Rule::in(['0','1','2']),],
+            'gate_is_out' => ['integer',Rule::in(['0','1','2']),],
+            'gate_formulir_sopir_telp_darurat' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kondisi_cukup_istirahat' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kondisi_tidak_pengaruh_obat_alkohol' => ['integer',Rule::in(['0','1','2']),],
+            'gate_APD' => ['integer',Rule::in(['0','1','2']),],
+            'gate_traffic_tool' => ['integer',Rule::in(['0','1','2']),],
+            'gate_senter' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kotak_p3k' => ['integer',Rule::in(['0','1','2']),],
+            'gate_pemadam_kebakaran' => ['integer',Rule::in(['0','1','2']),],
+            'gate_spill_kit' => ['integer',Rule::in(['0','1','2']),],
+            'gate_b_sarung_tangan' => ['integer',Rule::in(['0','1','2']),],
+            'gate_b_respirator' => ['integer',Rule::in(['0','1','2']),],
+            'gate_b_plakat_tanda_bahaya' => ['integer',Rule::in(['0','1','2']),],
+            'gate_b_battery_breaker' => ['integer',Rule::in(['0','1','2']),],
+            'gate_b_hazard' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_kemudi_rem_berfungsi' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_sabuk_pengaman_berfungsi' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_lampu_nyala' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_kaca' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_ban' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_ban_not_vulkanisir' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_dongkrak_toolkit' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_tutup_tangki' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_chasis' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_tutup_cairan_aki' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_twist_lock' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_landing_leg' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_kontainer' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_valve' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_cleanliness_certificate' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_oli_tidak_bocor' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kend_tachograph' => ['integer',Rule::in(['0','1','2']),],
+            'gate_pintu_kanan' => ['integer',Rule::in(['0','1','2']),],
+            'gate_pintu_kiri' => ['integer',Rule::in(['0','1','2']),],
+            'gate_tdk_ada_benda_asing_laci_dashboard' => ['integer',Rule::in(['0','1','2']),],
+            'gate_tdk_ada_benda_asing_diatas_dashboard' => ['integer',Rule::in(['0','1','2']),],
+            'gate_tdk_ada_benda_asing_dicelah_kursi' => ['integer',Rule::in(['0','1','2']),],
+            'gate_tdk_ada_benda_asing_dibawah_kursi' => ['integer',Rule::in(['0','1','2']),],
+            'gate_tdk_ada_benda_asing_dibelakang_kursi' => ['integer',Rule::in(['0','1','2']),],
+            'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu' => ['integer',Rule::in(['0','1','2']),],
+            'gate_bagian_atap_rapi_tdk_ada_benda_asing' => ['integer',Rule::in(['0','1','2']),],
+            'gate_is_approve' => ['integer',Rule::in(['0','1','2']),],
+            'gate_email_sent' => ['integer',Rule::in(['0','1','2']),],
+            'gate_exit_dokumen_pengantar_barang_lengkap' => ['integer',Rule::in(['0','1','2']),],
+            'gate_exit_muatan_disegel' => ['integer',Rule::in(['0','1','2']),],
+            'gate_exit_tidak_tercecer' => ['integer',Rule::in(['0','1','2']),],
+            'gate_exit_petunjuk_darurat_transportasi' => ['integer',Rule::in(['0','1','2']),],
             'gate_report_code' => 'string',
             'gate_formulir_sopir_telp_darurat_desc' => 'string',
             'gate_kondisi_cukup_istirahat_desc' => 'string',
@@ -251,8 +272,11 @@ class FormEGateCheckController extends Controller
                     ], 404);
             }
         } else {
+            $employee = Auth::user();
+
             $formEGate = FormEGateCheck::create(
                 [
+                    'user_id' => $employee->id,
                     'gate_report_status' => (int) $request->input('gate_report_status'),
                     'gate_is_in' => (int) $request->input('gate_is_in'),
                     'gate_is_out' => (int) $request->input('gate_is_out'),
@@ -370,8 +394,17 @@ class FormEGateCheckController extends Controller
         try{
             $gateForm = FormEGateCheck::findOrFail($id);
             $gateable = $gateForm->gateable;
-            $gateable->delete();
+            if($gateable != null){
+                $gateable->delete();
+            }
             $gateForm->delete();
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Delete Data',
+                'data' =>
+                    [$gateForm]
+                ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
@@ -383,24 +416,60 @@ class FormEGateCheckController extends Controller
 
     }
 
-    // public function approveEgateForm(){
-    //     try{
-    //         $employee = Auth::user();
+    public function deleteEgateFormGateable($id){
+        try{
+            $gateForm = FormEGateCheck::findOrFail($id);
+            $gateable_id = $gateForm->gateable_id;
+            $gateable_type = $gateForm->gateable_type;
+            if($gateable_id != null && $gateable_type != null){
+                $gateForm->update([
+                    'gateable_id' => null,
+                    'gateable_type' => null,
+                ]);
+            }
 
-    //         $formEGate = FormEGateCheck::findOrFail($idForm);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Delete Gateable of E Gate Form',
+                'data' =>
+                    [$gateForm]
+                ], 200);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given E Gate Form ID not found',
+                'data' => []
+                ], 404);
+        }
 
-    //         $formEGate->update([
-    //             'gate_approve_admin' => $employee->id,
-    //             'gate_approve_admin_date' => Carbon::now(),
-    //             'gate_report_status' => 3,
-    //             'gate_is_approve' => 1,
-    //         ]);
-    //     } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-    //         return response()->json([
-    //             'code' => 404,
-    //             'message' => 'Given E Gate Form ID not found',
-    //             'data' => []
-    //             ], 404);
-    //     }
-    // }
+
+    }
+
+    public function approveEgateForm($idForm){
+        try{
+            $employee = Auth::user();
+
+            // $formEGate = FormEGateCheck::findOrFail($idForm);
+            $formEGate = $employee->formEGateCheck()->findOrFail($idForm);
+
+            $formEGate->update([
+                'gate_approve_admin' => $employee->id,
+                'gate_approve_admin_date' => Carbon::now(),
+                'gate_report_status' => 2,
+                'gate_is_approve' => 1,
+            ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Approve Data',
+                'data' =>
+                    [$formEGate]
+                ], 200);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given E Gate Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
 }

@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use App\Models\MasterDepartment;
 use App\Models\MEmployeeGroup;
+use App\Models\FormEGateCheck;
 use App\Models\FormLoadingPackedGoods;
 use App\Models\FormLoadingTexN701S;
 use App\Models\FormUnloadingFa1eo;
@@ -102,6 +103,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     //to check whether user has given permission via their role
     public function hasPermission(String $permission){
         return $this->getPermissionsViaRoles()->where('name',$permission)->first() != null;
+    }
+
+
+    public function formEGateCheck(){
+        return $this->hasMany(FormEGateCheck::class,'user_id');
     }
 
     public function formLoadingPackedGoods(){

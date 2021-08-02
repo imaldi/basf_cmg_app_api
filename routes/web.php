@@ -411,9 +411,24 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             'uses' => 'FormEGateCheckController@viewAllEgateForm',
             // 'middleware' => 'permission_check:view 5s form'
             ]);
+
+        $router->get('get/{id}',[
+            'uses' => 'FormEGateCheckController@getOneEgateForm'
+        ]);
         $router->post('create',[
-            'uses' => 'FormEGateCheckController@createOrUpdateEgateForm',
-            // 'middleware' => 'permission_check:create 5s form'
+        'uses' => 'FormEGateCheckController@createOrUpdateEgateForm',
+        // 'middleware' => 'permission_check:create 5s form'
+        ]);
+        $router->get('approve/{idForm}',[
+            'uses' => 'FormEGateCheckController@approveEgateForm'
+        ]);
+
+        $router->get('delete/{id}',[
+            'uses' => 'FormEGateCheckController@deleteEgateForm'
+        ]);
+
+        $router->get('delete-gateable/{id}',[
+            'uses' => 'FormEGateCheckController@deleteEgateFormGateable'
         ]);
     });
 
@@ -434,23 +449,24 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             $router->post('approve',[
                 'uses' => 'FormLoadingTexN701SController@approveFormLoadingTexN701S',
                 // 'middleware' => 'permission_check:create 5s form'
-        ]);
+            ]);
+        });
 
         $router->group(['prefix' => 'form-loading-packed-goods',], function () use ($router){
             $router->get('all',[
-                'uses' => 'FormLoadingTexN701SController@viewAllFormFormLoadingPackedGoods',
+                'uses' => 'FormLoadingPackedGoodsController@viewAllFormLoadingPackedGoods',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
             $router->post('create',[
-                'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingPackedGoods',
+                'uses' => 'FormLoadingPackedGoodsController@createOrUpdateFormLoadingPackedGoods',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
             $router->post('update',[
-                'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingPackedGoods',
+                'uses' => 'FormLoadingPackedGoodsController@createOrUpdateFormLoadingPackedGoods',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
             $router->post('approve',[
-                'uses' => 'FormLoadingTexN701SController@approveFormLoadingPackedGoods',
+                'uses' => 'FormLoadingPackedGoodsController@approveFormLoadingPackedGoods',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
         });
@@ -473,8 +489,9 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             $router->post('approve',[
                 'uses' => 'FormLoadingTexN701SController@approveFormLoadingTexN701S',
                 // 'middleware' => 'permission_check:create 5s form'
-        ]);
-    ]);
+            ]);
+        });
+    });
     $router->post('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
     $router->post('remove-group-from-user','TestGroupsAndPermissionsController@tesRemovenGroupFromUser');
 

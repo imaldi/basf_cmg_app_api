@@ -133,6 +133,15 @@ class FormLoadingTexN701SController extends Controller
                 $isCreate = "Update";
                 try{
                     $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
+                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormLoadingTexN701S'){
+                        return
+                        // 'Failed';
+                        response()->json([
+                            'code' => 451,
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'data' => []
+                            ], 451);
+                    }
 
                 } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                     return response()->json([
@@ -145,6 +154,15 @@ class FormLoadingTexN701SController extends Controller
 
             } else {
                 $isCreate = "Create";
+                if($gate->gateable_id != null && $gate->gateable_type != null){
+                    return
+                    // 'Failed';
+                    response()->json([
+                        'code' => 451,
+                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                        'data' => []
+                        ], 451);
+                }
 
                 $formLoadingTexN701S = FormLoadingTexN701S::create([
                     'ul1_employee_id' => $employee->id,
@@ -259,7 +277,7 @@ class FormLoadingTexN701SController extends Controller
             ]);
             $gate->update([
                 'gateable_id' => $formLoadingTexN701S->id,
-                'gateable_type' => "App\Model\FormLoadingTexN701S"
+                'gateable_type' => "App\Models\FormLoadingTexN701S"
                 ]);
             return response()->json([
                 'code' => 200,

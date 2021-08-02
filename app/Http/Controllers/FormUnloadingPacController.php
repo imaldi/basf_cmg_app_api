@@ -122,7 +122,15 @@ class FormUnloadingPacController extends Controller
                 try{
                     $formUnloadingPac = $employee->formUnloadingPac()->findOrFail($formId);
 
-
+                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingPac'){
+                        return
+                        // 'Failed';
+                        response()->json([
+                            'code' => 451,
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'data' => []
+                            ], 451);
+                    }
                 } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                     return response()->json([
                         'code' => 404,
@@ -132,6 +140,15 @@ class FormUnloadingPacController extends Controller
                 }
             } else {
                 $isCreate = "Create";
+                if($gate->gateable_id != null && $gate->gateable_type != null){
+                    return
+                    // 'Failed';
+                    response()->json([
+                        'code' => 451,
+                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                        'data' => []
+                        ], 451);
+                }
 
                 $formUnloadingPac = FormUnloadingPac::create([
                     'un3_employee_id' => $employee->id,
@@ -228,7 +245,7 @@ class FormUnloadingPacController extends Controller
             ]);
             $gate->update([
                 'gateable_id' => $formUnloadingPac->id,
-                'gateable_type' => "App\Model\FormUnloadingPac"
+                'gateable_type' => "App\Models\FormUnloadingPac"
                 ]);
             return response()->json([
                 'code' => 200,

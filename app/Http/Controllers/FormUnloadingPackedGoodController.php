@@ -139,6 +139,15 @@ class FormUnloadingPackedGoodController extends Controller
                 try{
                     $formUnloadingPackedGood = $employee->formUnloadingPackedGood()->findOrFail($formId);
 
+                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingPackedGood'){
+                        return
+                        // 'Failed';
+                        response()->json([
+                            'code' => 451,
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'data' => []
+                            ], 451);
+                    }
 
                 } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                     return response()->json([
@@ -149,6 +158,15 @@ class FormUnloadingPackedGoodController extends Controller
                 }
             } else {
                 $isCreate = "Create";
+                if($gate->gateable_id != null && $gate->gateable_type != null){
+                    return
+                    // 'Failed';
+                    response()->json([
+                        'code' => 451,
+                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                        'data' => []
+                        ], 451);
+                }
 
                 $formUnloadingPackedGood = FormUnloadingPackedGood::create([
                     'un10_employee_id' => $employee->id,
@@ -260,7 +278,7 @@ class FormUnloadingPackedGoodController extends Controller
             ]);
             $gate->update([
                 'gateable_id' => $formUnloadingPackedGood->id,
-                'gateable_type' => "App\Model\FormUnloadingPackedGood"
+                'gateable_type' => "App\Models\FormUnloadingPackedGood"
                 ]);
             return response()->json([
                 'code' => 200,

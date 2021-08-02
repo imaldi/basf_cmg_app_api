@@ -69,7 +69,7 @@ class FormLoadingPackedGoodsController extends Controller
             'ul2_operator_complete' => ['integer', Rule::in(['0','1','2']),],
             'ul2_checker_complete' => ['integer', Rule::in(['0','1','2']),],
             'ul2_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
-            'ul2_status' => ['integer', Rule::in['1','2','3'],],
+            'ul2_status' => ['integer', Rule::in(['1','2','3']),],
             'ul2_persiapan_memakai_ppe_desc' => 'string',
             'ul2_persiapan_forklift_sudah_lulus_desc' => 'string',
             'ul2_persiapan_drum_handler_sdh_lulus_desc' => 'string',
@@ -141,12 +141,23 @@ class FormLoadingPackedGoodsController extends Controller
         try{
             $formId = $request->input('form_id');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
+
             if( $formId != null || $formId != 0){
+
                 $isCreate = "Update";
 
                 try{
                     $formLoadingPackedGoods = $employee->formLoadingPackedGoods()->findOrFail($formId);
 
+                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormLoadingPackedGoods'){
+                        return
+                        // 'Failed';
+                        response()->json([
+                            'code' => 451,
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'data' => []
+                            ], 451);
+                    }
 
                 } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                     return response()->json([
@@ -156,6 +167,15 @@ class FormLoadingPackedGoodsController extends Controller
                         ], 404);
                 }
             } else {
+                if($gate->gateable_id != null || $gate->gateable_type != null){
+                    return
+                    // 'Failed';
+                    response()->json([
+                        'code' => 451,
+                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                        'data' => []
+                        ], 451);
+                }
                 $isCreate = "Create";
 
                 $formLoadingPackedGoods = FormLoadingPackedGoods::create([
@@ -278,16 +298,16 @@ class FormLoadingPackedGoodsController extends Controller
                 'ul2_foto_khusus_cont_ocn_export3' => $request->input('ul2_foto_khusus_cont_ocn_export3'),
                 'ul2_reason_cancel_load_unload' => $request->input('ul2_reason_cancel_load_unload'),
             ]);
-            $gate->update(
+            $gate->update([
                 'gateable_id' => $formLoadingPackedGoods->id,
-                'gateable_type' = > "App\Model\FormLoadingPackedGoods"
-            );
+                'gateable_type' => "App\Models\FormLoadingPackedGoods"
+            ]);
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormLoadingPackedGoods Form',
                 'data' => [
                     $formLoadingPackedGoods
-                ], 200);
+                ]], 200);
 
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
@@ -312,7 +332,7 @@ class FormLoadingPackedGoodsController extends Controller
                 'message' => 'Success Approve FormLoadingPackedGoods Form',
                 'data' => [
                     $formLoadingPackedGoods
-                ], 200);
+            ]], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

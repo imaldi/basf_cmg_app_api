@@ -148,6 +148,15 @@ class FormUnloadingDieselOilController extends Controller
                 try{
                     $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
 
+                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingDieselOil'){
+                        return
+                        // 'Failed';
+                        response()->json([
+                            'code' => 451,
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'data' => []
+                            ], 451);
+                    }
 
                 } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                     return response()->json([
@@ -158,6 +167,16 @@ class FormUnloadingDieselOilController extends Controller
                 }
             } else {
                 $isCreate = "Create";
+
+                if($gate->gateable_id != null && $gate->gateable_type != null){
+                    return
+                    // 'Failed';
+                    response()->json([
+                        'code' => 451,
+                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                        'data' => []
+                        ], 451);
+                }
 
                 $formUnloadingDieselOil = FormUnloadingDieselOil::create([
                     'un7_employee_id' => $employee->id,
@@ -277,7 +296,7 @@ class FormUnloadingDieselOilController extends Controller
             ]);
             $gate->update([
                 'gateable_id' => $formUnloadingDieselOil->id,
-                'gateable_type' => "App\Model\FormUnloadingDieselOil"
+                'gateable_type' => "App\Models\FormUnloadingDieselOil"
                 ]);
             return response()->json([
                 'code' => 200,

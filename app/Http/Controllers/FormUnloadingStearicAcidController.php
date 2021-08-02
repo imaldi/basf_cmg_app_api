@@ -131,6 +131,15 @@ class FormUnloadingStearicAcidController extends Controller
                 try{
                     $formUnloadingStearicAcid = $employee->formUnloadingStearicAcid()->findOrFail($formId);
 
+                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingStearicAcid'){
+                        return
+                        // 'Failed';
+                        response()->json([
+                            'code' => 451,
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'data' => []
+                            ], 451);
+                    }
 
                 } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                     return response()->json([
@@ -141,6 +150,15 @@ class FormUnloadingStearicAcidController extends Controller
                 }
             } else {
                 $isCreate = "Create";
+                if($gate->gateable_id != null && $gate->gateable_type != null){
+                    return
+                    // 'Failed';
+                    response()->json([
+                        'code' => 451,
+                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                        'data' => []
+                        ], 451);
+                }
 
                 $formUnloadingStearicAcid = FormUnloadingStearicAcid::create([
                     'un5_employee_id' => $employee->id,
@@ -245,7 +263,7 @@ class FormUnloadingStearicAcidController extends Controller
             ]);
             $gate->update([
                 'gateable_id' => $formUnloadingStearicAcid->id,
-                'gateable_type' => "App\Model\FormUnloadingStearicAcid"
+                'gateable_type' => "App\Models\FormUnloadingStearicAcid"
                 ]);
             return response()->json([
                 'code' => 200,

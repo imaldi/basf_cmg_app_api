@@ -135,6 +135,15 @@ class FormUnloadingNaohController extends Controller
                 try{
                     $formUnloadingNaoh = $employee->formUnloadingNaoh()->findOrFail($formId);
 
+                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingNaoh'){
+                        return
+                        // 'Failed';
+                        response()->json([
+                            'code' => 451,
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'data' => []
+                            ], 451);
+                    }
 
                 } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
                     return response()->json([
@@ -145,6 +154,15 @@ class FormUnloadingNaohController extends Controller
                 }
             } else {
                 $isCreate = "Create";
+                if($gate->gateable_id != null && $gate->gateable_type != null){
+                    return
+                    // 'Failed';
+                    response()->json([
+                        'code' => 451,
+                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                        'data' => []
+                        ], 451);
+                }
 
                 $formUnloadingNaoh = FormUnloadingNaoh::create([
                     'un4_employee_id' => $employee->id,
@@ -253,7 +271,7 @@ class FormUnloadingNaohController extends Controller
             ]);
             $gate->update([
                 'gateable_id' => $formUnloadingNaoh->id,
-                'gateable_type' => "App\Model\FormUnloadingNaoh"
+                'gateable_type' => "App\Models\FormUnloadingNaoh"
                 ]);
             return response()->json([
                 'code' => 200,
