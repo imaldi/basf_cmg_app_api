@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingFaC12Controller extends Controller
 {
-    public function viewAllFormUnloadingFaC12(){
+    public function viewAll(){
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
@@ -21,7 +21,7 @@ class FormUnloadingFaC12Controller extends Controller
             FormUnloadingFaC12::all()
             ], 200);
     }
-    public function createOrUpdateFormUnloadingFaC12(Request $request){
+    public function createOrUpdate(Request $request){
         $this->validate($request, [
             'form_id' => 'integer',
             'gate_id' => 'required|integer',
@@ -325,7 +325,7 @@ class FormUnloadingFaC12Controller extends Controller
         }
     }
 
-    public function approveFormUnloadingFaC12(Request $request){
+    public function approve(Request $request){
         $formId = $request->input('form_id');
         $employee = Auth::user();
 

@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingStearicAcidController extends Controller
 {
-    public function viewAllFormUnloadingStearicAcid(){
+    public function viewAll(){
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
@@ -21,7 +21,7 @@ class FormUnloadingStearicAcidController extends Controller
             FormUnloadingStearicAcid::all()
             ], 200);
     }
-    public function createOrUpdateFormUnloadingStearicAcid(Request $request){
+    public function createOrUpdate(Request $request){
         $this->validate($request, [
             'form_id' => 'integer',
             'gate_id' => 'required|integer',
@@ -168,7 +168,7 @@ class FormUnloadingStearicAcidController extends Controller
             $formUnloadingStearicAcid->update([
                 'un5_persiapan_memakai_ppe' => (int) $request->input('un5_persiapan_memakai_ppe'),
                 'un5_persiapan_cek_hose_piping' => (int) $request->input('un5_persiapan_cek_hose_piping'),
-                'un5_persiapan_safety_shower' => (int) $ewrequest->input('un5_persiapan_safety_shower'),
+                'un5_persiapan_safety_shower' => (int) $request->input('un5_persiapan_safety_shower'),
                 'un5_persiapan_operator_terima_dokumen' => (int) $request->input('un5_persiapan_operator_terima_dokumen'),
                 'un5_persiapan_arahkan_truk_parkir' => (int) $request->input('un5_persiapan_arahkan_truk_parkir'),
                 'un5_persiapan_ganjal_roda' => (int) $request->input('un5_persiapan_ganjal_roda'),
@@ -177,32 +177,32 @@ class FormUnloadingStearicAcidController extends Controller
                 'un5_persiapan_sopir_serahkan_kunci' => (int) $request->input('un5_persiapan_sopir_serahkan_kunci'),
                 'un5_persiapan_sopir_kenek_leave_unloading' => (int) $request->input('un5_persiapan_sopir_kenek_leave_unloading'),
                 'un5_persiapan_isotank_bersih' => (int) $request->input('un5_persiapan_isotank_bersih'),
-                'un5_persiapan_label_segel_terpasang' => (int) $ewrequest->input('un5_persiapan_label_segel_terpasang'),
-                'un5_persiapan_pasang_hose_steam' => (int) $ewrequest->input('un5_persiapan_pasang_hose_steam'),
+                'un5_persiapan_label_segel_terpasang' => (int) $request->input('un5_persiapan_label_segel_terpasang'),
+                'un5_persiapan_pasang_hose_steam' => (int) $request->input('un5_persiapan_pasang_hose_steam'),
                 'un5_persiapan_siapkan_botol_sample' => (int) $request->input('un5_persiapan_siapkan_botol_sample'),
                 'un5_persiapan_check_fullbody_harness_desc' => (int) $request->input('un5_persiapan_check_fullbody_harness_desc'),
                 'un5_persiapan_webbing' => (int) $request->input('un5_persiapan_webbing'),
                 'un5_persiapan_D_rings' => (int) $request->input('un5_persiapan_D_rings'),
                 'un5_persiapan_buckles' => (int) $request->input('un5_persiapan_buckles'),
-                'un5_persiapan_carabiner' => (int) $ewrequest->input('un5_persiapan_carabiner'),
+                'un5_persiapan_carabiner' => (int) $request->input('un5_persiapan_carabiner'),
                 'un5_persiapan_lanyard' => (int) $request->input('un5_persiapan_lanyard'),
                 'un5_persiapan_shockabsorber_pack' => (int) $request->input('un5_persiapan_shockabsorber_pack'),
-                'un5_persiapan_fall_arrester' => (int) $ewrequest->input('un5_persiapan_fall_arrester'),
+                'un5_persiapan_fall_arrester' => (int) $request->input('un5_persiapan_fall_arrester'),
                 'un5_persiapan_setelah_pemanasan_14jam' => (int) $request->input('un5_persiapan_setelah_pemanasan_14jam'),
                 'un5_persiapan_ambil_sample' => (int) $request->input('un5_persiapan_ambil_sample'),
                 'un5_persiapan_ambil_hose_stearic_acid' => (int) $request->input('un5_persiapan_ambil_hose_stearic_acid'),
-                'un5_persiapan_periksa_level_storage' => (int) $ewrequest->input('un5_persiapan_periksa_level_storage'),
-                'un5_persiapan_konfirmasi_ok' => (int) $ewrequest->input('un5_persiapan_konfirmasi_ok'),
+                'un5_persiapan_periksa_level_storage' => (int) $request->input('un5_persiapan_periksa_level_storage'),
+                'un5_persiapan_konfirmasi_ok' => (int) $request->input('un5_persiapan_konfirmasi_ok'),
                 'un5_persiapan_buka_segel' => (int) $request->input('un5_persiapan_buka_segel'),
                 'un5_persiapan_periksa_hose_tidak_bocor' => (int) $request->input('un5_persiapan_periksa_hose_tidak_bocor'),
-                'un5_unloading_bottom_valve_dibuka_penuh' => (int) $ewrequest->input('un5_unloading_bottom_valve_dibuka_penuh'),
+                'un5_unloading_bottom_valve_dibuka_penuh' => (int) $request->input('un5_unloading_bottom_valve_dibuka_penuh'),
                 'un5_unloading_cek_pipa_coupling_valve_tidak_bocor' => (int) $request->input('un5_unloading_cek_pipa_coupling_valve_tidak_bocor'),
                 'un5_unloading_pastikan_unloading_aman' => (int) $request->input('un5_unloading_pastikan_unloading_aman'),
                 'un5_selesai_unloading_selesai' => (int) $request->input('un5_selesai_unloading_selesai'),
                 'un5_selesai_matikan_pompa' => (int) $request->input('un5_selesai_matikan_pompa'),
                 'un5_selesai_buka_bottom_valve_storage' => (int) $request->input('un5_selesai_buka_bottom_valve_storage'),
-                'un5_selesai_tutup_valve' => (int) $ewrequest->input('un5_selesai_tutup_valve'),
-                'un5_selesai_pastikan_hose_liquid_kosong' => (int) $ewrequest->input('un5_selesai_pastikan_hose_liquid_kosong'),
+                'un5_selesai_tutup_valve' => (int) $request->input('un5_selesai_tutup_valve'),
+                'un5_selesai_pastikan_hose_liquid_kosong' => (int) $request->input('un5_selesai_pastikan_hose_liquid_kosong'),
                 'un5_selesai_periksa_valve_ditutup' => (int) $request->input('un5_selesai_periksa_valve_ditutup'),
                 'un5_selesai_panggil_sopir_kembali' => (int) $request->input('un5_selesai_panggil_sopir_kembali'),
                 'un5_selesai_lepas_pengganjal_roda_safetycone' => (int) $request->input('un5_selesai_lepas_pengganjal_roda_safetycone'),
@@ -282,7 +282,7 @@ class FormUnloadingStearicAcidController extends Controller
         }
     }
 
-    public function approveFormUnloadingStearicAcid(Request $request){
+    public function approve(Request $request){
         $formId = $request->input('form_id');
         $employee = Auth::user();
 

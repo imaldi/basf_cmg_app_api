@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingNaohController extends Controller
 {
-    public function viewAllFormUnloadingNaoh(){
+    public function viewAll(){
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
@@ -21,7 +21,7 @@ class FormUnloadingNaohController extends Controller
             FormUnloadingNaoh::all()
             ], 200);
     }
-    public function createOrUpdateFormUnloadingNaoh(Request $request){
+    public function createOrUpdate(Request $request){
         $this->validate($request, [
             'form_id' => 'integer',
             'gate_id' => 'required|integer',
@@ -290,7 +290,7 @@ class FormUnloadingNaohController extends Controller
         }
     }
 
-    public function approveFormUnloadingNaoh(Request $request){
+    public function approve(Request $request){
         $formId = $request->input('form_id');
         $employee = Auth::user();
 
