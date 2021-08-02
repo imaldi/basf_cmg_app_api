@@ -307,6 +307,8 @@ class FormUnloadingCitricAcidController extends Controller
 
     public function approveFormUnloadingCitricAcid(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingCitricAcid = $employee->formUnloadingCitricAcid()->findOrFail($formId);
             $formUnloadingCitricAcid->update([
@@ -325,6 +327,29 @@ class FormUnloadingCitricAcidController extends Controller
             return response()->json([
                 'code' => 404,
                 'message' => 'Given formUnloadingCitricAcid Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOneFormLoadingTexN701S($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingCitricAcid = $employee->formUnloadingCitricAcid()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingCitricAcid Form',
+                'data' => [
+                    $formUnloadingCitricAcid]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingCitricAcid Form ID not found',
                 'data' => []
                 ], 404);
         }

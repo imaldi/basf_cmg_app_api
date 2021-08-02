@@ -327,6 +327,8 @@ class FormUnloadingFaC12Controller extends Controller
 
     public function approveFormUnloadingFaC12(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingFaC12 = $employee->formUnloadingFaC12()->findOrFail($formId);
             $formUnloadingFaC12->update([
@@ -336,6 +338,29 @@ class FormUnloadingFaC12Controller extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approve FormUnloadingFaC12 Form',
+                'data' => [
+                    $formUnloadingFaC12]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingFaC12 Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingFaC12 = $employee->formUnloadingFaC12()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingFaC12 Form',
                 'data' => [
                     $formUnloadingFaC12]
                 ], 200);

@@ -298,6 +298,8 @@ class FormLoadingTexN701SController extends Controller
 
     public function approveFormLoadingTexN701S(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
             $formLoadingTexN701S->update([
@@ -307,6 +309,29 @@ class FormLoadingTexN701SController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approve FormLoadingTexN701S Form',
+                'data' => [
+                    $formLoadingTexN701S]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormLoadingTexN701S Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormLoadingTexN701S Form',
                 'data' => [
                     $formLoadingTexN701S]
                 ], 200);

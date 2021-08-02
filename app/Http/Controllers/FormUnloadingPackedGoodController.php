@@ -299,6 +299,8 @@ class FormUnloadingPackedGoodController extends Controller
 
     public function approveFormUnloadingPackedGood(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingPackedGood = $employee->formUnloadingPackedGood()->findOrFail($formId);
             $formUnloadingPackedGood->update([
@@ -308,6 +310,29 @@ class FormUnloadingPackedGoodController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approve FormUnloadingPackedGood Form',
+                'data' => [
+                    $formUnloadingPackedGood]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingPackedGood Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingPackedGood = $employee->formUnloadingPackedGood()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingPackedGood Form',
                 'data' => [
                     $formUnloadingPackedGood]
                 ], 200);

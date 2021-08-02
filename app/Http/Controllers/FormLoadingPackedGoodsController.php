@@ -321,6 +321,8 @@ class FormLoadingPackedGoodsController extends Controller
 
     public function approveFormLoadingPackedGoods(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formLoadingPackedGoods = $employee->formLoadingPackedGoods()->findOrFail($formId);
             $formLoadingPackedGoods->update([
@@ -338,6 +340,31 @@ class FormLoadingPackedGoodsController extends Controller
             return response()->json([
                 'code' => 404,
                 'message' => 'Given formLoadingPackedGoods Form ID not found',
+                'data' => []
+                ], 404);
+        }
+
+
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formLoadingPackedGoods = $employee->formLoadingPackedGoods()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormLoadingPackedGoods Form',
+                'data' => [
+                    $formLoadingPackedGoods]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormLoadingPackedGoods Form ID not found',
                 'data' => []
                 ], 404);
         }

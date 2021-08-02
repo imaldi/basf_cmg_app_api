@@ -284,6 +284,8 @@ class FormUnloadingStearicAcidController extends Controller
 
     public function approveFormUnloadingStearicAcid(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingStearicAcid = $employee->formUnloadingStearicAcid()->findOrFail($formId);
             $formUnloadingStearicAcid->update([
@@ -293,6 +295,29 @@ class FormUnloadingStearicAcidController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approve FormUnloadingStearicAcid Form',
+                'data' => [
+                    $formUnloadingStearicAcid]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingStearicAcid Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingStearicAcid = $employee->formUnloadingStearicAcid()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingStearicAcid Form',
                 'data' => [
                     $formUnloadingStearicAcid]
                 ], 200);

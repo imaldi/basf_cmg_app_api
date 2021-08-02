@@ -338,4 +338,27 @@ class FormUnloadingDieselOilController extends Controller
                 ], 404);
         }
     }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingDieselOil Form',
+                'data' => [
+                    $formUnloadingDieselOil]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingDieselOil Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
 }

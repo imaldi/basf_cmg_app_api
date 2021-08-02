@@ -266,6 +266,8 @@ class FormUnloadingPacController extends Controller
 
     public function approveFormUnloadingPac(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingPac = $employee->formUnloadingPac()->findOrFail($formId);
             $formUnloadingPac->update([
@@ -283,6 +285,29 @@ class FormUnloadingPacController extends Controller
             return response()->json([
                 'code' => 404,
                 'message' => 'Given formUnloadingPac Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingPac = $employee->formUnloadingPac()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingPac Form',
+                'data' => [
+                    $formUnloadingPac]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingPac Form ID not found',
                 'data' => []
                 ], 404);
         }

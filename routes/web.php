@@ -438,6 +438,11 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormLoadingTexN701SController@viewAllFormLoadingTexN701S',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
+
+            $router->get('get/{formId}',[
+                'uses' => 'FormLoadingTexN701SController@getOne',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
             $router->post('create',[
                 'uses' => 'FormLoadingTexN701SController@createOrUpdateFormLoadingTexN701S',
                 // 'middleware' => 'permission_check:create 5s form'

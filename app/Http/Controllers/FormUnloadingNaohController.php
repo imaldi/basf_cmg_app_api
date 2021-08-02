@@ -292,6 +292,8 @@ class FormUnloadingNaohController extends Controller
 
     public function approveFormUnloadingNaoh(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingNaoh = $employee->formUnloadingNaoh()->findOrFail($formId);
             $formUnloadingNaoh->update([
@@ -309,6 +311,29 @@ class FormUnloadingNaohController extends Controller
             return response()->json([
                 'code' => 404,
                 'message' => 'Given formUnloadingNaoh Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingNaoh = $employee->formUnloadingNaoh()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingNaoh Form',
+                'data' => [
+                    $formUnloadingNaoh]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingNaoh Form ID not found',
                 'data' => []
                 ], 404);
         }

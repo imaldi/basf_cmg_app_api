@@ -329,6 +329,8 @@ class FormUnloadingFa1eoController extends Controller
 
     public function approveFormUnloadingFa1eo(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingFa1eo = $employee->formUnloadingFa1eo()->findOrFail($formId);
             $formUnloadingFa1eo->update([
@@ -346,6 +348,29 @@ class FormUnloadingFa1eoController extends Controller
             return response()->json([
                 'code' => 404,
                 'message' => 'Given formUnloadingFa1eo Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingFa1eo = $employee->formUnloadingFa1eo()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingFa1eo Form',
+                'data' => [
+                    $formUnloadingFa1eo]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingFa1eo Form ID not found',
                 'data' => []
                 ], 404);
         }

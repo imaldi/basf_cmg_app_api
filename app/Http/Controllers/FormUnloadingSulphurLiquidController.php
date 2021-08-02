@@ -286,6 +286,8 @@ class FormUnloadingSulphurLiquidController extends Controller
 
     public function approveFormUnloadingSulphurLiquid(Request $request){
         $formId = $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingSulphurLiquid = $employee->formUnloadingSulphurLiquid()->findOrFail($formId);
             $formUnloadingSulphurLiquid->update([
@@ -295,6 +297,29 @@ class FormUnloadingSulphurLiquidController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approve FormUnloadingSulphurLiquid Form',
+                'data' => [
+                    $formUnloadingSulphurLiquid]
+                ], 200);
+
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            return response()->json([
+                'code' => 404,
+                'message' => 'Given FormUnloadingSulphurLiquid Form ID not found',
+                'data' => []
+                ], 404);
+        }
+    }
+
+    public function getOne($formId){
+
+        $employee = Auth::user();
+
+        try{
+            $formUnloadingSulphurLiquid = $employee->formUnloadingSulphurLiquid()->findOrFail($formId);
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Success Fetch FormUnloadingSulphurLiquid Form',
                 'data' => [
                     $formUnloadingSulphurLiquid]
                 ], 200);
