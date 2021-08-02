@@ -18,7 +18,7 @@ class FormUnloadingCitricAcidController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingCitricAcid::all()]
+            FormUnloadingCitricAcid::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingCitricAcid(Request $request){

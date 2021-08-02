@@ -18,7 +18,7 @@ class FormUnloadingStearicAcidController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingStearicAcid::all()]
+            FormUnloadingStearicAcid::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingStearicAcid(Request $request){

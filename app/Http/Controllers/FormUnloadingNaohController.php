@@ -18,7 +18,7 @@ class FormUnloadingNaohController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingNaoh::all()]
+            FormUnloadingNaoh::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingNaoh(Request $request){

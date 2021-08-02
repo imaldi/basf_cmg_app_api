@@ -18,7 +18,7 @@ class FormUnloadingPackedGoodController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingPackedGood::all()]
+            FormUnloadingPackedGood::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingPackedGood(Request $request){

@@ -18,7 +18,7 @@ class FormUnloadingFa1eoController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingFa1eo::all()]
+            FormUnloadingFa1eo::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingFa1eo(Request $request){

@@ -18,7 +18,7 @@ class FormUnloadingPacController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingPac::all()]
+            FormUnloadingPac::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingPac(Request $request){

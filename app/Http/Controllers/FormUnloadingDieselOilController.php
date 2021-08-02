@@ -18,7 +18,7 @@ class FormUnloadingDieselOilController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingDieselOil::all()]
+            FormUnloadingDieselOil::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingDieselOil(Request $request){

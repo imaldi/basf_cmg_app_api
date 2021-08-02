@@ -18,7 +18,7 @@ class FormUnloadingDehytonKeController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingDehytonKe::all()]
+            FormUnloadingDehytonKe::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingDehytonKe(Request $request){

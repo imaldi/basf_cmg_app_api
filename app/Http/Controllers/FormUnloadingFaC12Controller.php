@@ -18,7 +18,7 @@ class FormUnloadingFaC12Controller extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormUnloadingFaC12::all()]
+            FormUnloadingFaC12::all()
             ], 200);
     }
     public function createOrUpdateFormUnloadingFaC12(Request $request){

@@ -18,7 +18,7 @@ class FormLoadingTexN701SController extends Controller
             'code' => 200,
             'message' => 'Success Create Data',
             'data' =>
-            [FormLoadingTexN701S::all()]
+            FormLoadingTexN701S::all()
             ], 200);
     }
     public function createOrUpdateFormLoadingTexN701S(Request $request){
