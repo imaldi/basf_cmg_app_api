@@ -135,7 +135,7 @@ class InspectionController extends Controller
 
         if($user->hasRole('Inspection - Safety Harness - SPV')){
             $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
-                ->where('ins_sh_inspector_spv_id',$user->id)->where('ins_sh_inspector_spv_id','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sh_status')->get();
+                ->where('ins_sh_inspector_spv_id',$user->id)->where('ins_sh_status','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sh_status')->get();
         } else {
             $forms= FormsInspSafetyHarnest::where('ins_sh_is_active',1)
             ->where('ins_sh_inspector_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sh_status')->get();
@@ -157,12 +157,20 @@ class InspectionController extends Controller
         $user = Auth::user();
         $orderBy = $request->query('orderBy');
 
-        $role = $user->hasRole('Inspection - SCBA - SPV') ? 'ins_sc_inspector_id' : 'ins_sc_checker_id';
-        $forms= FormsInspSCBA::where('ins_sc_is_active',1)
-            ->where($role,$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sc_status')->get();
+        if($user->hasRole('Inspection - SCBA - SPV')){
+            $forms= FormsInspSCBA::where('ins_sc_is_active',1)
+                ->where('ins_sc_checker_id',$user->id)->where('ins_sc_status','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sc_status')->get();
+        } else {
+            $forms= FormsInspSCBA::where('ins_sc_is_active',1)
+            ->where('ins_sc_inspector_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sc_status')->get();
+        }
+
+        // $role = $user->hasRole('Inspection - SCBA - SPV') ? 'ins_sc_inspector_id' : 'ins_sc_checker_id';
+        // $forms= FormsInspSCBA::where('ins_sc_is_active',1)
+        //     ->where($role,$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_sc_status')->get();
         return response()->json([
             'code' => 200,
-            'message' => 'Success Get All Data',
+            'message' => 'Success Get All SCBA Data',
             'data' =>
             FormsInsScbaResource::collection($forms)
         ]);
@@ -173,9 +181,17 @@ class InspectionController extends Controller
         $user = Auth::user();
         $orderBy = $request->query('orderBy');
 
-        $role = $user->hasRole('Inspection - Safety Shower - SPV') ? 'ins_ss_checker_id' : 'ins_ss_inspector_id';
-        $forms= FormsInspSafetyShower::where('ins_ss_is_active',1)
-            ->where($role,$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_ss_status')->get();
+        if($user->hasRole('Inspection - Safety Shower - SPV')){
+            $forms= FormsInspSafetyShower::where('ins_ss_is_active',1)
+                ->where('ins_ss_checker_id',$user->id)->where('ins_ss_status','>',1)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_ss_status')->get();
+        } else {
+            $forms= FormsInspSafetyShower::where('ins_ss_is_active',1)
+            ->where('ins_ss_inspector_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_ss_status')->get();
+        }
+
+        // $role = $user->hasRole('Inspection - Safety Shower - SPV') ? 'ins_ss_checker_id' : 'ins_ss_inspector_id';
+        // $forms= FormsInspSafetyShower::where('ins_ss_is_active',1)
+        //     ->where($role,$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'ins_ss_status')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Get All Data',
@@ -362,7 +378,7 @@ class InspectionController extends Controller
             'ins_la_inspector_id' => Auth::user()->id,
             'ins_la_inspector_spv_id' => User::role('Inspection - Ladder - SPV')->where('emp_employee_department_id',$departmentId)->first()->id,
             'ins_la_status' => (int) $request->input('ins_la_status'),
-            // 'ins_la_is_active' => 1,
+            'ins_la_is_active' => 1,
             'ins_la_name' => 'GS-F-5003-2/'.$departmentAbr.'/'.$monthFormatted.'/'.$date->year.'/'.$formIDFormatted,
             'ins_la_submited_date' => Carbon::now()
         ]);

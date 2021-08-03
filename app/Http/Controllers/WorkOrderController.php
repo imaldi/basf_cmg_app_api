@@ -281,7 +281,8 @@ class WorkOrderController extends Controller
         // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
         $forms = FormWorkOrder::
             // where('wo_planner_id', $user->id)->
-            where('wo_is_open', 1)->where('wo_form_status',3)
+            where('wo_is_open', 1)
+            // ->where('wo_form_status',3)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation

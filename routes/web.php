@@ -63,7 +63,8 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             $router->group(['prefix' => 'as-issuer'], function () use ($router) {
                 $router->get('get-all',
                 [
-                    'middleware' => 'group_check:Work Order - Issuer',
+                    // 'middleware' => 'group_check:Work Order - Issuer',
+                    'middleware' => 'permission_check:view work order',
                     'uses' => 'WorkOrderController@viewListWorkOrderAsIssuer'
                 ]);
 
