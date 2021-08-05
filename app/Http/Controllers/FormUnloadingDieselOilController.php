@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingDieselOilController extends Controller
 {
-    public function viewAllFormUnloadingDieselOil(){
+    public function viewAll(){
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
@@ -21,7 +21,7 @@ class FormUnloadingDieselOilController extends Controller
             FormUnloadingDieselOil::all()
             ], 200);
     }
-    public function createOrUpdateFormUnloadingDieselOil(Request $request){
+    public function createOrUpdate(Request $request){
         $this->validate($request, [
             'form_id' => 'integer',
             'gate_id' => 'required|integer',
@@ -315,7 +315,7 @@ class FormUnloadingDieselOilController extends Controller
         }
     }
 
-    public function approveFormUnloadingDieselOil(Request $request){
+    public function approve(Request $request){
         $formId = $request->input('form_id');
         try{
             $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);

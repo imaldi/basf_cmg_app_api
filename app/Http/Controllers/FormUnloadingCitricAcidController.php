@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingCitricAcidController extends Controller
 {
-    public function viewAllFormUnloadingCitricAcid(){
+    public function viewAll(){
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
@@ -21,7 +21,7 @@ class FormUnloadingCitricAcidController extends Controller
             FormUnloadingCitricAcid::all()
             ], 200);
     }
-    public function createOrUpdateFormUnloadingCitricAcid(Request $request){
+    public function createOrUpdate(Request $request){
         $this->validate($request, [
             'form_id' => 'integer',
             'gate_id' => 'required|integer',
@@ -305,7 +305,7 @@ class FormUnloadingCitricAcidController extends Controller
         }
     }
 
-    public function approveFormUnloadingCitricAcid(Request $request){
+    public function approve(Request $request){
         $formId = $request->input('form_id');
         $employee = Auth::user();
 

@@ -576,31 +576,78 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             ]);
         });
 
-        $router->group(['prefix' => 'form_unloading_naoh',], function () use ($router){
+        $router->group(['prefix' => 'form_unloading_sulphur_liquid',], function () use ($router){
             $router->get('all',[
-                'uses' => 'FormUnloadingNaohController@viewAll',
+                'uses' => 'FormUnloadingSulphurLiquidController@viewAll',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
             $router->get('get/{formId}',[
-                'uses' => 'FormUnloadingNaohController@getOne',
+                'uses' => 'FormUnloadingSulphurLiquidController@getOne',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
             $router->post('create',[
-                'uses' => 'FormUnloadingNaohController@createOrUpdate',
+                'uses' => 'FormUnloadingSulphurLiquidController@createOrUpdate',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
             $router->post('update',[
-                'uses' => 'FormUnloadingNaohController@createOrUpdate',
+                'uses' => 'FormUnloadingSulphurLiquidController@createOrUpdate',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
             $router->post('approve',[
-                'uses' => 'FormUnloadingNaohController@approve',
+                'uses' => 'FormUnloadingSulphurLiquidController@approve',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
         });
 
 
-        $router->group(['prefix' => 'unloading_citric_acid',], function () use ($router){
+        $router->group(['prefix' => 'form_unloading_diesel_oil',], function () use ($router){
+            $router->get('all',[
+                'uses' => 'FormUnloadingDieselOilController@viewAll',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->get('get/{formId}',[
+                'uses' => 'FormUnloadingDieselOilController@getOne',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->post('create',[
+                'uses' => 'FormUnloadingDieselOilController@createOrUpdate',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('update',[
+                'uses' => 'FormUnloadingDieselOilController@createOrUpdate',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('approve',[
+                'uses' => 'FormUnloadingDieselOilController@approve',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+        });
+
+        $router->group(['prefix' => 'form_unloading_dehyton_ke',], function () use ($router){
+            $router->get('all',[
+                'uses' => 'FormUnloadingDehytonKeController@viewAll',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->get('get/{formId}',[
+                'uses' => 'FormUnloadingDehytonKeController@getOne',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->post('create',[
+                'uses' => 'FormUnloadingDehytonKeController@createOrUpdate',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('update',[
+                'uses' => 'FormUnloadingDehytonKeController@createOrUpdate',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('approve',[
+                'uses' => 'FormUnloadingDehytonKeController@approve',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+        });
+
+
+        $router->group(['prefix' => 'form_unloading_citric_acid',], function () use ($router){
             $router->get('all',[
                 'uses' => 'FormUnloadingCitricAcidController@viewAll',
                 // 'middleware' => 'permission_check:view 5s form'
@@ -619,6 +666,29 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             ]);
             $router->post('approve',[
                 'uses' => 'FormUnloadingCitricAcidController@approve',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+        });
+
+        $router->group(['prefix' => 'form_unloading_packed_good',], function () use ($router){
+            $router->get('all',[
+                'uses' => 'FormUnloadingPackedGoodController@viewAll',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->get('get/{formId}',[
+                'uses' => 'FormUnloadingPackedGoodController@getOne',
+                // 'middleware' => 'permission_check:view 5s form'
+                ]);
+            $router->post('create',[
+                'uses' => 'FormUnloadingPackedGoodController@createOrUpdate',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('update',[
+                'uses' => 'FormUnloadingPackedGoodController@createOrUpdate',
+                // 'middleware' => 'permission_check:create 5s form'
+            ]);
+            $router->post('approve',[
+                'uses' => 'FormUnloadingPackedGoodController@approve',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
         });

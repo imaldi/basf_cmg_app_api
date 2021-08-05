@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingDehytonKeController extends Controller
 {
-    public function viewAllFormUnloadingDehytonKe(){
+    public function viewAll(){
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
@@ -21,7 +21,7 @@ class FormUnloadingDehytonKeController extends Controller
             FormUnloadingDehytonKe::all()
             ], 200);
     }
-    public function createOrUpdateFormUnloadingDehytonKe(Request $request){
+    public function createOrUpdate(Request $request){
         $this->validate($request, [
             'form_id' => 'integer',
             'gate_id' => 'required|integer',
@@ -338,7 +338,7 @@ class FormUnloadingDehytonKeController extends Controller
         }
     }
 
-    public function approveFormUnloadingDehytonKe(Request $request){
+    public function approve(Request $request){
         $formId = $request->input('form_id');
         $employee = Auth::user();
 

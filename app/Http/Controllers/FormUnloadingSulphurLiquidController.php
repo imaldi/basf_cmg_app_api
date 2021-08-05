@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingSulphurLiquidController extends Controller
 {
-    public function viewAllFormUnloadingSulphurLiquid(){
+    public function viewAll(){
         return response()->json([
             'code' => 200,
             'message' => 'Success Create Data',
@@ -21,7 +21,7 @@ class FormUnloadingSulphurLiquidController extends Controller
             FormUnloadingSulphurLiquid::all()
             ], 200);
     }
-    public function createOrUpdateFormUnloadingSulphurLiquid(Request $request){
+    public function createOrUpdate(Request $request){
         $this->validate($request, [
             'form_id' => 'integer',
             'gate_id' => 'required|integer',
@@ -284,7 +284,7 @@ class FormUnloadingSulphurLiquidController extends Controller
         }
     }
 
-    public function approveFormUnloadingSulphurLiquid(Request $request){
+    public function approve(Request $request){
         $formId = $request->input('form_id');
         $employee = Auth::user();
 
