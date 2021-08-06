@@ -434,7 +434,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     });
 
     $router->group(['prefix' => 'loading',], function () use ($router){
-        $router->group(['prefix' => 'loading-tex-n701s',], function () use ($router){
+        $router->group(['prefix' => 'form-loading-tex-n701s',], function () use ($router){
             $router->get('all',[
                 'uses' => 'FormLoadingTexN701SController@viewAllFormLoadingTexN701S',
                 // 'middleware' => 'permission_check:view 5s form'
@@ -444,15 +444,11 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormLoadingTexN701SController@getOne',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormLoadingTexN701SController@createOrUpdate',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
-            $router->post('update',[
-                'uses' => 'FormLoadingTexN701SController@createOrUpdate',
-                // 'middleware' => 'permission_check:create 5s form'
-            ]);
-            $router->post('approve',[
+            $router->get('approve/{formId}',[
                 'uses' => 'FormLoadingTexN701SController@approve',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
@@ -460,23 +456,19 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
 
         $router->group(['prefix' => 'form-loading-packed-goods',], function () use ($router){
             $router->get('all',[
-                'uses' => 'FormLoadingPackedGoodsController@viewAllFormLoadingPackedGoods',
+                'uses' => 'FormLoadingPackedGoodsController@viewAll',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
             $router->get('get/{formId}',[
                 'uses' => 'FormLoadingPackedGoodsController@getOne',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
-            $router->post('create',[
-                'uses' => 'FormLoadingPackedGoodsController@createOrUpdateFormLoadingPackedGoods',
+            $router->post('create-or-update',[
+                'uses' => 'FormLoadingPackedGoodsController@createOrUpdate',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
-            $router->post('update',[
-                'uses' => 'FormLoadingPackedGoodsController@createOrUpdateFormLoadingPackedGoods',
-                // 'middleware' => 'permission_check:create 5s form'
-            ]);
-            $router->post('approve',[
-                'uses' => 'FormLoadingPackedGoodsController@approveFormLoadingPackedGoods',
+            $router->post('approve/{formId}',[
+                'uses' => 'FormLoadingPackedGoodsController@approve',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
         });
@@ -679,14 +671,14 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingPackedGoodController@getOne',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingPackedGoodController@createOrUpdate',
                 // 'middleware' => 'permission_check:create 5s form'
             ]);
-            $router->post('update',[
-                'uses' => 'FormUnloadingPackedGoodController@createOrUpdate',
-                // 'middleware' => 'permission_check:create 5s form'
-            ]);
+            // $router->post('update',[
+            //     'uses' => 'FormUnloadingPackedGoodController@createOrUpdate',
+            //     // 'middleware' => 'permission_check:create 5s form'
+            // ]);
             $router->post('approve',[
                 'uses' => 'FormUnloadingPackedGoodController@approve',
                 // 'middleware' => 'permission_check:create 5s form'

@@ -296,8 +296,8 @@ class FormLoadingTexN701SController extends Controller
         }
     }
 
-    public function approve(Request $request){
-        $formId = $request->input('form_id');
+    public function approve($formId){
+        // $formId = $request->input('form_id');
         $employee = Auth::user();
 
         try{
