@@ -24,7 +24,7 @@ class FormLoadingTexN701SController extends Controller
     public function createOrUpdate(Request $request){
         $this->validate($request, [
             'form_id' => 'integer',
-            'gate_id' => 'required|integer',
+            'gate_id' => 'required',
             'ul1_persiapan_memakai_ppe' => ['integer', Rule::in(['0','1','2']),],
             'ul1_persiapan_cek_hose_piping' => ['integer', Rule::in(['0','1','2']),],
             'ul1_persiapan_safety_shower' => ['integer', Rule::in(['0','1','2']),],
@@ -291,7 +291,7 @@ class FormLoadingTexN701SController extends Controller
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
-                'data' => []
+                'data' => [$request->input('gate_id')]
                 ], 404);
         }
     }

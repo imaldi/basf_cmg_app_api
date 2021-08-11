@@ -144,39 +144,19 @@ class WorkOrderController extends Controller
         try{
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
             if($request->file('wo_image')){
-                // try{
                 $file = 'uploads/work_order'.$formWorkOrder->wo_image;
                 if(is_file($file)){
                     unlink(public_path($file));
                 }
-                // }
                 $name = time().$request->file('wo_image')->getClientOriginalName();
                 $request->file('wo_image')->move('uploads/work_order',$name);
                 $formWorkOrder->update(
                     [
-                        $request->except(['wo_image']),
                         'wo_image' => $name,
                     ]
                 );
-                // return response()->json([
-                //     'code' => 200,
-                //     'message' => 'Success Saving Form Update',
-                //     'data' =>
-                //     [
-                //     new FormWorkOrderResource($formWorkOrder),
-                //     // 'wo_date_recomendation' => $date_recommendation,
-                //     ]
-                // ], 200);
             }
             $formWorkOrder->update([
-                    // $request->except([
-                    //     'wo_image',
-                    //     // 'wo_location_id',
-                    //     'wo_c_emergency',
-                    //     'wo_c_ranking_cust',
-                    //     'wo_c_equipment_criteria',
-                    //     'wo_form_status'
-                    // ]),
                     'wo_location_id' => (int) $request->input('wo_location_id'),
                     'wo_c_emergency' => (int)$request->input('wo_c_emergency'),
                     'wo_c_ranking_cust' => (int)$request->input('wo_c_ranking_cust'),

@@ -436,7 +436,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->group(['prefix' => 'loading',], function () use ($router){
         $router->group(['prefix' => 'form-loading-tex-n701s',], function () use ($router){
             $router->get('all',[
-                'uses' => 'FormLoadingTexN701SController@viewAllFormLoadingTexN701S',
+                'uses' => 'FormLoadingTexN701SController@viewAll',
                 // 'middleware' => 'permission_check:view 5s form'
                 ]);
 
