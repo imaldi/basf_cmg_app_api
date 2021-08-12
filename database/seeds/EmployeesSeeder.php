@@ -73,6 +73,32 @@ class EmployeesSeeder extends Seeder
             //     'emp_username' => 'attendance',
             //     'password'	=> app('hash')->make('secret')
             // ],
+
+            [
+                'emp_name'	=> 'e gate admin',
+                'emp_email'	=> 'e_gate_admin@gmail.com',
+                'emp_username' => 'e_gate_admin',
+                'password'	=> app('hash')->make('secret')
+            ],
+
+            //
+
+            [
+                'emp_name'	=> 'loading admin',
+                'emp_email'	=> 'loading_admin@gmail.com',
+                'emp_username' => 'loading_admin',
+                'password'	=> app('hash')->make('secret')
+            ],
+
+            //
+
+            [
+                'emp_name'	=> 'unloading admin',
+                'emp_email'	=> 'unloading_admin@gmail.com',
+                'emp_username' => 'unloading_admin',
+                'password'	=> app('hash')->make('secret')
+            ],
+
         ]);
     }
 }

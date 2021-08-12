@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // LocationSeeder::class,
             // DepartmentSeeder::class,
-            // EmployeesSeeder::class,
+            EmployeesSeeder::class,
             // GroupSeeder::class,
             // PermissionSeeder::class,
-            PrivilegeSeeder::class,
+            // PrivilegeSeeder::class,
             // UserGroupSeeder::class,
             // Form5sMasterSeeder::class,
             // WorkOrderSeeder::class

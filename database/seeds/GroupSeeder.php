@@ -103,8 +103,20 @@ class GroupSeeder extends Seeder{
 
 
 
+            // [
+            //     'name' => 'attendance admin',
+            //     'e_group_is_active' => '1',
+            // ],
             [
-                'name' => 'attendance admin',
+                'name' => 'Form E Gate Admin',
+                'e_group_is_active' => '1',
+            ],
+            [
+                'name' => 'Form Loading Admin',
+                'e_group_is_active' => '1',
+            ],
+            [
+                'name' => 'Form Unloading Admin',
                 'e_group_is_active' => '1',
             ],
 

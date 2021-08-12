@@ -121,25 +121,113 @@ class PermissionSeeder extends Seeder
             //     'e_permission_category' => '5s form',
             // ],
             //inspection
+            // [
+            //     'name' => 'view inspection form',
+            //     'e_permission_desc' => 'view inspection form',
+            //     'e_permission_category' => 'inspection form',
+            // ],
+            // [
+            //     'name' => 'create inspection form',
+            //     'e_permission_desc' => 'create inspection form',
+            //     'e_permission_category' => 'inspection form',
+            // ],
+            // [
+            //     'name' => 'update inspection form',
+            //     'e_permission_desc' => 'update inspection form',
+            //     'e_permission_category' => 'inspection form',
+            // ],
+            // [
+            //     'name' => 'approve inspection form',
+            //     'e_permission_desc' => 'approve inspection form',
+            //     'e_permission_category' => 'inspection form',
+            // ],
+            // [
+            //     'name' => 'view inspection form',
+            //     'e_permission_desc' => 'view inspection form',
+            //     'e_permission_category' => 'inspection form',
+            // ],
+            // [
+            //     'name' => 'create inspection form',
+            //     'e_permission_desc' => 'create inspection form',
+            //     'e_permission_category' => 'inspection form',
+            // ],
+            // [
+            //     'name' => 'update inspection form',
+            //     'e_permission_desc' => 'update inspection form',
+            //     'e_permission_category' => 'inspection form',
+            // ],
+            // [
+            //     'name' => 'approve inspection form',
+            //     'e_permission_desc' => 'approve inspection form',
+            //     'e_permission_category' => 'inspection form',
+            // ],
+
+
+            //
+            // [
+            //     'name' => 'view e gate form',
+            //     'e_permission_desc' => 'view e gate form',
+            //     'e_permission_category' => 'e gate form',
+            // ],
+            // [
+            //     'name' => 'create e gate form',
+            //     'e_permission_desc' => 'create e gate form',
+            //     'e_permission_category' => 'e gate form',
+            // ],
+            // [
+            //     'name' => 'update e gate form',
+            //     'e_permission_desc' => 'update e gate form',
+            //     'e_permission_category' => 'e gate form',
+            // ],
+            // [
+            //     'name' => 'approve e gate form',
+            //     'e_permission_desc' => 'approve e gate form',
+            //     'e_permission_category' => 'e gate form',
+            // ],
+
+            // //
+            // [
+            //     'name' => 'view unloading form',
+            //     'e_permission_desc' => 'view unloading form',
+            //     'e_permission_category' => 'unloading form',
+            // ],
+            // [
+            //     'name' => 'create unloading form',
+            //     'e_permission_desc' => 'create unloading form',
+            //     'e_permission_category' => 'unloading form',
+            // ],
+            // [
+            //     'name' => 'update unloading form',
+            //     'e_permission_desc' => 'update unloading form',
+            //     'e_permission_category' => 'unloading form',
+            // ],
+            // [
+            //     'name' => 'approve unloading form',
+            //     'e_permission_desc' => 'approve unloading form',
+            //     'e_permission_category' => 'unloading form',
+            // ],
+
+            //
+
             [
-                'name' => 'view inspection form',
-                'e_permission_desc' => 'view inspection form',
-                'e_permission_category' => 'inspection form',
+                'name' => 'view loading form',
+                'e_permission_desc' => 'view loading form',
+                'e_permission_category' => 'loading form',
             ],
             [
-                'name' => 'create inspection form',
-                'e_permission_desc' => 'create inspection form',
-                'e_permission_category' => 'inspection form',
+                'name' => 'create loading form',
+                'e_permission_desc' => 'create loading form',
+                'e_permission_category' => 'loading form',
             ],
             [
-                'name' => 'update inspection form',
-                'e_permission_desc' => 'update inspection form',
-                'e_permission_category' => 'inspection form',
+                'name' => 'update loading form',
+                'e_permission_desc' => 'update loading form',
+                'e_permission_category' => 'loading form',
             ],
             [
-                'name' => 'approve inspection form',
-                'e_permission_desc' => 'approve inspection form',
-                'e_permission_category' => 'inspection form',
+                'name' => 'approve unloading form',
+                'e_permission_desc' => 'approve unloading form',
+                'e_permission_category' => 'unloading form',
             ],
         ]);
     }
