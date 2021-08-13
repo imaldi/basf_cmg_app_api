@@ -100,7 +100,7 @@ class WorkOrderController extends Controller
             ]);
             if($request->file('wo_image')){
                 $name = time().$request->file('wo_image')->getClientOriginalName();
-                $request->file('wo_image')->move('uploads/work_order',$name);
+                $request->file('wo_image')->move('uploads/work_order/',$name);
                 $formWorkOrder->update([
                 'wo_image' => $name
                 ]);
@@ -144,12 +144,12 @@ class WorkOrderController extends Controller
         try{
             $formWorkOrder = FormWorkOrder::findOrFail($idFormWOrder);
             if($request->file('wo_image')){
-                $file = 'uploads/work_order'.$formWorkOrder->wo_image;
+                $file = 'uploads/work_order/'.$formWorkOrder->wo_image;
                 if(is_file($file)){
                     unlink(public_path($file));
                 }
                 $name = time().$request->file('wo_image')->getClientOriginalName();
-                $request->file('wo_image')->move('uploads/work_order',$name);
+                $request->file('wo_image')->move('uploads/work_order/',$name);
                 $formWorkOrder->update(
                     [
                         'wo_image' => $name,
