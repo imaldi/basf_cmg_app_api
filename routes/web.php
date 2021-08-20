@@ -417,7 +417,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             'uses' => 'FormEGateCheckController@getOneEgateForm',
             'middleware' => 'permission_check:view e gate form'
         ]);
-        $router->post('create',[
+        $router->post('create-or-update',[
         'uses' => 'FormEGateCheckController@createOrUpdateEgateForm',
         'middleware' => 'permission_check:create e gate form'
 

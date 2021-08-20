@@ -44,7 +44,7 @@ class FormEGateCheckController extends Controller
     public function createOrUpdateEgateForm(Request $request)
     {
         $this->validate($request, [
-            'form_id' => 'integer',
+            // 'form_id' => 'integer',
             'gate_report_status' => ['integer',Rule::in(['0','1']),],
             // ini nilai nya apa saja
             'gate_is_in' => ['integer',Rule::in(['0','1']),],
@@ -96,6 +96,8 @@ class FormEGateCheckController extends Controller
             'gate_exit_tidak_tercecer' => ['integer',Rule::in(['0','1','2']),],
             'gate_exit_petunjuk_darurat_transportasi' => ['integer',Rule::in(['0','1','2']),],
             'gate_tipe_pelanggan' => ['integer',Rule::in(['0','1','2']),],
+            'gate_exit_plakat_tanda_bahaya_terpasang' => ['integer',Rule::in(['0','1','2']),],
+
             'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
 
             'gate_report_code' => 'string|max:255',
@@ -144,12 +146,12 @@ class FormEGateCheckController extends Controller
             'gate_exit_tidak_tercecer_desc' => 'string|max:255',
             'gate_exit_petunjuk_darurat_transportasi_desc' => 'string|max:255',
             'gate_exit_plakat_tanda_bahaya_terpasang_desc' => 'string|max:255',
-            'gate_signature_employee_check_in' => 'string|max:255',
             'gate_delete_reason' => 'string|max:255',
             'gate_approve_admin_message' => 'string|max:255',
-            'gate_signature_driver_check_in' => 'string|max:255',
-            'gate_signature_employee_check_out' => 'string|max:255',
-            'gate_signature_driver_check_out' => 'string|max:255',
+            'gate_signature_employee_check_in' => 'string',
+            'gate_signature_driver_check_in' => 'string',
+            'gate_signature_employee_check_out' => 'string',
+            'gate_signature_driver_check_out' => 'string',
             'gate_nama_angkutan' => 'string|max:255',
             'gate_nomor_plat' => 'string|max:255',
             'gate_nomor_tangki' => 'string|max:255',
@@ -167,9 +169,9 @@ class FormEGateCheckController extends Controller
             'gate_loading_date' => 'date',
             // 'gateable_type' => 'string',
         ]);
-        if($request->input('form_id') != null || $request->input('form_id') != 0){
+        if((int) $request->input('form_id') != null ||(int) $request->input('form_id') != 0){
             try{
-                $formEGate = FormEGateCheck::findOrFail($idForm);
+                $formEGate = FormEGateCheck::findOrFail((int) $request->input('form_id'));
 
                 $formEGate->update([
                     'gate_report_status' => (int) $request->input('gate_report_status'),
@@ -221,6 +223,7 @@ class FormEGateCheckController extends Controller
                     'gate_exit_muatan_disegel' => (int) $request->input('gate_exit_muatan_disegel'),
                     'gate_exit_tidak_tercecer' => (int) $request->input('gate_exit_tidak_tercecer'),
                     'gate_exit_petunjuk_darurat_transportasi' => (int) $request->input('gate_exit_petunjuk_darurat_transportasi'),
+                    'gate_exit_plakat_tanda_bahaya_terpasang' => (int) $request->input('gate_exit_plakat_tanda_bahaya_terpasang'),
 
 
                     'gate_report_code' => $request->input('gate_report_code'),
@@ -268,17 +271,60 @@ class FormEGateCheckController extends Controller
                     'gate_exit_muatan_disegel_desc' => $request->input('gate_exit_muatan_disegel_desc'),
                     'gate_exit_tidak_tercecer_desc' => $request->input('gate_exit_tidak_tercecer_desc'),
                     'gate_exit_petunjuk_darurat_transportasi_desc' => $request->input('gate_exit_petunjuk_darurat_transportasi_desc'),
+                    'gate_exit_plakat_tanda_bahaya_terpasang' => (int) $request->input('gate_exit_plakat_tanda_bahaya_terpasang'),
                     'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
-                    'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
+                    // 'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
                     'gate_delete_reason' => $request->input('gate_delete_reason'),
                     'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
-                    'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
-                    'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
-                    'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
+                    // 'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
+                    // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
+                    // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
                 ]);
-                response()->json([
+                if($request->input('gate_signature_employee_check_out')){
+                    // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+
+                    // if (is_file($file)) {
+                    //     unlink(public_path($file));
+                    // }
+                    $decodedDocs = base64_decode($request->input('gate_signature_employee_check_out'));
+
+
+                    // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+
+
+                    $formEGate->update(
+                        [
+                            'gate_signature_employee_check_out' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('gate_signature_driver_check_out')){
+                    // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+
+                    // if (is_file($file)) {
+                    //     unlink(public_path($file));
+                    // }
+                    $decodedDocs = base64_decode($request->input('gate_signature_driver_check_out'));
+
+
+                    // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+
+
+                    $formEGate->update(
+                        [
+                            'gate_signature_driver_check_out' => $name,
+                            ]
+                        );
+
+                }
+                return response()->json([
                     'code' => 200,
-                    'message' => 'Success Create Data',
+                    'message' => 'Success Update Data',
                     'data' =>
                         [$formEGate]
                     ], 200);
@@ -341,10 +387,10 @@ class FormEGateCheckController extends Controller
                     'gate_bagian_atap_rapi_tdk_ada_benda_asing' => (int) $request->input('gate_bagian_atap_rapi_tdk_ada_benda_asing'),
                     'gate_is_approve' => (int) $request->input('gate_is_approve'),
                     'gate_email_sent' => (int) $request->input('gate_email_sent'),
-                    'gate_exit_dokumen_pengantar_barang_lengkap' => (int) $request->input('gate_exit_dokumen_pengantar_barang_lengkap'),
-                    'gate_exit_muatan_disegel' => (int) $request->input('gate_exit_muatan_disegel'),
-                    'gate_exit_tidak_tercecer' => (int) $request->input('gate_exit_tidak_tercecer'),
-                    'gate_exit_petunjuk_darurat_transportasi' => (int) $request->input('gate_exit_petunjuk_darurat_transportasi'),
+                    // 'gate_exit_dokumen_pengantar_barang_lengkap' => (int) $request->input('gate_exit_dokumen_pengantar_barang_lengkap'),
+                    // 'gate_exit_muatan_disegel' => (int) $request->input('gate_exit_muatan_disegel'),
+                    // 'gate_exit_tidak_tercecer' => (int) $request->input('gate_exit_tidak_tercecer'),
+                    // 'gate_exit_petunjuk_darurat_transportasi' => (int) $request->input('gate_exit_petunjuk_darurat_transportasi'),
                     'gate_tipe_pelanggan' => (int) $request->input('gate_tipe_pelanggan'),
                     'gate_loading_status' => (int) $request->input('gate_loading_status'),
 
@@ -389,17 +435,17 @@ class FormEGateCheckController extends Controller
                     'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu_desc' => $request->input('gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu_desc'),
                     'gate_bagian_atap_rapi_tdk_ada_benda_asing_desc' => $request->input('gate_bagian_atap_rapi_tdk_ada_benda_asing_desc'),
                     'gate_not_approve_reason' => $request->input('gate_not_approve_reason'),
-                    'gate_exit_dokumen_pengantar_barang_lengkap_desc' => $request->input('gate_exit_dokumen_pengantar_barang_lengkap_desc'),
-                    'gate_exit_muatan_disegel_desc' => $request->input('gate_exit_muatan_disegel_desc'),
-                    'gate_exit_tidak_tercecer_desc' => $request->input('gate_exit_tidak_tercecer_desc'),
-                    'gate_exit_petunjuk_darurat_transportasi_desc' => $request->input('gate_exit_petunjuk_darurat_transportasi_desc'),
-                    'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
-                    'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
+                    // 'gate_exit_dokumen_pengantar_barang_lengkap_desc' => $request->input('gate_exit_dokumen_pengantar_barang_lengkap_desc'),
+                    // 'gate_exit_muatan_disegel_desc' => $request->input('gate_exit_muatan_disegel_desc'),
+                    // 'gate_exit_tidak_tercecer_desc' => $request->input('gate_exit_tidak_tercecer_desc'),
+                    // 'gate_exit_petunjuk_darurat_transportasi_desc' => $request->input('gate_exit_petunjuk_darurat_transportasi_desc'),
+                    // 'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
+                    // 'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
                     'gate_delete_reason' => $request->input('gate_delete_reason'),
                     'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
-                    'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
-                    'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
-                    'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
+                    // 'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
+                    // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
+                    // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
 
                     'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                     'gate_nomor_plat' => $request->input('gate_nomor_plat'),
@@ -418,6 +464,48 @@ class FormEGateCheckController extends Controller
                     'gate_loading_date' => $request->input('gate_loading_date'),
                 ]
             );
+            if($request->input('gate_signature_employee_check_in')){
+                // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+
+                // if (is_file($file)) {
+                //     unlink(public_path($file));
+                // }
+                $decodedDocs = base64_decode($request->input('gate_signature_employee_check_in'));
+
+
+                // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                $name = time()."someone_that_i_used_to_know.png";
+                file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+
+
+                $formEGate->update(
+                    [
+                        'gate_signature_employee_check_in' => $name,
+                        ]
+                    );
+
+            }
+            if($request->input('gate_signature_driver_check_in')){
+                // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+
+                // if (is_file($file)) {
+                //     unlink(public_path($file));
+                // }
+                $decodedDocs = base64_decode($request->input('gate_signature_driver_check_in'));
+
+
+                // $name = time().$request->file('att_p_signature')->getClientOriginalName();
+                $name = time()."someone_that_i_used_to_know.png";
+                file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+
+
+                $formEGate->update(
+                    [
+                        'gate_signature_driver_check_in' => $name,
+                        ]
+                    );
+
+            }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
