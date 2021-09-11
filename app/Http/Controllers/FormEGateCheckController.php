@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FormEGateCheck;
+use App\Http\Resources\FormEGateResource;
 use Auth;
 use App\User;
 use Carbon\Carbon;
@@ -13,11 +14,25 @@ use Illuminate\Validation\Rule;
 class FormEGateCheckController extends Controller
 {
     public function viewAllEgateForm(){
+        $forms =
+        FormEGateCheck::where('gate_is_in',1)->orderBy('id','DESC')->orderBy('gateable_id','DESC')->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch Data',
             'data' =>
-                FormEGateCheck::all()
+            FormEGateResource::collection($forms)
+            ], 200);
+    }
+
+    public function viewAllEgateFormWithEmptyGateable(){
+        $forms =
+        FormEGateCheck::where("gateable_id",0)->get();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Fetch Data',
+            'data' =>
+                FormEGateResource::collection($forms)
             ], 200);
     }
 
@@ -45,8 +60,8 @@ class FormEGateCheckController extends Controller
     {
         $this->validate($request, [
             // 'form_id' => 'integer',
-            'gate_report_status' => ['integer',Rule::in(['0','1']),],
             // ini nilai nya apa saja
+            'gate_report_status' => ['integer',Rule::in(['0','1']),],
             'gate_is_in' => ['integer',Rule::in(['0','1']),],
             'gate_is_out' => ['integer',Rule::in(['0','1']),],
             'gate_formulir_sopir_telp_darurat' => ['integer',Rule::in(['0','1','2']),],
@@ -97,8 +112,8 @@ class FormEGateCheckController extends Controller
             'gate_exit_petunjuk_darurat_transportasi' => ['integer',Rule::in(['0','1','2']),],
             'gate_tipe_pelanggan' => ['integer',Rule::in(['0','1','2']),],
             'gate_exit_plakat_tanda_bahaya_terpasang' => ['integer',Rule::in(['0','1','2']),],
-
             'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
+            'gateable_id' => ['integer',Rule::in(['0','1','2']),],
 
             'gate_report_code' => 'string|max:255',
             'gate_formulir_sopir_telp_darurat_desc' => 'string|max:255',
@@ -148,10 +163,10 @@ class FormEGateCheckController extends Controller
             'gate_exit_plakat_tanda_bahaya_terpasang_desc' => 'string|max:255',
             'gate_delete_reason' => 'string|max:255',
             'gate_approve_admin_message' => 'string|max:255',
-            'gate_signature_employee_check_in' => 'string',
-            'gate_signature_driver_check_in' => 'string',
-            'gate_signature_employee_check_out' => 'string',
-            'gate_signature_driver_check_out' => 'string',
+            // 'gate_signature_employee_check_in' => 'string',
+            // 'gate_signature_driver_check_in' => 'string',
+            // 'gate_signature_employee_check_out' => 'string',
+            // 'gate_signature_driver_check_out' => 'string',
             'gate_nama_angkutan' => 'string|max:255',
             'gate_nomor_plat' => 'string|max:255',
             'gate_nomor_tangki' => 'string|max:255',
@@ -161,13 +176,20 @@ class FormEGateCheckController extends Controller
             'gate_jenis_sim' => 'string|max:255',
             'gate_nomor_sim' => 'string|max:255',
             'gate_nama_produk' => 'string|max:255',
+            'gate_nama_perusahaan' => 'string|max:255',
             'gate_jenis_kendaraan' => 'string|max:255',
             'gate_loading_type' => 'string|max:255',
+            'gate_kesimpulan' => 'string|max:255',
             'rk_masa_berlaku_SIM' => 'date',
             'rk_masa_berlaku_STNK' => 'date',
             'gate_masa_berlaku_kir' => 'date',
             'gate_loading_date' => 'date',
-            // 'gateable_type' => 'string',
+
+            'gate_signature_employee_check_in' => 'file',
+            'gate_signature_driver_check_in' => 'file',
+            'gate_signature_employee_check_out' => 'file',
+            'gate_signature_driver_check_out' => 'file',
+            'gateable_type' => 'string',
         ]);
         if((int) $request->input('form_id') != null ||(int) $request->input('form_id') != 0){
             try{
@@ -273,9 +295,27 @@ class FormEGateCheckController extends Controller
                     'gate_exit_petunjuk_darurat_transportasi_desc' => $request->input('gate_exit_petunjuk_darurat_transportasi_desc'),
                     'gate_exit_plakat_tanda_bahaya_terpasang' => (int) $request->input('gate_exit_plakat_tanda_bahaya_terpasang'),
                     'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
-                    // 'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
                     'gate_delete_reason' => $request->input('gate_delete_reason'),
                     'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
+                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
+                    'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
+                    'gate_nomor_plat' => $request->input('gate_nomor_plat'),
+                    'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),
+                    'gate_nomor_JO_DO' => $request->input('gate_nomor_JO_DO'),
+                    'gate_nama_driver' => $request->input('gate_nama_driver'),
+                    'gate_nomor_telp' => $request->input('gate_nomor_telp'),
+                    'gate_jenis_sim' => $request->input('gate_jenis_sim'),
+                    'gate_nomor_sim' => $request->input('gate_nomor_sim'),
+                    'gate_nama_produk' => $request->input('gate_nama_produk'),
+                    'gate_nama_perusahaan' => $request->input('gate_nama_perusahaan'),
+                    'gate_jenis_kendaraan' => $request->input('gate_jenis_kendaraan'),
+                    'gate_loading_type' => $request->input('gate_loading_type'),
+                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
+                    'rk_masa_berlaku_SIM' => $request->input('rk_masa_berlaku_SIM'),
+                    'rk_masa_berlaku_STNK' => $request->input('rk_masa_berlaku_STNK'),
+                    'gate_masa_berlaku_kir' => $request->input('gate_masa_berlaku_kir'),
+                    'gate_loading_date' => $request->input('gate_loading_date'),
+                    // 'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
                     // 'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
                     // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
@@ -343,7 +383,8 @@ class FormEGateCheckController extends Controller
                 [
                     'user_id' => $employee->id,
                     'gate_report_status' => (int) $request->input('gate_report_status'),
-                    'gate_is_in' => (int) $request->input('gate_is_in'),
+                    // 'gate_is_in' => (int) $request->input('gate_is_in'),
+                    'gate_is_in' => 1,
                     'gate_is_out' => (int) $request->input('gate_is_out'),
                     'gate_formulir_sopir_telp_darurat' => (int) $request->input('gate_formulir_sopir_telp_darurat'),
                     'gate_kondisi_cukup_istirahat' => (int) $request->input('gate_kondisi_cukup_istirahat'),
@@ -447,6 +488,7 @@ class FormEGateCheckController extends Controller
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
                     // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
 
+                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
                     'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                     'gate_nomor_plat' => $request->input('gate_nomor_plat'),
                     'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),
@@ -456,6 +498,7 @@ class FormEGateCheckController extends Controller
                     'gate_jenis_sim' => $request->input('gate_jenis_sim'),
                     'gate_nomor_sim' => $request->input('gate_nomor_sim'),
                     'gate_nama_produk' => $request->input('gate_nama_produk'),
+                    'gate_nama_perusahaan' => $request->input('gate_nama_perusahaan'),
                     'gate_jenis_kendaraan' => $request->input('gate_jenis_kendaraan'),
                     'gate_loading_type' => $request->input('gate_loading_type'),
                     'rk_masa_berlaku_SIM' => $request->input('rk_masa_berlaku_SIM'),
@@ -546,9 +589,9 @@ class FormEGateCheckController extends Controller
             $gateForm = FormEGateCheck::findOrFail($id);
             $gateable_id = $gateForm->gateable_id;
             $gateable_type = $gateForm->gateable_type;
-            if($gateable_id != null && $gateable_type != null){
+            if($gateable_id != 0 && $gateable_type != null){
                 $gateForm->update([
-                    'gateable_id' => null,
+                    'gateable_id' => 0,
                     'gateable_type' => null,
                 ]);
             }

@@ -405,6 +405,8 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'AttendanceController@getAllAttendance',
                 'middleware' => 'permission_check:view attendance form'
                 ]);
+
+
     });
 
     $router->group(['prefix' => 'e-gate',], function () use ($router){
@@ -412,6 +414,11 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             'uses' => 'FormEGateCheckController@viewAllEgateForm',
             'middleware' => 'permission_check:view e gate form'
             ]);
+
+            $router->get('all/no-gateable',[
+                'uses' => 'FormEGateCheckController@viewAllEgateFormWithEmptyGateable',
+                'middleware' => 'permission_check:view e gate form'
+                ]);
 
         $router->get('get/{id}',[
             'uses' => 'FormEGateCheckController@getOneEgateForm',
