@@ -415,10 +415,10 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             'middleware' => 'permission_check:view e gate form'
             ]);
 
-            $router->get('all/no-gateable',[
-                'uses' => 'FormEGateCheckController@viewAllEgateFormWithEmptyGateable',
-                'middleware' => 'permission_check:view e gate form'
-                ]);
+            // $router->get('all/no-gateable',[
+            //     'uses' => 'FormEGateCheckController@viewAllEgateFormWithEmptyGateable',
+            //     'middleware' => 'permission_check:view e gate form'
+            //     ]);
 
         $router->get('get/{id}',[
             'uses' => 'FormEGateCheckController@getOneEgateForm',

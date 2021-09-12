@@ -13,28 +13,43 @@ use Illuminate\Validation\Rule;
 
 class FormEGateCheckController extends Controller
 {
-    public function viewAllEgateForm(){
-        $forms =
-        FormEGateCheck::where('gate_is_in',1)->orderBy('id','DESC')->orderBy('gateable_id','DESC')->get();
+    public function viewAllEgateForm(Request $request){
+        $gateableType = $request->query('gateableType');
+
+        if($gateableType != null){
+            $forms =
+            FormEGateCheck::where('gate_is_in',1)
+                ->where(function ($query) {
+                    $query->where('gateable_type', 'LIKE', '%'.$gateableType.'%')
+                          ->orWhere('gateable_type', '=', null);})
+                ->orderBy('id','DESC')->orderBy('gateable_id','DESC')->get();
+            // // $forms->where('gateable_type', 'LIKE', 'FormLoadingTexN701S')->all();
+            // $forms->whereNotNull('gateable_type')->all();
+        } else {
+            $forms =
+            FormEGateCheck::where('gate_is_in',1)
+            ->orderBy('gateable_id','DESC')->orderBy('id','DESC')->get();
+        }
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch Data',
             'data' =>
+            // $gateableType
             FormEGateResource::collection($forms)
             ], 200);
     }
 
-    public function viewAllEgateFormWithEmptyGateable(){
-        $forms =
-        FormEGateCheck::where("gateable_id",0)->get();
+    // public function viewAllEgateFormWithType($type){
+    //     $forms =
+    //     FormEGateCheck::where("gateable_id",0)->get();
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Success Fetch Data',
-            'data' =>
-                FormEGateResource::collection($forms)
-            ], 200);
-    }
+    //     return response()->json([
+    //         'code' => 200,
+    //         'message' => 'Success Fetch Data',
+    //         'data' =>
+    //             FormEGateResource::collection($forms)
+    //         ], 200);
+    // }
 
     public function getOneEgateForm($id){
         try{
