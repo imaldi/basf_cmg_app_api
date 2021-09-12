@@ -19,8 +19,8 @@ class FormEGateCheckController extends Controller
         if($gateableType != null){
             $forms =
             FormEGateCheck::where('gate_is_in',1)
-                ->where(function ($query) {
-                    $query->where('gateable_type', 'LIKE', '%'.$gateableType.'%')
+                ->where(function ($query) use ($gateableType) {
+                    $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
                           ->orWhere('gateable_type', '=', null);})
                 ->orderBy('id','DESC')->orderBy('gateable_id','DESC')->get();
             // // $forms->where('gateable_type', 'LIKE', 'FormLoadingTexN701S')->all();
