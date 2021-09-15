@@ -499,7 +499,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingFaC12Controller@getOne',
                 'middleware' => 'permission_check:view unloading form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingFaC12Controller@createOrUpdate',
                 'middleware' => 'permission_check:create unloading form'
             ]);
@@ -522,7 +522,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingFa1eoController@getOne',
                 'middleware' => 'permission_check:view unloading form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingFa1eoController@createOrUpdate',
                 'middleware' => 'permission_check:create unloading form'
             ]);
@@ -536,7 +536,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             ]);
         });
 
-        $router->group(['prefix' => 'form_unloading_naoh',], function () use ($router){
+        $router->group(['prefix' => 'form_unloading_pac',], function () use ($router){
             $router->get('all',[
                 'uses' => 'FormUnloadingPacController@viewAll',
                 'middleware' => 'permission_check:view unloading form'
@@ -545,7 +545,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingPacController@getOne',
                 'middleware' => 'permission_check:view unloading form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingPacController@createOrUpdate',
                 'middleware' => 'permission_check:create unloading form'
             ]);
@@ -559,6 +559,29 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
             ]);
         });
 
+        $router->group(['prefix' => 'form_unloading_naoh',], function () use ($router){
+            $router->get('all',[
+                'uses' => 'FormUnloadingNaohController@viewAll',
+                'middleware' => 'permission_check:view unloading form'
+                ]);
+            $router->get('get/{formId}',[
+                'uses' => 'FormUnloadingNaohController@getOne',
+                'middleware' => 'permission_check:view unloading form'
+                ]);
+            $router->post('create-or-update',[
+                'uses' => 'FormUnloadingNaohController@createOrUpdate',
+                'middleware' => 'permission_check:create unloading form'
+            ]);
+            // $router->post('update',[
+            //     'uses' => 'FormUnloadingNaohController@createOrUpdate',
+            //     'middleware' => 'permission_check:create unloading form'
+            // ]);
+            $router->post('approve',[
+                'uses' => 'FormUnloadingNaohController@approve',
+                'middleware' => 'permission_check:approve unloading form'
+            ]);
+        });
+
         $router->group(['prefix' => 'form_unloading_stearic_acid',], function () use ($router){
             $router->get('all',[
                 'uses' => 'FormUnloadingStearicAcidController@viewAll',
@@ -568,7 +591,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingStearicAcidController@getOne',
                 'middleware' => 'permission_check:view unloading form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingStearicAcidController@createOrUpdate',
                 'middleware' => 'permission_check:create unloading form'
             ]);
@@ -591,7 +614,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingSulphurLiquidController@getOne',
                 'middleware' => 'permission_check:view unloading form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingSulphurLiquidController@createOrUpdate',
                 'middleware' => 'permission_check:create unloading form'
             ]);
@@ -615,7 +638,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingDieselOilController@getOne',
                 'middleware' => 'permission_check:view unloading form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingDieselOilController@createOrUpdate',
                 'middleware' => 'permission_check:create unloading form'
             ]);
@@ -638,7 +661,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingDehytonKeController@getOne',
                 'middleware' => 'permission_check:view unloading form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingDehytonKeController@createOrUpdate',
                 'middleware' => 'permission_check:create unloading form'
             ]);
@@ -662,7 +685,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
                 'uses' => 'FormUnloadingCitricAcidController@getOne',
                 'middleware' => 'permission_check:view unloading form'
                 ]);
-            $router->post('create',[
+            $router->post('create-or-update',[
                 'uses' => 'FormUnloadingCitricAcidController@createOrUpdate',
                 'middleware' => 'permission_check:create unloading form'
             ]);
