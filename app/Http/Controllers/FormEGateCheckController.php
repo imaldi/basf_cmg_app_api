@@ -22,13 +22,13 @@ class FormEGateCheckController extends Controller
                 ->where(function ($query) use ($gateableType) {
                     $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
                           ->orWhere('gateable_type', '=', null);})
-                ->orderBy('id','DESC')->orderBy('gateable_id','DESC')->get();
+                          ->orderBy('gateable_type')->orderBy('id','DESC')->get();
             // // $forms->where('gateable_type', 'LIKE', 'FormLoadingTexN701S')->all();
             // $forms->whereNotNull('gateable_type')->all();
         } else {
             $forms =
             FormEGateCheck::where('gate_is_in',1)
-            ->orderBy('gateable_id','DESC')->orderBy('id','DESC')->get();
+            ->orderBy('gateable_type')->orderBy('id','DESC')->get();
         }
         return response()->json([
             'code' => 200,
