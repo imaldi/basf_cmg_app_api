@@ -273,6 +273,37 @@ class FormUnloadingNaohController extends Controller
                 'gateable_id' => $formUnloadingNaoh->id,
                 'gateable_type' => "App\Models\FormUnloadingNaoh"
                 ]);
+
+                // if($request->input('un3_signature_checker')){
+                //     $decodedDocs = base64_decode($request->input('un3_signature_checker'));
+
+
+                //     $name = time()."someone_that_i_used_to_know.png";
+                //     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                //     $formUnloadingPac->update(
+                //         [
+                //             'un3_signature_checker' => $name,
+                //             ]
+                //         );
+
+                // }
+                // if($request->input('un3_signature_employee')){
+                //     $decodedDocs = base64_decode($request->input('un3_signature_employee'));
+
+
+                //     $name = time()."someone_that_i_used_to_know.png";
+                //     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                //     $formUnloadingPac->update(
+                //         [
+                //             'un3_signature_employee' => $name,
+                //             ]
+                //         );
+
+                // }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingNaoh Form',

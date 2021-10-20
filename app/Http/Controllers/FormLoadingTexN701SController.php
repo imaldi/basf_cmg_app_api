@@ -119,8 +119,8 @@ class FormLoadingTexN701SController extends Controller
             'ul1_netto_disuratjalan' => 'string|max:255',
             'ul1_netto_hasil_timbang' => 'string|max:255',
             'ul1_pemeriksa' => 'string|max:255',
-            'ul1_signature_employee' => 'string|max:255',
-            'ul1_signature_checker' => 'string|max:255',
+            'ul1_signature_employee' => 'file',
+            'ul1_signature_checker' => 'file',
             'ul1_delete_reason' => 'string|max:255',
             'ul1_reason_cancel_load_unload' => 'string|max:255',
         ]);
@@ -270,8 +270,8 @@ class FormLoadingTexN701SController extends Controller
                 'ul1_netto_disuratjalan' => $request->input('ul1_netto_disuratjalan'),
                 'ul1_netto_hasil_timbang' => $request->input('ul1_netto_hasil_timbang'),
                 'ul1_pemeriksa' => $request->input('ul1_pemeriksa'),
-                'ul1_signature_employee' => $request->input('ul1_signature_employee'),
-                'ul1_signature_checker' => $request->input('ul1_signature_checker'),
+                // 'ul1_signature_employee' => $request->input('ul1_signature_employee'),
+                // 'ul1_signature_checker' => $request->input('ul1_signature_checker'),
                 'ul1_delete_reason' => $request->input('ul1_delete_reason'),
                 'ul1_reason_cancel_load_unload' => $request->input('ul1_reason_cancel_load_unload'),
             ]);
@@ -279,6 +279,37 @@ class FormLoadingTexN701SController extends Controller
                 'gateable_id' => $formLoadingTexN701S->id,
                 'gateable_type' => "App\Models\FormLoadingTexN701S"
                 ]);
+
+                if($request->input('ul1_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('ul1_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formLoadingTexN701S->update(
+                        [
+                            'ul1_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('ul1_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('ul1_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formLoadingTexN701S->update(
+                        [
+                            'ul1_signature_employee' => $name,
+                            ]
+                        );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormLoadingTexN701S Form',

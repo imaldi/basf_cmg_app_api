@@ -115,8 +115,8 @@ class FormUnloadingStearicAcidController extends Controller
             'un5_netto_disuratjalan' => 'string|max:255',
             'un5_netto_hasil_timbang' => 'string|max:255',
             'un5_pemeriksa' => 'string|max:255',
-            'un5_signature_employee' => 'string|max:255',
-            'un5_signature_checker' => 'string|max:255',
+            'un5_signature_employee' => 'file',
+            'un5_signature_checker' => 'file',
             'un5_delete_reason' => 'string|max:255',
             'un5_reason_cancel_load_unload' => 'string|max:255',
         ]);
@@ -256,8 +256,8 @@ class FormUnloadingStearicAcidController extends Controller
                 'un5_netto_disuratjalan' => $request->input('un5_netto_disuratjalan'),
                 'un5_netto_hasil_timbang' => $request->input('un5_netto_hasil_timbang'),
                 'un5_pemeriksa' => $request->input('un5_pemeriksa'),
-                'un5_signature_employee' => $request->input('un5_signature_employee'),
-                'un5_signature_checker' => $request->input('un5_signature_checker'),
+                // 'un5_signature_employee' => $request->input('un5_signature_employee'),
+                // 'un5_signature_checker' => $request->input('un5_signature_checker'),
                 'un5_delete_reason' => $request->input('un5_delete_reason'),
                 'un5_reason_cancel_load_unload' => $request->input('un5_reason_cancel_load_unload'),
             ]);
@@ -265,6 +265,37 @@ class FormUnloadingStearicAcidController extends Controller
                 'gateable_id' => $formUnloadingStearicAcid->id,
                 'gateable_type' => "App\Models\FormUnloadingStearicAcid"
                 ]);
+
+                if($request->input('un5_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('un5_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingStearicAcid->update(
+                        [
+                            'un5_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('un5_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('un5_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingStearicAcid->update(
+                        [
+                            'un5_signature_employee' => $name,
+                            ]
+                        );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingStearicAcid Form',

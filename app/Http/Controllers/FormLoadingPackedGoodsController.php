@@ -102,8 +102,8 @@ class FormLoadingPackedGoodsController extends Controller
             'ul2_selesai_angkat_safety_cone_desc' => 'string|max:255',
             'ul2_selesai_nota_ekspor_wajib_ditandatangan_desc' => 'string|max:255',
             'ul2_pemeriksa' => 'string|max:255',
-            'ul2_signature_employee' => 'string|max:255',
-            'ul2_signature_checker' => 'string|max:255',
+            'ul2_signature_employee' => 'file',
+            'ul2_signature_checker' => 'file',
             'ul2_foto_lantai_truk_bersih1' => 'string|max:255',
             'ul2_foto_lantai_truk_bersih2' => 'string|max:255',
             'ul2_foto_lantai_truk_bersih3' => 'string|max:255',
@@ -264,8 +264,8 @@ class FormLoadingPackedGoodsController extends Controller
                 'ul2_selesai_angkat_safety_cone_desc' => $request->input('ul2_selesai_angkat_safety_cone_desc'),
                 'ul2_selesai_nota_ekspor_wajib_ditandatangan_desc' => $request->input('ul2_selesai_nota_ekspor_wajib_ditandatangan_desc'),
                 'ul2_pemeriksa' => $request->input('ul2_pemeriksa'),
-                'ul2_signature_employee' => $request->input('ul2_signature_employee'),
-                'ul2_signature_checker' => $request->input('ul2_signature_checker'),
+                // 'ul2_signature_employee' => $request->input('ul2_signature_employee'),
+                // 'ul2_signature_checker' => $request->input('ul2_signature_checker'),
                 // 'ul2_foto_lantai_truk_bersih1' => $request->input('ul2_foto_lantai_truk_bersih1'),
                 // 'ul2_foto_lantai_truk_bersih2' => $request->input('ul2_foto_lantai_truk_bersih2'),
                 // 'ul2_foto_lantai_truk_bersih3' => $request->input('ul2_foto_lantai_truk_bersih3'),
@@ -302,6 +302,37 @@ class FormLoadingPackedGoodsController extends Controller
                 'gateable_id' => $formLoadingPackedGoods->id,
                 'gateable_type' => "App\Models\FormLoadingPackedGoods"
             ]);
+
+            if($request->input('ul2_signature_checker')){
+                $decodedDocs = base64_decode($request->input('ul2_signature_checker'));
+
+
+                $name = time()."someone_that_i_used_to_know.png";
+                file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                $formLoadingPackedGoods->update(
+                    [
+                        'ul2_signature_checker' => $name,
+                        ]
+                    );
+
+            }
+            if($request->input('ul2_signature_employee')){
+                $decodedDocs = base64_decode($request->input('ul2_signature_employee'));
+
+
+                $name = time()."someone_that_i_used_to_know.png";
+                file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                $formLoadingPackedGoods->update(
+                    [
+                        'ul2_signature_employee' => $name,
+                        ]
+                    );
+
+            }
 
             if($request->file('ul2_foto_lantai_truk_bersih1')){
                 $file_ul2_foto_lantai_truk_bersih1 = 'uploads/unloading/form_loading_packed_goods'.$gate->ul2_foto_lantai_truk_bersih1;

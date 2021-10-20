@@ -131,8 +131,8 @@ class FormUnloadingDieselOilController extends Controller
             'un7_netto_disuratjalan' => 'string|max:255',
             'un7_netto_hasil_timbang' => 'string|max:255',
             'un7_pemeriksa' => 'string|max:255',
-            'un7_signature_employee' => 'string|max:255',
-            'un7_signature_checker' => 'string|max:255',
+            'un7_signature_employee' => 'file',
+            'un7_signature_checker' => 'file',
             'un7_delete_reason' => 'string|max:255',
             'un7_reason_cancel_load_unload' => 'string|max:255',
 
@@ -289,8 +289,8 @@ class FormUnloadingDieselOilController extends Controller
                 'un7_netto_disuratjalan' => $request->input('un7_netto_disuratjalan'),
                 'un7_netto_hasil_timbang' => $request->input('un7_netto_hasil_timbang'),
                 'un7_pemeriksa' => $request->input('un7_pemeriksa'),
-                'un7_signature_employee' => $request->input('un7_signature_employee'),
-                'un7_signature_checker' => $request->input('un7_signature_checker'),
+                // 'un7_signature_employee' => $request->input('un7_signature_employee'),
+                // 'un7_signature_checker' => $request->input('un7_signature_checker'),
                 'un7_delete_reason' => $request->input('un7_delete_reason'),
                 'un7_reason_cancel_load_unload' => $request->input('un7_reason_cancel_load_unload'),
             ]);
@@ -298,6 +298,37 @@ class FormUnloadingDieselOilController extends Controller
                 'gateable_id' => $formUnloadingDieselOil->id,
                 'gateable_type' => "App\Models\FormUnloadingDieselOil"
                 ]);
+
+                if($request->input('un7_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('un7_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingDieselOil->update(
+                        [
+                            'un7_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('un7_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('un7_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingDieselOil->update(
+                        [
+                            'un7_signature_employee' => $name,
+                            ]
+                        );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingDieselOil Form',

@@ -105,8 +105,8 @@ class FormUnloadingPacController extends Controller
             'un3_netto_disuratjalan' => 'string|max:255',
             'un3_netto_hasil_timbang' => 'string|max:255',
             'un3_pemeriksa' => 'string|max:255',
-            'un3_signature_employee' => 'string|max:255',
-            'un3_signature_checker' => 'string|max:255',
+            'un3_signature_employee' => 'file',
+            'un3_signature_checker' => 'file',
             'un3_delete_reason' => 'string|max:255',
             'un3_reason_cancel_load_unload' => 'string|max:255',
 
@@ -238,8 +238,8 @@ class FormUnloadingPacController extends Controller
                 'un3_netto_disuratjalan' => $request->input('un3_netto_disuratjalan'),
                 'un3_netto_hasil_timbang' => $request->input('un3_netto_hasil_timbang'),
                 'un3_pemeriksa' => $request->input('un3_pemeriksa'),
-                'un3_signature_employee' => $request->input('un3_signature_employee'),
-                'un3_signature_checker' => $request->input('un3_signature_checker'),
+                // 'un3_signature_employee' => $request->input('un3_signature_employee'),
+                // 'un3_signature_checker' => $request->input('un3_signature_checker'),
                 'un3_delete_reason' => $request->input('un3_delete_reason'),
                 'un3_reason_cancel_load_unload' => $request->input('un3_reason_cancel_load_unload'),
             ]);
@@ -247,6 +247,36 @@ class FormUnloadingPacController extends Controller
                 'gateable_id' => $formUnloadingPac->id,
                 'gateable_type' => "App\Models\FormUnloadingPac"
                 ]);
+                if($request->input('un3_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('un3_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingPac->update(
+                        [
+                            'un3_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('un3_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('un3_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingPac->update(
+                        [
+                            'un3_signature_employee' => $name,
+                            ]
+                        );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingPac Form',

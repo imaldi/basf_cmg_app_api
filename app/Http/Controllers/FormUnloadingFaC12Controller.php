@@ -136,8 +136,8 @@ class FormUnloadingFaC12Controller extends Controller
             'un1_netto_disuratjalan' => 'string|max:255',
             'un1_netto_hasil_timbang' => 'string|max:255',
             'un1_pemeriksa' => 'string|max:255',
-            'un1_signature_employee' => 'string|max:255',
-            'un1_signature_checker' => 'string|max:255',
+            'un1_signature_employee' => 'file',
+            'un1_signature_checker' => 'file',
             'un1_delete_reason' => 'string|max:255',
             'un1_reason_cancel_load_unload' => 'string|max:255',
 
@@ -299,8 +299,8 @@ class FormUnloadingFaC12Controller extends Controller
                 'un1_netto_disuratjalan' => $request->input('un1_netto_disuratjalan'),
                 'un1_netto_hasil_timbang' => $request->input('un1_netto_hasil_timbang'),
                 'un1_pemeriksa' => $request->input('un1_pemeriksa'),
-                'un1_signature_employee' => $request->input('un1_signature_employee'),
-                'un1_signature_checker' => $request->input('un1_signature_checker'),
+                // 'un1_signature_employee' => $request->input('un1_signature_employee'),
+                // 'un1_signature_checker' => $request->input('un1_signature_checker'),
                 'un1_delete_reason' => $request->input('un1_delete_reason'),
                 'un1_reason_cancel_load_unload' => $request->input('un1_reason_cancel_load_unload'),
             ]);
@@ -309,6 +309,36 @@ class FormUnloadingFaC12Controller extends Controller
                 'gateable_id' => $formUnloadingFaC12->id,
                 'gateable_type' => "App\Models\FormUnloadingFaC12"
                 ]);
+                if($request->input('un1_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('un1_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingFaC12->update(
+                        [
+                            'un1_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('un1_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('un1_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingFaC12->update(
+                        [
+                            'un1_signature_employee' => $name,
+                            ]
+                        );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingFaC12 Form',

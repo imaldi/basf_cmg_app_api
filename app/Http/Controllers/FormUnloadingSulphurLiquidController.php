@@ -116,8 +116,8 @@ class FormUnloadingSulphurLiquidController extends Controller
             'un6_netto_disuratjalan' => 'string|max:255',
             'un6_netto_hasil_timbang' => 'string|max:255',
             'un6_pemeriksa' => 'string|max:255',
-            'un6_signature_employee' => 'string|max:255',
-            'un6_signature_checker' => 'string|max:255',
+            'un6_signature_employee' => 'file',
+            'un6_signature_checker' => 'file',
             'un6_delete_reason' => 'string|max:255',
             'un6_reason_cancel_load_unload' => 'string|max:255',
 
@@ -258,8 +258,8 @@ class FormUnloadingSulphurLiquidController extends Controller
                 'un6_netto_disuratjalan' => $request->input('un6_netto_disuratjalan'),
                 'un6_netto_hasil_timbang' => $request->input('un6_netto_hasil_timbang'),
                 'un6_pemeriksa' => $request->input('un6_pemeriksa'),
-                'un6_signature_employee' => $request->input('un6_signature_employee'),
-                'un6_signature_checker' => $request->input('un6_signature_checker'),
+                // 'un6_signature_employee' => $request->input('un6_signature_employee'),
+                // 'un6_signature_checker' => $request->input('un6_signature_checker'),
                 'un6_delete_reason' => $request->input('un6_delete_reason'),
                 'un6_reason_cancel_load_unload' => $request->input('un6_reason_cancel_load_unload'),
             ]);
@@ -267,6 +267,36 @@ class FormUnloadingSulphurLiquidController extends Controller
                 'gateable_id' => $formUnloadingSulphurLiquid->id,
                 'gateable_type' => "App\Models\FormUnloadingSulphurLiquid"
                 ]);
+                if($request->input('un6_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('un6_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingSulphurLiquid->update(
+                        [
+                            'un6_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('un6_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('un6_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingSulphurLiquid->update(
+                        [
+                            'un6_signature_employee' => $name,
+                            ]
+                        );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingSulphurLiquid Form',

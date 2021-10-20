@@ -127,8 +127,8 @@ class FormUnloadingCitricAcidController extends Controller
             'un9_netto_disuratjalan' => 'string|max:255',
             'un9_netto_hasil_timbang' => 'string|max:255',
             'un9_pemeriksa' => 'string|max:255',
-            'un9_signature_employee' => 'string|max:255',
-            'un9_signature_checker' => 'string|max:255',
+            'un9_signature_employee' => 'file',
+            'un9_signature_checker' => 'file',
             'un9_delete_reason' => 'string|max:255',
             'un9_reason_cancel_load_unload' => 'string|max:255',
         ]);
@@ -279,8 +279,8 @@ class FormUnloadingCitricAcidController extends Controller
                 'un9_netto_disuratjalan' => $request->input('un9_netto_disuratjalan'),
                 'un9_netto_hasil_timbang' => $request->input('un9_netto_hasil_timbang'),
                 'un9_pemeriksa' => $request->input('un9_pemeriksa'),
-                'un9_signature_employee' => $request->input('un9_signature_employee'),
-                'un9_signature_checker' => $request->input('un9_signature_checker'),
+                // 'un9_signature_employee' => $request->input('un9_signature_employee'),
+                // 'un9_signature_checker' => $request->input('un9_signature_checker'),
                 'un9_delete_reason' => $request->input('un9_delete_reason'),
                 'un9_reason_cancel_load_unload' => $request->input('un9_reason_cancel_load_unload'),
             ]);
@@ -288,6 +288,37 @@ class FormUnloadingCitricAcidController extends Controller
                 'gateable_id' => $formUnloadingCitricAcid->id,
                 'gateable_type' => "App\Models\FormUnloadingCitricAcid"
                 ]);
+
+                if($request->input('un9_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('un9_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingCitricAcid->update(
+                        [
+                            'un9_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('un9_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('un9_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingCitricAcid->update(
+                        [
+                            'un9_signature_employee' => $name,
+                            ]
+                        );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingCitricAcid Form',

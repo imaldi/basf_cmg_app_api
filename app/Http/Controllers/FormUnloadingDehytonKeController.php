@@ -144,8 +144,8 @@ class FormUnloadingDehytonKeController extends Controller
             'un8_netto_disuratjalan' => 'string|max:255',
             'un8_netto_hasil_timbang' => 'string|max:255',
             'un8_pemeriksa' => 'string|max:255',
-            'un8_signature_employee' => 'string|max:255',
-            'un8_signature_checker' => 'string|max:255',
+            'un8_signature_employee' => 'file',
+            'un8_signature_checker' => 'file',
             'un8_delete_reason' => 'string|max:255',
             'un8_reason_cancel_load_unload' => 'string|max:255',
         ]);
@@ -312,8 +312,8 @@ class FormUnloadingDehytonKeController extends Controller
                 'un8_netto_disuratjalan' => $request->input('un8_netto_disuratjalan'),
                 'un8_netto_hasil_timbang' => $request->input('un8_netto_hasil_timbang'),
                 'un8_pemeriksa' => $request->input('un8_pemeriksa'),
-                'un8_signature_employee' => $request->input('un8_signature_employee'),
-                'un8_signature_checker' => $request->input('un8_signature_checker'),
+                // 'un8_signature_employee' => $request->input('un8_signature_employee'),
+                // 'un8_signature_checker' => $request->input('un8_signature_checker'),
                 'un8_delete_reason' => $request->input('un8_delete_reason'),
                 'un8_reason_cancel_load_unload' => $request->input('un8_reason_cancel_load_unload'),
             ]);
@@ -321,6 +321,37 @@ class FormUnloadingDehytonKeController extends Controller
                 'gateable_id' => $formUnloadingDehytonKe->id,
                 'gateable_type' => "App\Models\FormUnloadingDehytonKe"
                 ]);
+
+                if($request->input('un8_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('un8_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingDehytonKe->update(
+                        [
+                            'un8_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('un8_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('un8_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingDehytonKe->update(
+                        [
+                            'un8_signature_employee' => $name,
+                            ]
+                        );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingDehytonKe Form',
