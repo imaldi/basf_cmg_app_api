@@ -102,30 +102,30 @@ class FormUnloadingPackedGoodController extends Controller
             'un10_selesai_stiker_sdh_dipasang_desc' => 'string|max:255',
             'un10_selesai_panggil_sopir_kembali_desc' => 'string|max:255',
             'un10_pemeriksa' => 'string|max:255',
-            'un10_signature_employee' => 'string|max:255',
-            'un10_signature_checker' => 'string|max:255',
+            // 'un10_signature_employee' => 'file',
+            // 'un10_signature_checker' => 'file',
             'un10_delete_reason' => 'string|max:255',
-            'un10_foto_container_tersegel1' => 'string|max:255',
-            'un10_foto_container_tersegel2' => 'string|max:255',
-            'un10_foto_container_tersegel3' => 'string|max:255',
-            'un10_foto_pintu_container_sdh_dibuka1' => 'string|max:255',
-            'un10_foto_pintu_container_sdh_dibuka2' => 'string|max:255',
-            'un10_foto_pintu_container_sdh_dibuka3' => 'string|max:255',
-            'un10_foto_truk_non_container_buka_terpal1' => 'string|max:255',
-            'un10_foto_truk_non_container_buka_terpal2' => 'string|max:255',
-            'un10_foto_truk_non_container_buka_terpal3' => 'string|max:255',
-            'un10_foto_susunan_produk_rapi1' => 'string|max:255',
-            'un10_foto_susunan_produk_rapi2' => 'string|max:255',
-            'un10_foto_susunan_produk_rapi3' => 'string|max:255',
-            'un10_foto_pallet_tdk_patah1' => 'string|max:255',
-            'un10_foto_pallet_tdk_patah2' => 'string|max:255',
-            'un10_foto_pallet_tdk_patah3' => 'string|max:255',
-            'un10_foto_produk_tdk_pakai_pallet1' => 'string|max:255',
-            'un10_foto_produk_tdk_pakai_pallet2' => 'string|max:255',
-            'un10_foto_produk_tdk_pakai_pallet3' => 'string|max:255',
-            'un10_foto_lantai_dinding_truk_bersih1' => 'string|max:255',
-            'un10_foto_lantai_dinding_truk_bersih2' => 'string|max:255',
-            'un10_foto_lantai_dinding_truk_bersih3' => 'string|max:255',
+            // 'un10_foto_container_tersegel1' => 'string|max:255',
+            // 'un10_foto_container_tersegel2' => 'string|max:255',
+            // 'un10_foto_container_tersegel3' => 'string|max:255',
+            // 'un10_foto_pintu_container_sdh_dibuka1' => 'string|max:255',
+            // 'un10_foto_pintu_container_sdh_dibuka2' => 'string|max:255',
+            // 'un10_foto_pintu_container_sdh_dibuka3' => 'string|max:255',
+            // 'un10_foto_truk_non_container_buka_terpal1' => 'string|max:255',
+            // 'un10_foto_truk_non_container_buka_terpal2' => 'string|max:255',
+            // 'un10_foto_truk_non_container_buka_terpal3' => 'string|max:255',
+            // 'un10_foto_susunan_produk_rapi1' => 'string|max:255',
+            // 'un10_foto_susunan_produk_rapi2' => 'string|max:255',
+            // 'un10_foto_susunan_produk_rapi3' => 'string|max:255',
+            // 'un10_foto_pallet_tdk_patah1' => 'string|max:255',
+            // 'un10_foto_pallet_tdk_patah2' => 'string|max:255',
+            // 'un10_foto_pallet_tdk_patah3' => 'string|max:255',
+            // 'un10_foto_produk_tdk_pakai_pallet1' => 'string|max:255',
+            // 'un10_foto_produk_tdk_pakai_pallet2' => 'string|max:255',
+            // 'un10_foto_produk_tdk_pakai_pallet3' => 'string|max:255',
+            // 'un10_foto_lantai_dinding_truk_bersih1' => 'string|max:255',
+            // 'un10_foto_lantai_dinding_truk_bersih2' => 'string|max:255',
+            // 'un10_foto_lantai_dinding_truk_bersih3' => 'string|max:255',
             'un10_reason_cancel_load_unload' => 'string|max:255',
         ]);
 
@@ -250,36 +250,362 @@ class FormUnloadingPackedGoodController extends Controller
                 'un10_selesai_stiker_sdh_dipasang_desc' => $request->input('un10_selesai_stiker_sdh_dipasang_desc'),
                 'un10_selesai_panggil_sopir_kembali_desc' => $request->input('un10_selesai_panggil_sopir_kembali_desc'),
                 'un10_pemeriksa' => $request->input('un10_pemeriksa'),
-                'un10_signature_employee' => $request->input('un10_signature_employee'),
-                'un10_signature_checker' => $request->input('un10_signature_checker'),
+                // 'un10_signature_employee' => $request->input('un10_signature_employee'),
+                // 'un10_signature_checker' => $request->input('un10_signature_checker'),
                 'un10_delete_reason' => $request->input('un10_delete_reason'),
-                'un10_foto_container_tersegel1' => $request->input('un10_foto_container_tersegel1'),
-                'un10_foto_container_tersegel2' => $request->input('un10_foto_container_tersegel2'),
-                'un10_foto_container_tersegel3' => $request->input('un10_foto_container_tersegel3'),
-                'un10_foto_pintu_container_sdh_dibuka1' => $request->input('un10_foto_pintu_container_sdh_dibuka1'),
-                'un10_foto_pintu_container_sdh_dibuka2' => $request->input('un10_foto_pintu_container_sdh_dibuka2'),
-                'un10_foto_pintu_container_sdh_dibuka3' => $request->input('un10_foto_pintu_container_sdh_dibuka3'),
-                'un10_foto_truk_non_container_buka_terpal1' => $request->input('un10_foto_truk_non_container_buka_terpal1'),
-                'un10_foto_truk_non_container_buka_terpal2' => $request->input('un10_foto_truk_non_container_buka_terpal2'),
-                'un10_foto_truk_non_container_buka_terpal3' => $request->input('un10_foto_truk_non_container_buka_terpal3'),
-                'un10_foto_susunan_produk_rapi1' => $request->input('un10_foto_susunan_produk_rapi1'),
-                'un10_foto_susunan_produk_rapi2' => $request->input('un10_foto_susunan_produk_rapi2'),
-                'un10_foto_susunan_produk_rapi3' => $request->input('un10_foto_susunan_produk_rapi3'),
-                'un10_foto_pallet_tdk_patah1' => $request->input('un10_foto_pallet_tdk_patah1'),
-                'un10_foto_pallet_tdk_patah2' => $request->input('un10_foto_pallet_tdk_patah2'),
-                'un10_foto_pallet_tdk_patah3' => $request->input('un10_foto_pallet_tdk_patah3'),
-                'un10_foto_produk_tdk_pakai_pallet1' => $request->input('un10_foto_produk_tdk_pakai_pallet1'),
-                'un10_foto_produk_tdk_pakai_pallet2' => $request->input('un10_foto_produk_tdk_pakai_pallet2'),
-                'un10_foto_produk_tdk_pakai_pallet3' => $request->input('un10_foto_produk_tdk_pakai_pallet3'),
-                'un10_foto_lantai_dinding_truk_bersih1' => $request->input('un10_foto_lantai_dinding_truk_bersih1'),
-                'un10_foto_lantai_dinding_truk_bersih2' => $request->input('un10_foto_lantai_dinding_truk_bersih2'),
-                'un10_foto_lantai_dinding_truk_bersih3' => $request->input('un10_foto_lantai_dinding_truk_bersih3'),
+                // 'un10_foto_container_tersegel1' => $request->input('un10_foto_container_tersegel1'),
+                // 'un10_foto_container_tersegel2' => $request->input('un10_foto_container_tersegel2'),
+                // 'un10_foto_container_tersegel3' => $request->input('un10_foto_container_tersegel3'),
+                // 'un10_foto_pintu_container_sdh_dibuka1' => $request->input('un10_foto_pintu_container_sdh_dibuka1'),
+                // 'un10_foto_pintu_container_sdh_dibuka2' => $request->input('un10_foto_pintu_container_sdh_dibuka2'),
+                // 'un10_foto_pintu_container_sdh_dibuka3' => $request->input('un10_foto_pintu_container_sdh_dibuka3'),
+                // 'un10_foto_truk_non_container_buka_terpal1' => $request->input('un10_foto_truk_non_container_buka_terpal1'),
+                // 'un10_foto_truk_non_container_buka_terpal2' => $request->input('un10_foto_truk_non_container_buka_terpal2'),
+                // 'un10_foto_truk_non_container_buka_terpal3' => $request->input('un10_foto_truk_non_container_buka_terpal3'),
+                // 'un10_foto_susunan_produk_rapi1' => $request->input('un10_foto_susunan_produk_rapi1'),
+                // 'un10_foto_susunan_produk_rapi2' => $request->input('un10_foto_susunan_produk_rapi2'),
+                // 'un10_foto_susunan_produk_rapi3' => $request->input('un10_foto_susunan_produk_rapi3'),
+                // 'un10_foto_pallet_tdk_patah1' => $request->input('un10_foto_pallet_tdk_patah1'),
+                // 'un10_foto_pallet_tdk_patah2' => $request->input('un10_foto_pallet_tdk_patah2'),
+                // 'un10_foto_pallet_tdk_patah3' => $request->input('un10_foto_pallet_tdk_patah3'),
+                // 'un10_foto_produk_tdk_pakai_pallet1' => $request->input('un10_foto_produk_tdk_pakai_pallet1'),
+                // 'un10_foto_produk_tdk_pakai_pallet2' => $request->input('un10_foto_produk_tdk_pakai_pallet2'),
+                // 'un10_foto_produk_tdk_pakai_pallet3' => $request->input('un10_foto_produk_tdk_pakai_pallet3'),
+                // 'un10_foto_lantai_dinding_truk_bersih1' => $request->input('un10_foto_lantai_dinding_truk_bersih1'),
+                // 'un10_foto_lantai_dinding_truk_bersih2' => $request->input('un10_foto_lantai_dinding_truk_bersih2'),
+                // 'un10_foto_lantai_dinding_truk_bersih3' => $request->input('un10_foto_lantai_dinding_truk_bersih3'),
                 'un10_reason_cancel_load_unload' => $request->input('un10_reason_cancel_load_unload'),
             ]);
             $gate->update([
                 'gateable_id' => $formUnloadingPackedGood->id,
                 'gateable_type' => "App\Models\FormUnloadingPackedGood"
                 ]);
+
+                if($request->input('un10_signature_checker')){
+                    $decodedDocs = base64_decode($request->input('un10_signature_checker'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingPackedGood->update(
+                        [
+                            'un10_signature_checker' => $name,
+                            ]
+                        );
+
+                }
+                if($request->input('un10_signature_employee')){
+                    $decodedDocs = base64_decode($request->input('un10_signature_employee'));
+
+
+                    $name = time()."someone_that_i_used_to_know.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+
+
+                    $formUnloadingPackedGood->update(
+                        [
+                            'un10_signature_employee' => $name,
+                            ]
+                        );
+
+                }
+
+                if($request->file('un10_foto_container_tersegel1')){
+                    $file_un10_foto_container_tersegel1 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_container_tersegel1;
+                    if(is_file($file_un10_foto_container_tersegel1)){
+                    unlink(public_path($file_un10_foto_container_tersegel1));
+                }
+                $name_un10_foto_container_tersegel1 = time().$request->file('un10_foto_container_tersegel1')->getClientOriginalName();
+                $request->file('un10_foto_container_tersegel1')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_container_tersegel1);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_container_tersegel1' => $name_un10_foto_container_tersegel1,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_container_tersegel2')){
+                    $file_un10_foto_container_tersegel2 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_container_tersegel2;
+                    if(is_file($file_un10_foto_container_tersegel2)){
+                    unlink(public_path($file_un10_foto_container_tersegel2));
+                }
+                $name_un10_foto_container_tersegel2 = time().$request->file('un10_foto_container_tersegel2')->getClientOriginalName();
+                $request->file('un10_foto_container_tersegel2')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_container_tersegel2);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_container_tersegel2' => $name_un10_foto_container_tersegel2,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_container_tersegel3')){
+                    $file_un10_foto_container_tersegel3 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_container_tersegel3;
+                    if(is_file($file_un10_foto_container_tersegel3)){
+                    unlink(public_path($file_un10_foto_container_tersegel3));
+                }
+                $name_un10_foto_container_tersegel3 = time().$request->file('un10_foto_container_tersegel3')->getClientOriginalName();
+                $request->file('un10_foto_container_tersegel3')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_container_tersegel3);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_container_tersegel3' => $name_un10_foto_container_tersegel3,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_pintu_container_sdh_dibuka1')){
+                    $file_un10_foto_pintu_container_sdh_dibuka1 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_pintu_container_sdh_dibuka1;
+                    if(is_file($file_un10_foto_pintu_container_sdh_dibuka1)){
+                    unlink(public_path($file_un10_foto_pintu_container_sdh_dibuka1));
+                }
+                $name_un10_foto_pintu_container_sdh_dibuka1 = time().$request->file('un10_foto_pintu_container_sdh_dibuka1')->getClientOriginalName();
+                $request->file('un10_foto_pintu_container_sdh_dibuka1')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_pintu_container_sdh_dibuka1);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_pintu_container_sdh_dibuka1' => $name_un10_foto_pintu_container_sdh_dibuka1,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_pintu_container_sdh_dibuka2')){
+                    $file_un10_foto_pintu_container_sdh_dibuka2 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_pintu_container_sdh_dibuka2;
+                    if(is_file($file_un10_foto_pintu_container_sdh_dibuka2)){
+                    unlink(public_path($file_un10_foto_pintu_container_sdh_dibuka2));
+                }
+                $name_un10_foto_pintu_container_sdh_dibuka2 = time().$request->file('un10_foto_pintu_container_sdh_dibuka2')->getClientOriginalName();
+                $request->file('un10_foto_pintu_container_sdh_dibuka2')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_pintu_container_sdh_dibuka2);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_pintu_container_sdh_dibuka2' => $name_un10_foto_pintu_container_sdh_dibuka2,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_pintu_container_sdh_dibuka3')){
+                    $file_un10_foto_pintu_container_sdh_dibuka3 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_pintu_container_sdh_dibuka3;
+                    if(is_file($file_un10_foto_pintu_container_sdh_dibuka3)){
+                    unlink(public_path($file_un10_foto_pintu_container_sdh_dibuka3));
+                }
+                $name_un10_foto_pintu_container_sdh_dibuka3 = time().$request->file('un10_foto_pintu_container_sdh_dibuka3')->getClientOriginalName();
+                $request->file('un10_foto_pintu_container_sdh_dibuka3')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_pintu_container_sdh_dibuka3);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_pintu_container_sdh_dibuka3' => $name_un10_foto_pintu_container_sdh_dibuka3,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_truk_non_container_buka_terpal1')){
+                    $file_un10_foto_truk_non_container_buka_terpal1 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_truk_non_container_buka_terpal1;
+                    if(is_file($file_un10_foto_truk_non_container_buka_terpal1)){
+                    unlink(public_path($file_un10_foto_truk_non_container_buka_terpal1));
+                }
+                $name_un10_foto_truk_non_container_buka_terpal1 = time().$request->file('un10_foto_truk_non_container_buka_terpal1')->getClientOriginalName();
+                $request->file('un10_foto_truk_non_container_buka_terpal1')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_truk_non_container_buka_terpal1);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_truk_non_container_buka_terpal1' => $name_un10_foto_truk_non_container_buka_terpal1,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_truk_non_container_buka_terpal2')){
+                    $file_un10_foto_truk_non_container_buka_terpal2 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_truk_non_container_buka_terpal2;
+                    if(is_file($file_un10_foto_truk_non_container_buka_terpal2)){
+                    unlink(public_path($file_un10_foto_truk_non_container_buka_terpal2));
+                }
+                $name_un10_foto_truk_non_container_buka_terpal2 = time().$request->file('un10_foto_truk_non_container_buka_terpal2')->getClientOriginalName();
+                $request->file('un10_foto_truk_non_container_buka_terpal2')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_truk_non_container_buka_terpal2);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_truk_non_container_buka_terpal2' => $name_un10_foto_truk_non_container_buka_terpal2,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_truk_non_container_buka_terpal3')){
+                    $file_un10_foto_truk_non_container_buka_terpal3 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_truk_non_container_buka_terpal3;
+                    if(is_file($file_un10_foto_truk_non_container_buka_terpal3)){
+                    unlink(public_path($file_un10_foto_truk_non_container_buka_terpal3));
+                }
+                $name_un10_foto_truk_non_container_buka_terpal3 = time().$request->file('un10_foto_truk_non_container_buka_terpal3')->getClientOriginalName();
+                $request->file('un10_foto_truk_non_container_buka_terpal3')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_truk_non_container_buka_terpal3);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_truk_non_container_buka_terpal3' => $name_un10_foto_truk_non_container_buka_terpal3,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_susunan_produk_rapi1')){
+                    $file_un10_foto_susunan_produk_rapi1 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_susunan_produk_rapi1;
+                    if(is_file($file_un10_foto_susunan_produk_rapi1)){
+                    unlink(public_path($file_un10_foto_susunan_produk_rapi1));
+                }
+                $name_un10_foto_susunan_produk_rapi1 = time().$request->file('un10_foto_susunan_produk_rapi1')->getClientOriginalName();
+                $request->file('un10_foto_susunan_produk_rapi1')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_susunan_produk_rapi1);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_susunan_produk_rapi1' => $name_un10_foto_susunan_produk_rapi1,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_susunan_produk_rapi2')){
+                    $file_un10_foto_susunan_produk_rapi2 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_susunan_produk_rapi2;
+                    if(is_file($file_un10_foto_susunan_produk_rapi2)){
+                    unlink(public_path($file_un10_foto_susunan_produk_rapi2));
+                }
+                $name_un10_foto_susunan_produk_rapi2 = time().$request->file('un10_foto_susunan_produk_rapi2')->getClientOriginalName();
+                $request->file('un10_foto_susunan_produk_rapi2')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_susunan_produk_rapi2);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_susunan_produk_rapi2' => $name_un10_foto_susunan_produk_rapi2,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_susunan_produk_rapi3')){
+                    $file_un10_foto_susunan_produk_rapi3 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_susunan_produk_rapi3;
+                    if(is_file($file_un10_foto_susunan_produk_rapi3)){
+                    unlink(public_path($file_un10_foto_susunan_produk_rapi3));
+                }
+                $name_un10_foto_susunan_produk_rapi3 = time().$request->file('un10_foto_susunan_produk_rapi3')->getClientOriginalName();
+                $request->file('un10_foto_susunan_produk_rapi3')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_susunan_produk_rapi3);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_susunan_produk_rapi3' => $name_un10_foto_susunan_produk_rapi3,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_pallet_tdk_patah1')){
+                    $file_un10_foto_pallet_tdk_patah1 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_pallet_tdk_patah1;
+                    if(is_file($file_un10_foto_pallet_tdk_patah1)){
+                    unlink(public_path($file_un10_foto_pallet_tdk_patah1));
+                }
+                $name_un10_foto_pallet_tdk_patah1 = time().$request->file('un10_foto_pallet_tdk_patah1')->getClientOriginalName();
+                $request->file('un10_foto_pallet_tdk_patah1')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_pallet_tdk_patah1);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_pallet_tdk_patah1' => $name_un10_foto_pallet_tdk_patah1,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_pallet_tdk_patah2')){
+                    $file_un10_foto_pallet_tdk_patah2 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_pallet_tdk_patah2;
+                    if(is_file($file_un10_foto_pallet_tdk_patah2)){
+                    unlink(public_path($file_un10_foto_pallet_tdk_patah2));
+                }
+                $name_un10_foto_pallet_tdk_patah2 = time().$request->file('un10_foto_pallet_tdk_patah2')->getClientOriginalName();
+                $request->file('un10_foto_pallet_tdk_patah2')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_pallet_tdk_patah2);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_pallet_tdk_patah2' => $name_un10_foto_pallet_tdk_patah2,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_pallet_tdk_patah3')){
+                    $file_un10_foto_pallet_tdk_patah3 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_pallet_tdk_patah3;
+                    if(is_file($file_un10_foto_pallet_tdk_patah3)){
+                    unlink(public_path($file_un10_foto_pallet_tdk_patah3));
+                }
+                $name_un10_foto_pallet_tdk_patah3 = time().$request->file('un10_foto_pallet_tdk_patah3')->getClientOriginalName();
+                $request->file('un10_foto_pallet_tdk_patah3')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_pallet_tdk_patah3);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_pallet_tdk_patah3' => $name_un10_foto_pallet_tdk_patah3,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_produk_tdk_pakai_pallet1')){
+                    $file_un10_foto_produk_tdk_pakai_pallet1 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_produk_tdk_pakai_pallet1;
+                    if(is_file($file_un10_foto_produk_tdk_pakai_pallet1)){
+                    unlink(public_path($file_un10_foto_produk_tdk_pakai_pallet1));
+                }
+                $name_un10_foto_produk_tdk_pakai_pallet1 = time().$request->file('un10_foto_produk_tdk_pakai_pallet1')->getClientOriginalName();
+                $request->file('un10_foto_produk_tdk_pakai_pallet1')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_produk_tdk_pakai_pallet1);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_produk_tdk_pakai_pallet1' => $name_un10_foto_produk_tdk_pakai_pallet1,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_produk_tdk_pakai_pallet2')){
+                    $file_un10_foto_produk_tdk_pakai_pallet2 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_produk_tdk_pakai_pallet2;
+                    if(is_file($file_un10_foto_produk_tdk_pakai_pallet2)){
+                    unlink(public_path($file_un10_foto_produk_tdk_pakai_pallet2));
+                }
+                $name_un10_foto_produk_tdk_pakai_pallet2 = time().$request->file('un10_foto_produk_tdk_pakai_pallet2')->getClientOriginalName();
+                $request->file('un10_foto_produk_tdk_pakai_pallet2')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_produk_tdk_pakai_pallet2);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_produk_tdk_pakai_pallet2' => $name_un10_foto_produk_tdk_pakai_pallet2,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_produk_tdk_pakai_pallet3')){
+                    $file_un10_foto_produk_tdk_pakai_pallet3 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_produk_tdk_pakai_pallet3;
+                    if(is_file($file_un10_foto_produk_tdk_pakai_pallet3)){
+                    unlink(public_path($file_un10_foto_produk_tdk_pakai_pallet3));
+                }
+                $name_un10_foto_produk_tdk_pakai_pallet3 = time().$request->file('un10_foto_produk_tdk_pakai_pallet3')->getClientOriginalName();
+                $request->file('un10_foto_produk_tdk_pakai_pallet3')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_produk_tdk_pakai_pallet3);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_produk_tdk_pakai_pallet3' => $name_un10_foto_produk_tdk_pakai_pallet3,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_lantai_dinding_truk_bersih1')){
+                    $file_un10_foto_lantai_dinding_truk_bersih1 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_lantai_dinding_truk_bersih1;
+                    if(is_file($file_un10_foto_lantai_dinding_truk_bersih1)){
+                    unlink(public_path($file_un10_foto_lantai_dinding_truk_bersih1));
+                }
+                $name_un10_foto_lantai_dinding_truk_bersih1 = time().$request->file('un10_foto_lantai_dinding_truk_bersih1')->getClientOriginalName();
+                $request->file('un10_foto_lantai_dinding_truk_bersih1')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_lantai_dinding_truk_bersih1);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_lantai_dinding_truk_bersih1' => $name_un10_foto_lantai_dinding_truk_bersih1,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_lantai_dinding_truk_bersih2')){
+                    $file_un10_foto_lantai_dinding_truk_bersih2 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_lantai_dinding_truk_bersih2;
+                    if(is_file($file_un10_foto_lantai_dinding_truk_bersih2)){
+                    unlink(public_path($file_un10_foto_lantai_dinding_truk_bersih2));
+                }
+                $name_un10_foto_lantai_dinding_truk_bersih2 = time().$request->file('un10_foto_lantai_dinding_truk_bersih2')->getClientOriginalName();
+                $request->file('un10_foto_lantai_dinding_truk_bersih2')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_lantai_dinding_truk_bersih2);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_lantai_dinding_truk_bersih2' => $name_un10_foto_lantai_dinding_truk_bersih2,
+                    ]
+                );
+
+                }
+                if($request->file('un10_foto_lantai_dinding_truk_bersih3')){
+                    $file_un10_foto_lantai_dinding_truk_bersih3 = 'uploads/unloading/form_unloading_packed_good'.$gate->un10_foto_lantai_dinding_truk_bersih3;
+                    if(is_file($file_un10_foto_lantai_dinding_truk_bersih3)){
+                    unlink(public_path($file_un10_foto_lantai_dinding_truk_bersih3));
+                }
+                $name_un10_foto_lantai_dinding_truk_bersih3 = time().$request->file('un10_foto_lantai_dinding_truk_bersih3')->getClientOriginalName();
+                $request->file('un10_foto_lantai_dinding_truk_bersih3')->move('uploads/unloading/form_unloading_packed_good',$name_un10_foto_lantai_dinding_truk_bersih3);
+                $formUnloadingPackedGood->update(
+                    [
+                        'un10_foto_lantai_dinding_truk_bersih3' => $name_un10_foto_lantai_dinding_truk_bersih3,
+                    ]
+                );
+
+                }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingPackedGood Form',
