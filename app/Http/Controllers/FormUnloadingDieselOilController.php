@@ -131,8 +131,8 @@ class FormUnloadingDieselOilController extends Controller
             'un7_netto_disuratjalan' => 'string|max:255',
             'un7_netto_hasil_timbang' => 'string|max:255',
             'un7_pemeriksa' => 'string|max:255',
-            'un7_signature_employee' => 'file',
-            'un7_signature_checker' => 'file',
+            // 'un7_signature_employee' => 'file',
+            // 'un7_signature_checker' => 'file',
             'un7_delete_reason' => 'string|max:255',
             'un7_reason_cancel_load_unload' => 'string|max:255',
 

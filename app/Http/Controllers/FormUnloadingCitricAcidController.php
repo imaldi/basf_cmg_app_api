@@ -127,8 +127,8 @@ class FormUnloadingCitricAcidController extends Controller
             'un9_netto_disuratjalan' => 'string|max:255',
             'un9_netto_hasil_timbang' => 'string|max:255',
             'un9_pemeriksa' => 'string|max:255',
-            'un9_signature_employee' => 'file',
-            'un9_signature_checker' => 'file',
+            // 'un9_signature_employee' => 'file',
+            // 'un9_signature_checker' => 'file',
             'un9_delete_reason' => 'string|max:255',
             'un9_reason_cancel_load_unload' => 'string|max:255',
         ]);

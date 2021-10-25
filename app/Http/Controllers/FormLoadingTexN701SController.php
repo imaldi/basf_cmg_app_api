@@ -119,8 +119,8 @@ class FormLoadingTexN701SController extends Controller
             'ul1_netto_disuratjalan' => 'string|max:255',
             'ul1_netto_hasil_timbang' => 'string|max:255',
             'ul1_pemeriksa' => 'string|max:255',
-            'ul1_signature_employee' => 'file',
-            'ul1_signature_checker' => 'file',
+            // 'ul1_signature_employee' => 'file',
+            // 'ul1_signature_checker' => 'file',
             'ul1_delete_reason' => 'string|max:255',
             'ul1_reason_cancel_load_unload' => 'string|max:255',
         ]);

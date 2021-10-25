@@ -105,8 +105,8 @@ class FormUnloadingPacController extends Controller
             'un3_netto_disuratjalan' => 'string|max:255',
             'un3_netto_hasil_timbang' => 'string|max:255',
             'un3_pemeriksa' => 'string|max:255',
-            'un3_signature_employee' => 'file',
-            'un3_signature_checker' => 'file',
+            // 'un3_signature_employee' => 'file',
+            // 'un3_signature_checker' => 'file',
             'un3_delete_reason' => 'string|max:255',
             'un3_reason_cancel_load_unload' => 'string|max:255',
 

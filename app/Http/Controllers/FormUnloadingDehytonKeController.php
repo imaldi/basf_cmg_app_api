@@ -144,8 +144,8 @@ class FormUnloadingDehytonKeController extends Controller
             'un8_netto_disuratjalan' => 'string|max:255',
             'un8_netto_hasil_timbang' => 'string|max:255',
             'un8_pemeriksa' => 'string|max:255',
-            'un8_signature_employee' => 'file',
-            'un8_signature_checker' => 'file',
+            // 'un8_signature_employee' => 'file',
+            // 'un8_signature_checker' => 'file',
             'un8_delete_reason' => 'string|max:255',
             'un8_reason_cancel_load_unload' => 'string|max:255',
         ]);

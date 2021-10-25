@@ -115,8 +115,8 @@ class FormUnloadingStearicAcidController extends Controller
             'un5_netto_disuratjalan' => 'string|max:255',
             'un5_netto_hasil_timbang' => 'string|max:255',
             'un5_pemeriksa' => 'string|max:255',
-            'un5_signature_employee' => 'file',
-            'un5_signature_checker' => 'file',
+            // 'un5_signature_employee' => 'file',
+            // 'un5_signature_checker' => 'file',
             'un5_delete_reason' => 'string|max:255',
             'un5_reason_cancel_load_unload' => 'string|max:255',
         ]);

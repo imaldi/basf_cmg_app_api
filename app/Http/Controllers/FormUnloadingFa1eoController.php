@@ -136,8 +136,8 @@ class FormUnloadingFa1eoController extends Controller
             'un2_netto_diruatjalan' => 'string|max:255',
             'un2_netto_hasil_timbang' => 'string|max:255',
             'un2_pemeriksa' => 'string|max:255',
-            'un2_signature_employee' => 'file',
-            'un2_signature_checker' => 'file',
+            // 'un2_signature_employee' => 'file',
+            // 'un2_signature_checker' => 'file',
             'un2_delete_reason' => 'string|max:255',
             'un2_reason_cancel_load_unload' => 'string|max:255',
 

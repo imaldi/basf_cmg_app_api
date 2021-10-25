@@ -116,8 +116,8 @@ class FormUnloadingSulphurLiquidController extends Controller
             'un6_netto_disuratjalan' => 'string|max:255',
             'un6_netto_hasil_timbang' => 'string|max:255',
             'un6_pemeriksa' => 'string|max:255',
-            'un6_signature_employee' => 'file',
-            'un6_signature_checker' => 'file',
+            // 'un6_signature_employee' => 'file',
+            // 'un6_signature_checker' => 'file',
             'un6_delete_reason' => 'string|max:255',
             'un6_reason_cancel_load_unload' => 'string|max:255',
 
