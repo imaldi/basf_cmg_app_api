@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FormEGateCheck;
+use App\Models\TruckRent;
 use App\Http\Resources\FormEGateResource;
 use Auth;
 use App\User;
@@ -36,6 +37,18 @@ class FormEGateCheckController extends Controller
             'data' =>
             // $gateableType
             FormEGateResource::collection($forms)
+            ], 200);
+    }
+
+    public function getDaftarNamaAngkutanEgateForm(Request $request){
+        $listAngkutan = TruckRent::all();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success Fetch Data',
+            'data' =>
+            // $gateableType
+                $listAngkutan
             ], 200);
     }
 
