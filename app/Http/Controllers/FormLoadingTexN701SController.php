@@ -285,7 +285,7 @@ class FormLoadingTexN701SController extends Controller
 
 
                     $name = time()."someone_that_i_used_to_know.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                    file_put_contents('uploads/loading/signatures/'.$name, $decodedDocs);
 
 
                     $formLoadingTexN701S->update(
@@ -300,7 +300,7 @@ class FormLoadingTexN701SController extends Controller
 
 
                     $name = time()."someone_that_i_used_to_know.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                    file_put_contents('uploads/loading/signatures/'.$name, $decodedDocs);
 
 
                     $formLoadingTexN701S->update(

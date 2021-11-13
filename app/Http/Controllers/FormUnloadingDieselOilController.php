@@ -182,6 +182,11 @@ class FormUnloadingDieselOilController extends Controller
                     'un7_employee_id' => $employee->id,
                     'un7_report_kendaraan_id' => $gate->id,
                 ]);
+
+                $gate->update([
+                    'gateable_id' => $formUnloadingDieselOil->id,
+                    'gateable_type' => "App\Models\FormUnloadingDieselOil"
+                    ]);
             }
             $formUnloadingDieselOil->update([
                 'un7_persiapan_memakai_ppe' => (int) $request->input('un7_persiapan_memakai_ppe'),
@@ -294,16 +299,13 @@ class FormUnloadingDieselOilController extends Controller
                 'un7_delete_reason' => $request->input('un7_delete_reason'),
                 'un7_reason_cancel_load_unload' => $request->input('un7_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingDieselOil->id,
-                'gateable_type' => "App\Models\FormUnloadingDieselOil"
-                ]);
+
 
                 if($request->input('un7_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un7_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un7_signature_checker.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -318,7 +320,7 @@ class FormUnloadingDieselOilController extends Controller
                     $decodedDocs = base64_decode($request->input('un7_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un7_signature_employee.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 

@@ -164,6 +164,11 @@ class FormUnloadingStearicAcidController extends Controller
                     'un5_employee_id' => $employee->id,
                     'un5_report_kendaraan_id' => $gate->id,
                 ]);
+
+                $gate->update([
+                    'gateable_id' => $formUnloadingStearicAcid->id,
+                    'gateable_type' => "App\Models\FormUnloadingStearicAcid"
+                    ]);
             }
             $formUnloadingStearicAcid->update([
                 'un5_persiapan_memakai_ppe' => (int) $request->input('un5_persiapan_memakai_ppe'),
@@ -261,16 +266,13 @@ class FormUnloadingStearicAcidController extends Controller
                 'un5_delete_reason' => $request->input('un5_delete_reason'),
                 'un5_reason_cancel_load_unload' => $request->input('un5_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingStearicAcid->id,
-                'gateable_type' => "App\Models\FormUnloadingStearicAcid"
-                ]);
+
 
                 if($request->input('un5_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un5_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un5_signature_checker.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -285,7 +287,7 @@ class FormUnloadingStearicAcidController extends Controller
                     $decodedDocs = base64_decode($request->input('un5_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un5_signature_employee.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 

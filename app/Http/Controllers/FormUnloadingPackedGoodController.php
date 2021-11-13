@@ -172,6 +172,11 @@ class FormUnloadingPackedGoodController extends Controller
                     'un10_employee_id' => $employee->id,
                     'un10_report_kendaraan_id' => $gate->id,
                 ]);
+
+                $gate->update([
+                    'gateable_id' => $formUnloadingPackedGood->id,
+                    'gateable_type' => "App\Models\FormUnloadingPackedGood"
+                    ]);
             }
             $formUnloadingPackedGood->update([
                 'un10_simbol_1' => (int) $request->input('un10_simbol_1'),
@@ -276,16 +281,13 @@ class FormUnloadingPackedGoodController extends Controller
                 // 'un10_foto_lantai_dinding_truk_bersih3' => $request->input('un10_foto_lantai_dinding_truk_bersih3'),
                 'un10_reason_cancel_load_unload' => $request->input('un10_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingPackedGood->id,
-                'gateable_type' => "App\Models\FormUnloadingPackedGood"
-                ]);
+
 
                 if($request->input('un10_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un10_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un10_signature_checker.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -300,7 +302,7 @@ class FormUnloadingPackedGoodController extends Controller
                     $decodedDocs = base64_decode($request->input('un10_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un10_signature_employee.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 

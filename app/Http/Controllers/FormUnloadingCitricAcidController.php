@@ -173,10 +173,17 @@ class FormUnloadingCitricAcidController extends Controller
                         ], 451);
                 }
 
+
+
                 $formUnloadingCitricAcid = FormUnloadingCitricAcid::create([
                     'un9_employee_id' => $employee->id,
                     'un9_report_kendaraan_id' => $gate->id,
                 ]);
+
+                $gate->update([
+                    'gateable_id' => $formUnloadingCitricAcid->id,
+                    'gateable_type' => "App\Models\FormUnloadingCitricAcid"
+                    ]);
             }
             $formUnloadingCitricAcid->update([
                 'un9_persiapan_memakai_ppe' => (int) $request->input('un9_persiapan_memakai_ppe'),
@@ -284,16 +291,13 @@ class FormUnloadingCitricAcidController extends Controller
                 'un9_delete_reason' => $request->input('un9_delete_reason'),
                 'un9_reason_cancel_load_unload' => $request->input('un9_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingCitricAcid->id,
-                'gateable_type' => "App\Models\FormUnloadingCitricAcid"
-                ]);
+
 
                 if($request->input('un9_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un9_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un9_signature_checker.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -308,7 +312,7 @@ class FormUnloadingCitricAcidController extends Controller
                     $decodedDocs = base64_decode($request->input('un9_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un9_signature_employee.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 

@@ -72,8 +72,8 @@ class FormEGateCheckController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Fetch Data',
-                'data' =>
-                    [$gateForm]
+                'data' => [new FormEGateResource($gateForm)]
+                    // [$gateForm]
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
@@ -141,9 +141,13 @@ class FormEGateCheckController extends Controller
             'gate_tipe_pelanggan' => ['integer',Rule::in(['0','1','2']),],
             'gate_exit_plakat_tanda_bahaya_terpasang' => ['integer',Rule::in(['0','1','2']),],
             'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
+            'gate_pengganjal_roda' => ['integer',Rule::in(['0','1','2']),],
             'gateable_id' => ['integer',Rule::in(['0','1','2']),],
+            'gate_kesimpulan' => ['integer',Rule::in(['0','1']),],
+
 
             'gate_report_code' => 'string|max:255',
+            'gate_pengganjal_roda_desc' => 'string|max:255',
             'gate_formulir_sopir_telp_darurat_desc' => 'string|max:255',
             'gate_kondisi_cukup_istirahat_desc' => 'string|max:255',
             'gate_kondisi_tidak_pengaruh_obat_alkohol_desc' => 'string|max:255',
@@ -207,7 +211,6 @@ class FormEGateCheckController extends Controller
             'gate_nama_perusahaan' => 'string|max:255',
             'gate_jenis_kendaraan' => 'string|max:255',
             'gate_loading_type' => 'string|max:255',
-            'gate_kesimpulan' => 'string|max:255',
             'rk_masa_berlaku_SIM' => 'date',
             'rk_masa_berlaku_STNK' => 'date',
             'gate_masa_berlaku_kir' => 'date',
@@ -274,8 +277,9 @@ class FormEGateCheckController extends Controller
                     'gate_exit_tidak_tercecer' => (int) $request->input('gate_exit_tidak_tercecer'),
                     'gate_exit_petunjuk_darurat_transportasi' => (int) $request->input('gate_exit_petunjuk_darurat_transportasi'),
                     'gate_exit_plakat_tanda_bahaya_terpasang' => (int) $request->input('gate_exit_plakat_tanda_bahaya_terpasang'),
+                    'gate_pengganjal_roda' => (int) $request->input('gate_pengganjal_roda'),
 
-
+                    'gate_pengganjal_roda_desc' => $request->input('gate_pengganjal_roda_desc'),
                     'gate_report_code' => $request->input('gate_report_code'),
                     'gate_formulir_sopir_telp_darurat_desc' => $request->input('gate_formulir_sopir_telp_darurat_desc'),
                     'gate_kondisi_cukup_istirahat_desc' => $request->input('gate_kondisi_cukup_istirahat_desc'),
@@ -325,7 +329,7 @@ class FormEGateCheckController extends Controller
                     'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
                     'gate_delete_reason' => $request->input('gate_delete_reason'),
                     'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
-                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
+                    'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
                     'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                     'gate_nomor_plat' => $request->input('gate_nomor_plat'),
                     'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),
@@ -338,7 +342,7 @@ class FormEGateCheckController extends Controller
                     'gate_nama_perusahaan' => $request->input('gate_nama_perusahaan'),
                     'gate_jenis_kendaraan' => $request->input('gate_jenis_kendaraan'),
                     'gate_loading_type' => $request->input('gate_loading_type'),
-                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
+                    'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
                     'rk_masa_berlaku_SIM' => $request->input('rk_masa_berlaku_SIM'),
                     'rk_masa_berlaku_STNK' => $request->input('rk_masa_berlaku_STNK'),
                     'gate_masa_berlaku_kir' => $request->input('gate_masa_berlaku_kir'),
@@ -348,6 +352,72 @@ class FormEGateCheckController extends Controller
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
                     // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
                 ]);
+
+                if($request->file('gate_pic_1')){
+                    $file_pic_1 = 'uploads/form_e_gate/'.$formEGate->gate_pic_1;
+                    if(is_file($file_pic_1)){
+                    unlink(public_path($file_pic_1));
+                }
+                $name_pic_1 = time().$request->file('gate_pic_1')->getClientOriginalName();
+                $request->file('gate_pic_1')->move('uploads/form_e_gate',$name_pic_1);
+                $formEGate->update(
+                    [
+                        'gate_pic_1' => $name_pic_1,
+                    ]
+                );
+                }
+                if($request->file('gate_pic_2')){
+                    $file_pic_2 = 'uploads/form_e_gate/'.$formEGate->gate_pic_2;
+                    if(is_file($file_pic_2)){
+                    unlink(public_path($file_pic_2));
+                }
+                $name_pic_2 = time().$request->file('gate_pic_2')->getClientOriginalName();
+                $request->file('gate_pic_2')->move('uploads/form_e_gate',$name_pic_2);
+                $formEGate->update(
+                    [
+                        'gate_pic_2' => $name_pic_2,
+                    ]
+                );
+                }
+                if($request->file('gate_pic_3')){
+                    $file_pic_3 = 'uploads/form_e_gate/'.$formEGate->gate_pic_3;
+                    if(is_file($file_pic_3)){
+                    unlink(public_path($file_pic_3));
+                }
+                $name_pic_3 = time().$request->file('gate_pic_3')->getClientOriginalName();
+                $request->file('gate_pic_3')->move('uploads/form_e_gate',$name_pic_3);
+                $formEGate->update(
+                    [
+                        'gate_pic_3' => $name_pic_3,
+                    ]
+                );
+                }
+                if($request->file('gate_pic_4')){
+                    $file_pic_4 = 'uploads/form_e_gate/'.$formEGate->gate_pic_4;
+                    if(is_file($file_pic_4)){
+                    unlink(public_path($file_pic_4));
+                }
+                $name_pic_4 = time().$request->file('gate_pic_4')->getClientOriginalName();
+                $request->file('gate_pic_4')->move('uploads/form_e_gate',$name_pic_4);
+                $formEGate->update(
+                    [
+                        'gate_pic_4' => $name_pic_4,
+                    ]
+                );
+                }
+                if($request->file('gate_pic_5')){
+                    $file_pic_5 = 'uploads/form_e_gate/'.$formEGate->gate_pic_5;
+                    if(is_file($file_pic_5)){
+                    unlink(public_path($file_pic_5));
+                }
+                $name_pic_5 = time().$request->file('gate_pic_5')->getClientOriginalName();
+                $request->file('gate_pic_5')->move('uploads/form_e_gate',$name_pic_5);
+                $formEGate->update(
+                    [
+                        'gate_pic_5' => $name_pic_5,
+                    ]
+                );
+                }
                 if($request->input('gate_signature_employee_check_out')){
                     // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
 
@@ -393,8 +463,8 @@ class FormEGateCheckController extends Controller
                 return response()->json([
                     'code' => 200,
                     'message' => 'Success Update Data',
-                    'data' =>
-                        [$formEGate]
+                    'data' =>  [new FormEGateResource($formEGate)]
+                        // [$formEGate]
                     ], 200);
 
             } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
@@ -462,7 +532,9 @@ class FormEGateCheckController extends Controller
                     // 'gate_exit_petunjuk_darurat_transportasi' => (int) $request->input('gate_exit_petunjuk_darurat_transportasi'),
                     'gate_tipe_pelanggan' => (int) $request->input('gate_tipe_pelanggan'),
                     'gate_loading_status' => (int) $request->input('gate_loading_status'),
+                    'gate_pengganjal_roda' => (int) $request->input('gate_pengganjal_roda'),
 
+                    'gate_pengganjal_roda_desc' => $request->input('gate_pengganjal_roda_desc'),
                     'gate_report_code' => $request->input('gate_report_code'),
                     'gate_formulir_sopir_telp_darurat_desc' => $request->input('gate_formulir_sopir_telp_darurat_desc'),
                     'gate_kondisi_cukup_istirahat_desc' => $request->input('gate_kondisi_cukup_istirahat_desc'),
@@ -516,7 +588,7 @@ class FormEGateCheckController extends Controller
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
                     // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
 
-                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
+                    'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
                     'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                     'gate_nomor_plat' => $request->input('gate_nomor_plat'),
                     'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),
@@ -580,8 +652,8 @@ class FormEGateCheckController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
-                'data' =>
-                    [$formEGate]
+                'data' => [new FormEGateResource($formEGate)]
+                    // [$formEGate]
                 ], 200);
         }
     }
@@ -598,8 +670,8 @@ class FormEGateCheckController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Delete Data',
-                'data' =>
-                    [$gateForm]
+                'data' => [new FormEGateResource($gateForm)]
+                    // [$gateForm]
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
@@ -627,8 +699,8 @@ class FormEGateCheckController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Delete Gateable of E Gate Form',
-                'data' =>
-                    [$gateForm]
+                'data' => [new FormEGateResource($gateForm)]
+                    // [$gateForm]
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
@@ -657,8 +729,8 @@ class FormEGateCheckController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Approve Data',
-                'data' =>
-                    [$formEGate]
+                'data' => [new FormEGateResource($formEGate)]
+                    // [$formEGate]
                 ], 200);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([

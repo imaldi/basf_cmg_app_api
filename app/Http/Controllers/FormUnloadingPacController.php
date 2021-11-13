@@ -154,6 +154,10 @@ class FormUnloadingPacController extends Controller
                     'un3_employee_id' => $employee->id,
                     'un3_report_kendaraan_id' => $gate->id,
                 ]);
+                $gate->update([
+                    'gateable_id' => $formUnloadingPac->id,
+                    'gateable_type' => "App\Models\FormUnloadingPac"
+                    ]);
             }
             $formUnloadingPac->update([
 
@@ -243,15 +247,12 @@ class FormUnloadingPacController extends Controller
                 'un3_delete_reason' => $request->input('un3_delete_reason'),
                 'un3_reason_cancel_load_unload' => $request->input('un3_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingPac->id,
-                'gateable_type' => "App\Models\FormUnloadingPac"
-                ]);
+
                 if($request->input('un3_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un3_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un3_signature_checker.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -266,7 +267,7 @@ class FormUnloadingPacController extends Controller
                     $decodedDocs = base64_decode($request->input('un3_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un3_signature_employee.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 

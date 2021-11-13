@@ -166,6 +166,10 @@ class FormUnloadingSulphurLiquidController extends Controller
                     'un6_employee_id' => $employee->id,
                     'un6_report_kendaraan_id' => $gate->id,
                 ]);
+                $gate->update([
+                    'gateable_id' => $formUnloadingSulphurLiquid->id,
+                    'gateable_type' => "App\Models\FormUnloadingSulphurLiquid"
+                    ]);
             }
             $formUnloadingSulphurLiquid->update([
                 'un6_persiapan_memakai_ppe' => (int) $request->input('un6_persiapan_memakai_ppe'),
@@ -263,15 +267,12 @@ class FormUnloadingSulphurLiquidController extends Controller
                 'un6_delete_reason' => $request->input('un6_delete_reason'),
                 'un6_reason_cancel_load_unload' => $request->input('un6_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingSulphurLiquid->id,
-                'gateable_type' => "App\Models\FormUnloadingSulphurLiquid"
-                ]);
+
                 if($request->input('un6_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un6_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un6_signature_checker.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -286,7 +287,7 @@ class FormUnloadingSulphurLiquidController extends Controller
                     $decodedDocs = base64_decode($request->input('un6_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un6_signature_employee.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 

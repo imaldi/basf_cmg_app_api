@@ -168,6 +168,11 @@ class FormUnloadingNaohController extends Controller
                     'un4_employee_id' => $employee->id,
                     'un4_report_kendaraan_id' => $gate->id,
                 ]);
+
+                $gate->update([
+                    'gateable_id' => $formUnloadingNaoh->id,
+                    'gateable_type' => "App\Models\FormUnloadingNaoh"
+                    ]);
             }
             $formUnloadingNaoh->update([
                 'un4_persiapan_memakai_ppe' => (int) $request->input('un4_persiapan_memakai_ppe'),
@@ -268,10 +273,7 @@ class FormUnloadingNaohController extends Controller
                 'un4_selesai_pastikan_peralatan_tidak_terbawa_truk_desc' => $request->input('un4_selesai_pastikan_peralatan_tidak_terbawa_truk_desc'),
                 'un4_selesai_lakukan_timbang_akhir_desc' => $request->input('un4_selesai_lakukan_timbang_akhir_desc'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingNaoh->id,
-                'gateable_type' => "App\Models\FormUnloadingNaoh"
-                ]);
+
 
                 // if($request->input('un3_signature_checker')){
                 //     $decodedDocs = base64_decode($request->input('un3_signature_checker'));

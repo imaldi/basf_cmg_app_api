@@ -193,6 +193,11 @@ class FormUnloadingDehytonKeController extends Controller
                     'un8_employee_id' => $employee->id,
                     'un8_report_kendaraan_id' => $gate->id,
                 ]);
+
+                $gate->update([
+                    'gateable_id' => $formUnloadingDehytonKe->id,
+                    'gateable_type' => "App\Models\FormUnloadingDehytonKe"
+                    ]);
             }
             $formUnloadingDehytonKe->update([
                 'un8_persiapan_memakai_ppe' => (int) $request->input('un8_persiapan_memakai_ppe'),
@@ -317,16 +322,13 @@ class FormUnloadingDehytonKeController extends Controller
                 'un8_delete_reason' => $request->input('un8_delete_reason'),
                 'un8_reason_cancel_load_unload' => $request->input('un8_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingDehytonKe->id,
-                'gateable_type' => "App\Models\FormUnloadingDehytonKe"
-                ]);
+
 
                 if($request->input('un8_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un8_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un8_signature_checker.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -341,7 +343,7 @@ class FormUnloadingDehytonKeController extends Controller
                     $decodedDocs = base64_decode($request->input('un8_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un8_signature_employee.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 

@@ -159,7 +159,10 @@ class FormUnloadingFaC12Controller extends Controller
                         response()->json([
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                            'data' => []
+                            'data' => [
+                                'gateable_id' => $gate->gateable_id,
+                                'form_id' => $formUnloadingFaC12->id
+                            ]
                             ], 451);
                     }
 
@@ -178,7 +181,10 @@ class FormUnloadingFaC12Controller extends Controller
                     response()->json([
                         'code' => 451,
                         'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                        'data' => []
+                        'data' => [
+                            'gateable_id' => $gate->gateable_id,
+                            'form_id Create' => $request->input('form_id')
+                        ]
                         ], 451);
                 }
 
@@ -186,8 +192,13 @@ class FormUnloadingFaC12Controller extends Controller
                     'un1_employee_id' => $employee->id,
                     'un1_report_kendaraan_id' => $gate->id,
                 ]);
-            }
 
+                $gate->update([
+                    'gateable_id' => $formUnloadingFaC12->id,
+                    'gateable_type' => "App\Models\FormUnloadingFaC12"
+                    ]);
+            }
+            // update e gate cuma di create, ubah buat yang lain nanti
             $formUnloadingFaC12->update([
                 'un1_persiapan_memakai_ppe' => (int) $request->input('un1_persiapan_memakai_ppe'),
                 'un1_persiapan_cek_hose_piping' => (int) $request->input('un1_persiapan_cek_hose_piping'),
@@ -305,21 +316,18 @@ class FormUnloadingFaC12Controller extends Controller
                 'un1_reason_cancel_load_unload' => $request->input('un1_reason_cancel_load_unload'),
             ]);
 
-            $gate->update([
-                'gateable_id' => $formUnloadingFaC12->id,
-                'gateable_type' => "App\Models\FormUnloadingFaC12"
-                ]);
+
                 if($request->input('un1_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un1_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                    $name1 = time()."_un1_signature_checker.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name1, $decodedDocs);
 
 
                     $formUnloadingFaC12->update(
                         [
-                            'un1_signature_checker' => $name,
+                            'un1_signature_checker' => $name1,
                             ]
                         );
 
@@ -328,13 +336,13 @@ class FormUnloadingFaC12Controller extends Controller
                     $decodedDocs = base64_decode($request->input('un1_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                    $name2 = time()."_un1_signature_employee.png";
+                    file_put_contents('uploads/unloading/signatures/'.$name2, $decodedDocs);
 
 
                     $formUnloadingFaC12->update(
                         [
-                            'un1_signature_employee' => $name,
+                            'un1_signature_employee' => $name2,
                             ]
                         );
 
@@ -343,7 +351,10 @@ class FormUnloadingFaC12Controller extends Controller
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingFaC12 Form',
                 'data' => [
-                    $formUnloadingFaC12]
+                    $formUnloadingFaC12
+                ],
+                'gateable_id' => $gate->gateable_id,
+                                'form_id update' =>$request->input('form_id')
                 ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){

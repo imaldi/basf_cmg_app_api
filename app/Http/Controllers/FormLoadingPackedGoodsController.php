@@ -182,6 +182,11 @@ class FormLoadingPackedGoodsController extends Controller
                     'ul2_employee_id' => $employee->id,
                     'ul2_report_kendaraan_id' => $gate->id,
                 ]);
+
+                $gate->update([
+                    'gateable_id' => $formLoadingPackedGoods->id,
+                    'gateable_type' => "App\Models\FormLoadingPackedGoods"
+                ]);
             }
 
             $formLoadingPackedGoods->update([
@@ -298,16 +303,13 @@ class FormLoadingPackedGoodsController extends Controller
                 // 'ul2_foto_khusus_cont_ocn_export3' => $request->input('ul2_foto_khusus_cont_ocn_export3'),
                 'ul2_reason_cancel_load_unload' => $request->input('ul2_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formLoadingPackedGoods->id,
-                'gateable_type' => "App\Models\FormLoadingPackedGoods"
-            ]);
+
 
             if($request->input('ul2_signature_checker')){
                 $decodedDocs = base64_decode($request->input('ul2_signature_checker'));
 
 
-                $name = time()."someone_that_i_used_to_know.png";
+                $name = time()."_ul2_signature_checker.png";
                 file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -322,7 +324,7 @@ class FormLoadingPackedGoodsController extends Controller
                 $decodedDocs = base64_decode($request->input('ul2_signature_employee'));
 
 
-                $name = time()."someone_that_i_used_to_know.png";
+                $name = time()."_ul2_signature_employee.png";
                 file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 

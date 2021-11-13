@@ -187,6 +187,12 @@ class FormUnloadingFa1eoController extends Controller
                     'un2_employee_id' => $employee->id,
                     'un2_report_kendaraan_id' => $gate->id,
                 ]);
+
+                $gate->update([
+                    'gateable_id' => $formUnloadingFa1eo->id,
+                    'gateable_type' => "App\Models\FormUnloadingFa1eo"
+                    ]);
+
             }
             $formUnloadingFa1eo->update([
 
@@ -306,16 +312,13 @@ class FormUnloadingFa1eoController extends Controller
                 'un2_delete_reason' => $request->input('un2_delete_reason'),
                 'un2_reason_cancel_load_unload' => $request->input('un2_reason_cancel_load_unload'),
             ]);
-            $gate->update([
-                'gateable_id' => $formUnloadingFa1eo->id,
-                'gateable_type' => "App\Models\FormUnloadingFa1eo"
-                ]);
+
 
                 if($request->input('un2_signature_checker')){
                     $decodedDocs = base64_decode($request->input('un2_signature_checker'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un2_signature_checker.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
@@ -330,7 +333,7 @@ class FormUnloadingFa1eoController extends Controller
                     $decodedDocs = base64_decode($request->input('un2_signature_employee'));
 
 
-                    $name = time()."someone_that_i_used_to_know.png";
+                    $name = time()."_un2_signature_employee.png";
                     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
