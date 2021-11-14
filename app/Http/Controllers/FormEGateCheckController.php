@@ -216,10 +216,10 @@ class FormEGateCheckController extends Controller
             'gate_masa_berlaku_kir' => 'date',
             'gate_loading_date' => 'date',
 
-            'gate_signature_employee_check_in' => 'file',
-            'gate_signature_driver_check_in' => 'file',
-            'gate_signature_employee_check_out' => 'file',
-            'gate_signature_driver_check_out' => 'file',
+            // 'gate_signature_employee_check_in' => 'file',
+            // 'gate_signature_driver_check_in' => 'file',
+            // 'gate_signature_employee_check_out' => 'file',
+            // 'gate_signature_driver_check_out' => 'file',
             'gateable_type' => 'string',
         ]);
         if((int) $request->input('form_id') != null ||(int) $request->input('form_id') != 0){
@@ -358,7 +358,7 @@ class FormEGateCheckController extends Controller
                     if(is_file($file_pic_1)){
                     unlink(public_path($file_pic_1));
                 }
-                $name_pic_1 = time().$request->file('gate_pic_1')->getClientOriginalName();
+                $name_pic_1 = time().'gate_pic_1.png';
                 $request->file('gate_pic_1')->move('uploads/form_e_gate',$name_pic_1);
                 $formEGate->update(
                     [
@@ -418,52 +418,78 @@ class FormEGateCheckController extends Controller
                     ]
                 );
                 }
-                if($request->input('gate_signature_employee_check_out')){
-                    // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+                if($request->input('gate_is_out') == 1){
+                    //versi base 64
+                    if($request->input('gate_signature_employee_check_out')){
+                        $decodedDocs = base64_decode($request->input('gate_signature_employee_check_out'));
+                        $name = time()."_gate_signature_employee_check_out.png";
+                        file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
 
-                    // if (is_file($file)) {
-                    //     unlink(public_path($file));
+
+                        $formEGate->update(
+                            [
+                                'gate_signature_employee_check_out' => $name,
+                                ]
+                            );
+
+                    }
+                //versi file
+                    // if($request->file('gate_signature_employee_check_out')){
+                    //     $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+
+                    //     if (is_file($file)) {
+                    //         unlink(public_path($file));
+                    //     }
+                    //     $name = time()."_gate_signature_employee_check_out.png";
+                    //     $request->file('gate_signature_driver_check_out')->move('uploads/form_e_gate/signatures',$name);
+
+                    //     $formEGate->update(
+                    //         [
+                    //             'gate_signature_employee_check_out' => $name,
+                    //             ]
+                    //         );
+
                     // }
-                    $decodedDocs = base64_decode($request->input('gate_signature_employee_check_out'));
+                    //versi base 64
+                    if($request->input('gate_signature_driver_check_out')){
+                        $decodedDocs = base64_decode($request->input('gate_signature_driver_check_out'));
+                        $name = time()."gate_signature_driver_check_out.png";
+                        file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
 
 
-                    // $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                    $name = time()."someone_that_i_used_to_know.png";
-                    file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+                        $formEGate->update(
+                            [
+                                'gate_signature_driver_check_out' => $name,
+                                ]
+                            );
+
+                    }
+                //versi file
+                    // if($request->file('gate_signature_driver_check_out')){
+                    //     // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+
+                    //     // if (is_file($file)) {
+                    //     //     unlink(public_path($file));
+                    //     // }
+                    //     $name = time()."_gate_signature_driver_check_out.png";
+                    //     $request->file('gate_signature_driver_check_out')->move('uploads/form_e_gate/signatures',$name);
 
 
-                    $formEGate->update(
-                        [
-                            'gate_signature_employee_check_out' => $name,
-                            ]
-                        );
 
-                }
-                if($request->input('gate_signature_driver_check_out')){
-                    // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
+                    //     $formEGate->update(
+                    //         [
+                    //             'gate_signature_driver_check_out' => $name,
+                    //             ]
+                    //         );
 
-                    // if (is_file($file)) {
-                    //     unlink(public_path($file));
                     // }
-                    $decodedDocs = base64_decode($request->input('gate_signature_driver_check_out'));
-
-
-                    // $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                    $name = time()."someone_that_i_used_to_know.png";
-                    file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
-
-
-                    $formEGate->update(
-                        [
-                            'gate_signature_driver_check_out' => $name,
-                            ]
-                        );
-
                 }
                 return response()->json([
                     'code' => 200,
                     'message' => 'Success Update Data',
-                    'data' =>  [new FormEGateResource($formEGate)]
+                    'data' =>
+                    // $request->input('gate_signature_employee_check_out')
+                    [new FormEGateResource($formEGate)]
                         // [$formEGate]
                     ], 200);
 
@@ -607,38 +633,109 @@ class FormEGateCheckController extends Controller
                     'gate_loading_date' => $request->input('gate_loading_date'),
                 ]
             );
-            if($request->input('gate_signature_employee_check_in')){
-                // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
-
-                // if (is_file($file)) {
-                //     unlink(public_path($file));
-                // }
-                $decodedDocs = base64_decode($request->input('gate_signature_employee_check_in'));
-
-
-                // $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                $name = time()."someone_that_i_used_to_know.png";
-                file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
-
-
+            if($request->file('gate_pic_1')){
+                    $file_pic_1 = 'uploads/form_e_gate/'.$formEGate->gate_pic_1;
+                    if(is_file($file_pic_1)){
+                    unlink(public_path($file_pic_1));
+                }
+                $name_pic_1 = time().'_gate_pic_1.png';
+                $request->file('gate_pic_1')->move('uploads/form_e_gate',$name_pic_1);
                 $formEGate->update(
                     [
-                        'gate_signature_employee_check_in' => $name,
-                        ]
-                    );
+                        'gate_pic_1' => $name_pic_1,
+                    ]
+                );
+                }
+                if($request->file('gate_pic_2')){
+                    $file_pic_2 = 'uploads/form_e_gate/'.$formEGate->gate_pic_2;
+                    if(is_file($file_pic_2)){
+                    unlink(public_path($file_pic_2));
+                }
+                $name_pic_2 = time().'_gate_pic_2.png';
+                $request->file('gate_pic_2')->move('uploads/form_e_gate',$name_pic_2);
+                $formEGate->update(
+                    [
+                        'gate_pic_2' => $name_pic_2,
+                    ]
+                );
+                }
+                if($request->file('gate_pic_3')){
+                    $file_pic_3 = 'uploads/form_e_gate/'.$formEGate->gate_pic_3;
+                    if(is_file($file_pic_3)){
+                    unlink(public_path($file_pic_3));
+                    }
+                $name_pic_3 = time().'_gate_pic_3.png';
+                $request->file('gate_pic_3')->move('uploads/form_e_gate',$name_pic_3);
+                $formEGate->update(
+                    [
+                        'gate_pic_3' => $name_pic_3,
+                    ]
+                );
+                }
+                if($request->file('gate_pic_4')){
+                    $file_pic_4 = 'uploads/form_e_gate/'.$formEGate->gate_pic_4;
+                    if(is_file($file_pic_4)){
+                    unlink(public_path($file_pic_4));
+                    }
+                $name_pic_4 = time().'_gate_pic_4.png';
+                $request->file('gate_pic_4')->move('uploads/form_e_gate',$name_pic_4);
+                $formEGate->update(
+                    [
+                        'gate_pic_4' => $name_pic_4,
+                    ]
+                );
+                }
+                if($request->file('gate_pic_5')){
+                    $file_pic_5 = 'uploads/form_e_gate/'.$formEGate->gate_pic_5;
+                    if(is_file($file_pic_5)){
+                    unlink(public_path($file_pic_5));
+                }
+                $name_pic_5 = time().'_gate_pic_5.png';
+                $request->file('gate_pic_5')->move('uploads/form_e_gate',$name_pic_5);
+                $formEGate->update(
+                    [
+                        'gate_pic_5' => $name_pic_5,
+                    ]
+                );
+                }
 
-            }
+                //versi base 64
+                if($request->input('gate_signature_employee_check_in')){
+                    $decodedDocs = base64_decode($request->input('gate_signature_employee_check_in'));
+                    $name = time()."_gate_signature_employee_check_in.png";
+                    file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+
+
+                    $formEGate->update(
+                        [
+                            'gate_signature_employee_check_in' => $name,
+                            ]
+                        );
+
+                }
+                //versi file
+            // if($request->file('gate_signature_employee_check_in')){
+            //     // $file = 'uploads/attendance/signatures/'.$formEGate->gate_signature_employee_check_in;
+
+            //     // if (is_file($file)) {
+            //     //     unlink(public_path($file));
+            //     // }
+            //     $name = time()."_gate_signature_employee_check_in.png";
+
+            //     $request->file('gate_signature_employee_check_in')->move('uploads/form_e_gate/signatures',$name);
+
+            //     $formEGate->update(
+            //         [
+            //             'gate_signature_employee_check_in' => $name,
+            //             ]
+            //         );
+
+            // }
+
+            //versi base 64
             if($request->input('gate_signature_driver_check_in')){
-                // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
-
-                // if (is_file($file)) {
-                //     unlink(public_path($file));
-                // }
                 $decodedDocs = base64_decode($request->input('gate_signature_driver_check_in'));
-
-
-                // $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                $name = time()."someone_that_i_used_to_know.png";
+                $name = time()."_gate_signature_driver_check_in.png";
                 file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
 
 
@@ -649,10 +746,29 @@ class FormEGateCheckController extends Controller
                     );
 
             }
+            //versi file
+            // if($request->file('gate_signature_driver_check_in')){
+            //     // $file = 'uploads/attendance/signatures/'.$formEGate->gate_signature_driver_check_in;
+
+            //     // if (is_file($file)) {
+            //     //     unlink(public_path($file));
+            //     // }
+            //     $name = time()."_gate_signature_driver_check_in.png";
+            //     $request->file('gate_signature_driver_check_in')->move('uploads/form_e_gate/signatures',$name);
+
+            //     $formEGate->update(
+            //         [
+            //             'gate_signature_driver_check_in' => $name,
+            //             ]
+            //         );
+
+            // }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
-                'data' => [new FormEGateResource($formEGate)]
+                'data' =>
+                // $request->input('gate_signature_employee_check_in')
+                [new FormEGateResource($formEGate)]
                     // [$formEGate]
                 ], 200);
         }
