@@ -23,7 +23,7 @@ class FormUnloadingDehytonKeController extends Controller
     }
     public function createOrUpdate(Request $request){
         $this->validate($request, [
-            'form_id' => 'integer',
+            // 'form_id' => 'integer',
             'gate_id' => 'required|integer',
 
 
@@ -49,7 +49,6 @@ class FormUnloadingDehytonKeController extends Controller
             'un8_persiapan_bukasegel_ambil_sampel' => ['integer', Rule::in(['0','1','2']),],
             'un8_persiapan_kirim_sample' => ['integer', Rule::in(['0','1','2']),],
             'un8_persiapan_periksa_level_storage' => ['integer', Rule::in(['0','1','2']),],
-            'un8_persiapan_check_fullbody_harness_desc' => ['integer', Rule::in(['0','1','2']),],
             'un8_persiapan_webbing' => ['integer', Rule::in(['0','1','2']),],
             'un8_persiapan_D_rings' => ['integer', Rule::in(['0','1','2']),],
             'un8_persiapan_buckles' => ['integer', Rule::in(['0','1','2']),],
@@ -83,6 +82,7 @@ class FormUnloadingDehytonKeController extends Controller
             'un8_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
             'un8_persiapan_memakai_ppe_desc' => 'string|max:255',
+            'un8_persiapan_check_fullbody_harness_desc' => 'string|max:255',
             'un8_persiapan_cek_hose_piping_desc' => 'string|max:255',
             'un8_persiapan_safety_shower_desc' => 'string|max:255',
             'un8_persiapan_operator_terima_dokumen_desc' => 'string|max:255',
@@ -152,7 +152,7 @@ class FormUnloadingDehytonKeController extends Controller
 
         $employee = Auth::user();
         try{
-            $formId = $request->input('form_id');
+            $formId = (int) $request->input('form_id');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
             if( $formId != null || $formId != 0){
                 $isCreate = "Update";
@@ -221,7 +221,7 @@ class FormUnloadingDehytonKeController extends Controller
                 'un8_persiapan_bukasegel_ambil_sampel' => (int) $request->input('un8_persiapan_bukasegel_ambil_sampel'),
                 'un8_persiapan_kirim_sample' => (int) $request->input('un8_persiapan_kirim_sample'),
                 'un8_persiapan_periksa_level_storage' => (int) $request->input('un8_persiapan_periksa_level_storage'),
-                'un8_persiapan_check_fullbody_harness_desc' => (int) $request->input('un8_persiapan_check_fullbody_harness_desc'),
+                'un8_persiapan_check_fullbody_harness_desc' => $request->input('un8_persiapan_check_fullbody_harness_desc'),
                 'un8_persiapan_webbing' => (int) $request->input('un8_persiapan_webbing'),
                 'un8_persiapan_D_rings' => (int) $request->input('un8_persiapan_D_rings'),
                 'un8_persiapan_buckles' => (int) $request->input('un8_persiapan_buckles'),
@@ -372,7 +372,7 @@ class FormUnloadingDehytonKeController extends Controller
     }
 
     public function approve(Request $request){
-        $formId = $request->input('form_id');
+        $formId = (int) $request->input('form_id');
         $employee = Auth::user();
 
         try{

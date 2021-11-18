@@ -23,7 +23,7 @@ class FormUnloadingSulphurLiquidController extends Controller
     }
     public function createOrUpdate(Request $request){
         $this->validate($request, [
-            'form_id' => 'integer',
+            // 'form_id' => 'integer',
             'gate_id' => 'required|integer',
 
             'un6_persiapan_memakai_ppe' => ['integer', Rule::in(['0','1','2']),],
@@ -125,7 +125,7 @@ class FormUnloadingSulphurLiquidController extends Controller
 
         $employee = Auth::user();
         try{
-            $formId = $request->input('form_id');
+            $formId = (int) $request->input('form_id');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
             if( $formId != null || $formId != 0){
                 $isCreate = "Update";
@@ -316,7 +316,7 @@ class FormUnloadingSulphurLiquidController extends Controller
     }
 
     public function approve(Request $request){
-        $formId = $request->input('form_id');
+        $formId = (int) $request->input('form_id');
         $employee = Auth::user();
 
         try{

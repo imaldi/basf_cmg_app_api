@@ -23,7 +23,7 @@ class FormLoadingTexN701SController extends Controller
     }
     public function createOrUpdate(Request $request){
         $this->validate($request, [
-            'form_id' => 'integer',
+            // 'form_id' => 'integer',
             'gate_id' => 'required',
             'ul1_persiapan_memakai_ppe' => ['integer', Rule::in(['0','1','2']),],
             'ul1_persiapan_cek_hose_piping' => ['integer', Rule::in(['0','1','2']),],
