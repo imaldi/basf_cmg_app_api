@@ -634,8 +634,8 @@ class FormEGateCheckController extends Controller
                 ]
             );
             if($request->file('gate_pic_1')){
-                    $file_pic_1 = 'uploads/form_e_gate/'.$formEGate->gate_pic_1;
-                    if(is_file($file_pic_1)){
+                $file_pic_1 = 'uploads/form_e_gate/'.$formEGate->gate_pic_1;
+                if(is_file($file_pic_1)){
                     unlink(public_path($file_pic_1));
                 }
                 $name_pic_1 = time().'_gate_pic_1.png';
@@ -647,8 +647,8 @@ class FormEGateCheckController extends Controller
                 );
                 }
                 if($request->file('gate_pic_2')){
-                    $file_pic_2 = 'uploads/form_e_gate/'.$formEGate->gate_pic_2;
-                    if(is_file($file_pic_2)){
+                $file_pic_2 = 'uploads/form_e_gate/'.$formEGate->gate_pic_2;
+                if(is_file($file_pic_2)){
                     unlink(public_path($file_pic_2));
                 }
                 $name_pic_2 = time().'_gate_pic_2.png';
