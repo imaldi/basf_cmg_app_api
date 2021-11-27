@@ -78,6 +78,8 @@ class FormUnloadingNaohController extends Controller
             'un4_level_awal' => 'string|max:255',
             'un4_level_akhir' => 'string|max:255',
             'un4_jml_dimuat' => 'string|max:255',
+            "un4_netto_disuratjalan" => 'string|max:255',
+            "un4_netto_hasil_timbang" => 'string|max:255',
             'un4_persiapan_bukasegel_ambil_sampel_desc' => 'string|max:255',
             'un4_persiapan_memakai_ppe_desc' => 'string|max:255',
             'un4_persiapan_cek_hose_piping_desc' => 'string|max:255',
@@ -123,6 +125,7 @@ class FormUnloadingNaohController extends Controller
             'un4_selesai_lepas_pengganjal_roda_safetycone_desc' => 'string|max:255',
             'un4_selesai_pastikan_peralatan_tidak_terbawa_truk_desc' => 'string|max:255',
             'un4_selesai_lakukan_timbang_akhir_desc' => 'string|max:255',
+            'un4_pemeriksa' => 'string|max:255',
         ]);
 
         $employee = Auth::user();
@@ -227,6 +230,9 @@ class FormUnloadingNaohController extends Controller
                 'un4_level_awal' => $request->input('un4_level_awal'),
                 'un4_level_akhir' => $request->input('un4_level_akhir'),
                 'un4_jml_dimuat' => $request->input('un4_jml_dimuat'),
+                'un4_pemeriksa' => $request->input('un4_pemeriksa'),
+                "un4_netto_disuratjalan" => $request->input('"un4_netto_disuratjalan"'),
+                "un4_netto_hasil_timbang" => $request->input('"un4_netto_hasil_timbang"'),
                 'un4_persiapan_memakai_ppe_desc' => $request->input('un4_persiapan_memakai_ppe_desc'),
                 'un4_persiapan_cek_hose_piping_desc' => $request->input('un4_persiapan_cek_hose_piping_desc'),
                 'un4_persiapan_safety_shower_desc' => $request->input('un4_persiapan_safety_shower_desc'),
@@ -274,37 +280,37 @@ class FormUnloadingNaohController extends Controller
                 'un4_selesai_lakukan_timbang_akhir_desc' => $request->input('un4_selesai_lakukan_timbang_akhir_desc'),
             ]);
 
-
-                // if($request->input('un3_signature_checker')){
-                //     $decodedDocs = base64_decode($request->input('un3_signature_checker'));
-
-
-                //     $name = time()."someone_that_i_used_to_know.png";
-                //     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+            if($request->input('un4_signature_checker')){
+                $decodedDocs = base64_decode($request->input('un4_signature_checker'));
 
 
-                //     $formUnloadingPac->update(
-                //         [
-                //             'un3_signature_checker' => $name,
-                //             ]
-                //         );
-
-                // }
-                // if($request->input('un3_signature_employee')){
-                //     $decodedDocs = base64_decode($request->input('un3_signature_employee'));
+                $name = time()."_un4_signature_checker.png";
+                file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
-                //     $name = time()."someone_that_i_used_to_know.png";
-                //     file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                $formUnloadingPac->update(
+                    [
+                        'un4_signature_checker' => $name,
+                        ]
+                    );
+
+            }
+            if($request->input('un4_signature_employee')){
+                $decodedDocs = base64_decode($request->input('un4_signature_employee'));
 
 
-                //     $formUnloadingPac->update(
-                //         [
-                //             'un3_signature_employee' => $name,
-                //             ]
-                //         );
+                $name = time()."_un4_signature_employee.png";
+                file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
-                // }
+
+                $formUnloadingPac->update(
+                    [
+                        'un4_signature_employee' => $name,
+                        ]
+                    );
+
+            }
+
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingNaoh Form',
