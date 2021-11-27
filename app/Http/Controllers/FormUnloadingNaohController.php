@@ -126,6 +126,7 @@ class FormUnloadingNaohController extends Controller
             'un4_selesai_pastikan_peralatan_tidak_terbawa_truk_desc' => 'string|max:255',
             'un4_selesai_lakukan_timbang_akhir_desc' => 'string|max:255',
             'un4_pemeriksa' => 'string|max:255',
+            'un4_reason_cancel_load_unload' => 'string|max:255',
         ]);
 
         $employee = Auth::user();
@@ -231,6 +232,7 @@ class FormUnloadingNaohController extends Controller
                 'un4_level_akhir' => $request->input('un4_level_akhir'),
                 'un4_jml_dimuat' => $request->input('un4_jml_dimuat'),
                 'un4_pemeriksa' => $request->input('un4_pemeriksa'),
+                'un4_reason_cancel_load_unload' => $request->input('un4_reason_cancel_load_unload'),
                 "un4_netto_disuratjalan" => $request->input('"un4_netto_disuratjalan"'),
                 "un4_netto_hasil_timbang" => $request->input('"un4_netto_hasil_timbang"'),
                 'un4_persiapan_memakai_ppe_desc' => $request->input('un4_persiapan_memakai_ppe_desc'),
