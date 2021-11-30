@@ -110,6 +110,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany(FormEGateCheck::class,'user_id');
     }
 
+    public function formEGateCheckCheckOutEmployee()
+    {
+        return $this->hasMany(FormEGateCheck::class,'gate_check_out_employee_id');
+    }
+
     public function formLoadingPackedGoods(){
         return $this->hasMany(FormLoadingPackedGoods::class,'ul2_employee_id');
     }

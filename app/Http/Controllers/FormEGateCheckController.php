@@ -19,7 +19,7 @@ class FormEGateCheckController extends Controller
 
         if($gateableType != null){
             $forms =
-            FormEGateCheck::where('gate_is_in',1)
+            FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
                 ->where(function ($query) use ($gateableType) {
                     $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
                           ->orWhere('gateable_type', '=', null);})
@@ -28,7 +28,7 @@ class FormEGateCheckController extends Controller
             // $forms->whereNotNull('gateable_type')->all();
         } else {
             $forms =
-            FormEGateCheck::where('gate_is_in',1)
+            FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
             ->orderBy('gateable_type')->orderBy('id','DESC')->get();
         }
         return response()->json([
@@ -144,6 +144,8 @@ class FormEGateCheckController extends Controller
             'gate_pengganjal_roda' => ['integer',Rule::in(['0','1','2']),],
             'gateable_id' => ['integer',Rule::in(['0','1','2']),],
             'gate_kesimpulan' => ['integer',Rule::in(['0','1']),],
+            'gate_check_out_employee_id' =>'integer',
+
 
 
             'gate_report_code' => 'string|max:255',
@@ -347,11 +349,23 @@ class FormEGateCheckController extends Controller
                     'rk_masa_berlaku_STNK' => $request->input('rk_masa_berlaku_STNK'),
                     'gate_masa_berlaku_kir' => $request->input('gate_masa_berlaku_kir'),
                     'gate_loading_date' => $request->input('gate_loading_date'),
+                    'gate_exit_date' => $request->input('gate_exit_date'),
                     // 'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
                     // 'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
                     // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
                 ]);
+
+
+                // TODO nanti usahakan bisa
+                // if(((int) $request->input('gate_check_out_employee_id')) == 1){
+                //     $employee = Auth::user();
+                //     $user = User::find($employee->id);
+                //     $user->save();
+
+                //     $user->formEGateCheckCheckOutEmployee()->save($formEGate);
+
+                // }
 
                 if($request->file('gate_pic_1')){
                     $file_pic_1 = 'uploads/form_e_gate/'.$formEGate->gate_pic_1;
