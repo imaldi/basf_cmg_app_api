@@ -80,7 +80,7 @@ class FormLoadingTexN701SController extends Controller
             'ul1_no_storage2' => 'string|max:255',
             'ul1_level_awal2' => 'string|max:255',
             'ul1_level_akhir2' => 'string|max:255',
-            'ul1_jml_dimuat' =>
+            'ul1_jml_dimuat' => 'string|max:255',
             'ul1_persiapan_check_fullbody_harness_desc' => 'string|max:255',
             'ul1_persiapan_memakai_ppe_desc' => 'string|max:255',
             'ul1_persiapan_cek_hose_piping_desc' => 'string|max:255',

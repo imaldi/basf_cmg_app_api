@@ -142,7 +142,7 @@ class FormEGateCheckController extends Controller
             'gate_exit_plakat_tanda_bahaya_terpasang' => ['integer',Rule::in(['0','1','2']),],
             'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
             'gate_pengganjal_roda' => ['integer',Rule::in(['0','1','2']),],
-            'gateable_id' => ['integer',Rule::in(['0','1','2']),],
+            'gateable_id' => 'integer',
             'gate_kesimpulan' => ['integer',Rule::in(['0','1']),],
             'gate_check_out_employee_id' =>'integer',
 
@@ -280,6 +280,7 @@ class FormEGateCheckController extends Controller
                     'gate_exit_petunjuk_darurat_transportasi' => (int) $request->input('gate_exit_petunjuk_darurat_transportasi'),
                     'gate_exit_plakat_tanda_bahaya_terpasang' => (int) $request->input('gate_exit_plakat_tanda_bahaya_terpasang'),
                     'gate_pengganjal_roda' => (int) $request->input('gate_pengganjal_roda'),
+                    'gate_check_out_employee_id' => (int) $request->input('gate_check_out_employee_id'),
 
                     'gate_pengganjal_roda_desc' => $request->input('gate_pengganjal_roda_desc'),
                     'gate_report_code' => $request->input('gate_report_code'),
