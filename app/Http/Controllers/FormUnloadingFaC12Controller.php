@@ -72,7 +72,7 @@ class FormUnloadingFaC12Controller extends Controller
             'un1_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un1_status' => ['integer', Rule::in(['0','1']),],
             'un1_operator_complate' => ['integer', Rule::in(['0','1','2']),],
-            'un1_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un1_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un1_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
             'un1_report_code' => 'string|max:255',

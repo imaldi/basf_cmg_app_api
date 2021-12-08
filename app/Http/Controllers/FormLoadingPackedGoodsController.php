@@ -67,7 +67,7 @@ class FormLoadingPackedGoodsController extends Controller
             'ul2_selesai_wh_spv_memastikan_ttd' => ['integer', Rule::in(['0','1','2']),],
             'ul2_selesai_khusus_produk_kosong_ttd' => ['integer', Rule::in(['0','1','2']),],
             'ul2_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'ul2_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'ul2_checker_complete' => ['integer', Rule::in(['0','1']),],
             'ul2_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
             'ul2_status' => ['integer', Rule::in(['1','2','3']),],
             'ul2_persiapan_memakai_ppe_desc' => 'string',

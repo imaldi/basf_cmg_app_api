@@ -63,7 +63,7 @@ class FormUnloadingPacController extends Controller
             'un3_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un3_status' => ['integer', Rule::in(['0','1']),],
             'un3_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un3_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un3_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un3_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
             'un3_report_code' => 'string|max:255',
             'un3_batch_no' => 'string|max:255',

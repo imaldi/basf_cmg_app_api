@@ -71,7 +71,7 @@ class FormUnloadingDieselOilController extends Controller
             'un7_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un7_status' => ['integer', Rule::in(['0','1']),],
             'un7_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un7_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un7_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un7_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
             'un7_report_code' => 'string|max:255',

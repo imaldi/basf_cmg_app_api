@@ -70,7 +70,7 @@ class FormUnloadingStearicAcidController extends Controller
             'un5_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0','1','2']),],
             'un5_status' => ['integer', Rule::in(['0','1']),],
             'un5_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un5_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un5_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un5_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
             'un5_report_code' => 'string|max:255',

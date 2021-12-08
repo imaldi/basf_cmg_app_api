@@ -78,7 +78,7 @@ class FormUnloadingDehytonKeController extends Controller
             'un8_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un8_status' => ['integer', Rule::in(['0','1']),],
             'un8_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un8_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un8_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un8_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
             'un8_persiapan_memakai_ppe_desc' => 'string|max:255',

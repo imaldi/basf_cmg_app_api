@@ -74,7 +74,7 @@ class FormUnloadingCitricAcidController extends Controller
             'un9_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un9_status' => ['integer', Rule::in(['0','1']),],
             'un9_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un9_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un9_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un9_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
             'un9_report_code' => 'string|max:255',

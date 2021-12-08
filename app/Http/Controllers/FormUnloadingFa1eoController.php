@@ -73,7 +73,7 @@ class FormUnloadingFa1eoController extends Controller
             'un2_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un2_status' => ['integer', Rule::in(['0','1']),],
             'un2_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un2_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un2_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un2_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
             'un2_report_code' => 'string|max:255',

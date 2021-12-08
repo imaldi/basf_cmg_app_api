@@ -70,7 +70,7 @@ class FormUnloadingNaohController extends Controller
             'un4_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un4_status' => ['integer', Rule::in(['0','1','2']),],
             'un4_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un4_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un4_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un4_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
             'un4_persiapan_bukasegel_ambil_sampel' => ['integer', Rule::in(['0','1','2']),],
             'un4_report_code' => 'string|max:255',

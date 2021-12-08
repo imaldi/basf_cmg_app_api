@@ -69,7 +69,7 @@ class FormLoadingTexN701SController extends Controller
             'ul1_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'ul1_status' => ['integer', Rule::in(['0','1']),],
             'ul1_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'ul1_checker_complete' => ['integer', Rule::in(['0','1']),],
             'ul1_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
             'ul1_report_code' => 'string|max:255',
             'ul1_nama_produk' => 'string|max:255',

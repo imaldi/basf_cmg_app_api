@@ -66,7 +66,7 @@ class FormUnloadingPackedGoodController extends Controller
             'un10_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un10_status' => ['integer', Rule::in(['0','1']),],
             'un10_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un10_checker_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un10_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un10_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
             'un10_report_code' => 'string|max:255',
