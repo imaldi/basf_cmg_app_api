@@ -138,7 +138,7 @@ class FormEGateCheckController extends Controller
             'gate_exit_muatan_disegel' => ['integer',Rule::in(['0','1','2']),],
             'gate_exit_tidak_tercecer' => ['integer',Rule::in(['0','1','2']),],
             'gate_exit_petunjuk_darurat_transportasi' => ['integer',Rule::in(['0','1','2']),],
-            'gate_tipe_pelanggan' => ['integer',Rule::in(['0','1','2']),],
+            'gate_tipe_pelanggan' => ['integer',Rule::in(['1','2','3']),],
             'gate_exit_plakat_tanda_bahaya_terpasang' => ['integer',Rule::in(['0','1','2']),],
             'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
             'gate_pengganjal_roda' => ['integer',Rule::in(['0','1','2']),],
