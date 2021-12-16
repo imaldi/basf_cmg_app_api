@@ -129,6 +129,8 @@ class FormEGateResource extends JsonResource
             'gate_exit_tidak_tercecer_desc' => $this->gate_exit_tidak_tercecer_desc,
             'gate_exit_petunjuk_darurat_transportasi_desc' => $this->gate_exit_petunjuk_darurat_transportasi_desc,
             'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $this->gate_exit_plakat_tanda_bahaya_terpasang_desc,
+            'gate_exit_date' => $this->gate_exit_date,
+            'gate_check_out_employee_id_mobile' => (int) $this->gate_check_out_employee_id_mobile,
             'gate_delete_reason' => $this->gate_delete_reason,
             'gate_approve_admin_message' => $this->gate_approve_admin_message,
             'gate_signature_employee_check_in' => $this->gate_signature_employee_check_in,
