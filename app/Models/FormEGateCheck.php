@@ -15,6 +15,8 @@ class FormEGateCheck extends Model
 
     public function gateable()
     {
-        return $this->morphTo(__FUNCTION__,"gateable_type","gateable_id");
+        return $this->morphTo(
+            __FUNCTION__,"gateable_type","gateable_id"
+        );
     }
 }
