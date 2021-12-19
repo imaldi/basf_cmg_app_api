@@ -37,12 +37,37 @@ class FormEGateCheck extends Model
 
     public static function returnIsEditable($operator, $checker, $cancel){
         if($cancel === 1) {
-            return false;
+            return 0;
         } else {
             if($operator === 1 && $checker === 1){
-                return false;
+                return 0;
             }
-            return true;
+            return 1;
         }
+    }
+
+    public static function returnEgateStatus($gateable, $operator, $checker, $cancel){
+        if($gateable == null){
+            // status -
+            return 0;
+        } else {
+            if($cancel === 1) {
+                // status "Tidak Jadi Unloading"
+                return 2;
+            } else {
+                if($checker === 1){
+                    // status "WH Complete"
+                    return 4;
+                } else {
+                    if($operator === 1){
+                        // status "Operator Complete"
+                        return 3;
+                    }
+                }
+                // status "draft"
+                return 1;
+            }
+        }
+
     }
 }

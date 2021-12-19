@@ -63,6 +63,15 @@ class FormEGateResource extends JsonResource
                     $checkerCompleteValue,
                     $cancelLoadUnloadValue
                 );
+        $gateStatus =
+
+            FormEGateCheck::
+            returnEgateStatus(
+                $gateable,
+                $operatorCompleteValue,
+                $checkerCompleteValue,
+                $cancelLoadUnloadValue
+            );
 
 
 
@@ -87,6 +96,7 @@ class FormEGateResource extends JsonResource
             // "geteable" => $gateable,
             // "table_name" => $table_name,
             // "gate_columns" => $columns,
+            "gate_status" => $gateStatus,
 
             // Real Used Fields
             "user_id" => (int) $employee->id,
@@ -226,8 +236,8 @@ class FormEGateResource extends JsonResource
             'gate_pic_5' => $this->gate_pic_5,
             "is_editable" => $isEditable,
 
-            'created_at'  => $this->created_at,
-            'updated_at'  => $this->updated_at,
+            // 'created_at'  => $this->created_at,
+            // 'updated_at'  => $this->updated_at,
 
         ];
     }
