@@ -25,9 +25,20 @@ class FormEGateResource extends JsonResource
         $employee = Auth::user();
 
         // Getting is Editable
-        // 1. Getting the loading/unloading model based on gateable_type and gateable_id
-        // $gateableType = $this->gateable_type;
+        // TODO 1 getting the gateable model with one to one polymorphic relationship // DONE
         $gateable = $this->gateable;
+        // TODO 2 Getting this model's table's name to get list of columns of its table // DONE
+        $table_name = "";
+        $columns = [];
+        if($gateable != null) {
+            $table_name = $gateable->getTable();
+            $columns = \Schema::getColumnListing($table_name);
+        }
+
+        // TODO 3 Choose related column value by its names with LIKE clause and store those column names to an array/ 3 variables,
+
+        // TODO 4 Make a simple 'if else' control flow to return boolean editable field to put in response based on that fields.
+        // TODO 5 Commit, Push, and update on the mobile side
 
         // $forms =
         //     FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
@@ -38,7 +49,9 @@ class FormEGateResource extends JsonResource
 
         return [
             "id" => (int) $this->id,
-            "geteable" => $gateable,
+            // "geteable" => $gateable,
+            "table_name" => $table_name,
+            "gate_columns" => $columns,
             // "user_id" => (int) $employee->id,
             // 'gate_report_status' => (int) $this->gate_report_status,
             // 'gate_is_in' => (int) $this->gate_is_in,
