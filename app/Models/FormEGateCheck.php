@@ -30,8 +30,19 @@ class FormEGateCheck extends Model
             foreach($arr as $a) {
                 // if (str_contains($str,$a) !== false) return $a;
                 //pakai regex
-                if (preg_match($str,$a) !== false) return $a;
+                if (preg_match($str,$a)) return $a;
             }
             // return false;
+    }
+
+    public static function returnIsEditable($operator, $checker, $cancel){
+        if($cancel === 1) {
+            return false;
+        } else {
+            if($operator === 1 && $checker === 1){
+                return false;
+            }
+            return true;
         }
+    }
 }
