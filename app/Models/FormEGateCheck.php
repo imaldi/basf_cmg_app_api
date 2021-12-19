@@ -19,4 +19,19 @@ class FormEGateCheck extends Model
             __FUNCTION__,"gateable_type","gateable_id"
         );
     }
+
+    //tes public static function simple ya
+    public static function returnDoubleStringABCDEF($str){
+        return $str.$str;
+    }
+
+    public static function contains($str, array $arr)
+        {
+            foreach($arr as $a) {
+                // if (str_contains($str,$a) !== false) return $a;
+                //pakai regex
+                if (preg_match($str,$a) !== false) return $a;
+            }
+            // return false;
+        }
 }

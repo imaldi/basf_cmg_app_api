@@ -24,18 +24,26 @@ class FormEGateResource extends JsonResource
     {
         $employee = Auth::user();
 
+
+
         // Getting is Editable
         // TODO 1 getting the gateable model with one to one polymorphic relationship // DONE
         $gateable = $this->gateable;
         // TODO 2 Getting this model's table's name to get list of columns of its table // DONE
         $table_name = "";
         $columns = [];
+        $operatorCompleteName = "";
+        $checkerCompleteName = "";
+        $cancelLoadUnloadName = "";
         if($gateable != null) {
             $table_name = $gateable->getTable();
             $columns = \Schema::getColumnListing($table_name);
+        // TODO 3 Choose related column value by its names with LIKE clause and store those column names to an array/ 3 variables,
+        // $operatorCompleteName
+
         }
 
-        // TODO 3 Choose related column value by its names with LIKE clause and store those column names to an array/ 3 variables,
+
 
         // TODO 4 Make a simple 'if else' control flow to return boolean editable field to put in response based on that fields.
         // TODO 5 Commit, Push, and update on the mobile side
@@ -46,12 +54,13 @@ class FormEGateResource extends JsonResource
         //             $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
         //                   ->orWhere('gateable_type', '=', null);})
         //                   ->orderBy('gateable_type')->orderBy('id','DESC')->get();
-
+            $functionVal = FormEGateCheck::returnDoubleStringABCDEF("yeya_");
         return [
             "id" => (int) $this->id,
             // "geteable" => $gateable,
-            "table_name" => $table_name,
-            "gate_columns" => $columns,
+            "double_string" => $functionVal,
+            // "table_name" => $table_name,
+            // "gate_columns" => $columns,
             // "user_id" => (int) $employee->id,
             // 'gate_report_status' => (int) $this->gate_report_status,
             // 'gate_is_in' => (int) $this->gate_is_in,
