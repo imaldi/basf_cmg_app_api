@@ -71,7 +71,7 @@ class FormUnloadingFaC12Controller extends Controller
             'un1_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0','1','2']),],
             'un1_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un1_status' => ['integer', Rule::in(['0','1']),],
-            'un1_operator_complate' => ['integer', Rule::in(['0','1','2']),],
+            'un1_operator_complete' => ['integer', Rule::in(['0','1','2']),],
             'un1_checker_complete' => ['integer', Rule::in(['0','1']),],
             'un1_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
 
@@ -245,7 +245,7 @@ class FormUnloadingFaC12Controller extends Controller
                 'un1_selesai_pastikan_qty_pas' => (int) $request->input('un1_selesai_pastikan_qty_pas'),
                 'un1_selesai_tandatangan_serahterima' => (int) $request->input('un1_selesai_tandatangan_serahterima'),
                 'un1_status' => (int) $request->input('un1_status'),
-                'un1_operator_complate' => (int) $request->input('un1_operator_complate'),
+                'un1_operator_complete' => (int) $request->input('un1_operator_complete'),
                 'un1_checker_complete' => (int) $request->input('un1_checker_complete'),
                 'un1_cancel_load_unload' => (int) $request->input('un1_cancel_load_unload'),
 
