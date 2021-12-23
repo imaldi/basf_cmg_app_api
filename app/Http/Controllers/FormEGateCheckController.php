@@ -20,11 +20,12 @@ class FormEGateCheckController extends Controller
         if($gateableType != null){
             $forms =
             FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
-            ->where('gate_kesimpulan', '!=' , 0)->orWhereNull('gate_kesimpulan')
+
                 ->where(function ($query) use ($gateableType) {
                     $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
                           ->orWhere('gateable_type', '=', null);})
-                          ->orderBy('gateable_type')->orderBy('id','DESC')->get();
+                          ->orderBy('gateable_type')->orderBy('id','DESC')
+                          ->where('gate_kesimpulan', '!=' , 0)->orWhereNull('gate_kesimpulan')->get();
             // // $forms->where('gateable_type', 'LIKE', 'FormLoadingTexN701S')->all();
             // $forms->whereNotNull('gateable_type')->all();
         } else {
