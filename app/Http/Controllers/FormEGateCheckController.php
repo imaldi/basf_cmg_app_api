@@ -20,6 +20,7 @@ class FormEGateCheckController extends Controller
         if($gateableType != null){
             $forms =
             FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
+            ->where('gate_kesimpulan', '!=' , 0)->orWhereNull('gate_kesimpulan')
                 ->where(function ($query) use ($gateableType) {
                     $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
                           ->orWhere('gateable_type', '=', null);})
@@ -332,7 +333,7 @@ class FormEGateCheckController extends Controller
                     'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
                     'gate_delete_reason' => $request->input('gate_delete_reason'),
                     'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
-                    'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
+                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
                     'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                     'gate_nomor_plat' => $request->input('gate_nomor_plat'),
                     'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),
@@ -345,7 +346,7 @@ class FormEGateCheckController extends Controller
                     'gate_nama_perusahaan' => $request->input('gate_nama_perusahaan'),
                     'gate_jenis_kendaraan' => $request->input('gate_jenis_kendaraan'),
                     'gate_loading_type' => $request->input('gate_loading_type'),
-                    'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
+                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
                     'rk_masa_berlaku_SIM' => $request->input('rk_masa_berlaku_SIM'),
                     'rk_masa_berlaku_STNK' => $request->input('rk_masa_berlaku_STNK'),
                     'gate_masa_berlaku_kir' => $request->input('gate_masa_berlaku_kir'),
@@ -629,7 +630,7 @@ class FormEGateCheckController extends Controller
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
                     // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
 
-                    'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
+                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
                     'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                     'gate_nomor_plat' => $request->input('gate_nomor_plat'),
                     'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),

@@ -228,7 +228,7 @@ class FormEGateResource extends JsonResource
             'gate_masa_berlaku_kir' => $this->gate_masa_berlaku_kir,
             'gate_loading_date' => $this->gate_loading_date,
             'gateable_type' => $this->gateable_type,
-            'gate_kesimpulan' => (int) $this->gate_kesimpulan,
+            'gate_kesimpulan' => $this->gate_kesimpulan,
             'gate_pic_1' => $this->gate_pic_1,
             'gate_pic_2' => $this->gate_pic_2,
             'gate_pic_3' => $this->gate_pic_3,

@@ -16,7 +16,7 @@ class FormUnloadingStearicAcidController extends Controller
     public function viewAll(){
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch Data',
             'data' =>
             FormUnloadingStearicAcid::all()
             ], 200);
@@ -39,7 +39,6 @@ class FormUnloadingStearicAcidController extends Controller
             'un5_persiapan_label_segel_terpasang' => ['integer', Rule::in(['0','1','2']),],
             'un5_persiapan_pasang_hose_steam' => ['integer', Rule::in(['0','1','2']),],
             'un5_persiapan_siapkan_botol_sample' => ['integer', Rule::in(['0','1','2']),],
-            'un5_persiapan_check_fullbody_harness_desc' => ['integer', Rule::in(['0','1','2']),],
             'un5_persiapan_webbing' => ['integer', Rule::in(['0','1','2']),],
             'un5_persiapan_D_rings' => ['integer', Rule::in(['0','1','2']),],
             'un5_persiapan_buckles' => ['integer', Rule::in(['0','1','2']),],
@@ -78,6 +77,7 @@ class FormUnloadingStearicAcidController extends Controller
             'un5_level_awal' => 'string|max:255',
             'un5_level_akhir' => 'string|max:255',
             'un5_jml_dimuat' => 'string|max:255',
+            'un5_persiapan_check_fullbody_harness_desc' => 'string|max:255',
             'un5_persiapan_memakai_ppe_desc' => 'string|max:255',
             'un5_persiapan_cek_hose_piping_desc' => 'string|max:255',
             'un5_persiapan_safety_shower_desc' => 'string|max:255',
@@ -185,7 +185,7 @@ class FormUnloadingStearicAcidController extends Controller
                 'un5_persiapan_label_segel_terpasang' => (int) $request->input('un5_persiapan_label_segel_terpasang'),
                 'un5_persiapan_pasang_hose_steam' => (int) $request->input('un5_persiapan_pasang_hose_steam'),
                 'un5_persiapan_siapkan_botol_sample' => (int) $request->input('un5_persiapan_siapkan_botol_sample'),
-                'un5_persiapan_check_fullbody_harness_desc' => (int) $request->input('un5_persiapan_check_fullbody_harness_desc'),
+                'un5_persiapan_check_fullbody_harness_desc' => $request->input('un5_persiapan_check_fullbody_harness_desc'),
                 'un5_persiapan_webbing' => (int) $request->input('un5_persiapan_webbing'),
                 'un5_persiapan_D_rings' => (int) $request->input('un5_persiapan_D_rings'),
                 'un5_persiapan_buckles' => (int) $request->input('un5_persiapan_buckles'),
