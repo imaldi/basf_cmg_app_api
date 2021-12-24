@@ -35,12 +35,15 @@ class FormEGateCheckController extends Controller
             FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
             ->orderBy('gateable_type')->orderBy('id','DESC')->get();
         }
+        $resourceList =
+            FormEGateResource::collection($forms);
+        $sortedResourceList = $resourceList->sortBy('gate_loading_status');
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch Data',
             'data' =>
             // $gateableType
-            FormEGateResource::collection($forms)
+            $sortedResourceList->values()->all()
             ], 200);
     }
 
@@ -144,7 +147,7 @@ class FormEGateCheckController extends Controller
             'gate_exit_petunjuk_darurat_transportasi' => ['integer',Rule::in(['0','1','2']),],
             'gate_tipe_pelanggan' => ['integer',Rule::in(['1','2','3']),],
             'gate_exit_plakat_tanda_bahaya_terpasang' => ['integer',Rule::in(['0','1','2']),],
-            'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
+            // 'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
             'gate_pengganjal_roda' => ['integer',Rule::in(['0','1','2']),],
             'gateable_id' => 'integer',
             'gate_kesimpulan' => ['integer',Rule::in(['0','1']),],
@@ -355,6 +358,10 @@ class FormEGateCheckController extends Controller
                     'gate_masa_berlaku_kir' => $request->input('gate_masa_berlaku_kir'),
                     'gate_loading_date' => $request->input('gate_loading_date'),
                     'gate_exit_date' => $request->input('gate_exit_date'),
+                    'gate_loading_status' => (int) FormEGateCheck::
+                    returnIsEditable($this),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                    returnEgateStatus($this),
                     // 'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
                     // 'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
@@ -576,7 +583,11 @@ class FormEGateCheckController extends Controller
                     // 'gate_exit_tidak_tercecer' => (int) $request->input('gate_exit_tidak_tercecer'),
                     // 'gate_exit_petunjuk_darurat_transportasi' => (int) $request->input('gate_exit_petunjuk_darurat_transportasi'),
                     'gate_tipe_pelanggan' => (int) $request->input('gate_tipe_pelanggan'),
-                    'gate_loading_status' => (int) $request->input('gate_loading_status'),
+                    // 'gate_loading_status' => (int) $request->input('gate_loading_status'),
+                    'gate_loading_status' => (int) FormEGateCheck::
+                    returnIsEditable($this),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                    returnEgateStatus($this),
                     'gate_pengganjal_roda' => (int) $request->input('gate_pengganjal_roda'),
 
                     'gate_pengganjal_roda_desc' => $request->input('gate_pengganjal_roda_desc'),

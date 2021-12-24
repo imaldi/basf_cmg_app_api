@@ -35,7 +35,13 @@ class FormEGateCheck extends Model
             // return false;
     }
 
-    public static function returnIsEditable($operator, $checker, $cancel){
+    // public static function returnIsEditable($operator, $checker, $cancel){
+    public static function returnIsEditable(FormEGateCheck $gateForm){
+        $arraysReturned = getValueArrays($gateForm);
+            $gateable =$arraysReturned["gateable"];
+            $checker =$arraysReturned["checker"];
+            $operator =$arraysReturned["operator"];
+            $cancel =$arraysReturned["cancel"];
         if($cancel === 1) {
             return 0;
         } else {
@@ -46,7 +52,13 @@ class FormEGateCheck extends Model
         }
     }
 
-    public static function returnEgateStatus($gateable, $operator, $checker, $cancel){
+    // public static function returnEgateStatus($gateable, $operator, $checker, $cancel){
+    public static function returnEgateStatus(FormEGateCheck $gateForm){
+            $arraysReturned = getValueArrays($gateForm);
+            $gateable =$arraysReturned["gateable"];
+            $checker =$arraysReturned["checker"];
+            $operator =$arraysReturned["operator"];
+            $cancel =$arraysReturned["cancel"];
         if($gateable == null){
             // status -
             return 0;
@@ -69,5 +81,43 @@ class FormEGateCheck extends Model
             }
         }
 
+    }
+
+    public static function getValueArrays(FormEGateCheck $gateForm){
+        // Getting is Editable
+        // TODO 1 getting the gateable model with one to one polymorphic relationship // DONE
+        $gateable = $gateForm->gateable;
+        // TODO 2 Getting this model's table's name to get list of columns of its table // DONE
+        $table_name = "";
+        $columns = [];
+        $operatorCompleteName = "";
+        $checkerCompleteName = "";
+        $cancelLoadUnloadName = "";
+        $regexOperator = "/_operator_complete/";
+        $regexChecker = "/_checker_complete/";
+        $regexTidakJadiUnloading = "/_cancel_load_unload/";
+        $operatorCompleteValue = 0;
+        $checkerCompleteValue = 0;
+        $cancelLoadUnloadValue = 0;
+        $isEditable = true;
+        if($gateable != null) {
+            $table_name = $gateable->getTable();
+            $columns = \Schema::getColumnListing($table_name);
+        // TODO 3 Choose related column value by its names with LIKE clause and store those column names to an array/ 3 variables,
+        // $operatorCompleteName
+            $operatorCompleteName = FormEGateCheck::contains($regexOperator,$columns);
+            $checkerCompleteName = FormEGateCheck::contains($regexChecker,$columns);
+            $cancelLoadUnloadName = FormEGateCheck::contains($regexTidakJadiUnloading,$columns);
+            $operatorCompleteValue = DB::table($table_name)->where('id', $gateForm->gateable_id)->value($operatorCompleteName);
+            $checkerCompleteValue = DB::table($table_name)->where('id', $gateForm->gateable_id)->value($checkerCompleteName);
+            $cancelLoadUnloadValue = DB::table($table_name)->where('id', $gateForm->gateable_id)->value($cancelLoadUnloadName);
+        }
+
+        return [
+            "gateable" => $gateable,
+            "operator" => $operatorCompleteValue,
+            "checker" => $checkerCompleteValue,
+            "cancel" => $cancelLoadUnloadValue,
+        ];
     }
 }
