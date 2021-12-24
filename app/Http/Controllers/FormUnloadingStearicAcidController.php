@@ -136,7 +136,7 @@ class FormUnloadingStearicAcidController extends Controller
                         // 'Failed';
                         response()->json([
                             'code' => 451,
-                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be Updated',
                             'data' => []
                             ], 451);
                     }

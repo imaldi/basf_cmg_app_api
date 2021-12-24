@@ -401,19 +401,19 @@ class FormUnloadingDehytonKeController extends Controller
         $employee = Auth::user();
 
         try{
-            $formUnloadingCitricAcid = $employee->formUnloadingCitricAcid()->findOrFail($formId);
+            $formUnloadingDehytonKe = $employee->formUnloadingDehytonKe()->findOrFail($formId);
 
             return response()->json([
                 'code' => 200,
-                'message' => 'Success Fetch FormUnloadingCitricAcid Form',
+                'message' => 'Success Fetch FormUnloadingDehytonKe Form',
                 'data' => [
-                    $formUnloadingCitricAcid]
+                    $formUnloadingDehytonKe]
                 ], 200);
 
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             return response()->json([
                 'code' => 404,
-                'message' => 'Given FormUnloadingCitricAcid Form ID not found',
+                'message' => 'Given FormUnloadingDehytonKe Form ID not found',
                 'data' => []
                 ], 404);
         }

@@ -23,9 +23,11 @@ class FormEGateCheckController extends Controller
 
                 ->where(function ($query) use ($gateableType) {
                     $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
-                          ->orWhere('gateable_type', '=', null);})
+                    ->orWhere('gateable_type', '=', null);})
+                    // ->where('gate_kesimpulan', '!=' , 0)
+
                           ->orderBy('gateable_type')->orderBy('id','DESC')
-                          ->where('gate_kesimpulan', '!=' , 0)->orWhereNull('gate_kesimpulan')->get();
+                          ->get();
             // // $forms->where('gateable_type', 'LIKE', 'FormLoadingTexN701S')->all();
             // $forms->whereNotNull('gateable_type')->all();
         } else {
