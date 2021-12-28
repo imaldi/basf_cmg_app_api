@@ -358,10 +358,7 @@ class FormEGateCheckController extends Controller
                     'gate_masa_berlaku_kir' => $request->input('gate_masa_berlaku_kir'),
                     'gate_loading_date' => $request->input('gate_loading_date'),
                     'gate_exit_date' => $request->input('gate_exit_date'),
-                    'gate_loading_status' => (int) FormEGateCheck::
-                    returnIsEditable($this),
-                    'gate_is_editable'=> (int) FormEGateCheck::
-                    returnEgateStatus($this),
+
                     // 'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
                     // 'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
@@ -483,13 +480,18 @@ class FormEGateCheckController extends Controller
                         file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
 
 
-                        $formEGate->update(
-                            [
-                                'gate_signature_driver_check_out' => $name,
-                                ]
-                            );
+
 
                     }
+
+                    $formEGate->update(
+                        [
+                            'gate_loading_status' => (int) FormEGateCheck::
+                returnIsEditable($formEGate),
+                'gate_is_editable'=> (int) FormEGateCheck::
+                returnEgateStatus($formEGate),
+                            ]
+                        );
                 //versi file
                     // if($request->file('gate_signature_driver_check_out')){
                     //     // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
@@ -510,6 +512,11 @@ class FormEGateCheckController extends Controller
 
                     // }
                 }
+                $formEGate->update(
+                    [
+                        'gate_signature_employee_check_in' => $name,
+                        ]
+                    );
                 return response()->json([
                     'code' => 200,
                     'message' => 'Success Update Data',
@@ -584,10 +591,10 @@ class FormEGateCheckController extends Controller
                     // 'gate_exit_petunjuk_darurat_transportasi' => (int) $request->input('gate_exit_petunjuk_darurat_transportasi'),
                     'gate_tipe_pelanggan' => (int) $request->input('gate_tipe_pelanggan'),
                     // 'gate_loading_status' => (int) $request->input('gate_loading_status'),
-                    'gate_loading_status' => (int) FormEGateCheck::
-                    returnIsEditable($this),
-                    'gate_is_editable'=> (int) FormEGateCheck::
-                    returnEgateStatus($this),
+                    // 'gate_loading_status' => (int) FormEGateCheck::
+                    // returnIsEditable($this),
+                    // 'gate_is_editable'=> (int) FormEGateCheck::
+                    // returnEgateStatus($this),
                     'gate_pengganjal_roda' => (int) $request->input('gate_pengganjal_roda'),
 
                     'gate_pengganjal_roda_desc' => $request->input('gate_pengganjal_roda_desc'),
@@ -793,6 +800,14 @@ class FormEGateCheckController extends Controller
             //         );
 
             // }
+            $formEGate->update(
+                [
+                    'gate_loading_status' => (int) FormEGateCheck::
+        returnIsEditable($formEGate),
+        'gate_is_editable'=> (int) FormEGateCheck::
+        returnEgateStatus($formEGate),
+                    ]
+                );
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',

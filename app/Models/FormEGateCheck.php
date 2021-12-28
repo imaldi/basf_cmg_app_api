@@ -37,7 +37,7 @@ class FormEGateCheck extends Model
 
     // public static function returnIsEditable($operator, $checker, $cancel){
     public static function returnIsEditable(FormEGateCheck $gateForm){
-        $arraysReturned = getValueArrays($gateForm);
+        $arraysReturned = FormEGateCheck::getValueArrays($gateForm);
             $gateable =$arraysReturned["gateable"];
             $checker =$arraysReturned["checker"];
             $operator =$arraysReturned["operator"];
@@ -54,7 +54,7 @@ class FormEGateCheck extends Model
 
     // public static function returnEgateStatus($gateable, $operator, $checker, $cancel){
     public static function returnEgateStatus(FormEGateCheck $gateForm){
-            $arraysReturned = getValueArrays($gateForm);
+            $arraysReturned = FormEGateCheck::getValueArrays($gateForm);
             $gateable =$arraysReturned["gateable"];
             $checker =$arraysReturned["checker"];
             $operator =$arraysReturned["operator"];
