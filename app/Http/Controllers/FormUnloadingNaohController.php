@@ -179,7 +179,11 @@ class FormUnloadingNaohController extends Controller
 
                 $gate->update([
                     'gateable_id' => $formUnloadingNaoh->id,
-                    'gateable_type' => "App\Models\FormUnloadingNaoh"
+                    'gateable_type' => "App\Models\FormUnloadingNaoh",
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
                     ]);
             }
             $formUnloadingNaoh->update([

@@ -167,7 +167,11 @@ class FormUnloadingStearicAcidController extends Controller
 
                 $gate->update([
                     'gateable_id' => $formUnloadingStearicAcid->id,
-                    'gateable_type' => "App\Models\FormUnloadingStearicAcid"
+                    'gateable_type' => "App\Models\FormUnloadingStearicAcid",
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
                     ]);
             }
             $formUnloadingStearicAcid->update([

@@ -196,7 +196,11 @@ class FormUnloadingDehytonKeController extends Controller
 
                 $gate->update([
                     'gateable_id' => $formUnloadingDehytonKe->id,
-                    'gateable_type' => "App\Models\FormUnloadingDehytonKe"
+                    'gateable_type' => "App\Models\FormUnloadingDehytonKe",
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
                     ]);
             }
             $formUnloadingDehytonKe->update([

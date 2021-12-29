@@ -277,7 +277,11 @@ class FormLoadingTexN701SController extends Controller
             ]);
             $gate->update([
                 'gateable_id' => $formLoadingTexN701S->id,
-                'gateable_type' => "App\Models\FormLoadingTexN701S"
+                'gateable_type' => "App\Models\FormLoadingTexN701S",
+                'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
                 ]);
 
                 if($request->input('ul1_signature_checker')){

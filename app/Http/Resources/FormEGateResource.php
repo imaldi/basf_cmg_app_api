@@ -58,7 +58,8 @@ class FormEGateResource extends JsonResource
 
         // $isEditable =
         //     FormEGateCheck::
-        //         returnIsEditable(
+        //         returnIsEditableGateable(
+        //             $gateable,
         //             $operatorCompleteValue,
         //             $checkerCompleteValue,
         //             $cancelLoadUnloadValue
@@ -66,7 +67,7 @@ class FormEGateResource extends JsonResource
         // $gateStatus =
 
         //     FormEGateCheck::
-        //     returnEgateStatus(
+        //     returnEgateStatusGateable(
         //         $gateable,
         //         $operatorCompleteValue,
         //         $checkerCompleteValue,
@@ -90,7 +91,8 @@ class FormEGateResource extends JsonResource
             // "geteable" => $gateable,
             // "table_name" => $table_name,
             // "gate_columns" => $columns,
-            // "gate_status" => (int) $gateStatus,
+            // "gate_status_resource" => (int) $gateStatus,
+            // "gate_is_editable_resource" => (int) $isEditable,
 
             // Real Used Fields
             "user_id" => (int) $employee->id,

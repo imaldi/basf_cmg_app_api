@@ -185,7 +185,11 @@ class FormLoadingPackedGoodsController extends Controller
 
                 $gate->update([
                     'gateable_id' => $formLoadingPackedGoods->id,
-                    'gateable_type' => "App\Models\FormLoadingPackedGoods"
+                    'gateable_type' => "App\Models\FormLoadingPackedGoods",
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
                 ]);
             }
 

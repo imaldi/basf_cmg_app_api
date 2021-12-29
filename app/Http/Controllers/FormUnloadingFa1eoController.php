@@ -190,7 +190,11 @@ class FormUnloadingFa1eoController extends Controller
 
                 $gate->update([
                     'gateable_id' => $formUnloadingFa1eo->id,
-                    'gateable_type' => "App\Models\FormUnloadingFa1eo"
+                    'gateable_type' => "App\Models\FormUnloadingFa1eo",
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
                     ]);
 
             }

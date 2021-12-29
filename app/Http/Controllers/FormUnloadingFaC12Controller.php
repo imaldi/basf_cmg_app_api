@@ -71,9 +71,9 @@ class FormUnloadingFaC12Controller extends Controller
             'un1_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0','1','2']),],
             'un1_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
             'un1_status' => ['integer', Rule::in(['0','1']),],
-            'un1_operator_complete' => ['integer', Rule::in(['0','1','2']),],
+            'un1_operator_complete' => ['integer', Rule::in(['0','1']),],
             'un1_checker_complete' => ['integer', Rule::in(['0','1']),],
-            'un1_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
+            'un1_cancel_load_unload' => ['integer', Rule::in(['0','1']),],
 
             'un1_report_code' => 'string|max:255',
             'un1_nama_produk' => 'string|max:255',
@@ -195,7 +195,11 @@ class FormUnloadingFaC12Controller extends Controller
 
                 $gate->update([
                     'gateable_id' => $formUnloadingFaC12->id,
-                    'gateable_type' => "App\Models\FormUnloadingFaC12"
+                    'gateable_type' => "App\Models\FormUnloadingFaC12",
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
                     ]);
             }
             // update e gate cuma di create, ubah buat yang lain nanti

@@ -156,7 +156,11 @@ class FormUnloadingPacController extends Controller
                 ]);
                 $gate->update([
                     'gateable_id' => $formUnloadingPac->id,
-                    'gateable_type' => "App\Models\FormUnloadingPac"
+                    'gateable_type' => "App\Models\FormUnloadingPac",
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
                     ]);
             }
             $formUnloadingPac->update([

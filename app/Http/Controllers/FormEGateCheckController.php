@@ -484,14 +484,14 @@ class FormEGateCheckController extends Controller
 
                     }
 
-                    $formEGate->update(
-                        [
-                            'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($formEGate),
-                'gate_is_editable'=> (int) FormEGateCheck::
-                returnIsEditable($formEGate),
+                //     $formEGate->update(
+                //         [
+                //             'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($formEGate),
+                // 'gate_is_editable'=> (int) FormEGateCheck::
+                // returnIsEditable($formEGate),
 
-                            ]
-                        );
+                //             ]
+                //         );
                 //versi file
                     // if($request->file('gate_signature_driver_check_out')){
                     //     // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
@@ -800,14 +800,14 @@ class FormEGateCheckController extends Controller
             //         );
 
             // }
-            $formEGate->update(
-                [
-                    'gate_loading_status' => (int) FormEGateCheck::
-                    returnEgateStatus($formEGate),
-        'gate_is_editable'=> (int) FormEGateCheck::
-        returnIsEditable($formEGate),
-                    ]
-                );
+        //     $formEGate->update(
+        //         [
+        //             'gate_loading_status' => (int) FormEGateCheck::
+        //             returnEgateStatus($formEGate),
+        // 'gate_is_editable'=> (int) FormEGateCheck::
+        // returnIsEditable($formEGate),
+        //             ]
+        //         );
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
