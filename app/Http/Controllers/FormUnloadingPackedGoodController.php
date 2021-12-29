@@ -175,13 +175,15 @@ class FormUnloadingPackedGoodController extends Controller
 
                 $gate->update([
                     'gateable_id' => $formUnloadingPackedGood->id,
-                    'gateable_type' => "App\Models\FormUnloadingPackedGood",
-                    'gate_loading_status' => (int) FormEGateCheck::
-                        returnEgateStatus($gate),
-                    'gate_is_editable'=> (int) FormEGateCheck::
-                        returnIsEditable($gate),
+                    'gateable_type' => "App\Models\FormUnloadingPackedGood"
                     ]);
             }
+            $gate->update([
+                'gate_loading_status' => (int) FormEGateCheck::
+                    returnEgateStatus($gate),
+                'gate_is_editable'=> (int) FormEGateCheck::
+                    returnIsEditable($gate),
+                ]);
             $formUnloadingPackedGood->update([
                 'un10_simbol_1' => (int) $request->input('un10_simbol_1'),
                 'un10_simbol_2' => (int) $request->input('un10_simbol_2'),

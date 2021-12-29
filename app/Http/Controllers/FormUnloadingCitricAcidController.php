@@ -182,13 +182,15 @@ class FormUnloadingCitricAcidController extends Controller
 
                 $gate->update([
                     'gateable_id' => $formUnloadingCitricAcid->id,
-                    'gateable_type' => "App\Models\FormUnloadingCitricAcid",
-                    'gate_loading_status' => (int) FormEGateCheck::
-                        returnEgateStatus($gate),
-                    'gate_is_editable'=> (int) FormEGateCheck::
-                        returnIsEditable($gate),
+                    'gateable_type' => "App\Models\FormUnloadingCitricAcid"
                     ]);
             }
+            $gate->update([
+                'gate_loading_status' => (int) FormEGateCheck::
+                    returnEgateStatus($gate),
+                'gate_is_editable'=> (int) FormEGateCheck::
+                    returnIsEditable($gate),
+                ]);
             $formUnloadingCitricAcid->update([
                 'un9_persiapan_memakai_ppe' => (int) $request->input('un9_persiapan_memakai_ppe'),
                 'un9_persiapan_cek_hose_piping' => (int) $request->input('un9_persiapan_cek_hose_piping'),

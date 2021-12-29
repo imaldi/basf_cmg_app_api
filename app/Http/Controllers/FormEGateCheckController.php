@@ -593,7 +593,9 @@ class FormEGateCheckController extends Controller
                     // 'gate_loading_status' => (int) $request->input('gate_loading_status'),
                     // 'gate_loading_status' => (int) FormEGateCheck::
                     // returnIsEditable($this),
-                    // 'gate_is_editable'=> (int) FormEGateCheck::
+                    'gate_loading_status'=> 0,
+                    'gate_is_editable'=> 1,
+                    // (int) FormEGateCheck::
                     // returnEgateStatus($this),
                     'gate_pengganjal_roda' => (int) $request->input('gate_pengganjal_roda'),
 

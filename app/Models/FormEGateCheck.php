@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class FormEGateCheck extends Model
 {
@@ -75,12 +77,12 @@ class FormEGateCheck extends Model
                 if($checker === 1){
                     // status "WH Complete"
                     return 4;
-                } else {
+                }
+
                     if($operator === 1){
                         // status "Operator Complete"
                         return 3;
                     }
-                }
                 // status "draft"
                 return 1;
             }

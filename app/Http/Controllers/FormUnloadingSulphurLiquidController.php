@@ -168,13 +168,15 @@ class FormUnloadingSulphurLiquidController extends Controller
                 ]);
                 $gate->update([
                     'gateable_id' => $formUnloadingSulphurLiquid->id,
-                    'gateable_type' => "App\Models\FormUnloadingSulphurLiquid",
-                    'gate_loading_status' => (int) FormEGateCheck::
-                        returnEgateStatus($gate),
-                    'gate_is_editable'=> (int) FormEGateCheck::
-                        returnIsEditable($gate),
+                    'gateable_type' => "App\Models\FormUnloadingSulphurLiquid"
                     ]);
             }
+            $gate->update([
+                'gate_loading_status' => (int) FormEGateCheck::
+                    returnEgateStatus($gate),
+                'gate_is_editable'=> (int) FormEGateCheck::
+                    returnIsEditable($gate),
+                ]);
             $formUnloadingSulphurLiquid->update([
                 'un6_persiapan_memakai_ppe' => (int) $request->input('un6_persiapan_memakai_ppe'),
                 'un6_persiapan_cek_hose_piping' => (int) $request->input('un6_persiapan_cek_hose_piping'),
