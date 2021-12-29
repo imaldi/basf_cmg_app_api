@@ -486,10 +486,10 @@ class FormEGateCheckController extends Controller
 
                     $formEGate->update(
                         [
-                            'gate_loading_status' => (int) FormEGateCheck::
-                returnIsEditable($formEGate),
+                            'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($formEGate),
                 'gate_is_editable'=> (int) FormEGateCheck::
-                returnEgateStatus($formEGate),
+                returnIsEditable($formEGate),
+
                             ]
                         );
                 //versi file
@@ -803,9 +803,9 @@ class FormEGateCheckController extends Controller
             $formEGate->update(
                 [
                     'gate_loading_status' => (int) FormEGateCheck::
-        returnIsEditable($formEGate),
+                    returnEgateStatus($formEGate),
         'gate_is_editable'=> (int) FormEGateCheck::
-        returnEgateStatus($formEGate),
+        returnIsEditable($formEGate),
                     ]
                 );
             return response()->json([

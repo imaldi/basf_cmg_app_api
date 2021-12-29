@@ -42,14 +42,19 @@ class FormEGateCheck extends Model
             $checker =$arraysReturned["checker"];
             $operator =$arraysReturned["operator"];
             $cancel =$arraysReturned["cancel"];
-        if($cancel === 1) {
-            return 0;
-        } else {
-            if($operator === 1 && $checker === 1){
-                return 0;
+
+            if($gateable == null){
+                return 1;
+            } else {
+            if($cancel === 1) {
+                    return 0;
+            } else {
+                if($operator === 1 && $checker === 1){
+                    return 0;
+                }
+                    return 1;
+                }
             }
-            return 1;
-        }
     }
 
     // public static function returnEgateStatus($gateable, $operator, $checker, $cancel){
