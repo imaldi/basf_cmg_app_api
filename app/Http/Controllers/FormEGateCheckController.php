@@ -512,11 +512,7 @@ class FormEGateCheckController extends Controller
 
                     // }
                 }
-                $formEGate->update(
-                    [
-                        'gate_signature_employee_check_in' => $name,
-                        ]
-                    );
+
                 return response()->json([
                     'code' => 200,
                     'message' => 'Success Update Data',

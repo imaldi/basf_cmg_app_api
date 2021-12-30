@@ -188,12 +188,7 @@ class FormUnloadingDieselOilController extends Controller
                     'gateable_type' => "App\Models\FormUnloadingDieselOil"
                     ]);
             }
-            $gate->update([
-                'gate_loading_status' => (int) FormEGateCheck::
-                    returnEgateStatus($gate),
-                'gate_is_editable'=> (int) FormEGateCheck::
-                    returnIsEditable($gate),
-                ]);
+
             $formUnloadingDieselOil->update([
                 'un7_persiapan_memakai_ppe' => (int) $request->input('un7_persiapan_memakai_ppe'),
                 'un7_persiapan_cek_hose_piping' => (int) $request->input('un7_persiapan_cek_hose_piping'),
@@ -337,6 +332,13 @@ class FormUnloadingDieselOilController extends Controller
                         );
 
                 }
+
+                $gate->update([
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
+                    ]);
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingDieselOil Form',

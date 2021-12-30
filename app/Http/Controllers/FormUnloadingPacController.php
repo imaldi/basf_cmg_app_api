@@ -160,12 +160,7 @@ class FormUnloadingPacController extends Controller
                     ]);
             }
 
-            $gate->update([
-                'gate_loading_status' => (int) FormEGateCheck::
-                    returnEgateStatus($gate),
-                'gate_is_editable'=> (int) FormEGateCheck::
-                    returnIsEditable($gate),
-                ]);
+
 
             $formUnloadingPac->update([
 
@@ -286,6 +281,12 @@ class FormUnloadingPacController extends Controller
                         );
 
                 }
+                $gate->update([
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
+                    ]);
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingPac Form',

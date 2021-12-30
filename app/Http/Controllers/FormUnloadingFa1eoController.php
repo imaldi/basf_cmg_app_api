@@ -194,12 +194,7 @@ class FormUnloadingFa1eoController extends Controller
                     ]);
 
             }
-            $gate->update([
-                'gate_loading_status' => (int) FormEGateCheck::
-                    returnEgateStatus($gate),
-                'gate_is_editable'=> (int) FormEGateCheck::
-                    returnIsEditable($gate),
-                ]);
+
             $formUnloadingFa1eo->update([
 
 
@@ -350,6 +345,13 @@ class FormUnloadingFa1eoController extends Controller
                         );
 
                 }
+
+                $gate->update([
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
+                    ]);
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingFa1eo Form',

@@ -74,17 +74,17 @@ class FormEGateCheck extends Model
                 // status "Tidak Jadi Unloading"
                 return 2;
             } else {
-                if($checker === 1){
+                if(($checker === 1 && $operator === 0) || ($checker === 1 && $operator === 1)){
                     // status "WH Complete"
                     return 4;
+                } else if ($checker === 0 && $operator === 1){
+                    // status "Operator Complete"
+                    return 3;
+                } else if($checker === 0 && $operator === 0) {
+                    // status "draft"
+                    return 1;
                 }
 
-                    if($operator === 1){
-                        // status "Operator Complete"
-                        return 3;
-                    }
-                // status "draft"
-                return 1;
             }
         }
 

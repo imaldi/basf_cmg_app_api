@@ -199,12 +199,7 @@ class FormUnloadingDehytonKeController extends Controller
                     'gateable_type' => "App\Models\FormUnloadingDehytonKe"
                     ]);
             }
-            $gate->update([
-                'gate_loading_status' => (int) FormEGateCheck::
-                    returnEgateStatus($gate),
-                'gate_is_editable'=> (int) FormEGateCheck::
-                    returnIsEditable($gate),
-                ]);
+
             $formUnloadingDehytonKe->update([
                 'un8_persiapan_memakai_ppe' => (int) $request->input('un8_persiapan_memakai_ppe'),
                 'un8_persiapan_cek_hose_piping' => (int) $request->input('un8_persiapan_cek_hose_piping'),
@@ -360,6 +355,13 @@ class FormUnloadingDehytonKeController extends Controller
                         );
 
                 }
+
+                $gate->update([
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
+                    ]);
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingDehytonKe Form',

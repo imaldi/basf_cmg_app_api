@@ -189,12 +189,7 @@ class FormLoadingPackedGoodsController extends Controller
                 ]);
             }
 
-            $gate->update([
-                'gate_loading_status' => (int) FormEGateCheck::
-                    returnEgateStatus($gate),
-                'gate_is_editable'=> (int) FormEGateCheck::
-                    returnIsEditable($gate),
-                ]);
+
 
             $formLoadingPackedGoods->update([
                 // 'ul2_employee_id' => $employee->id,
@@ -764,6 +759,13 @@ class FormLoadingPackedGoodsController extends Controller
                     ]
                 );
             }
+
+            $gate->update([
+                'gate_loading_status' => (int) FormEGateCheck::
+                    returnEgateStatus($gate),
+                'gate_is_editable'=> (int) FormEGateCheck::
+                    returnIsEditable($gate),
+                ]);
 
             return response()->json([
                 'code' => 200,

@@ -198,12 +198,7 @@ class FormUnloadingFaC12Controller extends Controller
                     'gateable_type' => "App\Models\FormUnloadingFaC12",
                     ]);
             }
-            $gate->update([
-                'gate_loading_status' => (int) FormEGateCheck::
-                    returnEgateStatus($gate),
-                'gate_is_editable'=> (int) FormEGateCheck::
-                    returnIsEditable($gate),
-                ]);
+
             // update e gate cuma di create, ubah buat yang lain nanti
             $formUnloadingFaC12->update([
                 'un1_persiapan_memakai_ppe' => (int) $request->input('un1_persiapan_memakai_ppe'),
@@ -353,6 +348,14 @@ class FormUnloadingFaC12Controller extends Controller
                         );
 
                 }
+
+                $gate->update([
+                    'gate_loading_status' => (int) FormEGateCheck::
+                        returnEgateStatus($gate),
+                    'gate_is_editable'=> (int) FormEGateCheck::
+                        returnIsEditable($gate),
+                    ]);
+
             return response()->json([
                 'code' => 200,
                 'message' => 'Success '.$isCreate.' FormUnloadingFaC12 Form',
