@@ -37,15 +37,16 @@ class FormEGateCheckController extends Controller
             // ->orderBy('gateable_type')
             ->orderBy('id','DESC')->get();
         }
-        $resourceList =
-            FormEGateResource::collection($forms);
-        $sortedResourceList = $resourceList->sortBy('gate_loading_status');
+        // $resourceList =
+        //     FormEGateResource::collection($forms);
+        // $sortedResourceList = $resourceList->sortBy('gate_loading_status');
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch Data',
             'data' =>
             // $gateableType
-            $sortedResourceList->values()->all()
+            FormEGateResource::collection($forms);
+            // $sortedResourceList->values()->all()
             ], 200);
     }
 
