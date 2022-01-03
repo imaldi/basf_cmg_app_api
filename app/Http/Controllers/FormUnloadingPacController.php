@@ -16,7 +16,7 @@ class FormUnloadingPacController extends Controller
     public function viewAll(){
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch All Data',
             'data' =>
             FormUnloadingPac::all()
             ], 200);

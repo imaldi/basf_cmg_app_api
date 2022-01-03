@@ -3,7 +3,7 @@
 
 return [
     'defaults' => [
-        'guard' => 'api',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -13,7 +13,14 @@ return [
         //     'provider' => 'employee',
         // ],
 
-        'api' => [
+
+        //Last time use this
+        // 'api' => [
+        //     'driver' => 'jwt',
+        //     'provider' => 'users',
+        // ],
+
+        'web' => [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
