@@ -45,7 +45,7 @@ class FormEGateCheckController extends Controller
             'message' => 'Success Fetch Data',
             'data' =>
             // $gateableType
-            FormEGateResource::collection($forms);
+            FormEGateResource::collection($forms)
             // $sortedResourceList->values()->all()
             ], 200);
     }
