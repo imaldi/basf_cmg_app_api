@@ -412,7 +412,7 @@ $router->group(['prefix' => 'api','middleware' => ['json.response']], function (
     $router->group(['prefix' => 'e-gate',], function () use ($router){
         $router->get('all',[
             'uses' => 'FormEGateCheckController@viewAllEgateForm',
-            'middleware' => 'permission_check:view e gate form'
+            'middleware' => 'permission_check:view e gate form,view loading form,view unloading form'
             ]);
         $router->get('angkutan-list',[
                 'uses' => 'FormEGateCheckController@getDaftarNamaAngkutanEgateForm',
