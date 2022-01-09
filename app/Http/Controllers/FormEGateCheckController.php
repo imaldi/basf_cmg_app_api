@@ -14,30 +14,31 @@ use Illuminate\Validation\Rule;
 
 class FormEGateCheckController extends Controller
 {
-    public function viewAllEgateForm(Request $request){
+    public function viewAllEgateForm(Request $request)
+    {
         $gateableType = $request->query('gateableType');
 
-        if($gateableType != null){
+        if ($gateableType != null) {
             $forms =
-            FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
+                FormEGateCheck::where('gate_is_in', 1)->where('gate_report_status', 0)
 
                 ->where(function ($query) use ($gateableType) {
-                    $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
-                    ;})
-                    // Selama ini orWhere nya di dalam closure penyaring gateable type
-                    ->orWhere('gateable_type', '=', null)
-                    ->where('gate_kesimpulan', '!=' , 0)
+                    $query->where('gateable_type', 'LIKE', '%' . $gateableType . '%');
+                })
+                // Selama ini orWhere nya di dalam closure penyaring gateable type
+                ->orWhere('gateable_type', '=', null)
+                ->where('gate_kesimpulan', '!=', 0)
 
-                        //   ->orderBy('gateable_type')
-                          ->orderBy('id','DESC')
-                          ->get();
+                //   ->orderBy('gateable_type')
+                ->orderBy('id', 'DESC')
+                ->get();
             // // $forms->where('gateable_type', 'LIKE', 'FormLoadingTexN701S')->all();
             // $forms->whereNotNull('gateable_type')->all();
         } else {
             $forms =
-            FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
-            // ->orderBy('gateable_type')
-            ->orderBy('id','DESC')->get();
+                FormEGateCheck::where('gate_is_in', 1)->where('gate_report_status', 0)
+                // ->orderBy('gateable_type')
+                ->orderBy('id', 'DESC')->get();
         }
         // $resourceList =
         //     FormEGateResource::collection($forms);
@@ -49,10 +50,11 @@ class FormEGateCheckController extends Controller
             // $gateableType
             FormEGateResource::collection($forms)
             // $sortedResourceList->values()->all()
-            ], 200);
+        ], 200);
     }
 
-    public function getDaftarNamaAngkutanEgateForm(Request $request){
+    public function getDaftarNamaAngkutanEgateForm(Request $request)
+    {
         $listAngkutan = TruckRent::all();
 
         return response()->json([
@@ -60,8 +62,8 @@ class FormEGateCheckController extends Controller
             'message' => 'Success Fetch Data',
             'data' =>
             // $gateableType
-                $listAngkutan
-            ], 200);
+            $listAngkutan
+        ], 200);
     }
 
     // public function viewAllEgateFormWithType($type){
@@ -76,8 +78,9 @@ class FormEGateCheckController extends Controller
     //         ], 200);
     // }
 
-    public function getOneEgateForm($id){
-        try{
+    public function getOneEgateForm($id)
+    {
+        try {
             $gateForm = FormEGateCheck::findOrFail($id);
 
 
@@ -85,78 +88,77 @@ class FormEGateCheckController extends Controller
                 'code' => 200,
                 'message' => 'Success Fetch Data',
                 'data' => [new FormEGateResource($gateForm)]
-                    // [$gateForm]
-                ], 200);
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                // [$gateForm]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
-
     }
     public function createOrUpdateEgateForm(Request $request)
     {
         $this->validate($request, [
             // 'form_id' => 'integer',
             // ini nilai nya apa saja
-            'gate_report_status' => ['integer',Rule::in(['0','1']),],
-            'gate_is_in' => ['integer',Rule::in(['0','1']),],
-            'gate_is_out' => ['integer',Rule::in(['0','1']),],
-            'gate_formulir_sopir_telp_darurat' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kondisi_cukup_istirahat' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kondisi_tidak_pengaruh_obat_alkohol' => ['integer',Rule::in(['0','1','2']),],
-            'gate_APD' => ['integer',Rule::in(['0','1','2']),],
-            'gate_traffic_tool' => ['integer',Rule::in(['0','1','2']),],
-            'gate_senter' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kotak_p3k' => ['integer',Rule::in(['0','1','2']),],
-            'gate_pemadam_kebakaran' => ['integer',Rule::in(['0','1','2']),],
-            'gate_spill_kit' => ['integer',Rule::in(['0','1','2']),],
-            'gate_b_sarung_tangan' => ['integer',Rule::in(['0','1','2']),],
-            'gate_b_respirator' => ['integer',Rule::in(['0','1','2']),],
-            'gate_b_plakat_tanda_bahaya' => ['integer',Rule::in(['0','1','2']),],
-            'gate_b_battery_breaker' => ['integer',Rule::in(['0','1','2']),],
-            'gate_b_hazard' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_kemudi_rem_berfungsi' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_sabuk_pengaman_berfungsi' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_lampu_nyala' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_kaca' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_ban' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_ban_not_vulkanisir' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_dongkrak_toolkit' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_tutup_tangki' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_chasis' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_tutup_cairan_aki' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_twist_lock' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_landing_leg' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_kontainer' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_valve' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_cleanliness_certificate' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_oli_tidak_bocor' => ['integer',Rule::in(['0','1','2']),],
-            'gate_kend_tachograph' => ['integer',Rule::in(['0','1','2']),],
-            'gate_pintu_kanan' => ['integer',Rule::in(['0','1','2']),],
-            'gate_pintu_kiri' => ['integer',Rule::in(['0','1','2']),],
-            'gate_tdk_ada_benda_asing_laci_dashboard' => ['integer',Rule::in(['0','1','2']),],
-            'gate_tdk_ada_benda_asing_diatas_dashboard' => ['integer',Rule::in(['0','1','2']),],
-            'gate_tdk_ada_benda_asing_dicelah_kursi' => ['integer',Rule::in(['0','1','2']),],
-            'gate_tdk_ada_benda_asing_dibawah_kursi' => ['integer',Rule::in(['0','1','2']),],
-            'gate_tdk_ada_benda_asing_dibelakang_kursi' => ['integer',Rule::in(['0','1','2']),],
-            'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu' => ['integer',Rule::in(['0','1','2']),],
-            'gate_bagian_atap_rapi_tdk_ada_benda_asing' => ['integer',Rule::in(['0','1','2']),],
-            'gate_is_approve' => ['integer',Rule::in(['0','1','2']),],
-            'gate_email_sent' => ['integer',Rule::in(['0','1','2']),],
-            'gate_exit_dokumen_pengantar_barang_lengkap' => ['integer',Rule::in(['0','1','2']),],
-            'gate_exit_muatan_disegel' => ['integer',Rule::in(['0','1','2']),],
-            'gate_exit_tidak_tercecer' => ['integer',Rule::in(['0','1','2']),],
-            'gate_exit_petunjuk_darurat_transportasi' => ['integer',Rule::in(['0','1','2']),],
-            'gate_tipe_pelanggan' => ['integer',Rule::in(['1','2','3']),],
-            'gate_exit_plakat_tanda_bahaya_terpasang' => ['integer',Rule::in(['0','1','2']),],
+            'gate_report_status' => ['integer', Rule::in(['0', '1']),],
+            'gate_is_in' => ['integer', Rule::in(['0', '1']),],
+            'gate_is_out' => ['integer', Rule::in(['0', '1']),],
+            'gate_formulir_sopir_telp_darurat' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kondisi_cukup_istirahat' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kondisi_tidak_pengaruh_obat_alkohol' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_APD' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_traffic_tool' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_senter' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kotak_p3k' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_pemadam_kebakaran' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_spill_kit' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_b_sarung_tangan' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_b_respirator' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_b_plakat_tanda_bahaya' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_b_battery_breaker' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_b_hazard' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_kemudi_rem_berfungsi' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_sabuk_pengaman_berfungsi' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_lampu_nyala' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_kaca' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_ban' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_ban_not_vulkanisir' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_dongkrak_toolkit' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_tutup_tangki' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_chasis' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_tutup_cairan_aki' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_twist_lock' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_landing_leg' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_kontainer' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_valve' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_cleanliness_certificate' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_oli_tidak_bocor' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_kend_tachograph' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_pintu_kanan' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_pintu_kiri' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_tdk_ada_benda_asing_laci_dashboard' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_tdk_ada_benda_asing_diatas_dashboard' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_tdk_ada_benda_asing_dicelah_kursi' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_tdk_ada_benda_asing_dibawah_kursi' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_tdk_ada_benda_asing_dibelakang_kursi' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_tdk_ada_bagian_dilas_utk_penyimpanan_sesuatu' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_bagian_atap_rapi_tdk_ada_benda_asing' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_is_approve' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_email_sent' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_exit_dokumen_pengantar_barang_lengkap' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_exit_muatan_disegel' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_exit_tidak_tercecer' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_exit_petunjuk_darurat_transportasi' => ['integer', Rule::in(['0', '1', '2']),],
+            'gate_tipe_pelanggan' => ['integer', Rule::in(['1', '2', '3']),],
+            'gate_exit_plakat_tanda_bahaya_terpasang' => ['integer', Rule::in(['0', '1', '2']),],
             // 'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
-            'gate_pengganjal_roda' => ['integer',Rule::in(['0','1','2']),],
+            'gate_pengganjal_roda' => ['integer', Rule::in(['0', '1', '2']),],
             'gateable_id' => 'integer',
-            'gate_kesimpulan' => ['integer',Rule::in(['0','1']),],
-            'gate_check_out_employee_id_mobile' =>'integer',
+            'gate_kesimpulan' => ['integer', Rule::in(['0', '1']),],
+            'gate_check_out_employee_id_mobile' => 'integer',
 
 
 
@@ -236,8 +238,8 @@ class FormEGateCheckController extends Controller
             // 'gate_signature_driver_check_out' => 'file',
             'gateable_type' => 'string',
         ]);
-        if((int) $request->input('form_id') != null ||(int) $request->input('form_id') != 0){
-            try{
+        if ((int) $request->input('form_id') != null || (int) $request->input('form_id') != 0) {
+            try {
                 $formEGate = FormEGateCheck::findOrFail((int) $request->input('form_id'));
 
                 $formEGate->update([
@@ -381,87 +383,86 @@ class FormEGateCheckController extends Controller
 
                 // }
 
-                if($request->file('gate_pic_1')){
-                    $file_pic_1 = 'uploads/form_e_gate/'.$formEGate->gate_pic_1;
-                    if(is_file($file_pic_1)){
-                    unlink(public_path($file_pic_1));
+                if ($request->file('gate_pic_1')) {
+                    $file_pic_1 = 'uploads/form_e_gate/' . $formEGate->gate_pic_1;
+                    if (is_file($file_pic_1)) {
+                        unlink(public_path($file_pic_1));
+                    }
+                    $name_pic_1 = time() . 'gate_pic_1.png';
+                    $request->file('gate_pic_1')->move('uploads/form_e_gate', $name_pic_1);
+                    $formEGate->update(
+                        [
+                            'gate_pic_1' => $name_pic_1,
+                        ]
+                    );
                 }
-                $name_pic_1 = time().'gate_pic_1.png';
-                $request->file('gate_pic_1')->move('uploads/form_e_gate',$name_pic_1);
-                $formEGate->update(
-                    [
-                        'gate_pic_1' => $name_pic_1,
-                    ]
-                );
+                if ($request->file('gate_pic_2')) {
+                    $file_pic_2 = 'uploads/form_e_gate/' . $formEGate->gate_pic_2;
+                    if (is_file($file_pic_2)) {
+                        unlink(public_path($file_pic_2));
+                    }
+                    $name_pic_2 = time() . $request->file('gate_pic_2')->getClientOriginalName();
+                    $request->file('gate_pic_2')->move('uploads/form_e_gate', $name_pic_2);
+                    $formEGate->update(
+                        [
+                            'gate_pic_2' => $name_pic_2,
+                        ]
+                    );
                 }
-                if($request->file('gate_pic_2')){
-                    $file_pic_2 = 'uploads/form_e_gate/'.$formEGate->gate_pic_2;
-                    if(is_file($file_pic_2)){
-                    unlink(public_path($file_pic_2));
+                if ($request->file('gate_pic_3')) {
+                    $file_pic_3 = 'uploads/form_e_gate/' . $formEGate->gate_pic_3;
+                    if (is_file($file_pic_3)) {
+                        unlink(public_path($file_pic_3));
+                    }
+                    $name_pic_3 = time() . $request->file('gate_pic_3')->getClientOriginalName();
+                    $request->file('gate_pic_3')->move('uploads/form_e_gate', $name_pic_3);
+                    $formEGate->update(
+                        [
+                            'gate_pic_3' => $name_pic_3,
+                        ]
+                    );
                 }
-                $name_pic_2 = time().$request->file('gate_pic_2')->getClientOriginalName();
-                $request->file('gate_pic_2')->move('uploads/form_e_gate',$name_pic_2);
-                $formEGate->update(
-                    [
-                        'gate_pic_2' => $name_pic_2,
-                    ]
-                );
+                if ($request->file('gate_pic_4')) {
+                    $file_pic_4 = 'uploads/form_e_gate/' . $formEGate->gate_pic_4;
+                    if (is_file($file_pic_4)) {
+                        unlink(public_path($file_pic_4));
+                    }
+                    $name_pic_4 = time() . $request->file('gate_pic_4')->getClientOriginalName();
+                    $request->file('gate_pic_4')->move('uploads/form_e_gate', $name_pic_4);
+                    $formEGate->update(
+                        [
+                            'gate_pic_4' => $name_pic_4,
+                        ]
+                    );
                 }
-                if($request->file('gate_pic_3')){
-                    $file_pic_3 = 'uploads/form_e_gate/'.$formEGate->gate_pic_3;
-                    if(is_file($file_pic_3)){
-                    unlink(public_path($file_pic_3));
+                if ($request->file('gate_pic_5')) {
+                    $file_pic_5 = 'uploads/form_e_gate/' . $formEGate->gate_pic_5;
+                    if (is_file($file_pic_5)) {
+                        unlink(public_path($file_pic_5));
+                    }
+                    $name_pic_5 = time() . $request->file('gate_pic_5')->getClientOriginalName();
+                    $request->file('gate_pic_5')->move('uploads/form_e_gate', $name_pic_5);
+                    $formEGate->update(
+                        [
+                            'gate_pic_5' => $name_pic_5,
+                        ]
+                    );
                 }
-                $name_pic_3 = time().$request->file('gate_pic_3')->getClientOriginalName();
-                $request->file('gate_pic_3')->move('uploads/form_e_gate',$name_pic_3);
-                $formEGate->update(
-                    [
-                        'gate_pic_3' => $name_pic_3,
-                    ]
-                );
-                }
-                if($request->file('gate_pic_4')){
-                    $file_pic_4 = 'uploads/form_e_gate/'.$formEGate->gate_pic_4;
-                    if(is_file($file_pic_4)){
-                    unlink(public_path($file_pic_4));
-                }
-                $name_pic_4 = time().$request->file('gate_pic_4')->getClientOriginalName();
-                $request->file('gate_pic_4')->move('uploads/form_e_gate',$name_pic_4);
-                $formEGate->update(
-                    [
-                        'gate_pic_4' => $name_pic_4,
-                    ]
-                );
-                }
-                if($request->file('gate_pic_5')){
-                    $file_pic_5 = 'uploads/form_e_gate/'.$formEGate->gate_pic_5;
-                    if(is_file($file_pic_5)){
-                    unlink(public_path($file_pic_5));
-                }
-                $name_pic_5 = time().$request->file('gate_pic_5')->getClientOriginalName();
-                $request->file('gate_pic_5')->move('uploads/form_e_gate',$name_pic_5);
-                $formEGate->update(
-                    [
-                        'gate_pic_5' => $name_pic_5,
-                    ]
-                );
-                }
-                if($request->input('gate_is_out') == 1){
+                if ($request->input('gate_is_out') == 1) {
                     //versi base 64
-                    if($request->input('gate_signature_employee_check_out')){
+                    if ($request->input('gate_signature_employee_check_out')) {
                         $decodedDocs = base64_decode($request->input('gate_signature_employee_check_out'));
-                        $name = time()."_gate_signature_employee_check_out.png";
-                        file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+                        $name = time() . "_gate_signature_employee_check_out.png";
+                        file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
 
 
                         $formEGate->update(
                             [
                                 'gate_signature_employee_check_out' => $name,
-                                ]
-                            );
-
+                            ]
+                        );
                     }
-                //versi file
+                    //versi file
                     // if($request->file('gate_signature_employee_check_out')){
                     //     $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
 
@@ -479,25 +480,21 @@ class FormEGateCheckController extends Controller
 
                     // }
                     //versi base 64
-                    if($request->input('gate_signature_driver_check_out')){
+                    if ($request->input('gate_signature_driver_check_out')) {
                         $decodedDocs = base64_decode($request->input('gate_signature_driver_check_out'));
-                        $name = time()."gate_signature_driver_check_out.png";
-                        file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
-
-
-
-
+                        $name = time() . "gate_signature_driver_check_out.png";
+                        file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
                     }
 
-                //     $formEGate->update(
-                //         [
-                //             'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($formEGate),
-                // 'gate_is_editable'=> (int) FormEGateCheck::
-                // returnIsEditable($formEGate),
+                    //     $formEGate->update(
+                    //         [
+                    //             'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($formEGate),
+                    // 'gate_is_editable'=> (int) FormEGateCheck::
+                    // returnIsEditable($formEGate),
 
-                //             ]
-                //         );
-                //versi file
+                    //             ]
+                    //         );
+                    //versi file
                     // if($request->file('gate_signature_driver_check_out')){
                     //     // $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
 
@@ -524,15 +521,14 @@ class FormEGateCheckController extends Controller
                     'data' =>
                     // $request->input('gate_signature_employee_check_out')
                     [new FormEGateResource($formEGate)]
-                        // [$formEGate]
-                    ], 200);
-
-            } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    // [$formEGate]
+                ], 200);
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
                 return response()->json([
                     'code' => 404,
                     'message' => 'Given E Gate Form ID not found',
                     'data' => []
-                    ], 404);
+                ], 404);
             }
         } else {
             $employee = Auth::user();
@@ -594,8 +590,8 @@ class FormEGateCheckController extends Controller
                     // 'gate_loading_status' => (int) $request->input('gate_loading_status'),
                     // 'gate_loading_status' => (int) FormEGateCheck::
                     // returnIsEditable($this),
-                    'gate_loading_status'=> 0,
-                    'gate_is_editable'=> 1,
+                    'gate_loading_status' => 0,
+                    'gate_is_editable' => 1,
                     // (int) FormEGateCheck::
                     // returnEgateStatus($this),
                     'gate_pengganjal_roda' => (int) $request->input('gate_pengganjal_roda'),
@@ -673,87 +669,86 @@ class FormEGateCheckController extends Controller
                     'gate_loading_date' => $request->input('gate_loading_date'),
                 ]
             );
-            if($request->file('gate_pic_1')){
-                $file_pic_1 = 'uploads/form_e_gate/'.$formEGate->gate_pic_1;
-                if(is_file($file_pic_1)){
+            if ($request->file('gate_pic_1')) {
+                $file_pic_1 = 'uploads/form_e_gate/' . $formEGate->gate_pic_1;
+                if (is_file($file_pic_1)) {
                     unlink(public_path($file_pic_1));
                 }
-                $name_pic_1 = time().'_gate_pic_1.png';
-                $request->file('gate_pic_1')->move('uploads/form_e_gate',$name_pic_1);
+                $name_pic_1 = time() . '_gate_pic_1.png';
+                $request->file('gate_pic_1')->move('uploads/form_e_gate', $name_pic_1);
                 $formEGate->update(
                     [
                         'gate_pic_1' => $name_pic_1,
                     ]
                 );
-                }
-                if($request->file('gate_pic_2')){
-                $file_pic_2 = 'uploads/form_e_gate/'.$formEGate->gate_pic_2;
-                if(is_file($file_pic_2)){
+            }
+            if ($request->file('gate_pic_2')) {
+                $file_pic_2 = 'uploads/form_e_gate/' . $formEGate->gate_pic_2;
+                if (is_file($file_pic_2)) {
                     unlink(public_path($file_pic_2));
                 }
-                $name_pic_2 = time().'_gate_pic_2.png';
-                $request->file('gate_pic_2')->move('uploads/form_e_gate',$name_pic_2);
+                $name_pic_2 = time() . '_gate_pic_2.png';
+                $request->file('gate_pic_2')->move('uploads/form_e_gate', $name_pic_2);
                 $formEGate->update(
                     [
                         'gate_pic_2' => $name_pic_2,
                     ]
                 );
-                }
-                if($request->file('gate_pic_3')){
-                    $file_pic_3 = 'uploads/form_e_gate/'.$formEGate->gate_pic_3;
-                    if(is_file($file_pic_3)){
+            }
+            if ($request->file('gate_pic_3')) {
+                $file_pic_3 = 'uploads/form_e_gate/' . $formEGate->gate_pic_3;
+                if (is_file($file_pic_3)) {
                     unlink(public_path($file_pic_3));
-                    }
-                $name_pic_3 = time().'_gate_pic_3.png';
-                $request->file('gate_pic_3')->move('uploads/form_e_gate',$name_pic_3);
+                }
+                $name_pic_3 = time() . '_gate_pic_3.png';
+                $request->file('gate_pic_3')->move('uploads/form_e_gate', $name_pic_3);
                 $formEGate->update(
                     [
                         'gate_pic_3' => $name_pic_3,
                     ]
                 );
-                }
-                if($request->file('gate_pic_4')){
-                    $file_pic_4 = 'uploads/form_e_gate/'.$formEGate->gate_pic_4;
-                    if(is_file($file_pic_4)){
+            }
+            if ($request->file('gate_pic_4')) {
+                $file_pic_4 = 'uploads/form_e_gate/' . $formEGate->gate_pic_4;
+                if (is_file($file_pic_4)) {
                     unlink(public_path($file_pic_4));
-                    }
-                $name_pic_4 = time().'_gate_pic_4.png';
-                $request->file('gate_pic_4')->move('uploads/form_e_gate',$name_pic_4);
+                }
+                $name_pic_4 = time() . '_gate_pic_4.png';
+                $request->file('gate_pic_4')->move('uploads/form_e_gate', $name_pic_4);
                 $formEGate->update(
                     [
                         'gate_pic_4' => $name_pic_4,
                     ]
                 );
-                }
-                if($request->file('gate_pic_5')){
-                    $file_pic_5 = 'uploads/form_e_gate/'.$formEGate->gate_pic_5;
-                    if(is_file($file_pic_5)){
+            }
+            if ($request->file('gate_pic_5')) {
+                $file_pic_5 = 'uploads/form_e_gate/' . $formEGate->gate_pic_5;
+                if (is_file($file_pic_5)) {
                     unlink(public_path($file_pic_5));
                 }
-                $name_pic_5 = time().'_gate_pic_5.png';
-                $request->file('gate_pic_5')->move('uploads/form_e_gate',$name_pic_5);
+                $name_pic_5 = time() . '_gate_pic_5.png';
+                $request->file('gate_pic_5')->move('uploads/form_e_gate', $name_pic_5);
                 $formEGate->update(
                     [
                         'gate_pic_5' => $name_pic_5,
                     ]
                 );
-                }
+            }
 
-                //versi base 64
-                if($request->input('gate_signature_employee_check_in')){
-                    $decodedDocs = base64_decode($request->input('gate_signature_employee_check_in'));
-                    $name = time()."_gate_signature_employee_check_in.png";
-                    file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+            //versi base 64
+            if ($request->input('gate_signature_employee_check_in')) {
+                $decodedDocs = base64_decode($request->input('gate_signature_employee_check_in'));
+                $name = time() . "_gate_signature_employee_check_in.png";
+                file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
 
 
-                    $formEGate->update(
-                        [
-                            'gate_signature_employee_check_in' => $name,
-                            ]
-                        );
-
-                }
-                //versi file
+                $formEGate->update(
+                    [
+                        'gate_signature_employee_check_in' => $name,
+                    ]
+                );
+            }
+            //versi file
             // if($request->file('gate_signature_employee_check_in')){
             //     // $file = 'uploads/attendance/signatures/'.$formEGate->gate_signature_employee_check_in;
 
@@ -773,18 +768,17 @@ class FormEGateCheckController extends Controller
             // }
 
             //versi base 64
-            if($request->input('gate_signature_driver_check_in')){
+            if ($request->input('gate_signature_driver_check_in')) {
                 $decodedDocs = base64_decode($request->input('gate_signature_driver_check_in'));
-                $name = time()."_gate_signature_driver_check_in.png";
-                file_put_contents('uploads/form_e_gate/signatures/'.$name, $decodedDocs);
+                $name = time() . "_gate_signature_driver_check_in.png";
+                file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
 
 
                 $formEGate->update(
                     [
                         'gate_signature_driver_check_in' => $name,
-                        ]
-                    );
-
+                    ]
+                );
             }
             //versi file
             // if($request->file('gate_signature_driver_check_in')){
@@ -803,30 +797,31 @@ class FormEGateCheckController extends Controller
             //         );
 
             // }
-        //     $formEGate->update(
-        //         [
-        //             'gate_loading_status' => (int) FormEGateCheck::
-        //             returnEgateStatus($formEGate),
-        // 'gate_is_editable'=> (int) FormEGateCheck::
-        // returnIsEditable($formEGate),
-        //             ]
-        //         );
+            //     $formEGate->update(
+            //         [
+            //             'gate_loading_status' => (int) FormEGateCheck::
+            //             returnEgateStatus($formEGate),
+            // 'gate_is_editable'=> (int) FormEGateCheck::
+            // returnIsEditable($formEGate),
+            //             ]
+            //         );
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
                 'data' =>
                 // $request->input('gate_signature_employee_check_in')
                 [new FormEGateResource($formEGate)]
-                    // [$formEGate]
-                ], 200);
+                // [$formEGate]
+            ], 200);
         }
     }
 
-    public function deleteEgateForm($id){
-        try{
+    public function deleteEgateForm($id)
+    {
+        try {
             $gateForm = FormEGateCheck::findOrFail($id);
             $gateable = $gateForm->gateable;
-            if($gateable != null){
+            if ($gateable != null) {
                 $gateable->delete();
             }
             $gateForm->delete();
@@ -835,25 +830,24 @@ class FormEGateCheckController extends Controller
                 'code' => 200,
                 'message' => 'Success Delete Data',
                 'data' => [new FormEGateResource($gateForm)]
-                    // [$gateForm]
-                ], 200);
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                // [$gateForm]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
-
-
     }
 
-    public function deleteEgateFormGateable($id){
-        try{
+    public function deleteEgateFormGateable($id)
+    {
+        try {
             $gateForm = FormEGateCheck::findOrFail($id);
             $gateable_id = $gateForm->gateable_id;
             $gateable_type = $gateForm->gateable_type;
-            if($gateable_id != 0 && $gateable_type != null){
+            if ($gateable_id != 0 && $gateable_type != null) {
                 $gateForm->update([
                     'gateable_id' => 0,
                     'gateable_type' => null,
@@ -864,21 +858,20 @@ class FormEGateCheckController extends Controller
                 'code' => 200,
                 'message' => 'Success Delete Gateable of E Gate Form',
                 'data' => [new FormEGateResource($gateForm)]
-                    // [$gateForm]
-                ], 200);
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                // [$gateForm]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
-
-
     }
 
-    public function approveEgateForm($idForm){
-        try{
+    public function approveEgateForm($idForm)
+    {
+        try {
             $employee = Auth::user();
 
             // $formEGate = FormEGateCheck::findOrFail($idForm);
@@ -894,14 +887,14 @@ class FormEGateCheckController extends Controller
                 'code' => 200,
                 'message' => 'Success Approve Data',
                 'data' => [new FormEGateResource($formEGate)]
-                    // [$formEGate]
-                ], 200);
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                // [$formEGate]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 }
