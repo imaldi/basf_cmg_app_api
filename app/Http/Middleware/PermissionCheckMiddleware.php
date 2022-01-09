@@ -18,27 +18,27 @@ class PermissionCheckMiddleware
      */
     public function handle($request, Closure $next, $permission)
     {
-        $user = Auth::user();
-        $permissionExplode = explode(',',$permission);
-        // $permissionFinal = implode(' ', $permissionExplode);
+        // $user = Auth::user();
+        // $permissionExplode = explode(',',$permission);
+        // // $permissionFinal = implode(' ', $permissionExplode);
 
-        $isPermitted = false;
-        foreach ($permissionExplode as $value) {
-            if(Auth::user()->hasPermission($value)){
-                return $next($request);
+        // $isPermitted = false;
+        // foreach ($permissionExplode as $value) {
+        //     if(Auth::user()->hasPermission($value)){
+        //         return $next($request);
 
-                // $isPermitted = true;
-            }
-        }
+        //         // $isPermitted = true;
+        //     }
+        // }
 
 
         // tadinya pakai ini cuma bisa saring 1 permission tiap endpoint
-        // $permissionViaRoles = Auth::user()->hasPermission($permission);
+        $permissionViaRoles = Auth::user()->hasPermission($permission);
 
-        // if($permissionViaRoles){
+        if($permissionViaRoles){
         // if($isPermitted){
-        //     return $next($request);
-        // }
+            return $next($request);
+        }
 
         return redirect('failMiddleware/'.$permission);
         // return response(['fail_reason' => 'fail bitch'],200);

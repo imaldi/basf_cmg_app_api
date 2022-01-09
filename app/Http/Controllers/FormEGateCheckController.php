@@ -23,7 +23,9 @@ class FormEGateCheckController extends Controller
 
                 ->where(function ($query) use ($gateableType) {
                     $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
-                    ->orWhere('gateable_type', '=', null);})
+                    ;})
+                    // Selama ini orWhere nya di dalam closure penyaring gateable type
+                    ->orWhere('gateable_type', '=', null)
                     ->where('gate_kesimpulan', '!=' , 0)
 
                         //   ->orderBy('gateable_type')
