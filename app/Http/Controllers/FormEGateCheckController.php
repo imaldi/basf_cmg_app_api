@@ -23,11 +23,14 @@ class FormEGateCheckController extends Controller
                 FormEGateCheck::where('gate_is_in', 1)->where('gate_report_status', 0)
 
                 ->where(function ($query) use ($gateableType) {
-                    $query->where('gateable_type', 'LIKE', '%' . $gateableType . '%');
-                })
-                // Selama ini orWhere nya di dalam closure penyaring gateable type
+                    $query
+                    ->where('gateable_type', 'LIKE', '%' . $gateableType . '%')
                 ->orWhere('gateable_type', '=', null)
-                ->where('gate_kesimpulan', '!=', 0)
+                    ;
+                })
+
+                ->whereNotIn('gate_kesimpulan', [0])
+                ->orWhereNull('gate_kesimpulan')
 
                 //   ->orderBy('gateable_type')
                 ->orderBy('id', 'DESC')
