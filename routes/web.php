@@ -508,6 +508,14 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
             'uses' => 'FormEGateCheckController@getDaftarNamaAngkutanEgateForm',
             'middleware' => 'permission_check:view e gate form'
         ]);
+        $router->get('angkutan-list-loading', [
+            'uses' => 'FormEGateCheckController@getDaftarNamaAngkutanEgateForm',
+            'middleware' => 'permission_check:view loading form'
+        ]);
+        $router->get('angkutan-list-unloading', [
+            'uses' => 'FormEGateCheckController@getDaftarNamaAngkutanEgateForm',
+            'middleware' => 'permission_check:view unloading form'
+        ]);
 
         // $router->get('all/no-gateable',[
         //     'uses' => 'FormEGateCheckController@viewAllEgateFormWithEmptyGateable',

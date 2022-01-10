@@ -20,19 +20,22 @@ class FormEGateCheckController extends Controller
 
         if ($gateableType != null) {
             $forms =
-                FormEGateCheck::where('gate_is_in', 1)->where('gate_report_status', 0)
+                FormEGateCheck::
+
+                // Urutan bener2 ngaruh di query, ati ati ya bujanggg
+                where('gate_is_in', 1)->where('gate_report_status', 0)
+
+                ->whereNotIn('gate_kesimpulan', [1])
+                ->orWhereNull('gate_kesimpulan')
 
                 ->where(function ($query) use ($gateableType) {
                     $query
                     ->where('gateable_type', 'LIKE', '%' . $gateableType . '%')
-                ->orWhere('gateable_type', '=', null)
+                    ->orWhereNull('gateable_type')
                     ;
                 })
 
-                ->whereNotIn('gate_kesimpulan', [0])
-                ->orWhereNull('gate_kesimpulan')
-
-                //   ->orderBy('gateable_type')
+                // //   ->orderBy('gateable_type')
                 ->orderBy('id', 'DESC')
                 ->get();
             // // $forms->where('gateable_type', 'LIKE', 'FormLoadingTexN701S')->all();
@@ -160,7 +163,7 @@ class FormEGateCheckController extends Controller
             // 'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
             'gate_pengganjal_roda' => ['integer', Rule::in(['0', '1', '2']),],
             'gateable_id' => 'integer',
-            'gate_kesimpulan' => ['integer', Rule::in(['0', '1']),],
+            'gate_kesimpulan' => ['integer', Rule::in(['0', '1','2']),],
             'gate_check_out_employee_id_mobile' => 'integer',
 
 
@@ -349,7 +352,7 @@ class FormEGateCheckController extends Controller
                     'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $request->input('gate_exit_plakat_tanda_bahaya_terpasang_desc'),
                     'gate_delete_reason' => $request->input('gate_delete_reason'),
                     'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
-                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
+                    'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
                     'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                     'gate_nomor_plat' => $request->input('gate_nomor_plat'),
                     'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),
@@ -362,7 +365,6 @@ class FormEGateCheckController extends Controller
                     'gate_nama_perusahaan' => $request->input('gate_nama_perusahaan'),
                     'gate_jenis_kendaraan' => $request->input('gate_jenis_kendaraan'),
                     'gate_loading_type' => $request->input('gate_loading_type'),
-                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
                     'rk_masa_berlaku_SIM' => $request->input('rk_masa_berlaku_SIM'),
                     'rk_masa_berlaku_STNK' => $request->input('rk_masa_berlaku_STNK'),
                     'gate_masa_berlaku_kir' => $request->input('gate_masa_berlaku_kir'),
@@ -653,7 +655,7 @@ class FormEGateCheckController extends Controller
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
                     // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
 
-                    'gate_kesimpulan' => $request->input('gate_kesimpulan'),
+                    'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
                     'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                     'gate_nomor_plat' => $request->input('gate_nomor_plat'),
                     'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),
@@ -883,7 +885,7 @@ class FormEGateCheckController extends Controller
             $formEGate->update([
                 'gate_approve_admin' => $employee->id,
                 'gate_approve_admin_date' => Carbon::now(),
-                'gate_report_status' => 2,
+                'gate_report_status' => 1,
                 'gate_is_approve' => 1,
             ]);
             return response()->json([
