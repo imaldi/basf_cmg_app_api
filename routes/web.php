@@ -526,6 +526,14 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
             'uses' => 'FormEGateCheckController@getOneEgateForm',
             'middleware' => 'permission_check:view e gate form'
         ]);
+        $router->get('get-loading/{id}', [
+            'uses' => 'FormEGateCheckController@getOneEgateForm',
+            'middleware' => 'permission_check:view loading form'
+        ]);
+        $router->get('get-unloading/{id}', [
+            'uses' => 'FormEGateCheckController@getOneEgateForm',
+            'middleware' => 'permission_check:view unloading form'
+        ]);
         $router->post('create-or-update', [
             'uses' => 'FormEGateCheckController@createOrUpdateEgateForm',
             'middleware' => 'permission_check:create e gate form'
