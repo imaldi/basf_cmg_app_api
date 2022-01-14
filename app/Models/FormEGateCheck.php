@@ -45,16 +45,17 @@ class FormEGateCheck extends Model
             $operator =$arraysReturned["operator"];
             $cancel =$arraysReturned["cancel"];
 
+            // 0 = bisa diedit, 1 = tidak bisa di edit
             if($gateable == null){
-                return 1;
+                return 0;
             } else {
             if($cancel === 1) {
-                    return 0;
+                    return 1;
             } else {
                 if($operator === 1 && $checker === 1){
-                    return 0;
-                }
                     return 1;
+                }
+                    return 0;
                 }
             }
     }
@@ -135,16 +136,17 @@ class FormEGateCheck extends Model
                 // $operator =$arraysReturned["operator"];
                 // $cancel =$arraysReturned["cancel"];
 
+                // 0 = bisa diedit, 1 = tidak bisa di edit
                 if($gateable == null){
-                    return 1;
+                    return 0;
                 } else {
                 if($cancel === 1) {
-                        return 0;
+                        return 1;
                 } else {
                     if($operator === 1 && $checker === 1){
-                        return 0;
-                    }
                         return 1;
+                    }
+                        return 0;
                     }
                 }
         }
