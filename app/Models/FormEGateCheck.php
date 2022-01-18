@@ -54,6 +54,8 @@ class FormEGateCheck extends Model
             } else {
                 if($operator === 1 && $checker === 1){
                     return 1;
+                } else if($checker === 0 && $operator === 1) {
+                    return 0;
                 }
                     return 0;
                 }
