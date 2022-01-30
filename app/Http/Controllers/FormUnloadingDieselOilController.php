@@ -358,6 +358,8 @@ class FormUnloadingDieselOilController extends Controller
 
     public function approve(Request $request){
         $formId = (int)  $request->input('form_id');
+        $employee = Auth::user();
+
         try{
             $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
             $formUnloadingDieselOil->update([

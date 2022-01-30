@@ -133,7 +133,7 @@ class FormLoadingPackedGoodsController extends Controller
             'ul2_foto_khusus_cont_ocn_export2' => 'string|max:255',
             'ul2_foto_khusus_cont_ocn_export3' => 'string|max:255',
             'ul2_reason_cancel_load_unload' => 'string|max:255',
-            'ul2_netto_disuratjalan' => 'string|max:255'
+            'ul2_netto_disuratjalan' => 'string|max:255',
             'ul2_netto_hasil_timbang' => 'string|max:255'
         ]);
 
