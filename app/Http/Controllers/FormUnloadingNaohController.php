@@ -40,6 +40,7 @@ class FormUnloadingNaohController extends Controller
             'un4_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0','1','2']),],
             'un4_persiapan_kenakan_ppe_tambahan' => ['integer', Rule::in(['0','1','2']),],
 
+            'un4_persiapan_periksa_level_storage' => ['integer', Rule::in(['0','1','2']),],
             'un4_persiapan_kirim_sample' => ['integer', Rule::in(['0','1','2']),],
             'un4_persiapan_webbing' => ['integer', Rule::in(['0','1','2']),],
             'un4_persiapan_d_ring' => ['integer', Rule::in(['0','1','2']),],
@@ -198,6 +199,7 @@ class FormUnloadingNaohController extends Controller
                 'un4_persiapan_pasang_penampung_tetesan' => (int) $request->input('un4_persiapan_pasang_penampung_tetesan'),
                 'un4_persiapan_kenakan_ppe_tambahan' => (int) $request->input('un4_persiapan_kenakan_ppe_tambahan'),
                 'un4_persiapan_bukasegel_ambil_sampel_desc' => $request->input('un4_persiapan_bukasegel_ambil_sampel_desc'),
+                'un4_persiapan_periksa_level_storage' => (int) $request->input('un4_persiapan_periksa_level_storage'),
                 'un4_persiapan_kirim_sample' => (int) $request->input('un4_persiapan_kirim_sample'),
                 'un4_persiapan_webbing' => (int) $request->input('un4_persiapan_webbing'),
                 'un4_persiapan_d_ring' => (int) $request->input('un4_persiapan_d_ring'),
