@@ -300,7 +300,7 @@ class FormUnloadingNaohController extends Controller
                 file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
-                $formUnloadingPac->update(
+                $formUnloadingNaoh->update(
                     [
                         'un4_signature_checker' => $name,
                         ]
@@ -315,7 +315,7 @@ class FormUnloadingNaohController extends Controller
                 file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
 
 
-                $formUnloadingPac->update(
+                $formUnloadingNaoh->update(
                     [
                         'un4_signature_employee' => $name,
                         ]
