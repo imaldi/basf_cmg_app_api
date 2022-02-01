@@ -25,15 +25,16 @@ class FormEGateCheckController extends Controller
                 // Urutan bener2 ngaruh di query, ati ati ya bujanggg
                 where('gate_is_in', 1)->where('gate_report_status', 0)
 
-                ->whereNotIn('gate_kesimpulan', [1])
-                ->orWhereNull('gate_kesimpulan')
+                // ->whereNotIn('gate_kesimpulan', [1])
+                // ->orWhereNull('gate_kesimpulan')
 
                 ->where(function ($query) use ($gateableType) {
                     $query
                     ->where('gateable_type', 'LIKE', '%' . $gateableType . '%')
                     ->orWhereNull('gateable_type')
                     ;
-                })
+                })->whereNotIn('gate_kesimpulan', [1])
+                // ->orWhereNull('gate_kesimpulan')
 
                 // //   ->orderBy('gateable_type')
                 ->orderBy('id', 'DESC')
@@ -52,7 +53,7 @@ class FormEGateCheckController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch Data',
-            'data' =>
+            'data' => 
             // $gateableType
             FormEGateResource::collection($forms)
             // $sortedResourceList->values()->all()
