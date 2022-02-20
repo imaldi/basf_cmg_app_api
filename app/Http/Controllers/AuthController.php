@@ -26,51 +26,63 @@ class AuthController extends Controller
     //     $this->middleware('auth',['except' => ['login',]]);
     // }
 
-// protected function guard()
-// {
-//     return Auth::guard('api');
-// }
+    // protected function guard()
+    // {
+    //     return Auth::guard('api');
+    // }
 
-//hanya untuk tes-tes
-public function register(Request $request)
-{
-    //validate incoming request
-    $this->validate($request, [
-        'emp_name' => 'required|string',
-        'emp_email' => 'required|email|unique:m_employees',
-        'emp_username' => 'required|string|unique:m_employees',
-        'password' => 'required|confirmed',
-    ]);
-
-    try {
-
-        // $user = new User;
-        $user = new User;
-        $plainPassword = $request->input('password');
-        $password = app('hash')->make($plainPassword);
-        $user = User::create([
-            'emp_name' => $request->input('emp_name'),
-            'emp_username' => $request->input('emp_username'),
-            'emp_email' => $request->input('emp_email'),
-            'password' => $password
+    //hanya untuk tes-tes
+    public function register(Request $request)
+    {
+        //validate incoming request
+        $this->validate($request, [
+            'emp_name' => 'required|string',
+            'emp_email' => 'required|email|unique:m_employees',
+            'emp_username' => 'required|string|unique:m_employees',
+            'emp_nik' => 'required|string|unique:m_employees',
+            'emp_is_active' => 'string',
+            'emp_phone_number' => 'string',
+            'emp_gender' => 'string',
+            'emp_title' => 'string',
+            'emp_group' => 'string',
+            'password' => 'required|confirmed',
         ]);
-        // $user->name = $request->input('name');
-        // $user->emp_username = $request->input('user_name');
-        // $user->email = $request->input('email');
-        // $plainPassword = $request->input('password');
-        // $user->password = app('hash')->make($plainPassword);
 
-        // $user->save();
+        try {
 
-        //return successful response
-        return response()->json([ 'message' => 'CREATED', 'user' => $user], 201);
+            // $user = new User;
+            $user = new User;
+            $plainPassword = $request->input('password');
+            $password = app('hash')->make($plainPassword);
+            $user = User::create([
+                'emp_name' => $request->input('emp_name'),
+                'emp_username' => $request->input('emp_username'),
+                'emp_email' => $request->input('emp_email'),
+                'emp_nik' => $request->input('emp_nik'),
+                'emp_is_active' => $request->input('emp_is_active'),
+                'emp_phone_number' => $request->input('emp_phone_number'),
+                'emp_gender' => $request->input('emp_gender'),
+                'emp_title' => $request->input('emp_title'),
+                'password' => $password
+            ]);
+            $emp_group = $request->input('emp_group');
 
-    } catch (Exception $e) {
-        //return error message
-        return response()->json(['message' => 'User Registration Failed!'], 409);
+            $user->syncRoles($emp_group);
+            // $user->name = $request->input('name');
+            // $user->emp_username = $request->input('user_name');
+            // $user->email = $request->input('email');
+            // $plainPassword = $request->input('password');
+            // $user->password = app('hash')->make($plainPassword);
+
+            // $user->save();
+
+            //return successful response
+            return response()->json(['message' => 'CREATED', 'user' => $user], 201);
+        } catch (Exception $e) {
+            //return error message
+            return response()->json(['message' => 'User Registration Failed!'], 409);
+        }
     }
-
-}
 
 
     public function login(Request $request)
@@ -84,16 +96,16 @@ public function register(Request $request)
         // $credentials = $request->only(['email', 'password']);
         $credentials = $request->only(['emp_username', 'password']);
 
-    //     $email    = $request->input('emp_email');
-    // $password = $request->input('emp_password');
+        //     $email    = $request->input('emp_email');
+        // $password = $request->input('emp_password');
 
-            // dd($credentials);
+        // dd($credentials);
 
-        if (! $token = JWTAuth::attempt($credentials)) {
-        // if (! $token = Auth::attempt(['emp_email'=>$email, 'emp_password' =>$password])) {
+        if (!$token = JWTAuth::attempt($credentials)) {
+            // if (! $token = Auth::attempt(['emp_email'=>$email, 'emp_password' =>$password])) {
             return response()->json([
                 "token" => "",
-                "token_type" =>"",
+                "token_type" => "",
                 "expires_in" => 0,
                 // 'message' => 'Unauthorized'
             ], 401);
@@ -111,13 +123,13 @@ public function register(Request $request)
         ], 200);
     }
 
-//     protected function validateLogin(Request $request)
-// {
-//     $request->validate([
-//         $this->username() => 'required|string',
-//         'emp_password' => 'required|string',
-//     ]);
-// }
+    //     protected function validateLogin(Request $request)
+    // {
+    //     $request->validate([
+    //         $this->username() => 'required|string',
+    //         'emp_password' => 'required|string',
+    //     ]);
+    // }
 
     public function username()
     {
@@ -126,10 +138,10 @@ public function register(Request $request)
 
 
 
-//     protected function credentials(Request $request)
-//     {
-//         return $request->only($this->username(), 'emp_password');
-//     }
+    //     protected function credentials(Request $request)
+    //     {
+    //         return $request->only($this->username(), 'emp_password');
+    //     }
     // {
     //     $statusCode=401;
     //     $response=[];
@@ -157,8 +169,9 @@ public function register(Request $request)
     //     }
     // }
 
-    public function failMiddleware($middlewareName){
-        return response(['code' => 401, 'message' => $middlewareName.' not allowed'],401);
+    public function failMiddleware($middlewareName)
+    {
+        return response(['code' => 401, 'message' => $middlewareName . ' not allowed'], 401);
     }
 
     ///masih belum d urus dan belum perlu
