@@ -44,7 +44,7 @@ class AuthController extends Controller
             'emp_phone_number' => 'string',
             'emp_gender' => 'string',
             'emp_title' => 'string',
-            'emp_group' => 'string',
+            // 'emp_group' => 'string',
             'password' => 'required|confirmed',
         ]);
 
