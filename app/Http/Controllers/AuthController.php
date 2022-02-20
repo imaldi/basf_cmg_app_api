@@ -84,6 +84,65 @@ class AuthController extends Controller
         }
     }
 
+    public function editUser(Request $request)
+    {
+        //validate incoming request
+        $this->validate($request, [
+            'id' => 'required|integer',
+            'emp_name' => 'required|string',
+            'emp_email' => 'email',
+            'emp_username' => 'string',
+            'emp_nik' => 'string',
+            'emp_is_active' => 'string',
+            'emp_phone_number' => 'string',
+            'emp_gender' => 'string',
+            'emp_title' => 'string',
+            // 'emp_group' => 'string',
+            'password' => 'confirmed',
+        ]);
+
+        try {
+
+            // $user = new User;
+            $userId = $request->input('id');
+
+            $user = User::findOrFail($userId);
+            $plainPassword = $request->input('password');
+            $password = app('hash')->make($plainPassword);
+            $user->update([
+                'emp_name' => $request->input('emp_name'),
+                'emp_email' => $request->input('emp_email'),
+                'emp_nik' => $request->input('emp_nik'),
+                'emp_is_active' => $request->input('emp_is_active'),
+                'emp_phone_number' => $request->input('emp_phone_number'),
+                'emp_gender' => $request->input('emp_gender'),
+                'emp_title' => $request->input('emp_title'),
+                'password' => $password
+            ]);
+            $emp_group = $request->input('emp_group');
+
+            $user->syncRoles($emp_group);
+            if ($request->input('emp_username') != null) {
+                $user->update([
+                    'emp_username' => $request->input('emp_username'),
+                ]);
+            }
+            // $user->name = $request->input('name');
+            // $user->emp_username = $request->input('user_name');
+            // $user->email = $request->input('email');
+            // $plainPassword = $request->input('password');
+            // $user->password = app('hash')->make($plainPassword);
+
+            // $user->save();
+
+            //return successful response
+            return response()->json(['message' => 'UPDATED', 'user' => $user], 201);
+        } catch (Exception $e) {
+            //return error message
+            return response()->json(['message' => 'User Registration Failed!'], 409);
+        }
+    }
+
 
     public function login(Request $request)
     {
