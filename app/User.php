@@ -32,7 +32,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable, Authorizable, HasRoles;
 
     protected $table = 'm_employees';
-    protected $guard_name = 'api';
+    protected $guard_name = 'web';
 
     // /**
     //  * The attributes that are mass assignable.
