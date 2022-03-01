@@ -28,7 +28,13 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
         ],
         'uses' => 'AuthController@register'
     ]);
-    $router->post('edit-user', 'AuthController@editUser');
+    $router->post('edit-user', [
+        'middleware' => [
+            'permission_check:edit user',
+            // 'group_check:Admin'
+        ],
+        'uses' => 'AuthController@editUser'
+    ]);
     //// Test jwt
     // Matches "/api/profile
     $router->get('profile', 'HomeController@profile');
