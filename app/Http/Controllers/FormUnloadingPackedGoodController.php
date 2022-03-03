@@ -168,7 +168,10 @@ class FormUnloadingPackedGoodController extends Controller
                         response()->json([
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                            'data' => []
+                            'data' => [
+                                'form_id' => $formId,
+                                'gate_id' => $gate->gateable_id
+                            ]
                         ], 451);
                 }
 
