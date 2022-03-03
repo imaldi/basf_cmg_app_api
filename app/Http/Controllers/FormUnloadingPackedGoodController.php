@@ -148,8 +148,9 @@ class FormUnloadingPackedGoodController extends Controller
                                 'code' => 451,
                                 'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                                 'data' => [
-                                    'form_id' => $formId,
-                                    'gate_id' => $gate->gateable_id
+                                    'form_id' => $gate->gateable_id,
+                                    'gate_id' => $gate->id,
+                                    'gateable_type' => $gate->gateable_type
                                 ]
                             ], 451);
                     }
@@ -169,8 +170,9 @@ class FormUnloadingPackedGoodController extends Controller
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                             'data' => [
-                                'form_id' => $formId,
-                                'gate_id' => $gate->gateable_id
+                                'form_id' => $gate->gateable_id,
+                                'gate_id' => $gate->id,
+                                'gateable_type' => $gate->gateable_type
                             ]
                         ], 451);
                 }
