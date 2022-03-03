@@ -26,6 +26,7 @@ class FormUnloadingPackedGoodController extends Controller
     {
         $this->validate($request, [
             // 'form_id' => 'integer',
+            'id' => 'integer',
             'gate_id' => 'required|integer',
 
             'un10_simbol_1' => ['integer', Rule::in(['0', '1', '2']),],
@@ -133,7 +134,8 @@ class FormUnloadingPackedGoodController extends Controller
 
         $employee = Auth::user();
         try {
-            $formId = (int) $request->input('form_id');
+            // $formId = (int) $request->input('form_id');
+            $formId = (int) $request->input('id');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
             if ($formId != null || $formId != 0) {
                 $isCreate = "Update";
