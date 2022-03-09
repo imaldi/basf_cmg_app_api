@@ -164,7 +164,9 @@ class FormLoadingPackedGoodsController extends Controller
                     return response()->json([
                         'code' => 404,
                         'message' => 'Given FormLoadingPackedGoods Form ID not found',
-                        'data' => []
+                        'data' => [
+                            'gate_id' => $request->input('gate_id')
+                        ]
                     ], 404);
                 }
             } else {
@@ -775,7 +777,9 @@ class FormLoadingPackedGoodsController extends Controller
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
-                'data' => []
+                'data' => [
+                    'gate_id' => $request->input('gate_id')
+                ]
             ], 404);
         }
     }
