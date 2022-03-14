@@ -157,7 +157,14 @@ class FormLoadingPackedGoodsController extends Controller
                             response()->json([
                                 'code' => 451,
                                 'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                                'data' => []
+                                'data' => [
+                                    'form_id' => (int) $request->input('form_id'),
+                                    'gate_id' => $gate->id,
+                                    'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
+                                    'gateable_id' => $gate->gateable_id,
+                                    'gateable_type' => $gate->gateable_type,
+                                    'create' => 'No'
+                                ]
                             ], 451);
                     }
                 } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -176,7 +183,14 @@ class FormLoadingPackedGoodsController extends Controller
                         response()->json([
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                            'data' => []
+                            'data' => [
+                                'form_id' => (int) $request->input('form_id'),
+                                'gate_id' => $gate->id,
+                                'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
+                                'gateable_id' => $gate->gateable_id,
+                                'gateable_type' => $gate->gateable_type,
+                                'create' => 'Yes'
+                            ]
                         ], 451);
                 }
                 $isCreate = "Create";
