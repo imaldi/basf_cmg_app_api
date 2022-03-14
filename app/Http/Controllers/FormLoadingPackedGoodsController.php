@@ -136,7 +136,7 @@ class FormLoadingPackedGoodsController extends Controller
             'ul2_foto_khusus_cont_ocn_export3' => 'string|max:255',
             'ul2_reason_cancel_load_unload' => 'string|max:255',
             // 'ul2_netto_disuratjalan' => 'string|max:255',
-            'ul2_netto_hasil_timbang' => 'string|max:255'
+            // 'ul2_netto_hasil_timbang' => 'string|max:255'
         ]);
 
         $employee = Auth::user();
@@ -257,7 +257,7 @@ class FormLoadingPackedGoodsController extends Controller
                 'ul2_status' => (int) $request->input('ul2_status'),
 
                 // 'ul2_netto_disuratjalan' => $request->input('ul2_netto_disuratjalan'),
-                'ul2_netto_hasil_timbang' => $request->input('ul2_netto_hasil_timbang'),
+                // 'ul2_netto_hasil_timbang' => $request->input('ul2_netto_hasil_timbang'),
                 'ul2_persiapan_memakai_ppe_desc' => $request->input('ul2_persiapan_memakai_ppe_desc'),
                 'ul2_persiapan_forklift_sudah_lulus_desc' => $request->input('ul2_persiapan_forklift_sudah_lulus_desc'),
                 'ul2_persiapan_drum_handler_sdh_lulus_desc' => $request->input('ul2_persiapan_drum_handler_sdh_lulus_desc'),
