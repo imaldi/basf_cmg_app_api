@@ -141,7 +141,7 @@ class FormLoadingPackedGoodsController extends Controller
 
         $employee = Auth::user();
         try {
-            $formId = $request->input('form_id');
+            $formId = $request->input('id');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
 
             if ($formId != null || $formId != 0) {
@@ -158,7 +158,7 @@ class FormLoadingPackedGoodsController extends Controller
                                 'code' => 451,
                                 'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                                 'data' => [
-                                    'form_id' => (int) $request->input('form_id'),
+                                    'form_id' => (int) $request->input('id'),
                                     'gate_id' => $gate->id,
                                     'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
                                     'gateable_id' => $gate->gateable_id,
@@ -184,7 +184,7 @@ class FormLoadingPackedGoodsController extends Controller
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                             'data' => [
-                                'form_id' => (int) $request->input('form_id'),
+                                'form_id' => (int) $request->input('id'),
                                 'gate_id' => $gate->id,
                                 'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
                                 'gateable_id' => $gate->gateable_id,
