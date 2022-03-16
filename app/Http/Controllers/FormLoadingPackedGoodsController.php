@@ -356,13 +356,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_lantai_truk_bersih1')) {
-                $file_ul2_foto_lantai_truk_bersih1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_lantai_truk_bersih1;
+                $file_ul2_foto_lantai_truk_bersih1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_lantai_truk_bersih1;
                 if (is_file($file_ul2_foto_lantai_truk_bersih1)) {
                     unlink(public_path($file_ul2_foto_lantai_truk_bersih1));
                 }
                 $name_ul2_foto_lantai_truk_bersih1 = time() . $request->file('ul2_foto_lantai_truk_bersih1')->getClientOriginalName();
                 $request->file('ul2_foto_lantai_truk_bersih1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_lantai_truk_bersih1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_lantai_truk_bersih1' => $name_ul2_foto_lantai_truk_bersih1,
                     ]
@@ -370,13 +370,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_lantai_truk_bersih2')) {
-                $file_ul2_foto_lantai_truk_bersih2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_lantai_truk_bersih2;
+                $file_ul2_foto_lantai_truk_bersih2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_lantai_truk_bersih2;
                 if (is_file($file_ul2_foto_lantai_truk_bersih2)) {
                     unlink(public_path($file_ul2_foto_lantai_truk_bersih2));
                 }
                 $name_ul2_foto_lantai_truk_bersih2 = time() . $request->file('ul2_foto_lantai_truk_bersih2')->getClientOriginalName();
                 $request->file('ul2_foto_lantai_truk_bersih2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_lantai_truk_bersih2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_lantai_truk_bersih2' => $name_ul2_foto_lantai_truk_bersih2,
                     ]
@@ -384,13 +384,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_lantai_truk_bersih3')) {
-                $file_ul2_foto_lantai_truk_bersih3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_lantai_truk_bersih3;
+                $file_ul2_foto_lantai_truk_bersih3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_lantai_truk_bersih3;
                 if (is_file($file_ul2_foto_lantai_truk_bersih3)) {
                     unlink(public_path($file_ul2_foto_lantai_truk_bersih3));
                 }
                 $name_ul2_foto_lantai_truk_bersih3 = time() . $request->file('ul2_foto_lantai_truk_bersih3')->getClientOriginalName();
                 $request->file('ul2_foto_lantai_truk_bersih3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_lantai_truk_bersih3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_lantai_truk_bersih3' => $name_ul2_foto_lantai_truk_bersih3,
                     ]
@@ -398,13 +398,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_container_export_checklist1')) {
-                $file_ul2_foto_container_export_checklist1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_container_export_checklist1;
+                $file_ul2_foto_container_export_checklist1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_container_export_checklist1;
                 if (is_file($file_ul2_foto_container_export_checklist1)) {
                     unlink(public_path($file_ul2_foto_container_export_checklist1));
                 }
                 $name_ul2_foto_container_export_checklist1 = time() . $request->file('ul2_foto_container_export_checklist1')->getClientOriginalName();
                 $request->file('ul2_foto_container_export_checklist1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_container_export_checklist1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_container_export_checklist1' => $name_ul2_foto_container_export_checklist1,
                     ]
@@ -412,13 +412,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_container_export_checklist2')) {
-                $file_ul2_foto_container_export_checklist2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_container_export_checklist2;
+                $file_ul2_foto_container_export_checklist2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_container_export_checklist2;
                 if (is_file($file_ul2_foto_container_export_checklist2)) {
                     unlink(public_path($file_ul2_foto_container_export_checklist2));
                 }
                 $name_ul2_foto_container_export_checklist2 = time() . $request->file('ul2_foto_container_export_checklist2')->getClientOriginalName();
                 $request->file('ul2_foto_container_export_checklist2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_container_export_checklist2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_container_export_checklist2' => $name_ul2_foto_container_export_checklist2,
                     ]
@@ -426,13 +426,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_container_export_checklist3')) {
-                $file_ul2_foto_container_export_checklist3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_container_export_checklist3;
+                $file_ul2_foto_container_export_checklist3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_container_export_checklist3;
                 if (is_file($file_ul2_foto_container_export_checklist3)) {
                     unlink(public_path($file_ul2_foto_container_export_checklist3));
                 }
                 $name_ul2_foto_container_export_checklist3 = time() . $request->file('ul2_foto_container_export_checklist3')->getClientOriginalName();
                 $request->file('ul2_foto_container_export_checklist3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_container_export_checklist3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_container_export_checklist3' => $name_ul2_foto_container_export_checklist3,
                     ]
@@ -440,13 +440,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_utk_export_pallet_ispm1')) {
-                $file_ul2_foto_utk_export_pallet_ispm1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_utk_export_pallet_ispm1;
+                $file_ul2_foto_utk_export_pallet_ispm1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_utk_export_pallet_ispm1;
                 if (is_file($file_ul2_foto_utk_export_pallet_ispm1)) {
                     unlink(public_path($file_ul2_foto_utk_export_pallet_ispm1));
                 }
                 $name_ul2_foto_utk_export_pallet_ispm1 = time() . $request->file('ul2_foto_utk_export_pallet_ispm1')->getClientOriginalName();
                 $request->file('ul2_foto_utk_export_pallet_ispm1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_utk_export_pallet_ispm1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_utk_export_pallet_ispm1' => $name_ul2_foto_utk_export_pallet_ispm1,
                     ]
@@ -454,13 +454,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_utk_export_pallet_ispm2')) {
-                $file_ul2_foto_utk_export_pallet_ispm2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_utk_export_pallet_ispm2;
+                $file_ul2_foto_utk_export_pallet_ispm2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_utk_export_pallet_ispm2;
                 if (is_file($file_ul2_foto_utk_export_pallet_ispm2)) {
                     unlink(public_path($file_ul2_foto_utk_export_pallet_ispm2));
                 }
                 $name_ul2_foto_utk_export_pallet_ispm2 = time() . $request->file('ul2_foto_utk_export_pallet_ispm2')->getClientOriginalName();
                 $request->file('ul2_foto_utk_export_pallet_ispm2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_utk_export_pallet_ispm2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_utk_export_pallet_ispm2' => $name_ul2_foto_utk_export_pallet_ispm2,
                     ]
@@ -468,13 +468,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_utk_export_pallet_ispm3')) {
-                $file_ul2_foto_utk_export_pallet_ispm3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_utk_export_pallet_ispm3;
+                $file_ul2_foto_utk_export_pallet_ispm3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_utk_export_pallet_ispm3;
                 if (is_file($file_ul2_foto_utk_export_pallet_ispm3)) {
                     unlink(public_path($file_ul2_foto_utk_export_pallet_ispm3));
                 }
                 $name_ul2_foto_utk_export_pallet_ispm3 = time() . $request->file('ul2_foto_utk_export_pallet_ispm3')->getClientOriginalName();
                 $request->file('ul2_foto_utk_export_pallet_ispm3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_utk_export_pallet_ispm3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_utk_export_pallet_ispm3' => $name_ul2_foto_utk_export_pallet_ispm3,
                     ]
@@ -482,13 +482,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_periksa_pallet1')) {
-                $file_ul2_foto_periksa_pallet1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_periksa_pallet1;
+                $file_ul2_foto_periksa_pallet1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_periksa_pallet1;
                 if (is_file($file_ul2_foto_periksa_pallet1)) {
                     unlink(public_path($file_ul2_foto_periksa_pallet1));
                 }
                 $name_ul2_foto_periksa_pallet1 = time() . $request->file('ul2_foto_periksa_pallet1')->getClientOriginalName();
                 $request->file('ul2_foto_periksa_pallet1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_periksa_pallet1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_periksa_pallet1' => $name_ul2_foto_periksa_pallet1,
                     ]
@@ -496,13 +496,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_periksa_pallet2')) {
-                $file_ul2_foto_periksa_pallet2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_periksa_pallet2;
+                $file_ul2_foto_periksa_pallet2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_periksa_pallet2;
                 if (is_file($file_ul2_foto_periksa_pallet2)) {
                     unlink(public_path($file_ul2_foto_periksa_pallet2));
                 }
                 $name_ul2_foto_periksa_pallet2 = time() . $request->file('ul2_foto_periksa_pallet2')->getClientOriginalName();
                 $request->file('ul2_foto_periksa_pallet2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_periksa_pallet2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_periksa_pallet2' => $name_ul2_foto_periksa_pallet2,
                     ]
@@ -510,13 +510,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_periksa_pallet3')) {
-                $file_ul2_foto_periksa_pallet3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_periksa_pallet3;
+                $file_ul2_foto_periksa_pallet3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_periksa_pallet3;
                 if (is_file($file_ul2_foto_periksa_pallet3)) {
                     unlink(public_path($file_ul2_foto_periksa_pallet3));
                 }
                 $name_ul2_foto_periksa_pallet3 = time() . $request->file('ul2_foto_periksa_pallet3')->getClientOriginalName();
                 $request->file('ul2_foto_periksa_pallet3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_periksa_pallet3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_periksa_pallet3' => $name_ul2_foto_periksa_pallet3,
                     ]
@@ -524,13 +524,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_pastikan_tdk_ada_orang_asing1')) {
-                $file_ul2_foto_pastikan_tdk_ada_orang_asing1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_pastikan_tdk_ada_orang_asing1;
+                $file_ul2_foto_pastikan_tdk_ada_orang_asing1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_pastikan_tdk_ada_orang_asing1;
                 if (is_file($file_ul2_foto_pastikan_tdk_ada_orang_asing1)) {
                     unlink(public_path($file_ul2_foto_pastikan_tdk_ada_orang_asing1));
                 }
                 $name_ul2_foto_pastikan_tdk_ada_orang_asing1 = time() . $request->file('ul2_foto_pastikan_tdk_ada_orang_asing1')->getClientOriginalName();
                 $request->file('ul2_foto_pastikan_tdk_ada_orang_asing1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_pastikan_tdk_ada_orang_asing1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_pastikan_tdk_ada_orang_asing1' => $name_ul2_foto_pastikan_tdk_ada_orang_asing1,
                     ]
@@ -538,13 +538,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_pastikan_tdk_ada_orang_asing2')) {
-                $file_ul2_foto_pastikan_tdk_ada_orang_asing2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_pastikan_tdk_ada_orang_asing2;
+                $file_ul2_foto_pastikan_tdk_ada_orang_asing2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_pastikan_tdk_ada_orang_asing2;
                 if (is_file($file_ul2_foto_pastikan_tdk_ada_orang_asing2)) {
                     unlink(public_path($file_ul2_foto_pastikan_tdk_ada_orang_asing2));
                 }
                 $name_ul2_foto_pastikan_tdk_ada_orang_asing2 = time() . $request->file('ul2_foto_pastikan_tdk_ada_orang_asing2')->getClientOriginalName();
                 $request->file('ul2_foto_pastikan_tdk_ada_orang_asing2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_pastikan_tdk_ada_orang_asing2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_pastikan_tdk_ada_orang_asing2' => $name_ul2_foto_pastikan_tdk_ada_orang_asing2,
                     ]
@@ -552,13 +552,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_pastikan_tdk_ada_orang_asing3')) {
-                $file_ul2_foto_pastikan_tdk_ada_orang_asing3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_pastikan_tdk_ada_orang_asing3;
+                $file_ul2_foto_pastikan_tdk_ada_orang_asing3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_pastikan_tdk_ada_orang_asing3;
                 if (is_file($file_ul2_foto_pastikan_tdk_ada_orang_asing3)) {
                     unlink(public_path($file_ul2_foto_pastikan_tdk_ada_orang_asing3));
                 }
                 $name_ul2_foto_pastikan_tdk_ada_orang_asing3 = time() . $request->file('ul2_foto_pastikan_tdk_ada_orang_asing3')->getClientOriginalName();
                 $request->file('ul2_foto_pastikan_tdk_ada_orang_asing3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_pastikan_tdk_ada_orang_asing3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_pastikan_tdk_ada_orang_asing3' => $name_ul2_foto_pastikan_tdk_ada_orang_asing3,
                     ]
@@ -566,13 +566,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_produk_tersusun_baik1')) {
-                $file_ul2_foto_produk_tersusun_baik1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_produk_tersusun_baik1;
+                $file_ul2_foto_produk_tersusun_baik1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_produk_tersusun_baik1;
                 if (is_file($file_ul2_foto_produk_tersusun_baik1)) {
                     unlink(public_path($file_ul2_foto_produk_tersusun_baik1));
                 }
                 $name_ul2_foto_produk_tersusun_baik1 = time() . $request->file('ul2_foto_produk_tersusun_baik1')->getClientOriginalName();
                 $request->file('ul2_foto_produk_tersusun_baik1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_produk_tersusun_baik1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_produk_tersusun_baik1' => $name_ul2_foto_produk_tersusun_baik1,
                     ]
@@ -580,13 +580,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_produk_tersusun_baik2')) {
-                $file_ul2_foto_produk_tersusun_baik2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_produk_tersusun_baik2;
+                $file_ul2_foto_produk_tersusun_baik2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_produk_tersusun_baik2;
                 if (is_file($file_ul2_foto_produk_tersusun_baik2)) {
                     unlink(public_path($file_ul2_foto_produk_tersusun_baik2));
                 }
                 $name_ul2_foto_produk_tersusun_baik2 = time() . $request->file('ul2_foto_produk_tersusun_baik2')->getClientOriginalName();
                 $request->file('ul2_foto_produk_tersusun_baik2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_produk_tersusun_baik2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_produk_tersusun_baik2' => $name_ul2_foto_produk_tersusun_baik2,
                     ]
@@ -594,13 +594,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_produk_tersusun_baik3')) {
-                $file_ul2_foto_produk_tersusun_baik3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_produk_tersusun_baik3;
+                $file_ul2_foto_produk_tersusun_baik3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_produk_tersusun_baik3;
                 if (is_file($file_ul2_foto_produk_tersusun_baik3)) {
                     unlink(public_path($file_ul2_foto_produk_tersusun_baik3));
                 }
                 $name_ul2_foto_produk_tersusun_baik3 = time() . $request->file('ul2_foto_produk_tersusun_baik3')->getClientOriginalName();
                 $request->file('ul2_foto_produk_tersusun_baik3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_produk_tersusun_baik3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_produk_tersusun_baik3' => $name_ul2_foto_produk_tersusun_baik3,
                     ]
@@ -608,13 +608,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_dry_container_export1')) {
-                $file_ul2_foto_dry_container_export1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_dry_container_export1;
+                $file_ul2_foto_dry_container_export1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_dry_container_export1;
                 if (is_file($file_ul2_foto_dry_container_export1)) {
                     unlink(public_path($file_ul2_foto_dry_container_export1));
                 }
                 $name_ul2_foto_dry_container_export1 = time() . $request->file('ul2_foto_dry_container_export1')->getClientOriginalName();
                 $request->file('ul2_foto_dry_container_export1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_dry_container_export1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_dry_container_export1' => $name_ul2_foto_dry_container_export1,
                     ]
@@ -622,13 +622,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_dry_container_export2')) {
-                $file_ul2_foto_dry_container_export2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_dry_container_export2;
+                $file_ul2_foto_dry_container_export2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_dry_container_export2;
                 if (is_file($file_ul2_foto_dry_container_export2)) {
                     unlink(public_path($file_ul2_foto_dry_container_export2));
                 }
                 $name_ul2_foto_dry_container_export2 = time() . $request->file('ul2_foto_dry_container_export2')->getClientOriginalName();
                 $request->file('ul2_foto_dry_container_export2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_dry_container_export2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_dry_container_export2' => $name_ul2_foto_dry_container_export2,
                     ]
@@ -636,13 +636,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_dry_container_export3')) {
-                $file_ul2_foto_dry_container_export3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_dry_container_export3;
+                $file_ul2_foto_dry_container_export3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_dry_container_export3;
                 if (is_file($file_ul2_foto_dry_container_export3)) {
                     unlink(public_path($file_ul2_foto_dry_container_export3));
                 }
                 $name_ul2_foto_dry_container_export3 = time() . $request->file('ul2_foto_dry_container_export3')->getClientOriginalName();
                 $request->file('ul2_foto_dry_container_export3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_dry_container_export3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_dry_container_export3' => $name_ul2_foto_dry_container_export3,
                     ]
@@ -650,13 +650,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_produk_pakai_pengaman1')) {
-                $file_ul2_foto_produk_pakai_pengaman1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_produk_pakai_pengaman1;
+                $file_ul2_foto_produk_pakai_pengaman1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_produk_pakai_pengaman1;
                 if (is_file($file_ul2_foto_produk_pakai_pengaman1)) {
                     unlink(public_path($file_ul2_foto_produk_pakai_pengaman1));
                 }
                 $name_ul2_foto_produk_pakai_pengaman1 = time() . $request->file('ul2_foto_produk_pakai_pengaman1')->getClientOriginalName();
                 $request->file('ul2_foto_produk_pakai_pengaman1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_produk_pakai_pengaman1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_produk_pakai_pengaman1' => $name_ul2_foto_produk_pakai_pengaman1,
                     ]
@@ -664,13 +664,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_produk_pakai_pengaman2')) {
-                $file_ul2_foto_produk_pakai_pengaman2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_produk_pakai_pengaman2;
+                $file_ul2_foto_produk_pakai_pengaman2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_produk_pakai_pengaman2;
                 if (is_file($file_ul2_foto_produk_pakai_pengaman2)) {
                     unlink(public_path($file_ul2_foto_produk_pakai_pengaman2));
                 }
                 $name_ul2_foto_produk_pakai_pengaman2 = time() . $request->file('ul2_foto_produk_pakai_pengaman2')->getClientOriginalName();
                 $request->file('ul2_foto_produk_pakai_pengaman2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_produk_pakai_pengaman2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_produk_pakai_pengaman2' => $name_ul2_foto_produk_pakai_pengaman2,
                     ]
@@ -678,13 +678,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_produk_pakai_pengaman3')) {
-                $file_ul2_foto_produk_pakai_pengaman3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_produk_pakai_pengaman3;
+                $file_ul2_foto_produk_pakai_pengaman3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_produk_pakai_pengaman3;
                 if (is_file($file_ul2_foto_produk_pakai_pengaman3)) {
                     unlink(public_path($file_ul2_foto_produk_pakai_pengaman3));
                 }
                 $name_ul2_foto_produk_pakai_pengaman3 = time() . $request->file('ul2_foto_produk_pakai_pengaman3')->getClientOriginalName();
                 $request->file('ul2_foto_produk_pakai_pengaman3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_produk_pakai_pengaman3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_produk_pakai_pengaman3' => $name_ul2_foto_produk_pakai_pengaman3,
                     ]
@@ -692,13 +692,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_kembalikan_adjusment_leveler1')) {
-                $file_ul2_foto_kembalikan_adjusment_leveler1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_kembalikan_adjusment_leveler1;
+                $file_ul2_foto_kembalikan_adjusment_leveler1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_kembalikan_adjusment_leveler1;
                 if (is_file($file_ul2_foto_kembalikan_adjusment_leveler1)) {
                     unlink(public_path($file_ul2_foto_kembalikan_adjusment_leveler1));
                 }
                 $name_ul2_foto_kembalikan_adjusment_leveler1 = time() . $request->file('ul2_foto_kembalikan_adjusment_leveler1')->getClientOriginalName();
                 $request->file('ul2_foto_kembalikan_adjusment_leveler1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_kembalikan_adjusment_leveler1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_kembalikan_adjusment_leveler1' => $name_ul2_foto_kembalikan_adjusment_leveler1,
                     ]
@@ -706,13 +706,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_kembalikan_adjusment_leveler2')) {
-                $file_ul2_foto_kembalikan_adjusment_leveler2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_kembalikan_adjusment_leveler2;
+                $file_ul2_foto_kembalikan_adjusment_leveler2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_kembalikan_adjusment_leveler2;
                 if (is_file($file_ul2_foto_kembalikan_adjusment_leveler2)) {
                     unlink(public_path($file_ul2_foto_kembalikan_adjusment_leveler2));
                 }
                 $name_ul2_foto_kembalikan_adjusment_leveler2 = time() . $request->file('ul2_foto_kembalikan_adjusment_leveler2')->getClientOriginalName();
                 $request->file('ul2_foto_kembalikan_adjusment_leveler2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_kembalikan_adjusment_leveler2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_kembalikan_adjusment_leveler2' => $name_ul2_foto_kembalikan_adjusment_leveler2,
                     ]
@@ -720,13 +720,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_kembalikan_adjusment_leveler3')) {
-                $file_ul2_foto_kembalikan_adjusment_leveler3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_kembalikan_adjusment_leveler3;
+                $file_ul2_foto_kembalikan_adjusment_leveler3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_kembalikan_adjusment_leveler3;
                 if (is_file($file_ul2_foto_kembalikan_adjusment_leveler3)) {
                     unlink(public_path($file_ul2_foto_kembalikan_adjusment_leveler3));
                 }
                 $name_ul2_foto_kembalikan_adjusment_leveler3 = time() . $request->file('ul2_foto_kembalikan_adjusment_leveler3')->getClientOriginalName();
                 $request->file('ul2_foto_kembalikan_adjusment_leveler3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_kembalikan_adjusment_leveler3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_kembalikan_adjusment_leveler3' => $name_ul2_foto_kembalikan_adjusment_leveler3,
                     ]
@@ -734,13 +734,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_khusus_cont_ocn_export1')) {
-                $file_ul2_foto_khusus_cont_ocn_export1 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_khusus_cont_ocn_export1;
+                $file_ul2_foto_khusus_cont_ocn_export1 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_khusus_cont_ocn_export1;
                 if (is_file($file_ul2_foto_khusus_cont_ocn_export1)) {
                     unlink(public_path($file_ul2_foto_khusus_cont_ocn_export1));
                 }
                 $name_ul2_foto_khusus_cont_ocn_export1 = time() . $request->file('ul2_foto_khusus_cont_ocn_export1')->getClientOriginalName();
                 $request->file('ul2_foto_khusus_cont_ocn_export1')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_khusus_cont_ocn_export1);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_khusus_cont_ocn_export1' => $name_ul2_foto_khusus_cont_ocn_export1,
                     ]
@@ -748,13 +748,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_khusus_cont_ocn_export2')) {
-                $file_ul2_foto_khusus_cont_ocn_export2 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_khusus_cont_ocn_export2;
+                $file_ul2_foto_khusus_cont_ocn_export2 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_khusus_cont_ocn_export2;
                 if (is_file($file_ul2_foto_khusus_cont_ocn_export2)) {
                     unlink(public_path($file_ul2_foto_khusus_cont_ocn_export2));
                 }
                 $name_ul2_foto_khusus_cont_ocn_export2 = time() . $request->file('ul2_foto_khusus_cont_ocn_export2')->getClientOriginalName();
                 $request->file('ul2_foto_khusus_cont_ocn_export2')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_khusus_cont_ocn_export2);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_khusus_cont_ocn_export2' => $name_ul2_foto_khusus_cont_ocn_export2,
                     ]
@@ -762,13 +762,13 @@ class FormLoadingPackedGoodsController extends Controller
             }
 
             if ($request->file('ul2_foto_khusus_cont_ocn_export3')) {
-                $file_ul2_foto_khusus_cont_ocn_export3 = 'uploads/loading/form_loading_packed_good' . $gate->ul2_foto_khusus_cont_ocn_export3;
+                $file_ul2_foto_khusus_cont_ocn_export3 = 'uploads/loading/form_loading_packed_good' . $formLoadingPackedGoods->ul2_foto_khusus_cont_ocn_export3;
                 if (is_file($file_ul2_foto_khusus_cont_ocn_export3)) {
                     unlink(public_path($file_ul2_foto_khusus_cont_ocn_export3));
                 }
                 $name_ul2_foto_khusus_cont_ocn_export3 = time() . $request->file('ul2_foto_khusus_cont_ocn_export3')->getClientOriginalName();
                 $request->file('ul2_foto_khusus_cont_ocn_export3')->move('uploads/loading/form_loading_packed_good', $name_ul2_foto_khusus_cont_ocn_export3);
-                $gate->update(
+                $formLoadingPackedGoods->update(
                     [
                         'ul2_foto_khusus_cont_ocn_export3' => $name_ul2_foto_khusus_cont_ocn_export3,
                     ]
