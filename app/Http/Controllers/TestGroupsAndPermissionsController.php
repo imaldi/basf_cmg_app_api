@@ -45,21 +45,25 @@ class TestGroupsAndPermissionsController extends Controller
         // $permissionsOfRole = $role->permissions;
         for ($x = 1; $x <= 63; $x++) {
             if (
-                $x != 21 ||
-                $x != 25 ||
-                $x != 30 ||
-                $x != 36 ||
-                $x != 37 ||
-                $x != 38 ||
-                $x != 39 ||
-                $x != 44 ||
-                $x != 45 ||
-                $x != 46 ||
-                $x != 47 ||
-                $x != 56 ||
-                $x != 57 ||
-                $x != 58 ||
-                $x != 59
+                // $x != 21 ||
+                // $x != 25 ||
+                // $x != 30 ||
+                // $x != 36 ||
+                // $x != 37 ||
+                // $x != 38 ||
+                // $x != 39 ||
+                // $x != 44 ||
+                // $x != 45 ||
+                // $x != 46 ||
+                // $x != 47 ||
+                // $x != 56 ||
+                // $x != 57 ||
+                // $x != 58 ||
+                // $x != 59
+                $x == 5 &&
+                $x == 6 &&
+                $x == 7 &&
+                $x == 8
             ) {
                 $permission = EmployeeUserPermissions::find($x);
                 $role->givePermissionTo($permission);
