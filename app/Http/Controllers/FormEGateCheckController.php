@@ -61,7 +61,7 @@ class FormEGateCheckController extends Controller
 
     public function getDaftarNamaAngkutanEgateForm(Request $request)
     {
-        $listAngkutan = TruckRent::all();
+        $listAngkutan = TruckRent::all()->where('tr_status', 1)->get();
 
         return response()->json([
             'code' => 200,
