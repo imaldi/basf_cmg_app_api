@@ -141,7 +141,7 @@ class FormLoadingPackedGoodsController extends Controller
 
         $employee = Auth::user();
         try {
-            $formId = $request->input('id');
+            $formId = $request->input('id_form');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
 
             if ($formId != null || $formId != 0) {
@@ -211,6 +211,7 @@ class FormLoadingPackedGoodsController extends Controller
                     'gateable_type' => "App\Models\FormLoadingPackedGoods"
                 ]);
             }
+
 
 
 
