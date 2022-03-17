@@ -453,6 +453,34 @@ class FormEGateCheckController extends Controller
                         ]
                     );
                 }
+                // Tanda tangan checkin
+                if ($request->input('gate_signature_employee_check_in')) {
+                    $decodedDocs = base64_decode($request->input('gate_signature_employee_check_in'));
+                    $name = time() . "_gate_signature_employee_check_in.png";
+                    file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
+
+
+                    $formEGate->update(
+                        [
+                            'gate_signature_employee_check_in' => $name,
+                        ]
+                    );
+                }
+
+                //versi base 64
+                if ($request->input('gate_signature_driver_check_in')) {
+                    $decodedDocs = base64_decode($request->input('gate_signature_driver_check_in'));
+                    $name = time() . "_gate_signature_driver_check_in.png";
+                    file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
+
+
+                    $formEGate->update(
+                        [
+                            'gate_signature_driver_check_in' => $name,
+                        ]
+                    );
+                }
+                // end ttd checkin
                 if ($request->input('gate_is_out') == 1) {
                     //versi base 64
                     if ($request->input('gate_signature_employee_check_out')) {
@@ -468,34 +496,7 @@ class FormEGateCheckController extends Controller
                         );
                     }
 
-                    // Tanda tangan checkin
-                    if ($request->input('gate_signature_employee_check_in')) {
-                        $decodedDocs = base64_decode($request->input('gate_signature_employee_check_in'));
-                        $name = time() . "_gate_signature_employee_check_in.png";
-                        file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
 
-
-                        $formEGate->update(
-                            [
-                                'gate_signature_employee_check_in' => $name,
-                            ]
-                        );
-                    }
-
-                    //versi base 64
-                    if ($request->input('gate_signature_driver_check_in')) {
-                        $decodedDocs = base64_decode($request->input('gate_signature_driver_check_in'));
-                        $name = time() . "_gate_signature_driver_check_in.png";
-                        file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
-
-
-                        $formEGate->update(
-                            [
-                                'gate_signature_driver_check_in' => $name,
-                            ]
-                        );
-                    }
-                    // end ttd checkin
 
 
                     //versi file
