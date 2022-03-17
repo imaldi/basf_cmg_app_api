@@ -172,7 +172,13 @@ class FormLoadingPackedGoodsController extends Controller
                         'code' => 404,
                         'message' => 'Given FormLoadingPackedGoods Form ID not found',
                         'data' => [
-                            'gate_id' => $request->input('gate_id')
+                            // 'gate_id' => $request->input('gate_id'),
+                            'form_id' => (int) $request->input('id'),
+                            'gate_id' => $gate->id,
+                            'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
+                            'gateable_id' => $gate->gateable_id,
+                            'gateable_type' => $gate->gateable_type,
+                            'create' => 'No'
                         ]
                     ], 404);
                 }
