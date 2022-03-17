@@ -22,10 +22,10 @@ $router->post('login', 'AuthController@login');
 
 $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function () use ($router) {
     $router->post('register', [
-        'middleware' => [
-            'permission_check:create user',
-            // 'group_check:Admin'
-        ],
+        // 'middleware' => [
+        //     'permission_check:create user',
+        //     // 'group_check:Admin'
+        // ],
         'uses' => 'AuthController@register'
     ]);
     $router->post('edit-user', [
@@ -850,6 +850,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
 });
 
 $router->group(['prefix' => 'api'], function () use ($router) {
+    // todo ini nanti dihapus, disable, atau di kasih middleware di prod
     $router->get('get-all-permission', 'TestGroupsAndPermissionsController@getAllPermissions');
     $router->get('create-group/{groupArg}', 'TestGroupsAndPermissionsController@testCreateAGroup');
     $router->get('create-permission/{permissionArg}', 'TestGroupsAndPermissionsController@testCreateAPermission');
