@@ -41,7 +41,7 @@ class TestGroupsAndPermissionsController extends Controller
 
     public function testAssignPermissionToGroup()
     {
-        $role = MEmployeeGroup::find(27);
+        $role = MEmployeeGroup::find(1);
         // $permissionsOfRole = $role->permissions;
         for ($x = 1; $x <= 63; $x++) {
             if (
