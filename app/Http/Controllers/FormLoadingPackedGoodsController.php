@@ -26,7 +26,7 @@ class FormLoadingPackedGoodsController extends Controller
     public function createOrUpdate(Request $request)
     {
         $this->validate($request, [
-            // 'form_id' => 'integer',
+            'id_form' => 'integer',
             'gate_id' => 'required|integer',
             'ul2_jml_kemasan' => 'integer',
             'ul2_simbol_api' => ['integer', Rule::in(['0', '1', '2']),],
@@ -141,7 +141,7 @@ class FormLoadingPackedGoodsController extends Controller
 
         $employee = Auth::user();
         try {
-            $formId = $request->input('id_form');
+            $formId = (int) $request->input('id_form');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
 
             if ($formId != null || $formId != 0) {
