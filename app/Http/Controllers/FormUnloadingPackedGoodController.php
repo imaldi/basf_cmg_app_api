@@ -331,12 +331,12 @@ class FormUnloadingPackedGoodController extends Controller
             }
 
             if ($request->file('un10_foto_container_tersegel1')) {
-                $file_un10_foto_container_tersegel1 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_container_tersegel1;
+                $file_un10_foto_container_tersegel1 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_container_tersegel1;
                 if (is_file($file_un10_foto_container_tersegel1)) {
                     unlink(public_path($file_un10_foto_container_tersegel1));
                 }
                 $name_un10_foto_container_tersegel1 = time() . $request->file('un10_foto_container_tersegel1')->getClientOriginalName();
-                $request->file('un10_foto_container_tersegel1')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_container_tersegel1);
+                $request->file('un10_foto_container_tersegel1')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_container_tersegel1);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_container_tersegel1' => $name_un10_foto_container_tersegel1,
@@ -344,12 +344,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_container_tersegel2')) {
-                $file_un10_foto_container_tersegel2 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_container_tersegel2;
+                $file_un10_foto_container_tersegel2 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_container_tersegel2;
                 if (is_file($file_un10_foto_container_tersegel2)) {
                     unlink(public_path($file_un10_foto_container_tersegel2));
                 }
                 $name_un10_foto_container_tersegel2 = time() . $request->file('un10_foto_container_tersegel2')->getClientOriginalName();
-                $request->file('un10_foto_container_tersegel2')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_container_tersegel2);
+                $request->file('un10_foto_container_tersegel2')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_container_tersegel2);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_container_tersegel2' => $name_un10_foto_container_tersegel2,
@@ -357,12 +357,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_container_tersegel3')) {
-                $file_un10_foto_container_tersegel3 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_container_tersegel3;
+                $file_un10_foto_container_tersegel3 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_container_tersegel3;
                 if (is_file($file_un10_foto_container_tersegel3)) {
                     unlink(public_path($file_un10_foto_container_tersegel3));
                 }
                 $name_un10_foto_container_tersegel3 = time() . $request->file('un10_foto_container_tersegel3')->getClientOriginalName();
-                $request->file('un10_foto_container_tersegel3')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_container_tersegel3);
+                $request->file('un10_foto_container_tersegel3')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_container_tersegel3);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_container_tersegel3' => $name_un10_foto_container_tersegel3,
@@ -370,12 +370,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_pintu_container_sdh_dibuka1')) {
-                $file_un10_foto_pintu_container_sdh_dibuka1 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_pintu_container_sdh_dibuka1;
+                $file_un10_foto_pintu_container_sdh_dibuka1 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_pintu_container_sdh_dibuka1;
                 if (is_file($file_un10_foto_pintu_container_sdh_dibuka1)) {
                     unlink(public_path($file_un10_foto_pintu_container_sdh_dibuka1));
                 }
                 $name_un10_foto_pintu_container_sdh_dibuka1 = time() . $request->file('un10_foto_pintu_container_sdh_dibuka1')->getClientOriginalName();
-                $request->file('un10_foto_pintu_container_sdh_dibuka1')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_pintu_container_sdh_dibuka1);
+                $request->file('un10_foto_pintu_container_sdh_dibuka1')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_pintu_container_sdh_dibuka1);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_pintu_container_sdh_dibuka1' => $name_un10_foto_pintu_container_sdh_dibuka1,
@@ -383,12 +383,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_pintu_container_sdh_dibuka2')) {
-                $file_un10_foto_pintu_container_sdh_dibuka2 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_pintu_container_sdh_dibuka2;
+                $file_un10_foto_pintu_container_sdh_dibuka2 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_pintu_container_sdh_dibuka2;
                 if (is_file($file_un10_foto_pintu_container_sdh_dibuka2)) {
                     unlink(public_path($file_un10_foto_pintu_container_sdh_dibuka2));
                 }
                 $name_un10_foto_pintu_container_sdh_dibuka2 = time() . $request->file('un10_foto_pintu_container_sdh_dibuka2')->getClientOriginalName();
-                $request->file('un10_foto_pintu_container_sdh_dibuka2')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_pintu_container_sdh_dibuka2);
+                $request->file('un10_foto_pintu_container_sdh_dibuka2')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_pintu_container_sdh_dibuka2);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_pintu_container_sdh_dibuka2' => $name_un10_foto_pintu_container_sdh_dibuka2,
@@ -396,12 +396,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_pintu_container_sdh_dibuka3')) {
-                $file_un10_foto_pintu_container_sdh_dibuka3 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_pintu_container_sdh_dibuka3;
+                $file_un10_foto_pintu_container_sdh_dibuka3 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_pintu_container_sdh_dibuka3;
                 if (is_file($file_un10_foto_pintu_container_sdh_dibuka3)) {
                     unlink(public_path($file_un10_foto_pintu_container_sdh_dibuka3));
                 }
                 $name_un10_foto_pintu_container_sdh_dibuka3 = time() . $request->file('un10_foto_pintu_container_sdh_dibuka3')->getClientOriginalName();
-                $request->file('un10_foto_pintu_container_sdh_dibuka3')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_pintu_container_sdh_dibuka3);
+                $request->file('un10_foto_pintu_container_sdh_dibuka3')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_pintu_container_sdh_dibuka3);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_pintu_container_sdh_dibuka3' => $name_un10_foto_pintu_container_sdh_dibuka3,
@@ -409,12 +409,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_truk_non_container_buka_terpal1')) {
-                $file_un10_foto_truk_non_container_buka_terpal1 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_truk_non_container_buka_terpal1;
+                $file_un10_foto_truk_non_container_buka_terpal1 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_truk_non_container_buka_terpal1;
                 if (is_file($file_un10_foto_truk_non_container_buka_terpal1)) {
                     unlink(public_path($file_un10_foto_truk_non_container_buka_terpal1));
                 }
                 $name_un10_foto_truk_non_container_buka_terpal1 = time() . $request->file('un10_foto_truk_non_container_buka_terpal1')->getClientOriginalName();
-                $request->file('un10_foto_truk_non_container_buka_terpal1')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_truk_non_container_buka_terpal1);
+                $request->file('un10_foto_truk_non_container_buka_terpal1')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_truk_non_container_buka_terpal1);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_truk_non_container_buka_terpal1' => $name_un10_foto_truk_non_container_buka_terpal1,
@@ -422,12 +422,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_truk_non_container_buka_terpal2')) {
-                $file_un10_foto_truk_non_container_buka_terpal2 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_truk_non_container_buka_terpal2;
+                $file_un10_foto_truk_non_container_buka_terpal2 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_truk_non_container_buka_terpal2;
                 if (is_file($file_un10_foto_truk_non_container_buka_terpal2)) {
                     unlink(public_path($file_un10_foto_truk_non_container_buka_terpal2));
                 }
                 $name_un10_foto_truk_non_container_buka_terpal2 = time() . $request->file('un10_foto_truk_non_container_buka_terpal2')->getClientOriginalName();
-                $request->file('un10_foto_truk_non_container_buka_terpal2')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_truk_non_container_buka_terpal2);
+                $request->file('un10_foto_truk_non_container_buka_terpal2')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_truk_non_container_buka_terpal2);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_truk_non_container_buka_terpal2' => $name_un10_foto_truk_non_container_buka_terpal2,
@@ -435,12 +435,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_truk_non_container_buka_terpal3')) {
-                $file_un10_foto_truk_non_container_buka_terpal3 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_truk_non_container_buka_terpal3;
+                $file_un10_foto_truk_non_container_buka_terpal3 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_truk_non_container_buka_terpal3;
                 if (is_file($file_un10_foto_truk_non_container_buka_terpal3)) {
                     unlink(public_path($file_un10_foto_truk_non_container_buka_terpal3));
                 }
                 $name_un10_foto_truk_non_container_buka_terpal3 = time() . $request->file('un10_foto_truk_non_container_buka_terpal3')->getClientOriginalName();
-                $request->file('un10_foto_truk_non_container_buka_terpal3')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_truk_non_container_buka_terpal3);
+                $request->file('un10_foto_truk_non_container_buka_terpal3')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_truk_non_container_buka_terpal3);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_truk_non_container_buka_terpal3' => $name_un10_foto_truk_non_container_buka_terpal3,
@@ -448,12 +448,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_susunan_produk_rapi1')) {
-                $file_un10_foto_susunan_produk_rapi1 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_susunan_produk_rapi1;
+                $file_un10_foto_susunan_produk_rapi1 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_susunan_produk_rapi1;
                 if (is_file($file_un10_foto_susunan_produk_rapi1)) {
                     unlink(public_path($file_un10_foto_susunan_produk_rapi1));
                 }
                 $name_un10_foto_susunan_produk_rapi1 = time() . $request->file('un10_foto_susunan_produk_rapi1')->getClientOriginalName();
-                $request->file('un10_foto_susunan_produk_rapi1')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_susunan_produk_rapi1);
+                $request->file('un10_foto_susunan_produk_rapi1')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_susunan_produk_rapi1);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_susunan_produk_rapi1' => $name_un10_foto_susunan_produk_rapi1,
@@ -461,12 +461,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_susunan_produk_rapi2')) {
-                $file_un10_foto_susunan_produk_rapi2 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_susunan_produk_rapi2;
+                $file_un10_foto_susunan_produk_rapi2 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_susunan_produk_rapi2;
                 if (is_file($file_un10_foto_susunan_produk_rapi2)) {
                     unlink(public_path($file_un10_foto_susunan_produk_rapi2));
                 }
                 $name_un10_foto_susunan_produk_rapi2 = time() . $request->file('un10_foto_susunan_produk_rapi2')->getClientOriginalName();
-                $request->file('un10_foto_susunan_produk_rapi2')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_susunan_produk_rapi2);
+                $request->file('un10_foto_susunan_produk_rapi2')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_susunan_produk_rapi2);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_susunan_produk_rapi2' => $name_un10_foto_susunan_produk_rapi2,
@@ -474,12 +474,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_susunan_produk_rapi3')) {
-                $file_un10_foto_susunan_produk_rapi3 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_susunan_produk_rapi3;
+                $file_un10_foto_susunan_produk_rapi3 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_susunan_produk_rapi3;
                 if (is_file($file_un10_foto_susunan_produk_rapi3)) {
                     unlink(public_path($file_un10_foto_susunan_produk_rapi3));
                 }
                 $name_un10_foto_susunan_produk_rapi3 = time() . $request->file('un10_foto_susunan_produk_rapi3')->getClientOriginalName();
-                $request->file('un10_foto_susunan_produk_rapi3')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_susunan_produk_rapi3);
+                $request->file('un10_foto_susunan_produk_rapi3')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_susunan_produk_rapi3);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_susunan_produk_rapi3' => $name_un10_foto_susunan_produk_rapi3,
@@ -487,12 +487,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_pallet_tdk_patah1')) {
-                $file_un10_foto_pallet_tdk_patah1 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_pallet_tdk_patah1;
+                $file_un10_foto_pallet_tdk_patah1 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_pallet_tdk_patah1;
                 if (is_file($file_un10_foto_pallet_tdk_patah1)) {
                     unlink(public_path($file_un10_foto_pallet_tdk_patah1));
                 }
                 $name_un10_foto_pallet_tdk_patah1 = time() . $request->file('un10_foto_pallet_tdk_patah1')->getClientOriginalName();
-                $request->file('un10_foto_pallet_tdk_patah1')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_pallet_tdk_patah1);
+                $request->file('un10_foto_pallet_tdk_patah1')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_pallet_tdk_patah1);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_pallet_tdk_patah1' => $name_un10_foto_pallet_tdk_patah1,
@@ -500,12 +500,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_pallet_tdk_patah2')) {
-                $file_un10_foto_pallet_tdk_patah2 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_pallet_tdk_patah2;
+                $file_un10_foto_pallet_tdk_patah2 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_pallet_tdk_patah2;
                 if (is_file($file_un10_foto_pallet_tdk_patah2)) {
                     unlink(public_path($file_un10_foto_pallet_tdk_patah2));
                 }
                 $name_un10_foto_pallet_tdk_patah2 = time() . $request->file('un10_foto_pallet_tdk_patah2')->getClientOriginalName();
-                $request->file('un10_foto_pallet_tdk_patah2')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_pallet_tdk_patah2);
+                $request->file('un10_foto_pallet_tdk_patah2')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_pallet_tdk_patah2);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_pallet_tdk_patah2' => $name_un10_foto_pallet_tdk_patah2,
@@ -513,12 +513,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_pallet_tdk_patah3')) {
-                $file_un10_foto_pallet_tdk_patah3 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_pallet_tdk_patah3;
+                $file_un10_foto_pallet_tdk_patah3 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_pallet_tdk_patah3;
                 if (is_file($file_un10_foto_pallet_tdk_patah3)) {
                     unlink(public_path($file_un10_foto_pallet_tdk_patah3));
                 }
                 $name_un10_foto_pallet_tdk_patah3 = time() . $request->file('un10_foto_pallet_tdk_patah3')->getClientOriginalName();
-                $request->file('un10_foto_pallet_tdk_patah3')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_pallet_tdk_patah3);
+                $request->file('un10_foto_pallet_tdk_patah3')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_pallet_tdk_patah3);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_pallet_tdk_patah3' => $name_un10_foto_pallet_tdk_patah3,
@@ -526,12 +526,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_produk_tdk_pakai_pallet1')) {
-                $file_un10_foto_produk_tdk_pakai_pallet1 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_produk_tdk_pakai_pallet1;
+                $file_un10_foto_produk_tdk_pakai_pallet1 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_produk_tdk_pakai_pallet1;
                 if (is_file($file_un10_foto_produk_tdk_pakai_pallet1)) {
                     unlink(public_path($file_un10_foto_produk_tdk_pakai_pallet1));
                 }
                 $name_un10_foto_produk_tdk_pakai_pallet1 = time() . $request->file('un10_foto_produk_tdk_pakai_pallet1')->getClientOriginalName();
-                $request->file('un10_foto_produk_tdk_pakai_pallet1')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_produk_tdk_pakai_pallet1);
+                $request->file('un10_foto_produk_tdk_pakai_pallet1')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_produk_tdk_pakai_pallet1);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_produk_tdk_pakai_pallet1' => $name_un10_foto_produk_tdk_pakai_pallet1,
@@ -539,12 +539,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_produk_tdk_pakai_pallet2')) {
-                $file_un10_foto_produk_tdk_pakai_pallet2 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_produk_tdk_pakai_pallet2;
+                $file_un10_foto_produk_tdk_pakai_pallet2 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_produk_tdk_pakai_pallet2;
                 if (is_file($file_un10_foto_produk_tdk_pakai_pallet2)) {
                     unlink(public_path($file_un10_foto_produk_tdk_pakai_pallet2));
                 }
                 $name_un10_foto_produk_tdk_pakai_pallet2 = time() . $request->file('un10_foto_produk_tdk_pakai_pallet2')->getClientOriginalName();
-                $request->file('un10_foto_produk_tdk_pakai_pallet2')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_produk_tdk_pakai_pallet2);
+                $request->file('un10_foto_produk_tdk_pakai_pallet2')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_produk_tdk_pakai_pallet2);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_produk_tdk_pakai_pallet2' => $name_un10_foto_produk_tdk_pakai_pallet2,
@@ -552,12 +552,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_produk_tdk_pakai_pallet3')) {
-                $file_un10_foto_produk_tdk_pakai_pallet3 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_produk_tdk_pakai_pallet3;
+                $file_un10_foto_produk_tdk_pakai_pallet3 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_produk_tdk_pakai_pallet3;
                 if (is_file($file_un10_foto_produk_tdk_pakai_pallet3)) {
                     unlink(public_path($file_un10_foto_produk_tdk_pakai_pallet3));
                 }
                 $name_un10_foto_produk_tdk_pakai_pallet3 = time() . $request->file('un10_foto_produk_tdk_pakai_pallet3')->getClientOriginalName();
-                $request->file('un10_foto_produk_tdk_pakai_pallet3')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_produk_tdk_pakai_pallet3);
+                $request->file('un10_foto_produk_tdk_pakai_pallet3')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_produk_tdk_pakai_pallet3);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_produk_tdk_pakai_pallet3' => $name_un10_foto_produk_tdk_pakai_pallet3,
@@ -565,12 +565,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_lantai_dinding_truk_bersih1')) {
-                $file_un10_foto_lantai_dinding_truk_bersih1 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_lantai_dinding_truk_bersih1;
+                $file_un10_foto_lantai_dinding_truk_bersih1 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_lantai_dinding_truk_bersih1;
                 if (is_file($file_un10_foto_lantai_dinding_truk_bersih1)) {
                     unlink(public_path($file_un10_foto_lantai_dinding_truk_bersih1));
                 }
                 $name_un10_foto_lantai_dinding_truk_bersih1 = time() . $request->file('un10_foto_lantai_dinding_truk_bersih1')->getClientOriginalName();
-                $request->file('un10_foto_lantai_dinding_truk_bersih1')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_lantai_dinding_truk_bersih1);
+                $request->file('un10_foto_lantai_dinding_truk_bersih1')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_lantai_dinding_truk_bersih1);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_lantai_dinding_truk_bersih1' => $name_un10_foto_lantai_dinding_truk_bersih1,
@@ -578,12 +578,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_lantai_dinding_truk_bersih2')) {
-                $file_un10_foto_lantai_dinding_truk_bersih2 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_lantai_dinding_truk_bersih2;
+                $file_un10_foto_lantai_dinding_truk_bersih2 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_lantai_dinding_truk_bersih2;
                 if (is_file($file_un10_foto_lantai_dinding_truk_bersih2)) {
                     unlink(public_path($file_un10_foto_lantai_dinding_truk_bersih2));
                 }
                 $name_un10_foto_lantai_dinding_truk_bersih2 = time() . $request->file('un10_foto_lantai_dinding_truk_bersih2')->getClientOriginalName();
-                $request->file('un10_foto_lantai_dinding_truk_bersih2')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_lantai_dinding_truk_bersih2);
+                $request->file('un10_foto_lantai_dinding_truk_bersih2')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_lantai_dinding_truk_bersih2);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_lantai_dinding_truk_bersih2' => $name_un10_foto_lantai_dinding_truk_bersih2,
@@ -591,12 +591,12 @@ class FormUnloadingPackedGoodController extends Controller
                 );
             }
             if ($request->file('un10_foto_lantai_dinding_truk_bersih3')) {
-                $file_un10_foto_lantai_dinding_truk_bersih3 = 'uploads/unloading/form_unloading_packed_good' . $gate->un10_foto_lantai_dinding_truk_bersih3;
+                $file_un10_foto_lantai_dinding_truk_bersih3 = 'uploads/unloading/FormUnloadingPackedGood' . $gate->un10_foto_lantai_dinding_truk_bersih3;
                 if (is_file($file_un10_foto_lantai_dinding_truk_bersih3)) {
                     unlink(public_path($file_un10_foto_lantai_dinding_truk_bersih3));
                 }
                 $name_un10_foto_lantai_dinding_truk_bersih3 = time() . $request->file('un10_foto_lantai_dinding_truk_bersih3')->getClientOriginalName();
-                $request->file('un10_foto_lantai_dinding_truk_bersih3')->move('uploads/unloading/form_unloading_packed_good', $name_un10_foto_lantai_dinding_truk_bersih3);
+                $request->file('un10_foto_lantai_dinding_truk_bersih3')->move('uploads/unloading/FormUnloadingPackedGood', $name_un10_foto_lantai_dinding_truk_bersih3);
                 $formUnloadingPackedGood->update(
                     [
                         'un10_foto_lantai_dinding_truk_bersih3' => $name_un10_foto_lantai_dinding_truk_bersih3,

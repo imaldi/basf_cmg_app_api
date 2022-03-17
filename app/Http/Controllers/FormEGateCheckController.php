@@ -30,9 +30,8 @@ class FormEGateCheckController extends Controller
 
                 ->where(function ($query) use ($gateableType) {
                     $query
-                    ->where('gateable_type', 'LIKE', '%' . $gateableType . '%')
-                    ->orWhereNull('gateable_type')
-                    ;
+                        ->where('gateable_type', 'LIKE', '%' . $gateableType . '%')
+                        ->orWhereNull('gateable_type');
                 })->whereNotIn('gate_kesimpulan', [1])
                 // ->orWhereNull('gate_kesimpulan')
 
@@ -53,7 +52,7 @@ class FormEGateCheckController extends Controller
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch Data',
-            'data' => 
+            'data' =>
             // $gateableType
             FormEGateResource::collection($forms)
             // $sortedResourceList->values()->all()
@@ -164,7 +163,7 @@ class FormEGateCheckController extends Controller
             // 'gate_loading_status' => ['integer',Rule::in(['0','1','2']),],
             'gate_pengganjal_roda' => ['integer', Rule::in(['0', '1', '2']),],
             'gateable_id' => 'integer',
-            'gate_kesimpulan' => ['integer', Rule::in(['0', '1','2']),],
+            'gate_kesimpulan' => ['integer', Rule::in(['0', '1', '2']),],
             'gate_check_out_employee_id_mobile' => 'integer',
 
 
@@ -468,6 +467,37 @@ class FormEGateCheckController extends Controller
                             ]
                         );
                     }
+
+                    // Tanda tangan checkin
+                    if ($request->input('gate_signature_employee_check_in')) {
+                        $decodedDocs = base64_decode($request->input('gate_signature_employee_check_in'));
+                        $name = time() . "_gate_signature_employee_check_in.png";
+                        file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
+
+
+                        $formEGate->update(
+                            [
+                                'gate_signature_employee_check_in' => $name,
+                            ]
+                        );
+                    }
+
+                    //versi base 64
+                    if ($request->input('gate_signature_driver_check_in')) {
+                        $decodedDocs = base64_decode($request->input('gate_signature_driver_check_in'));
+                        $name = time() . "_gate_signature_driver_check_in.png";
+                        file_put_contents('uploads/form_e_gate/signatures/' . $name, $decodedDocs);
+
+
+                        $formEGate->update(
+                            [
+                                'gate_signature_driver_check_in' => $name,
+                            ]
+                        );
+                    }
+                    // end ttd checkin
+
+
                     //versi file
                     // if($request->file('gate_signature_employee_check_out')){
                     //     $file = 'uploads/attendance/signatures/'.$form->att_trainer_signature;
