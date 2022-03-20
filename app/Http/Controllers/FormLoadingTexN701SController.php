@@ -167,6 +167,10 @@ class FormLoadingTexN701SController extends Controller
                     'ul1_employee_id' => $employee->id,
                     'ul1_report_kendaraan_id' => $gate->id,
                 ]);
+                $gate->update([
+                    'gateable_id' => $formLoadingTexN701S->id,
+                    'gateable_type' => "App\Models\FormLoadingTexN701S"
+                ]);
             }
 
             $formLoadingTexN701S->update([
@@ -272,12 +276,6 @@ class FormLoadingTexN701SController extends Controller
                 // 'ul1_signature_checker' => $request->input('ul1_signature_checker'),
                 'ul1_delete_reason' => $request->input('ul1_delete_reason'),
                 'ul1_reason_cancel_load_unload' => $request->input('ul1_reason_cancel_load_unload'),
-            ]);
-            $gate->update([
-                'gateable_id' => $formLoadingTexN701S->id,
-                'gateable_type' => "App\Models\FormLoadingTexN701S",
-                'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($gate),
-                'gate_is_editable' => (int) FormEGateCheck::returnIsEditable($gate),
             ]);
 
             if ($request->input('ul1_signature_checker')) {
