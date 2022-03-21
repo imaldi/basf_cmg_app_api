@@ -237,6 +237,7 @@ class FormUnloadingNaohController extends Controller
 
                 'un4_report_code' => $request->input('un4_report_code'),
                 'un4_batch_no' => $request->input('un4_batch_no'),
+                'un4_no_storage1' => $request->input('un4_no_storage1'),
                 'un4_level_awal1' => $request->input('un4_level_awal1'),
                 'un4_level_akhir1' => $request->input('un4_level_akhir1'),
                 'un4_no_storage2' => $request->input('un4_no_storage2'),
