@@ -157,7 +157,7 @@ class FormUnloadingDieselOilController extends Controller
                                 'code' => 451,
                                 'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                                 'data' => [
-                                    'form_id' => (int) $request->input('id'),
+                                    'form_id' => (int) $request->input('id_form'),
                                     'gate_id' => $gate->id,
                                     'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
                                     'gateable_id' => $gate->gateable_id,
@@ -183,7 +183,7 @@ class FormUnloadingDieselOilController extends Controller
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                             'data' => [
-                                'form_id' => (int) $request->input('id'),
+                                'form_id' => (int) $request->input('id_form'),
                                 'gate_id' => $gate->id,
                                 'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
                                 'gateable_id' => $gate->gateable_id,
