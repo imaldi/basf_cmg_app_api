@@ -25,7 +25,7 @@ class FormUnloadingDieselOilController extends Controller
     public function createOrUpdate(Request $request)
     {
         $this->validate($request, [
-            // 'form_id' => 'integer',
+            'id_form' => 'integer',
             'gate_id' => 'required|integer',
 
             'un7_persiapan_memakai_ppe' => ['integer', Rule::in(['0', '1', '2']),],
@@ -142,7 +142,7 @@ class FormUnloadingDieselOilController extends Controller
 
         $employee = Auth::user();
         try {
-            $formId = (int) $request->input('form_id');
+            $formId = (int) $request->input('id_form');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
             if ($formId != null || $formId != 0) {
                 $isCreate = "Update";
@@ -354,7 +354,7 @@ class FormUnloadingDieselOilController extends Controller
 
     public function approve(Request $request)
     {
-        $formId = (int)  $request->input('form_id');
+        $formId = (int)  $request->input('id_form');
         $employee = Auth::user();
 
         try {
