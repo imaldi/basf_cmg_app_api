@@ -13,60 +13,63 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingPacController extends Controller
 {
-    public function viewAll(){
+    public function viewAll()
+    {
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch All Data',
             'data' =>
             FormUnloadingPac::all()
-            ], 200);
+        ], 200);
     }
-    public function createOrUpdate(Request $request){
+    public function createOrUpdate(Request $request)
+    {
         $this->validate($request, [
             // 'form_id' => 'integer',
             'gate_id' => 'required|integer',
 
-            'un3_persiapan_memakai_ppe' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_cek_hose_piping' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_safety_shower' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_operator_terima_dokumen' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_arahkan_truk_parkir' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_ganjal_roda' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_safety_cone' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_sopir_serahkan_kunci' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_sopir_kenek_leave_unloading' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_isotank_bersih' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_label_segel_terpasang' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_bukasegel_ambil_sampel' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_kirim_sample_desc' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_periksa_level_storage' => ['integer', Rule::in(['0','1','2']),],
-            'un3_persiapan_bersiap_nyalakan_pompa' => ['integer', Rule::in(['0','1','2']),],
-            'un3_unloading_buttom_valve_dibuka_penuh' => ['integer', Rule::in(['0','1','2']),],
-            'un3_unloading_hidupkan_pompa' => ['integer', Rule::in(['0','1','2']),],
-            'un3_unloading_cek_pipa_coupling_valve_tidak_bocor' => ['integer', Rule::in(['0','1','2']),],
-            'un3_unloading_pastikan_unloading_aman' => ['integer', Rule::in(['0','1','2']),],
-            'un3_unloading_periksa_pompa' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_unloading_selesai' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_matikan_pompa' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_tutup_valve' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_pastikan_hose_liquid_kosong' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_tutup_hose_dg_caphose' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_simpan_coupling_dg_aman' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_periksa_valve_ditutup' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_panggil_sopir_kembali' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_lepas_pengganjal_roda_safetycone' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_pastikan_peralatan_tidak_terbawa_truk' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_lakukan_timbang_akhir' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0','1','2']),],
-            'un3_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
-            'un3_status' => ['integer', Rule::in(['0','1']),],
-            'un3_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un3_checker_complete' => ['integer', Rule::in(['0','1']),],
-            'un3_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
+            'un3_persiapan_memakai_ppe' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_cek_hose_piping' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_safety_shower' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_operator_terima_dokumen' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_arahkan_truk_parkir' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_ganjal_roda' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_safety_cone' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_sopir_serahkan_kunci' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_sopir_kenek_leave_unloading' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_isotank_bersih' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_label_segel_terpasang' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_bukasegel_ambil_sampel' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_kirim_sample_desc' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_periksa_level_storage' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_persiapan_bersiap_nyalakan_pompa' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_unloading_buttom_valve_dibuka_penuh' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_unloading_hidupkan_pompa' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_unloading_cek_pipa_coupling_valve_tidak_bocor' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_unloading_pastikan_unloading_aman' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_unloading_periksa_pompa' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_unloading_selesai' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_matikan_pompa' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_tutup_valve' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_pastikan_hose_liquid_kosong' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_tutup_hose_dg_caphose' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_simpan_coupling_dg_aman' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_periksa_valve_ditutup' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_panggil_sopir_kembali' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_lepas_pengganjal_roda_safetycone' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_pastikan_peralatan_tidak_terbawa_truk' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_lakukan_timbang_akhir' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_status' => ['integer', Rule::in(['0', '1']),],
+            'un3_operator_complete' => ['integer', Rule::in(['0', '1', '2']),],
+            'un3_checker_complete' => ['integer', Rule::in(['0', '1']),],
+            'un3_cancel_load_unload' => ['integer', Rule::in(['0', '1', '2']),],
             'un3_report_code' => 'string|max:255',
             'un3_batch_no' => 'string|max:255',
+            'un3_no_storage1' => 'string|max:255',
             'un3_level_awal' => 'string|max:255',
             'un3_level_akhir' => 'string|max:255',
             'un3_jml_dimuat' => 'string|max:255',
@@ -113,40 +116,40 @@ class FormUnloadingPacController extends Controller
         ]);
 
         $employee = Auth::user();
-        try{
+        try {
             $formId = (int) $request->input('form_id');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
-            if( $formId != null || $formId != 0){
+            if ($formId != null || $formId != 0) {
                 $isCreate = "Update";
 
-                try{
+                try {
                     $formUnloadingPac = $employee->formUnloadingPac()->findOrFail($formId);
 
-                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingPac'){
+                    if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingPac') {
                         return
+                            // 'Failed';
+                            response()->json([
+                                'code' => 451,
+                                'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                                'data' => []
+                            ], 451);
+                    }
+                } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                    return response()->json([
+                        'code' => 404,
+                        'message' => 'Given FormUnloadingPac Form ID not found',
+                        'data' => []
+                    ], 404);
+                }
+            } else {
+                $isCreate = "Create";
+                if ($gate->gateable_id != null && $gate->gateable_type != null) {
+                    return
                         // 'Failed';
                         response()->json([
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                             'data' => []
-                            ], 451);
-                    }
-                } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-                    return response()->json([
-                        'code' => 404,
-                        'message' => 'Given FormUnloadingPac Form ID not found',
-                        'data' => []
-                        ], 404);
-                }
-            } else {
-                $isCreate = "Create";
-                if($gate->gateable_id != null && $gate->gateable_type != null){
-                    return
-                    // 'Failed';
-                    response()->json([
-                        'code' => 451,
-                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                        'data' => []
                         ], 451);
                 }
 
@@ -157,7 +160,7 @@ class FormUnloadingPacController extends Controller
                 $gate->update([
                     'gateable_id' => $formUnloadingPac->id,
                     'gateable_type' => "App\Models\FormUnloadingPac"
-                    ]);
+                ]);
             }
 
 
@@ -207,6 +210,7 @@ class FormUnloadingPacController extends Controller
 
                 'un3_report_code' => $request->input('un3_report_code'),
                 'un3_batch_no' => $request->input('un3_batch_no'),
+                'un3_no_storage1' => $request->input('un3_no_storage1'),
                 'un3_level_awal' => $request->input('un3_level_awal'),
                 'un3_level_akhir' => $request->input('un3_level_akhir'),
                 'un3_jml_dimuat' => $request->input('un3_jml_dimuat'),
@@ -251,64 +255,60 @@ class FormUnloadingPacController extends Controller
                 'un3_reason_cancel_load_unload' => $request->input('un3_reason_cancel_load_unload'),
             ]);
 
-                if($request->input('un3_signature_checker')){
-                    $decodedDocs = base64_decode($request->input('un3_signature_checker'));
+            if ($request->input('un3_signature_checker')) {
+                $decodedDocs = base64_decode($request->input('un3_signature_checker'));
 
 
-                    $name = time()."_un3_signature_checker.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                $name = time() . "_un3_signature_checker.png";
+                file_put_contents('uploads/unloading/signatures/' . $name, $decodedDocs);
 
 
-                    $formUnloadingPac->update(
-                        [
-                            'un3_signature_checker' => $name,
-                            ]
-                        );
-
-                }
-                if($request->input('un3_signature_employee')){
-                    $decodedDocs = base64_decode($request->input('un3_signature_employee'));
-
-
-                    $name = time()."_un3_signature_employee.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                $formUnloadingPac->update(
+                    [
+                        'un3_signature_checker' => $name,
+                    ]
+                );
+            }
+            if ($request->input('un3_signature_employee')) {
+                $decodedDocs = base64_decode($request->input('un3_signature_employee'));
 
 
-                    $formUnloadingPac->update(
-                        [
-                            'un3_signature_employee' => $name,
-                            ]
-                        );
+                $name = time() . "_un3_signature_employee.png";
+                file_put_contents('uploads/unloading/signatures/' . $name, $decodedDocs);
 
-                }
-                $gate->update([
-                    'gate_loading_status' => (int) FormEGateCheck::
-                        returnEgateStatus($gate),
-                    'gate_is_editable'=> (int) FormEGateCheck::
-                        returnIsEditable($gate),
-                    ]);
+
+                $formUnloadingPac->update(
+                    [
+                        'un3_signature_employee' => $name,
+                    ]
+                );
+            }
+            $gate->update([
+                'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($gate),
+                'gate_is_editable' => (int) FormEGateCheck::returnIsEditable($gate),
+            ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success '.$isCreate.' FormUnloadingPac Form',
+                'message' => 'Success ' . $isCreate . ' FormUnloadingPac Form',
                 'data' => [
-                    $formUnloadingPac]
-                ], 200);
-
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formUnloadingPac
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 
-    public function approve(Request $request){
+    public function approve(Request $request)
+    {
         $formId = (int) $request->input('form_id');
         $employee = Auth::user();
 
-        try{
+        try {
             $formUnloadingPac = $employee->formUnloadingPac()->findOrFail($formId);
             $formUnloadingPac->update([
                 'un3_status' => 2,
@@ -318,38 +318,39 @@ class FormUnloadingPacController extends Controller
                 'code' => 200,
                 'message' => 'Success Approve FormUnloadingPac Form',
                 'data' => [
-                    $formUnloadingPac]
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formUnloadingPac
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given formUnloadingPac Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 
-    public function getOne($formId){
+    public function getOne($formId)
+    {
 
         $employee = Auth::user();
 
-        try{
+        try {
             $formUnloadingPac = $employee->formUnloadingPac()->findOrFail($formId);
 
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Fetch FormUnloadingPac Form',
                 'data' => [
-                    $formUnloadingPac]
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formUnloadingPac
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given FormUnloadingPac Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 }
