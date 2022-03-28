@@ -268,7 +268,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
     $router->group(['prefix' => 'inspection'], function () use ($router) {
         $router->group([
             'prefix' => 'ladder',
-            'middleware' => ['group_check:Inspection - Ladder,Inspection - Ladder - SPV']
+            // 'middleware' => ['group_check:Inspection - Ladder,Inspection - Ladder - SPV']
         ], function () use ($router) {
             $router->get('all', [
                 'uses' => 'InspectionController@getAllLadder',
@@ -293,7 +293,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
         });
         $router->group([
             'prefix' => 'h2s',
-            'middleware' => 'group_check:Inspection - H2S,Inspection - H2S - SPV'
+            // 'middleware' => 'group_check:Inspection - H2S,Inspection - H2S - SPV'
         ], function () use ($router) {
             $router->get('all', [
                 'uses' => 'InspectionController@getAllH2s',
@@ -318,7 +318,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
         });
         $router->group([
             'prefix' => 'fume-hood',
-            'middleware' => ['group_check:Inspection - Fume Hood,Inspection - Fume Hood - SPV']
+            // 'middleware' => ['group_check:Inspection - Fume Hood,Inspection - Fume Hood - SPV']
         ], function () use ($router) {
             $router->get('all', [
                 'uses' => 'InspectionController@getAllFumeHood',
@@ -343,7 +343,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
         });
         $router->group([
             'prefix' => 'spill-kit',
-            'middleware' => 'group_check:Inspection - Spill Kit,Inspection - Spill Kit - SPV'
+            // 'middleware' => 'group_check:Inspection - Spill Kit,Inspection - Spill Kit - SPV'
         ], function () use ($router) {
             $router->get('all', [
                 'uses' => 'InspectionController@getAllSpillKit',
@@ -368,7 +368,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
         });
         $router->group([
             'prefix' => 'safety-harness',
-            'middleware' => 'group_check:Inspection - Safety Harness,Inspection - Safety Harness - SPV'
+            // 'middleware' => 'group_check:Inspection - Safety Harness,Inspection - Safety Harness - SPV'
         ], function () use ($router) {
             $router->get('all', [
                 'uses' => 'InspectionController@getAllSafetyHarness',
@@ -393,7 +393,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
         });
         $router->group([
             'prefix' => 'scba',
-            'middleware' => 'group_check:Inspection - SCBA,Inspection - SCBA - SPV'
+            // 'middleware' => 'group_check:Inspection - SCBA,Inspection - SCBA - SPV'
         ], function () use ($router) {
             $router->get('all', [
                 'uses' => 'InspectionController@getAllScba',
@@ -418,7 +418,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
         });
         $router->group([
             'prefix' => 'safety-shower',
-            'middleware' => 'group_check:Inspection - Safety Shower,Inspection - Safety Shower - SPV'
+            // 'middleware' => 'group_check:Inspection - Safety Shower,Inspection - Safety Shower - SPV'
         ], function () use ($router) {
             $router->get('all', [
                 'uses' => 'InspectionController@getAllSafetyShower',
