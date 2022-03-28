@@ -421,6 +421,7 @@ class InspectionController extends Controller
         $date = Carbon::now();
         $date->toDateTimeString();
         $department = $employee->department()->first();
+        $departmentId = $employee->emp_employee_department_id;
         $departmentAbr = substr(strtoupper($department->dept_name), 0, 3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
@@ -464,7 +465,7 @@ class InspectionController extends Controller
 
             $form->update([
                 'ins_h2_inspector_id' => Auth::user()->id,
-                'ins_h2_inspector_spv_id' => User::role('Inspection - H2S - SPV')->first()->id,
+                'ins_h2_inspector_spv_id' => User::role('Inspection - H2S - SPV')->get()->where('emp_employee_department_id', $departmentId)->first()->id,
                 // 'ins_h2_status' => 2,
                 'ins_h2_is_active' => 1,
                 'ins_h2_submited_date' => Carbon::now(),
@@ -542,6 +543,7 @@ class InspectionController extends Controller
         $date = Carbon::now();
         $date->toDateTimeString();
         $department = $employee->department()->first();
+        $departmentId = $employee->emp_employee_department_id;
         $departmentAbr = substr(strtoupper($department->dept_name), 0, 3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
@@ -559,7 +561,7 @@ class InspectionController extends Controller
             $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
             $form->update([
                 'ins_fh_inspector_id' =>  $employee->id,
-                'ins_fh_inspector_spv_id' => User::role('Inspection - Fume Hood - SPV')->first()->id,
+                'ins_fh_inspector_spv_id' => User::role('Inspection - Fume Hood - SPV')->get()->where('emp_employee_department_id', $departmentId)->first()->id,
                 // 'ins_fh_status' => 2,
                 'ins_fh_submited_date' => Carbon::now(),
                 'ins_fh_is_active' => 1,
@@ -607,6 +609,7 @@ class InspectionController extends Controller
         $date = Carbon::now();
         $date->toDateTimeString();
         $department = $employee->department()->first();
+        $departmentId = $employee->emp_employee_department_id;
         $departmentAbr = substr(strtoupper($department->dept_name), 0, 3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
@@ -649,7 +652,7 @@ class InspectionController extends Controller
 
             $form->update([
                 'ins_sk_inspector_id' => Auth::user()->id,
-                'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->first()->id,
+                'ins_sk_inspector_spv_id' => User::role('Inspection - Spill Kit - SPV')->get()->where('emp_employee_department_id', $departmentId)->first()->id,
                 // 'ins_sk_status' => 2,
                 'ins_sk_is_active' => 1,
                 'ins_sk_submited_date' => Carbon::now(),
@@ -725,6 +728,7 @@ class InspectionController extends Controller
         $date = Carbon::now();
         $date->toDateTimeString();
         $department = $employee->department()->first();
+        $departmentId = $employee->emp_employee_department_id;
         $departmentAbr = substr(strtoupper($department->dept_name), 0, 3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
@@ -787,7 +791,7 @@ class InspectionController extends Controller
 
             $form->update([
                 'ins_sh_inspector_id' => Auth::user()->id,
-                'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->first()->id,
+                'ins_sh_inspector_spv_id' => User::role('Inspection - Safety Harness - SPV')->get()->where('emp_employee_department_id', $departmentId)->first()->id,
                 // 'ins_sh_status' => 2,
                 'ins_sh_is_active' => 1,
                 'ins_sh_submited_date' => Carbon::now(),
@@ -875,6 +879,7 @@ class InspectionController extends Controller
         $date = Carbon::now();
         $date->toDateTimeString();
         $department = $employee->department()->first();
+        $departmentId = $employee->emp_employee_department_id;
         $departmentAbr = substr(strtoupper($department->dept_name), 0, 3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
@@ -922,7 +927,7 @@ class InspectionController extends Controller
 
             $form->update([
                 'ins_sc_inspector_id' => Auth::user()->id,
-                'ins_sc_checker_id' => User::role('Inspection - SCBA - SPV')->first()->id,
+                'ins_sc_checker_id' => User::role('Inspection - SCBA - SPV')->get()->where('emp_employee_department_id', $departmentId)->first()->id,
                 // 'ins_sc_status' => 2,
                 'ins_sc_is_active' => 1,
                 'ins_sc_submited_date' => Carbon::now(),
@@ -1000,6 +1005,7 @@ class InspectionController extends Controller
         $date = Carbon::now();
         $date->toDateTimeString();
         $department = $employee->department()->first();
+        $departmentId = $employee->emp_employee_department_id;
         $departmentAbr = substr(strtoupper($department->dept_name), 0, 3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
@@ -1063,7 +1069,7 @@ class InspectionController extends Controller
             $formIDFormatted = str_pad($formID, 2, '0', STR_PAD_LEFT);
             $form->update([
                 'ins_ss_inspector_id' => Auth::user()->id,
-                'ins_ss_checker_id' => User::role('Inspection - Safety Shower - SPV')->first()->id,
+                'ins_ss_checker_id' => User::role('Inspection - Safety Shower - SPV')->get()->where('emp_employee_department_id', $departmentId)->first()->id,
                 // 'ins_ss_status' => 2,
                 'ins_ss_is_active' => 1,
                 'ins_ss_submited_date' => Carbon::now(),
