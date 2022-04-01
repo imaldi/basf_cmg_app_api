@@ -509,8 +509,8 @@ class InspectionController extends Controller
                 );
 
                 foreach ($idLocArray as $key => $id) {
-                    // $formContent = $contents[$key]
-                    $contents[$key]->update([
+                    $formContent = $contents[$key];
+                    $formContent->update([
                         'ins_h2_check_05_percentage' => $idCheck05PercentArray[$key],
                         'ins_h2_check_10_percentage' => $idCheck10PercentArray[$key],
                         'ins_h2_check_lel_percentage' => $idCheckLelPercentArray[$key],
