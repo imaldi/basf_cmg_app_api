@@ -32,7 +32,7 @@ class FormsInsScbaResource extends JsonResource
             'ins_sc_cp_actions' => $this->ins_sc_cp_actions,
             'ins_sc_status' => (int) $this->ins_sc_status,
             'ins_sc_is_active' => $this->ins_sc_is_active,
-            'ins_sc_remark' => $this->ins_sc_remark,
+            'ins_sc_notes' => $this->ins_sc_notes,
             'ins_created_at' => $this->created_at,
             'ins_updated_at' => $this->updated_at,
             'contents' => ContentFormsInsScbaResource::collection($contents)
