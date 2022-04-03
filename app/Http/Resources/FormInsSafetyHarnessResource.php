@@ -20,7 +20,7 @@ class FormInsSafetyHarnessResource extends JsonResource
      */
     public function toArray($request)
     {
-        $contents = ContentInspSafetyHarnest::where('ins_sh_form_id',$this->id)->get();
+        $contents = ContentInspSafetyHarnest::where('ins_sh_form_id', $this->id)->get();
         return [
             'id' => $this->id,
             'ins_sh_name' => $this->ins_sh_name,
@@ -33,6 +33,7 @@ class FormInsSafetyHarnessResource extends JsonResource
             'ins_sh_cp_actions' => $this->ins_sh_cp_actions,
             'ins_sh_status' => (int) $this->ins_sh_status,
             'ins_sh_is_active' => $this->ins_sh_is_active,
+            'ins_sh_notes' => $this->ins_sh_notes,
             'ins_created_at' => $this->created_at,
             'ins_updated_at' => $this->updated_at,
             'contents' => ContentFormInsSafetyHarnessResource::collection($contents)
