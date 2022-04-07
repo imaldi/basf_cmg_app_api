@@ -413,7 +413,7 @@ class InspectionController extends Controller
         }
     }
 
-    //ready to test
+    //TODO atasi kalau childnya ga sesuai
     public function createOrSaveDraftH2s(Request $request)
     {
         $employee = Auth::user();
@@ -508,21 +508,33 @@ class InspectionController extends Controller
                     ])
                 );
 
-                // foreach ($idLocArray as $key => $id) {
-                //     // $formContent = $contents[$key]
-                //     $contents[$key]->update([
-                //         'ins_h2_check_05_percentage' => $idCheck05PercentArray[$key],
-                //         'ins_h2_check_10_percentage' => $idCheck10PercentArray[$key],
-                //         'ins_h2_check_lel_percentage' => $idCheckLelPercentArray[$key],
-                //         'ins_h2_remark' => $remarkValArray[$key]
-                //     ]);
-                // }
+                foreach ($idLocArray as $key => $id) {
+                    try {
+                        $formContent = $contents[$key];
+                        $formContent->update([
+                            'ins_h2_check_05_percentage' => $idCheck05PercentArray[$key],
+                            'ins_h2_check_10_percentage' => $idCheck10PercentArray[$key],
+                            'ins_h2_check_lel_percentage' => $idCheckLelPercentArray[$key],
+                            'ins_h2_remark' => $remarkValArray[$key]
+                        ]);
+                    } catch (\Exception $e) {
+                        ContentInspH2sCnct::create([
+                            'ins_h2_form_id' => $form->id,
+                            'ins_h2_location_id' => $id,
+                            'ins_h2_check_05_percentage' => $idCheck05PercentArray[$key],
+                            'ins_h2_check_10_percentage' => $idCheck10PercentArray[$key],
+                            'ins_h2_check_lel_percentage' => $idCheckLelPercentArray[$key],
+                            'ins_h2_remark' => $remarkValArray[$key]
+                        ]);
+                    }
+                }
 
                 return response()->json([
                     'code' => 200,
                     'message' => 'Success Save Draft',
-                    'data' => $contents[0]
-                    // [new FormsInspH2sConcentResource($form)]
+                    'data' =>
+                    // $idLocArray
+                    [new FormsInspH2sConcentResource($form)]
                     // ContentInspH2sConcentResource::collection($contents)
                 ]);
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
