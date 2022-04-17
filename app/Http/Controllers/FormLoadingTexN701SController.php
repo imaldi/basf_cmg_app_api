@@ -359,7 +359,8 @@ class FormLoadingTexN701SController extends Controller
         $employee = Auth::user();
 
         try {
-            $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
+            // $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
+            $formLoadingTexN701S = FormLoadingTexN701S::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,
