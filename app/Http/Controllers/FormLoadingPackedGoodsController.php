@@ -839,7 +839,8 @@ class FormLoadingPackedGoodsController extends Controller
         $employee = Auth::user();
 
         try {
-            $formLoadingPackedGoods = $employee->formLoadingPackedGoods()->findOrFail($formId);
+            // $formLoadingPackedGoods = $employee->formLoadingPackedGoods()->findOrFail($formId);
+            $formLoadingPackedGoods = FormLoadingPackedGoods::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,

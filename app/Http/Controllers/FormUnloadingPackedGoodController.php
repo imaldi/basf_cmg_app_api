@@ -656,7 +656,7 @@ class FormUnloadingPackedGoodController extends Controller
         $employee = Auth::user();
 
         try {
-            $formUnloadingPackedGood = $employee->formUnloadingPackedGood()->findOrFail($formId);
+            $formUnloadingPackedGood = FormUnloadingPackedGood::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,

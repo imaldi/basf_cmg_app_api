@@ -399,7 +399,8 @@ class FormUnloadingDieselOilController extends Controller
         $employee = Auth::user();
 
         try {
-            $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
+            // $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
+            $formUnloadingDieselOil = FormUnloadingDieselOil::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,

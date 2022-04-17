@@ -351,7 +351,7 @@ class FormUnloadingSulphurLiquidController extends Controller
         $employee = Auth::user();
 
         try {
-            $formUnloadingSulphurLiquid = $employee->formUnloadingSulphurLiquid()->findOrFail($formId);
+            $formUnloadingSulphurLiquid = FormUnloadingSulphurLiquid::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,

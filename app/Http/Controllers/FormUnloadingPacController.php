@@ -336,7 +336,7 @@ class FormUnloadingPacController extends Controller
         $employee = Auth::user();
 
         try {
-            $formUnloadingPac = $employee->formUnloadingPac()->findOrFail($formId);
+            $formUnloadingPac = FormUnloadingPac::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,

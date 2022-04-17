@@ -377,7 +377,7 @@ class FormUnloadingCitricAcidController extends Controller
         $employee = Auth::user();
 
         try {
-            $formUnloadingCitricAcid = $employee->formUnloadingCitricAcid()->findOrFail($formId);
+            $formUnloadingCitricAcid = FormUnloadingCitricAcid::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,

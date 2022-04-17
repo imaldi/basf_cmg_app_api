@@ -379,7 +379,7 @@ class FormUnloadingNaohController extends Controller
         $employee = Auth::user();
 
         try {
-            $formUnloadingNaoh = $employee->formUnloadingNaoh()->findOrFail($formId);
+            $formUnloadingNaoh = FormUnloadingNaoh::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,
