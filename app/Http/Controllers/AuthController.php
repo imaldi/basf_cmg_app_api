@@ -98,7 +98,7 @@ class AuthController extends Controller
             'emp_gender' => 'string',
             'emp_title' => 'string',
             // 'emp_group' => 'string',
-            'password' => 'confirmed',
+            // 'password' => 'confirmed',
         ]);
 
         try {

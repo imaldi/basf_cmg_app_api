@@ -30,7 +30,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
     ]);
     $router->post('edit-user', [
         'middleware' => [
-            'permission_check:edit user',
+            // 'permission_check:edit user',
             // 'group_check:Admin'
         ],
         'uses' => 'AuthController@editUser'
