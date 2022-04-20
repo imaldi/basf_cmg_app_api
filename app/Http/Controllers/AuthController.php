@@ -63,7 +63,10 @@ class AuthController extends Controller
                 'emp_phone_number' => $request->input('emp_phone_number'),
                 'emp_gender' => $request->input('emp_gender'),
                 'emp_title' => $request->input('emp_title'),
-                'password' => $password
+                'password' => $password,
+                "emp_employee_department_id"=> $request->input('emp_employee_department_id'),
+                "emp_gender"=> $request->input('emp_gender'),
+                "emp_title"=> $request->input('emp_title')
             ]);
             $emp_group = $request->input('emp_group');
 
@@ -117,7 +120,10 @@ class AuthController extends Controller
                 'emp_phone_number' => $request->input('emp_phone_number'),
                 'emp_gender' => $request->input('emp_gender'),
                 'emp_title' => $request->input('emp_title'),
-                'password' => $password
+                'password' => $password,
+                "emp_employee_department_id"=> $request->input('emp_employee_department_id'),
+                "emp_gender"=> $request->input('emp_gender'),
+                "emp_title"=> $request->input('emp_title')
             ]);
             $emp_group = $request->input('emp_group');
 
