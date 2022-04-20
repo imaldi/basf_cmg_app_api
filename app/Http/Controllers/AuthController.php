@@ -37,7 +37,7 @@ class AuthController extends Controller
         //validate incoming request
         $this->validate($request, [
             'emp_name' => 'required|string',
-            'emp_email' => 'required|email|unique:m_employees',
+            // 'emp_email' => 'required|email|unique:m_employees', Email dibuat tidak unique
             'emp_username' => 'required|string|unique:m_employees',
             'emp_nik' => 'required|string|unique:m_employees',
             'emp_is_active' => 'string',
@@ -45,7 +45,7 @@ class AuthController extends Controller
             'emp_gender' => 'string',
             'emp_title' => 'string',
             // 'emp_group' => 'string',
-            'password' => 'required|confirmed',
+            // 'password' => 'required|confirmed',
         ]);
 
         try {

@@ -370,7 +370,6 @@ class FormEGateCheckController extends Controller
                     'gate_masa_berlaku_kir' => $request->input('gate_masa_berlaku_kir'),
                     'gate_loading_date' => $request->input('gate_loading_date'),
                     'gate_exit_date' => $request->input('gate_exit_date'),
-
                     // 'gate_signature_employee_check_in' => $request->input('gate_signature_employee_check_in'),
                     // 'gate_signature_driver_check_in' => $request->input('gate_signature_driver_check_in'),
                     // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
