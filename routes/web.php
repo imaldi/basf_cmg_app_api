@@ -38,6 +38,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
     //// Test jwt
     // Matches "/api/profile
     $router->get('profile', 'HomeController@profile');
+    $router->get('test-email', 'HomeController@testemail');
     $router->get('get-all-pic', 'HomeController@getAllPic');
     $router->post('profile', 'EmployeeController@addGroupToUser');
 

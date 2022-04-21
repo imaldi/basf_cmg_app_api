@@ -13,6 +13,8 @@ use App\Http\Resources\FormWorkOrderResource;
 use App\Http\Resources\EmployeeGroupResource;
 use App\Http\Resources\LocationsResource;
 use App\Http\Resources\EmployeeResource;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\FormEGateCheck;
 // use App\Models\MEmployeeGroup;
 // use App\Models\MEmployeeTitle;
 // use App\Models\MScoringWorkOrder;
@@ -70,7 +72,15 @@ class HomeController extends Controller{
 
 
 
-
+    public function testemail()
+    {
+        $data = array('name'=>'Arunkumar');
+        Mail::send('mail', $data, function($message) {
+        $message->to('yanedgroup@gmail.com', 'Arunkumar')->subject('Test Mail from Selva');
+        $message->from('selva@snamservices.com','Selvakumar');
+        });
+        echo('email berhasil dikirim');
+    }
 
 
     /// Test JWT
@@ -90,6 +100,8 @@ class HomeController extends Controller{
         // ]);
 
         // $department->users();
+        
+
         return response()->json([
             'code' => 200,
             'message' => 'Success',

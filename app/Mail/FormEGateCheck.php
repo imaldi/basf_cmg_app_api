@@ -28,7 +28,7 @@ class FormEGateCheck extends Mailable
      */
     public function build()
     {
-        return $this
-        ->view('view.mail.gate_truck_ditolak');
+        return $this->from('test@mail.com', 'basf')
+        ->view('mail.gate_truck_ditolak');
     }
 }
