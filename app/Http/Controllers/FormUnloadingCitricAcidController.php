@@ -143,7 +143,7 @@ class FormUnloadingCitricAcidController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formUnloadingCitricAcid = $employee->formUnloadingCitricAcid()->findOrFail($formId);
+                    $formUnloadingCitricAcid = FormUnloadingCitricAcid::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingCitricAcid') {
                         return

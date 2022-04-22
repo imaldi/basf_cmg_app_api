@@ -160,7 +160,7 @@ class FormUnloadingDehytonKeController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formUnloadingDehytonKe = $employee->formUnloadingDehytonKe()->findOrFail($formId);
+                    $formUnloadingDehytonKe = FormUnloadingDehytonKe::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingDehytonKe') {
                         return

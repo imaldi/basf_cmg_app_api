@@ -133,7 +133,7 @@ class FormUnloadingSulphurLiquidController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formUnloadingSulphurLiquid = $employee->formUnloadingSulphurLiquid()->findOrFail($formId);
+                    $formUnloadingSulphurLiquid = FormUnloadingSulphurLiquid::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingSulphurLiquid') {
                         return

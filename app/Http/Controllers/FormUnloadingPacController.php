@@ -123,7 +123,7 @@ class FormUnloadingPacController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formUnloadingPac = $employee->formUnloadingPac()->findOrFail($formId);
+                    $formUnloadingPac = FormUnloadingPac::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingPac') {
                         return

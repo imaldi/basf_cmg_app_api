@@ -149,7 +149,7 @@ class FormLoadingPackedGoodsController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formLoadingPackedGoods = $employee->formLoadingPackedGoods()->findOrFail($formId);
+                    $formLoadingPackedGoods = FormLoadingPackedGoods::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormLoadingPackedGoods') {
                         return

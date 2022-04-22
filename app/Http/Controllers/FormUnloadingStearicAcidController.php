@@ -131,7 +131,7 @@ class FormUnloadingStearicAcidController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formUnloadingStearicAcid = $employee->formUnloadingStearicAcid()->findOrFail($formId);
+                    $formUnloadingStearicAcid = FormUnloadingStearicAcid::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingStearicAcid') {
                         return

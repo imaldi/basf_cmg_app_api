@@ -153,7 +153,7 @@ class FormUnloadingFa1eoController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formUnloadingFa1eo = $employee->formUnloadingFa1eo()->findOrFail($formId);
+                    $formUnloadingFa1eo = FormUnloadingFa1eo::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingFa1eo') {
                         return

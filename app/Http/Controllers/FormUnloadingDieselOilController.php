@@ -148,7 +148,7 @@ class FormUnloadingDieselOilController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
+                    $formUnloadingDieselOil = FormUnloadingDieselOil::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingDieselOil') {
                         return

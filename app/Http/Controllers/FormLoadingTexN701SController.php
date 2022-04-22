@@ -134,7 +134,7 @@ class FormLoadingTexN701SController extends Controller
             if ($formId != null || $formId != 0) {
                 $isCreate = "Update";
                 try {
-                    $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
+                    $formLoadingTexN701S = FormLoadingTexN701S::findOrFail($formId);
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormLoadingTexN701S') {
                         return
                             // 'Failed';

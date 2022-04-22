@@ -141,7 +141,7 @@ class FormUnloadingPackedGoodController extends Controller
                 $isCreate = "Update";
 
                 try {
-                    $formUnloadingPackedGood = $employee->formUnloadingPackedGood()->findOrFail($formId);
+                    $formUnloadingPackedGood = FormUnloadingPackedGood::findOrFail($formId);
 
                     if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingPackedGood') {
                         return
