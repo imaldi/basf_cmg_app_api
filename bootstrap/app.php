@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -83,13 +83,13 @@ $app->singleton(
 // ]);
 
 $app->routeMiddleware([
-     'auth' => App\Http\Middleware\Authenticate::class,
-     'group_check' => \App\Http\Middleware\GroupCheckMiddleware::class,
-     'permission_check' => \App\Http\Middleware\PermissionCheckMiddleware::class,
-     'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
-     'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
-     'json.response' => \App\Http\Middleware\ForceJsonResponseMiddleware::class,
- ]);
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'group_check' => \App\Http\Middleware\GroupCheckMiddleware::class,
+    'permission_check' => \App\Http\Middleware\PermissionCheckMiddleware::class,
+    'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
+    'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
+    'json.response' => \App\Http\Middleware\ForceJsonResponseMiddleware::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -112,6 +112,8 @@ $app->register(Spatie\Permission\PermissionServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 // Lumen Generator
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+// ini untuk kirim email
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->configure('mail');
 
@@ -136,7 +138,7 @@ $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;
