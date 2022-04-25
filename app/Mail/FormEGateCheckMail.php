@@ -6,19 +6,17 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\FormEGateCheck;
 
-class FormEGateCheck extends Mailable
+class FormEGateCheckMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $data;
+
+    public function __construct(FormEGateCheck $data)
     {
-        //
+        $this->data = $data;
     }
 
     /**
@@ -28,7 +26,7 @@ class FormEGateCheck extends Mailable
      */
     public function build()
     {
-        return $this->from('test@mail.com', 'basf')
-        ->view('mail.gate_truck_ditolak');
+        return $this->view('mail.gate_truck_ditolak');
+            
     }
 }

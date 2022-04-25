@@ -14,7 +14,12 @@ use App\Http\Resources\EmployeeGroupResource;
 use App\Http\Resources\LocationsResource;
 use App\Http\Resources\EmployeeResource;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\FormEGateCheck;
+use App\Models\FormEGateCheck;
+use App\Models\TruckRent;
+use App\Models\employee_has_groups;
+use App\Mail\FormEGateCheckMail;
+
+// use App\Mail\FormEGateCheck;
 // use App\Models\MEmployeeGroup;
 // use App\Models\MEmployeeTitle;
 // use App\Models\MScoringWorkOrder;
@@ -72,13 +77,48 @@ class HomeController extends Controller{
 
 
 
-    public function testemail()
+    public function testemail($id)
     {
-        $data = array('name'=>'Arunkumar');
-        Mail::send('mail', $data, function($message) {
-        $message->to('yanedgroup@gmail.com', 'Arunkumar')->subject('Test Mail from Selva');
-        $message->from('selva@snamservices.com','Selvakumar');
-        });
+        $data = FormEGateCheck::findOrFail($id);
+        $transporter = TruckRent::findOrFail(1);
+        $emailReceiver = array('yanedgroup@gmail.com');
+        // input transporter email into array
+        if($transporter->tr_email_1){
+            $emailReceiver[] = $transporter->tr_email_1;
+        }
+        if($transporter->tr_email_2){
+            $emailReceiver[] = $transporter->tr_email_2;
+        }
+        if($transporter->tr_email_3){
+            $emailReceiver[] = $transporter->tr_email_3;
+        }
+        if($transporter->tr_email_4){
+            $emailReceiver[] = $transporter->tr_email_4;
+        }
+        if($transporter->tr_email_5){
+            $emailReceiver[] = $transporter->tr_email_5;
+        }
+        // get user who has "Gate check ditolak" role
+        $userIsReceiver = employee_has_groups::where('role_id',8)->get();
+        $userIsReceiverArray = array();
+        foreach($userIsReceiver as $receiver){
+            $userIsReceiverArray[] = $receiver->model_id;
+        }
+        $userReceiverList = User::whereIn('id', $userIsReceiverArray)->get();
+        foreach($userReceiverList as $receiver){
+            if($receiver->emp_email){
+                $emailReceiver[] = $receiver->emp_email;
+            }
+        }
+
+        // dd($emailReceiver);
+        // $data = array('name'=>'Arunkumar');
+        // Mail::send('mail.gate_truck_ditolak', $data, function($message) {
+        // $message->to([$emailReceiver])->subject('Form Truck Masuk Site Ditolak');
+        // $message->to('yanedgroup@gmail.com', 'Transporter')->subject('Form Truck Masuk Site Ditolak');
+        // $message->from('digitalform.basf@gmail.com','Transporter');
+        // });
+        Mail::to($emailReceiver)->send(new FormEGateCheckMail($data));
         echo('email berhasil dikirim');
     }
 

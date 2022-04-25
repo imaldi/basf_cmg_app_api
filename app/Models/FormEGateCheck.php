@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 
+
 class FormEGateCheck extends Model
 {
     protected $table = 'form_gate_check';
@@ -138,48 +139,53 @@ class FormEGateCheck extends Model
                 // $operator =$arraysReturned["operator"];
                 // $cancel =$arraysReturned["cancel"];
 
-                // 0 = bisa diedit, 1 = tidak bisa di edit
-                if($gateable == null){
-                    return 0;
-                } else {
-                if($cancel === 1) {
-                        return 1;
-                } else {
-                    if($operator === 1 && $checker === 1){
-                        return 1;
-                    }
-                        return 0;
-                    }
-                }
-        }
-
-        public static function returnEgateStatusGateable($gateable, $operator, $checker, $cancel){
-                // $arraysReturned = FormEGateCheck::getValueArrays($gateForm);
-                // $gateable =$arraysReturned["gateable"];
-                // $checker =$arraysReturned["checker"];
-                // $operator =$arraysReturned["operator"];
-                // $cancel =$arraysReturned["cancel"];
-            if($gateable == null){
-                // status -
-                return 0;
-            } else {
-                if($cancel === 1) {
-                    // status "Tidak Jadi Unloading"
-                    return 2;
-                } else {
-                    if($checker === 1){
-                        // status "WH Complete"
-                        return 4;
-                    } else {
-                        if($operator === 1){
-                            // status "Operator Complete"
-                            return 3;
-                        }
-                    }
-                    // status "draft"
-                    return 1;
-                }
+        // 0 = bisa diedit, 1 = tidak bisa di edit
+        if($gateable == null){
+            return 0;
+        } else {
+        if($cancel === 1) {
+                return 1;
+        } else {
+            if($operator === 1 && $checker === 1){
+                return 1;
             }
-
+                return 0;
+            }
         }
+    }
+
+    public static function returnEgateStatusGateable($gateable, $operator, $checker, $cancel){
+            // $arraysReturned = FormEGateCheck::getValueArrays($gateForm);
+            // $gateable =$arraysReturned["gateable"];
+            // $checker =$arraysReturned["checker"];
+            // $operator =$arraysReturned["operator"];
+            // $cancel =$arraysReturned["cancel"];
+        if($gateable == null){
+            // status -
+            return 0;
+        } else {
+            if($cancel === 1) {
+                // status "Tidak Jadi Unloading"
+                return 2;
+            } else {
+                if($checker === 1){
+                    // status "WH Complete"
+                    return 4;
+                } else {
+                    if($operator === 1){
+                        // status "Operator Complete"
+                        return 3;
+                    }
+                }
+                // status "draft"
+                return 1;
+            }
+        }
+    }
+
+    public function operator()
+    {
+        return $this->hasOne(App/User::class, 'id', 'user_id');
+    }
+
 }
