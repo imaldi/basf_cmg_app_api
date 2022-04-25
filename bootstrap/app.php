@@ -30,6 +30,7 @@ $app->withFacades(true, [
 ]);
 
 $app->withEloquent();
+$app->make('queue');
 
 $app->configure('mail');
 
@@ -105,16 +106,8 @@ $app->routeMiddleware([
 $app->configure('permission');
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
-// $app->register(App\Providers\AppServiceProvider::class);
-//ini baru di comment untuk tes spatie
-// $app->register(App\Providers\AuthServiceProvider::class);
-// JWT tymon
-$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-// Lumen Generator
-$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
-// ini untuk kirim email
 $app->register(Illuminate\Mail\MailServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+// $app->register(App\Providers\MailServiceProvider::class);
 $app->configure('mail');
 
 $app->alias('mail.manager', Illuminate\Mail\MailManager::class);
@@ -123,6 +116,18 @@ $app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
 $app->alias('mailer', Illuminate\Mail\Mailer::class);
 $app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
 $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
+$app->register(App\Providers\AppServiceProvider::class);
+//ini baru di comment untuk tes spatie
+// $app->register(App\Providers\AuthServiceProvider::class);
+// JWT tymon
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+// Lumen Generator
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+// ini untuk kirim email
+
+
+// $app->register(App\Providers\EventServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------

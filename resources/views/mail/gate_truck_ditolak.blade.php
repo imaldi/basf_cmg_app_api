@@ -8,15 +8,15 @@
 </head>
 <body>
     <p>BASF Truck Apps - Form Masuk Ditolak</p>
-    <br><span>Tanggal/Jam : {{ $data->created_at}} WIB</span>
-    <br><span>Nama Operator : </span>
-    <br><span>Nama Truck : {{ $data->gate_nama_angkutan}}</span>
-    <br><span>No Kendaraan : {{ $data->gate_nomor_plat}}</span>
-    <br><span>No. Tanki : {{ $data->gate_nomor_tangki}}</span>
-    <br><span>Alasan Ditolak : </span>
+    <br><span>Tanggal/Jam : {{ $gate_checkin_date}} WIB</span>
+    <br><span>Nama Operator : {{ $emp_name}}</span>
+    <br><span>Nama Truck : {{ $gate_nama_angkutan}}</span>
+    <br><span>No Kendaraan : {{ $gate_nomor_plat}}</span>
+    <br><span>No. Tanki : {{ $gate_nomor_tangki}}</span>
+    <br><span>Alasan Ditolak : {{ $gate_delete_reason}}</span>
     <br>
     <br>
-    <p>Jika ingin melihat detail lebih lanjut, dapat dilihat di CMS pada modul Gate Check dengan nomor Referensi : {{ $data->id}}</p>
+    <p>Jika ingin melihat detail lebih lanjut, dapat dilihat di CMS pada modul Gate Check dengan nomor Referensi : {{ $id }}</p>
     
 </body>
 </html>

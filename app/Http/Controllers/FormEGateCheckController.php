@@ -10,6 +10,9 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
+use App\Models\employee_has_groups;
+use App\Mail\FormEGateCheckMail;
 
 
 class FormEGateCheckController extends Controller
@@ -692,7 +695,54 @@ class FormEGateCheckController extends Controller
                     'gate_loading_date' => $request->input('gate_loading_date'),
                     'gate_checkin_date' => $request->input('gate_checkin_date'),
                 ]
+
+                
             );
+
+            if($request->input('gate_kesimpulan') == 1){
+
+                $transporter = TruckRent::findOrFail(1);
+                $emailReceiver = array();
+                // dd($formEGate->id);
+                // input transporter email into array
+                if($transporter->tr_email_1){
+                    $emailReceiver[] = $transporter->tr_email_1;
+                }
+                if($transporter->tr_email_2){
+                    $emailReceiver[] = $transporter->tr_email_2;
+                }
+                if($transporter->tr_email_3){
+                    $emailReceiver[] = $transporter->tr_email_3;
+                }
+                if($transporter->tr_email_4){
+                    $emailReceiver[] = $transporter->tr_email_4;
+                }
+                if($transporter->tr_email_5){
+                    $emailReceiver[] = $transporter->tr_email_5;
+                }
+                // get user who has "Gate check ditolak" role
+                $userIsReceiver = employee_has_groups::where('role_id',24)->get();
+                $userIsReceiverArray = array();
+                foreach($userIsReceiver as $receiver){
+                    $userIsReceiverArray[] = $receiver->model_id;
+                }
+                $userReceiverList = User::whereIn('id', $userIsReceiverArray)->get();
+                foreach($userReceiverList as $receiver){
+                    if($receiver->emp_email){
+                        $emailReceiver[] = $receiver->emp_email;
+                    }
+                }
+
+                $employee = Auth::user();
+                $request->emp_name = $employee->emp_name;
+                $request->form_id = $formEGate->id;
+
+                foreach($emailReceiver as $mail){
+                    Mail::to($mail)->send(new FormEGateCheckMail($request));
+                }
+                
+            }
+
             if ($request->file('gate_pic_1')) {
                 $file_pic_1 = 'uploads/form_e_gate/' . $formEGate->gate_pic_1;
                 if (is_file($file_pic_1)) {
@@ -829,6 +879,10 @@ class FormEGateCheckController extends Controller
             // returnIsEditable($formEGate),
             //             ]
             //         );
+            
+            // sending mail 
+            
+
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
