@@ -383,6 +383,50 @@ class FormEGateCheckController extends Controller
                         // 'gate_signature_employee_check_out' => $request->input('gate_signature_employee_check_out'),
                         // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
                     ]);
+
+                    if($request->input('gate_kesimpulan') == 1){
+
+                        $transporter = TruckRent::where('tr_name',$request->input('gate_nama_angkutan'))->first();
+                        $emailReceiver = array();
+                        // dd($formEGate->id);
+                        // input transporter email into array
+                        if($transporter->tr_email_1){
+                            $emailReceiver[] = $transporter->tr_email_1;
+                        }
+                        if($transporter->tr_email_2){
+                            $emailReceiver[] = $transporter->tr_email_2;
+                        }
+                        if($transporter->tr_email_3){
+                            $emailReceiver[] = $transporter->tr_email_3;
+                        }
+                        if($transporter->tr_email_4){
+                            $emailReceiver[] = $transporter->tr_email_4;
+                        }
+                        if($transporter->tr_email_5){
+                            $emailReceiver[] = $transporter->tr_email_5;
+                        }
+                        // get user who has "Gate check ditolak" role
+                        $userIsReceiver = employee_has_groups::where('role_id',24)->get();
+                        $userIsReceiverArray = array();
+                        foreach($userIsReceiver as $receiver){
+                            $userIsReceiverArray[] = $receiver->model_id;
+                        }
+                        $userReceiverList = User::whereIn('id', $userIsReceiverArray)->get();
+                        foreach($userReceiverList as $receiver){
+                            if($receiver->emp_email){
+                                $emailReceiver[] = $receiver->emp_email;
+                            }
+                        }
+        
+                        $employee = Auth::user();
+                        $request->emp_name = $employee->emp_name;
+                        $request->form_id = $formEGate->id;
+        
+                        Mail::to('yanedgroup@gmail.com')->send(new FormEGateCheckMail($request));
+                        foreach($emailReceiver as $mail){
+                            Mail::to($mail)->send(new FormEGateCheckMail($request));
+                        }
+                    }
                 }
 
 
@@ -558,50 +602,10 @@ class FormEGateCheckController extends Controller
                     //         );
 
                     // }
-                    if($request->input('gate_kesimpulan') == 1){
-
-                        $transporter = TruckRent::findOrFail(1);
-                        $emailReceiver = array();
-                        // dd($formEGate->id);
-                        // input transporter email into array
-                        if($transporter->tr_email_1){
-                            $emailReceiver[] = $transporter->tr_email_1;
-                        }
-                        if($transporter->tr_email_2){
-                            $emailReceiver[] = $transporter->tr_email_2;
-                        }
-                        if($transporter->tr_email_3){
-                            $emailReceiver[] = $transporter->tr_email_3;
-                        }
-                        if($transporter->tr_email_4){
-                            $emailReceiver[] = $transporter->tr_email_4;
-                        }
-                        if($transporter->tr_email_5){
-                            $emailReceiver[] = $transporter->tr_email_5;
-                        }
-                        // get user who has "Gate check ditolak" role
-                        $userIsReceiver = employee_has_groups::where('role_id',24)->get();
-                        $userIsReceiverArray = array();
-                        foreach($userIsReceiver as $receiver){
-                            $userIsReceiverArray[] = $receiver->model_id;
-                        }
-                        $userReceiverList = User::whereIn('id', $userIsReceiverArray)->get();
-                        foreach($userReceiverList as $receiver){
-                            if($receiver->emp_email){
-                                $emailReceiver[] = $receiver->emp_email;
-                            }
-                        }
-        
-                        $employee = Auth::user();
-                        $request->emp_name = $employee->emp_name;
-                        $request->form_id = $formEGate->id;
-        
-                        foreach($emailReceiver as $mail){
-                            Mail::to($mail)->send(new FormEGateCheckMail($request));
-                        }
-                        
-                    }
+                    
                 }
+
+                
 
                 return response()->json([
                     'code' => 200,
@@ -744,7 +748,7 @@ class FormEGateCheckController extends Controller
 
             if($request->input('gate_kesimpulan') == 1){
 
-                $transporter = TruckRent::findOrFail(1);
+                $transporter = TruckRent::where('tr_name',$request->input('gate_nama_angkutan'))->first();
                 $emailReceiver = array();
                 // dd($formEGate->id);
                 // input transporter email into array
@@ -780,10 +784,10 @@ class FormEGateCheckController extends Controller
                 $request->emp_name = $employee->emp_name;
                 $request->form_id = $formEGate->id;
 
+                Mail::to('yanedgroup@gmail.com')->send(new FormEGateCheckMail($request));
                 foreach($emailReceiver as $mail){
                     Mail::to($mail)->send(new FormEGateCheckMail($request));
                 }
-                
             }
 
             if ($request->file('gate_pic_1')) {
