@@ -20,9 +20,10 @@ class FormEGateCheckController extends Controller
     public function viewAllEgateForm(Request $request)
     {
         $gateableType = $request->query('gateableType');
+        $queryString = $request->query('queryString');
 
         if ($gateableType != null) {
-            $forms =
+            $formsWithoutQuery_Builder =
                 FormEGateCheck::
 
                 // Urutan bener2 ngaruh di query,
@@ -33,21 +34,32 @@ class FormEGateCheckController extends Controller
 
                 ->where(function ($query) use ($gateableType) {
                     $query
-                        ->where('gateable_type', 'LIKE', '%' . $gateableType . '%')
+                        ->with('gateable_type', 'LIKE', '%' . $gateableType . '%')
                         ->orWhereNull('gateable_type');
                 })->whereNotIn('gate_kesimpulan', [1])
                 // ->orWhereNull('gate_kesimpulan')
 
                 // //   ->orderBy('gateable_type')
-                ->orderBy('id', 'DESC')
-                ->get();
+                ->orderBy('id', 'DESC');
+                // ->get();
             // // $forms->where('gateable_type', 'LIKE', 'FormLoadingTexN701S')->all();
             // $forms->whereNotNull('gateable_type')->all();
         } else {
-            $forms =
+            $formsWithoutQuery_Builder =
                 FormEGateCheck::where('gate_is_out', 0)->where('gate_report_status', 0)
                 // ->orderBy('gateable_type')
-                ->orderBy('id', 'DESC')->get();
+                ->orderBy('id', 'DESC');
+                // ->get();
+        }
+
+        if($queryString != null || $queryString != ""){
+            $formsWithQuery_Builder = $formsWithoutQuery_Builder->where(function ($query) use ($queryString) {
+                $query
+                    ->where('gate_jenis_kendaraan', 'LIKE', '%' . $queryString . '%');
+            });
+            $forms = $formsWithQuery_Builder->get();
+        } else {
+            $forms = $formsWithoutQuery_Builder->get();
         }
         // $resourceList =
         //     FormEGateResource::collection($forms);
