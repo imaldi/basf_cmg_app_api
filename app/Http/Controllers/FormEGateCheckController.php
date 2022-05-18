@@ -55,7 +55,8 @@ class FormEGateCheckController extends Controller
         if($queryString != null || $queryString != ""){
             $formsWithQuery_Builder = $formsWithoutQuery_Builder->where(function ($query) use ($queryString) {
                 $query
-                    ->where('gate_jenis_kendaraan', 'LIKE', '%' . $queryString . '%');
+                    ->where('gate_jenis_kendaraan', 'LIKE', '%' . $queryString . '%')
+                    ->orWhere('gate_nama_driver', 'LIKE', '%' . $queryString . '%');
             });
             $forms = $formsWithQuery_Builder->get();
         } else {
