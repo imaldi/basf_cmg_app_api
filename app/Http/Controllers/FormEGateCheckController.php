@@ -273,7 +273,7 @@ class FormEGateCheckController extends Controller
                 if ((int) $request->input('gate_is_out') != null || (int) $request->input('gate_is_out') != 0) {
 
                     $formEGate->update([
-                        'gate_is_in' => 1,
+                        'gate_is_in' => 0,
                         'gate_is_out' => (int) $request->input('gate_is_out'),
                         'gate_exit_dokumen_pengantar_barang_lengkap' => (int) $request->input('gate_exit_dokumen_pengantar_barang_lengkap'),
                         'gate_exit_muatan_disegel' => (int) $request->input('gate_exit_muatan_disegel'),
@@ -292,7 +292,7 @@ class FormEGateCheckController extends Controller
                     $formEGate->update([
                         'gate_report_status' => (int) $request->input('gate_report_status'),
                         'gate_is_in' => (int) $request->input('gate_is_in'),
-                        'gate_is_out' => (int) $request->input('gate_is_out'),
+                        'gate_is_out' => 0,
                         'gate_formulir_sopir_telp_darurat' => (int) $request->input('gate_formulir_sopir_telp_darurat'),
                         'gate_kondisi_cukup_istirahat' => (int) $request->input('gate_kondisi_cukup_istirahat'),
                         'gate_kondisi_tidak_pengaruh_obat_alkohol' => (int) $request->input('gate_kondisi_tidak_pengaruh_obat_alkohol'),
