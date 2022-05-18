@@ -34,7 +34,7 @@ class FormEGateCheckController extends Controller
 
                 ->where(function ($query) use ($gateableType) {
                     $query
-                        ->with('gateable_type', 'LIKE', '%' . $gateableType . '%')
+                        ->where('gateable_type', 'LIKE', '%' . $gateableType . '%')
                         ->orWhereNull('gateable_type');
                 })->whereNotIn('gate_kesimpulan', [1])
                 // ->orWhereNull('gate_kesimpulan')
@@ -56,7 +56,13 @@ class FormEGateCheckController extends Controller
             $formsWithQuery_Builder = $formsWithoutQuery_Builder->where(function ($query) use ($queryString) {
                 $query
                     ->where('gate_jenis_kendaraan', 'LIKE', '%' . $queryString . '%')
-                    ->orWhere('gate_nama_driver', 'LIKE', '%' . $queryString . '%');
+                    ->orWhere('gate_checkin_date', 'LIKE', '%' . $queryString . '%')
+                    ->orWhere('gate_exit_date', 'LIKE', '%' . $queryString . '%')
+                    ->orWhere('gate_nama_angkutan', 'LIKE', '%' . $queryString . '%')
+                    ->orWhere('gate_nomor_plat', 'LIKE', '%' . $queryString . '%')
+                    ->orWhere('gate_nomor_tangki', 'LIKE', '%' . $queryString . '%')
+                    ->orWhere('gate_nama_driver', 'LIKE', '%' . $queryString . '%')
+                    ;
             });
             $forms = $formsWithQuery_Builder->get();
         } else {
