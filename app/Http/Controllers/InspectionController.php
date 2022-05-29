@@ -624,26 +624,29 @@ class InspectionController extends Controller
         $departmentAbr = substr(strtoupper($department->dept_name), 0, 3);
         $monthFormatted = str_pad($date->month, 2, '0', STR_PAD_LEFT);
 
-        //validation supaya bentuknya array
-        $locationIds = $request->input('location_ids');
-        $subArrayLocIds = substr($locationIds, 1, -1);
-        $idLocArray = explode(",", $subArrayLocIds);
+        if ($request->input('location_ids') != "[]") {
+            //validation supaya bentuknya array
+            $locationIds = $request->input('location_ids');
+            $subArrayLocIds = substr($locationIds, 1, -1);
+            $idLocArray = explode(",", $subArrayLocIds);
 
-        $insSKBoxCondition = $request->input('ins_sk_box_condition');
-        $subArraySKBoxCondition = substr($insSKBoxCondition, 1, -1);
-        $skBoxConditionArray = explode(",", $subArraySKBoxCondition);
+            $insSKBoxCondition = $request->input('ins_sk_box_condition');
+            $subArraySKBoxCondition = substr($insSKBoxCondition, 1, -1);
+            $skBoxConditionArray = explode(",", $subArraySKBoxCondition);
 
-        $insSKContents = $request->input('ins_sk_contents');
-        $subArraySKContents = substr($insSKContents, 1, -1);
-        $skContentsArray = explode(",", $subArraySKContents);
+            $insSKContents = $request->input('ins_sk_contents');
+            $subArraySKContents = substr($insSKContents, 1, -1);
+            $skContentsArray = explode(",", $subArraySKContents);
 
-        $insSKDocuments = $request->input('ins_sk_documents');
-        $subArraySKDocuments = substr($insSKDocuments, 1, -1);
-        $skDocumentsArray = explode(",", $subArraySKDocuments);
+            $insSKDocuments = $request->input('ins_sk_documents');
+            $subArraySKDocuments = substr($insSKDocuments, 1, -1);
+            $skDocumentsArray = explode(",", $subArraySKDocuments);
 
-        $insSKRemarkVal = $request->input('ins_sk_remark_array');
-        $subArraySKRemarkVal = substr($insSKRemarkVal, 1, -1);
-        $skRemarkValArray = explode(",", $subArraySKRemarkVal);
+            $insSKRemarkVal = $request->input('ins_sk_remark_array');
+            $subArraySKRemarkVal = substr($insSKRemarkVal, 1, -1);
+            $skRemarkValArray = explode(",", $subArraySKRemarkVal);
+        }
+
 
         $idForm = (int) $request->input('form_id');
         if ($idForm == null || $idForm  == 0) {
@@ -670,17 +673,19 @@ class InspectionController extends Controller
                 'ins_sk_name' => 'GS-F-3014-2' . $departmentAbr . '/' . $monthFormatted . '/' . $date->year . '/' . $formIDFormatted,
             ]);
 
-            foreach ($idLocArray as $key => $id) {
-                ContentInspSpillKit::create([
-                    'ins_sk_form_id' => $formID,
-                    'ins_sk_location_id' => $idLocArray[$key],
-                    'ins_sk_box_condition' => $skBoxConditionArray[$key],
-                    'ins_sk_contents' => $skContentsArray[$key],
-                    'ins_sk_documents' => $skDocumentsArray[$key],
-                    'ins_sk_remark' => $skRemarkValArray[$key]
-                ]);
-            }
+            if ($request->input('location_ids') != "[]") {
 
+                foreach ($idLocArray as $key => $id) {
+                    ContentInspSpillKit::create([
+                        'ins_sk_form_id' => $formID,
+                        'ins_sk_location_id' => $idLocArray[$key],
+                        'ins_sk_box_condition' => $skBoxConditionArray[$key],
+                        'ins_sk_contents' => $skContentsArray[$key],
+                        'ins_sk_documents' => $skDocumentsArray[$key],
+                        'ins_sk_remark' => $skRemarkValArray[$key]
+                    ]);
+                }
+            }
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Create Data',
@@ -705,15 +710,17 @@ class InspectionController extends Controller
                         'form_id',
                     ])
                 );
+                if ($request->input('location_ids') != "[]") {
 
-                foreach ($idLocArray as $key => $id) {
-                    $formContent = $contents[$key];
-                    $formContent->update([
-                        'ins_sk_box_condition' => $skBoxConditionArray[$key],
-                        'ins_sk_contents' => $skContentsArray[$key],
-                        'ins_sk_documents' => $skDocumentsArray[$key],
-                        'ins_sk_remark' => $skRemarkValArray[$key]
-                    ]);
+                    foreach ($idLocArray as $key => $id) {
+                        $formContent = $contents[$key];
+                        $formContent->update([
+                            'ins_sk_box_condition' => $skBoxConditionArray[$key],
+                            'ins_sk_contents' => $skContentsArray[$key],
+                            'ins_sk_documents' => $skDocumentsArray[$key],
+                            'ins_sk_remark' => $skRemarkValArray[$key]
+                        ]);
+                    }
                 }
 
                 return response()->json([
