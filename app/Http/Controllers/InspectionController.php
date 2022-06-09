@@ -716,6 +716,7 @@ class InspectionController extends Controller
                         $formContent = $contents[$key];
                         $formContent->update([
                             'ins_sk_box_condition' => $skBoxConditionArray[$key],
+                            // 'ins_sk_box_condition' => 2,
                             'ins_sk_contents' => $skContentsArray[$key],
                             'ins_sk_documents' => $skDocumentsArray[$key],
                             'ins_sk_remark' => $skRemarkValArray[$key]
@@ -816,20 +817,23 @@ class InspectionController extends Controller
                 'ins_sh_name' => 'GS-F-3014-2' . $departmentAbr . '/' . $monthFormatted . '/' . $date->year . '/' . $formIDFormatted,
             ]);
 
-            foreach ($idLocArray as $key => $id) {
-                ContentInspSafetyHarnest::create([
-                    'ins_sh_form_id' => $form->id,
-                    'ins_sh_location_id' => $id,
-                    'ins_sh_webbing' => $insSHWebbingArray[$key],
-                    'ins_sh_d_rings' => $shDRingsArray[$key],
-                    'ins_sh_attachment_buckles' => $shAttachmentBucklesArray[$key],
-                    'ins_sh_hook_or_carabiner' => $shHookOrCarabinerArray[$key],
-                    'ins_sh_web_lanyard' => $shWebLanyardArray[$key],
-                    'ins_sh_rope_lanyard' => $shRopeLanyardArray[$key],
-                    'ins_sh_shock_absorber_pack' => $shShockAbsorberPackArray[$key],
-                    'ins_sh_remark' => $shRemarkValArray[$key]
-                ]);
+            if($request->input('location_ids') != "[]"){
+                foreach ($idLocArray as $key => $id) {
+                    ContentInspSafetyHarnest::create([
+                        'ins_sh_form_id' => $form->id,
+                        'ins_sh_location_id' => $id,
+                        'ins_sh_webbing' => $insSHWebbingArray[$key],
+                        'ins_sh_d_rings' => $shDRingsArray[$key],
+                        'ins_sh_attachment_buckles' => $shAttachmentBucklesArray[$key],
+                        'ins_sh_hook_or_carabiner' => $shHookOrCarabinerArray[$key],
+                        'ins_sh_web_lanyard' => $shWebLanyardArray[$key],
+                        'ins_sh_rope_lanyard' => $shRopeLanyardArray[$key],
+                        'ins_sh_shock_absorber_pack' => $shShockAbsorberPackArray[$key],
+                        'ins_sh_remark' => $shRemarkValArray[$key]
+                    ]);
+                }
             }
+            
 
             return response()->json([
                 'code' => 200,
@@ -860,19 +864,22 @@ class InspectionController extends Controller
                     ])
                 );
 
-                foreach ($idLocArray as $key => $id) {
-                    $formContent = $contents[$key];
-                    $formContent->update([
-                        'ins_sh_webbing' => $insSHWebbingArray[$key],
-                        'ins_sh_d_rings' => $shDRingsArray[$key],
-                        'ins_sh_attachment_buckles' => $shAttachmentBucklesArray[$key],
-                        'ins_sh_hook_or_carabiner' => $shHookOrCarabinerArray[$key],
-                        'ins_sh_web_lanyard' => $shWebLanyardArray[$key],
-                        'ins_sh_rope_lanyard' => $shRopeLanyardArray[$key],
-                        'ins_sh_shock_absorber_pack' => $shShockAbsorberPackArray[$key],
-                        'ins_sh_remark' => $shRemarkValArray[$key]
-                    ]);
+                if($request->input('location_ids') != "[]"){
+                    foreach ($idLocArray as $key => $id) {
+                        $formContent = $contents[$key];
+                        $formContent->update([
+                            'ins_sh_webbing' => $insSHWebbingArray[$key],
+                            'ins_sh_d_rings' => $shDRingsArray[$key],
+                            'ins_sh_attachment_buckles' => $shAttachmentBucklesArray[$key],
+                            'ins_sh_hook_or_carabiner' => $shHookOrCarabinerArray[$key],
+                            'ins_sh_web_lanyard' => $shWebLanyardArray[$key],
+                            'ins_sh_rope_lanyard' => $shRopeLanyardArray[$key],
+                            'ins_sh_shock_absorber_pack' => $shShockAbsorberPackArray[$key],
+                            'ins_sh_remark' => $shRemarkValArray[$key]
+                        ]);
+                    }
                 }
+                
 
                 return response()->json([
                     'code' => 200,
