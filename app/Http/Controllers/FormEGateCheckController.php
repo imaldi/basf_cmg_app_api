@@ -383,6 +383,7 @@ class FormEGateCheckController extends Controller
                         'gate_delete_reason' => $request->input('gate_delete_reason'),
                         'gate_approve_admin_message' => $request->input('gate_approve_admin_message'),
                         'gate_kesimpulan' => (int) $request->input('gate_kesimpulan'),
+                        'gate_is_editable' => (int) $request->input('gate_is_editable'),
                         'gate_nama_angkutan' => $request->input('gate_nama_angkutan'),
                         'gate_nomor_plat' => $request->input('gate_nomor_plat'),
                         'gate_nomor_tangki' => $request->input('gate_nomor_tangki'),
@@ -696,7 +697,9 @@ class FormEGateCheckController extends Controller
                     'gate_email_sent' => (int) $request->input('gate_email_sent'),
                     'gate_tipe_pelanggan' => (int) $request->input('gate_tipe_pelanggan'),
                     'gate_loading_status' => 0,
-                    'gate_is_editable' => 0,
+                    // 'gate_is_editable' => 1,
+                    /// keliatannya redundant, tapi ini fungsinya untuk di model2 gateable
+                    'gate_is_editable' => (int) $request->input('gate_is_editable'),
                     'gate_pengganjal_roda' => (int) $request->input('gate_pengganjal_roda'),
 
                     'gate_pengganjal_roda_desc' => $request->input('gate_pengganjal_roda_desc'),
