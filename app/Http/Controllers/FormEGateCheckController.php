@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
 use App\Models\employee_has_groups;
 use App\Mail\FormEGateCheckMail;
-
+use Exception;
 
 class FormEGateCheckController extends Controller
 {
@@ -772,7 +772,9 @@ class FormEGateCheckController extends Controller
             );
 
             if($request->input('gate_kesimpulan') == 1){
+                try{
 
+                
                 $transporter = TruckRent::where('tr_name',$request->input('gate_nama_angkutan'))->first();
                 $emailReceiver = array();
                 // dd($formEGate->id);
@@ -813,6 +815,10 @@ class FormEGateCheckController extends Controller
                 foreach($emailReceiver as $mail){
                     Mail::to($mail)->send(new FormEGateCheckMail($request));
                 }
+
+            } catch (Exception $e) {
+                // do something later to tell there is error
+            }
             }
 
             if ($request->file('gate_pic_1')) {
