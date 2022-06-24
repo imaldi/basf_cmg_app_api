@@ -698,7 +698,7 @@ class FormEGateCheckController extends Controller
                     'gate_tipe_pelanggan' => (int) $request->input('gate_tipe_pelanggan'),
                     'gate_check_out_employee_id_mobile' => (int) $request->input('gate_check_out_employee_id_mobile'),
                     'gate_loading_status' => 0,
-                    'gate_is_editable' => 1,
+                    'gate_is_editable' => 0,
                     /// keliatannya redundant, tapi ini fungsinya untuk di model2 gateable 
                     /// ini ga jadi begini karena baru ingat iseditable di ubah di gateable
                     // 'gate_is_editable' => (int) $request->input('gate_is_editable'),
