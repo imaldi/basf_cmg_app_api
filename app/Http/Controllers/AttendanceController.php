@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FormAttendance;
 use App\Models\FormAttendancePersonal;
 use App\Models\FormAttendanceCategory;
+use App\Models\FormAttendanceMaster;
 use App\Models\MasterDepartment;
 use App\Models\MasterLocation;
 // use App\Models\FormAttendanceCategory;
@@ -25,6 +26,17 @@ class AttendanceController extends Controller
             'code' => 200,
             'message' => 'Success Fetch All Data',
             'data' => $attendanceCategories
+            ], 200);
+    }
+
+    public function getAttendanceMasterBasedOnGivenCategoryIdAndDepartmentId(Request $request){
+        $idCategory = $request->input('category_id');
+        $deptCategory = $request->input('department_id');
+        return 
+        response()->json([
+            'code' => 200,
+            'message' => 'Success Fetch All Data',
+            'data' => FormAttendanceMaster::where('category_training',$idCategory)->where('registered_by_dept',$deptCategory)->get()
             ], 200);
     }
 

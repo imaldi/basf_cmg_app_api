@@ -11,16 +11,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            // LocationSeeder::class,
-            // DepartmentSeeder::class,
-            EmployeesSeeder::class,
-            // GroupSeeder::class,
-            // PermissionSeeder::class,
-            // PrivilegeSeeder::class,
-            // UserGroupSeeder::class,
-            // Form5sMasterSeeder::class,
-            // WorkOrderSeeder::class
-        ]);
+        $attMaster = factory('App\Models\FormAttendanceMaster',20)->create();
+        // $this->call([
+        //     // LocationSeeder::class,
+        //     // DepartmentSeeder::class,
+        //     EmployeesSeeder::class,
+        //     // GroupSeeder::class,
+        //     // PermissionSeeder::class,
+        //     // PrivilegeSeeder::class,
+        //     // UserGroupSeeder::class,
+        //     // Form5sMasterSeeder::class,
+        //     // WorkOrderSeeder::class
+        // ]);
     }
 }

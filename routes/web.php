@@ -503,6 +503,14 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
             'uses' => 'AttendanceController@getAllAttendance',
             'middleware' => 'permission_check:view attendance form'
         ]);
+        $router->get('get-categories',[
+            'uses' => 'AttendanceController@getAttendanceCategories',
+            'middleware' => 'permission_check:create attendance form'
+        ]);
+        $router->get('get-master',[
+            'uses' => 'AttendanceController@getAttendanceMasterBasedOnGivenCategoryIdAndDepartmentId',
+            'middleware' => 'permission_check:create attendance form'
+        ]);
     });
 
     $router->group(['prefix' => 'e-gate',], function () use ($router) {
