@@ -406,6 +406,7 @@ class FormEGateCheckController extends Controller
                         // 'gate_signature_driver_check_out' => $request->input('gate_signature_driver_check_out'),
                     ]);
 
+                    // logic for sending email if "truck ditolak" (created by afdhal)
                     if($request->input('gate_kesimpulan') == 1){
 
                         $transporter = TruckRent::where('tr_name',$request->input('gate_nama_angkutan'))->first();
@@ -768,13 +769,12 @@ class FormEGateCheckController extends Controller
                     'gate_loading_date' => $request->input('gate_loading_date'),
                     'gate_checkin_date' => $request->input('gate_checkin_date'),
                 ]
-
                 
             );
 
+            // logic for sending email if "truk ditolak"
             if($request->input('gate_kesimpulan') == 1){
                 try{
-
                 
                 $transporter = TruckRent::where('tr_name',$request->input('gate_nama_angkutan'))->first();
                 $emailReceiver = array();

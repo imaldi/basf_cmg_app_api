@@ -39,7 +39,7 @@ class AuthController extends Controller
             'emp_name' => 'required|string',
             // 'emp_email' => 'required|email|unique:m_employees', Email dibuat tidak unique
             'emp_username' => 'required|string|unique:m_employees',
-            'emp_nik' => 'required|string|unique:m_employees',
+            // 'emp_nik' => 'required|string|unique:m_employees',
             'emp_is_active' => 'string',
             'emp_phone_number' => 'string',
             'emp_gender' => 'string',
