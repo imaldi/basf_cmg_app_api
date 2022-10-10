@@ -7,6 +7,8 @@ use App\Http\Resources\FormAttendancePersonalResource;
 use App\User;
 // use App\Models\MasterLocation;
 use App\Models\FormAttendancePersonal;
+use Auth;
+
 
 
 
@@ -21,10 +23,15 @@ class FormAttendanceResource extends JsonResource
     public function toArray($request)
     {
         $contents = FormAttendancePersonal::where('att_p_attendance_id',$this->id)->get();
+        $user = Auth::user();
+        $userCreatedById = $this->att_created_by_id ?? $user->id;
+        // $userName = $user->name;
+        // $user = User::find( $userLoggedInId);
+        // if ($user )
         return [
             'id' => $this->id,
-            'att_created_by_id' => (int)$this->att_created_by_id,
-            'att_created_by_name' => User::find($this->att_created_by_id)->emp_name,
+            'att_created_by_id' => (int) $userCreatedById,
+            'att_created_by_name' => $user->emp_name,
             'att_register_by_dept' => (int)$this->att_register_by_dept,
             'att_topic1' => $this->att_topic1,
             'att_topic2' => $this->att_topic2,
