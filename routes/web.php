@@ -152,7 +152,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'save-draft/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - Issuer,Work Order - SPV Issuer'
+                        'group_check:Work Order - Issuer,Work Order - SPV Issuer,Work Order - Planner'
                     ],
                     'uses' => 'WorkOrderController@saveFormWorkOrderDraft'
                 ]

@@ -43,7 +43,7 @@ class HomeController extends Controller{
 
     public function getLocationsByLocModule(Request $request){
         $locModule = $request->query('locModule');
-            $locations = MasterLocation::where('loc_module', $locModule)
+            $locations = MasterLocation::where('loc_module', 'LIKE', "%". $locModule)
             // ->where('wo_issuer_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'wo_form_status')
             ->get();
         return response()->json([

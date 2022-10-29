@@ -71,6 +71,12 @@ class FormWorkOrderResource extends JsonResource
             'wo_c_equipment_criteria_detail' => FormWorkOrder::equipmentCriteria($this->wo_c_equipment_criteria == null ? 1 : $this->wo_c_equipment_criteria),
             'wo_c_cost' => $this->wo_c_cost,
             'wo_image' => $this->wo_image,
+            'wo_date_planner_approve' => $this->wo_date_planner_approve,
+            'wo_date_spv_pic_approve' => $this->wo_date_spv_pic_approve,
+            'wo_date_pic_finish' => $this->wo_date_pic_finish,
+            'wo_pic_duration' => $this->wo_pic_duration,
+            'wo_reject_reason' => $this->wo_reject_reason,
+            'wo_hand_over_reason' => $this->wo_hand_over_reason,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             ];

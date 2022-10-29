@@ -40,7 +40,12 @@ class FormWorkOrder extends Model
 		'wo_pic_image',
 		'wo_pic_start_time',
 		'wo_pic_finish_time',
-		'wo_pic_team'
+		'wo_pic_team',
+		'wo_date_planner_approve',
+		'wo_date_spv_pic_approve',
+		'wo_date_pic_finish',
+		'wo_pic_duration',
+		'wo_hand_over_reason'
 		// 'wo_date_pic_plan',
 	];
 

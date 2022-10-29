@@ -13,6 +13,7 @@ use App\Http\Resources\EmployeeResource;
 use Auth;
 use App\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
@@ -655,6 +656,8 @@ class WorkOrderController extends Controller
 
             $formWorkOrder->update([
                 'wo_form_status' => 8,
+                // Tanya dulu ntar ke pak afdhal bener ga
+                'wo_date_spv_pic_approve' => Carbon::now()->toDateTimeString()
             ]);
             return response()->json([
                 'code' => 200,

@@ -99,7 +99,7 @@ class AttendanceController extends Controller
 
 
                 // $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                $name = time()."someone_that_i_used_to_know.png";
+                $name = time()."_att_trainer_signature.png";
                 file_put_contents('uploads/attendance/signatures/'.$name, $decodedDocs);
 
 
@@ -333,7 +333,7 @@ class AttendanceController extends Controller
 
 
                 // $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                $name = time()."someone_that_i_used_to_know.png";
+                $name = time()."_att_p_signature.png";
                 file_put_contents('uploads/attendance/signatures/'.$name, $decodedDocs);
 
 
@@ -374,7 +374,7 @@ class AttendanceController extends Controller
 
 
                 // $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                $name = time()."someone_that_i_used_to_know.png";
+                $name = time()."_att_p_signature.png";
                 file_put_contents('uploads/attendance/signatures/'.$name, $decodedDocs);
 
                 // $request->file('att_p_signature')->move('uploads/attendance/signatures/',$name);
