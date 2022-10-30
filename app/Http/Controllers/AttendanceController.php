@@ -333,7 +333,7 @@ class AttendanceController extends Controller
 
 
                 // $name = time().$request->file('att_p_signature')->getClientOriginalName();
-                $name = time()."_att_p_signature.png";
+                $name = rand()."_att_p_signature.png";
                 file_put_contents('uploads/attendance/signatures/'.$name, $decodedDocs);
 
 
