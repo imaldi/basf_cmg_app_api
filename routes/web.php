@@ -96,7 +96,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 $router->get(
                     'get-all',
                     [
-                        'middleware' => 'group_check:Work Order - SPV Issuer',
+                        'middleware' => 'permission_check:spv issuer work order',
                         'uses' => 'WorkOrderController@viewListWorkOrderAsIssuerSPV'
                     ]
                 );
@@ -104,7 +104,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 $router->get(
                     'get-all-approved',
                     [
-                        'middleware' => 'group_check:Work Order - SPV Issuer',
+                        'middleware' => 'permission_check:spv issuer work order',
                         'uses' => 'WorkOrderController@viewListApprovedWorkOrderAsIssuerSPV'
                     ]
                 );
@@ -114,7 +114,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 $router->get(
                     'get-all',
                     [
-                        'middleware' => 'group_check:Work Order - Planner',
+                        'middleware' => 'permission_check:planner work order',
                         'uses' => 'WorkOrderController@viewListWorkOrderAsPlanner'
                     ]
                 );
@@ -123,7 +123,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 $router->get(
                     'get-all',
                     [
-                        'middleware' => 'group_check:Work Order - PIC',
+                        'middleware' => 'permission_check:pic work order',
                         'uses' => 'WorkOrderController@viewListWorkOrderAsPic'
                     ]
                 );
@@ -131,7 +131,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 $router->get(
                     'get-all-approved',
                     [
-                        'middleware' => 'group_check:Work Order - PIC',
+                        'middleware' => 'permission_check:pic work order',
                         'uses' => 'WorkOrderController@viewListApprovedWorkOrderAsPic'
                     ]
                 );
@@ -140,7 +140,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 $router->get(
                     'get-all',
                     [
-                        'middleware' => 'group_check:Work Order - SPV PIC',
+                        'middleware' => 'permission_check:spv pic work order',
                         'uses' => 'WorkOrderController@viewListWorkOrderAsPicSPV'
                     ]
                 );
@@ -151,9 +151,10 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
             $router->post(
                 'save-draft/{idFormWOrder}',
                 [
-                    'middleware' => [
-                        'group_check:Work Order - Issuer,Work Order - SPV Issuer,Work Order - Planner'
-                    ],
+                    // tidak perlu pakai permission, yg penting id user sama id issuer sama dan bisa edit work order
+                    // 'middleware' => [
+                    //     'group_check:Work Order - Issuer,Work Order - SPV Issuer,Work Order - Planner'
+                    // ],
                     'uses' => 'WorkOrderController@saveFormWorkOrderDraft'
                 ]
             );
@@ -164,7 +165,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'as-issuer-spv/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - SPV Issuer'
+                        'permission_check:spv issuer work order'
                     ],
                     'uses' => 'WorkOrderController@rejectFormWorkOrderAsIssuerSpv'
                 ]
@@ -178,7 +179,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'as-planner/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - Planner'
+                        'permission_check:planner work order'
                     ],
                     'uses' => 'WorkOrderController@rejectFormWorkOrderAsPlanner'
                 ]
@@ -196,7 +197,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'as-issuer-spv/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - SPV Issuer'
+                        'permission_check:spv issuer work order'
                     ],
                     'uses' => 'WorkOrderController@approveFormWorkOrderAsIssuerSPV'
                 ]
@@ -208,7 +209,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'as-issuer-spv-hand-over/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - SPV Issuer'
+                        'permission_check:spv issuer work order'
                     ],
                     'uses' => 'WorkOrderController@approveFormWorkOrderAsIssuerSPVHandOver'
                 ]
@@ -220,7 +221,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'as-planner/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - Planner'
+                        'permission_check:planner work order'
                     ],
                     'uses' => 'WorkOrderController@approveFormWorkOrderAsPlanner'
                 ]
@@ -237,7 +238,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'as-pic/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - PIC'
+                        'permission_check:pic work order'
                     ],
                     'uses' => 'WorkOrderController@approveFormWorkOrderAsPic'
                 ]
@@ -246,7 +247,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'as-pic/hand-over/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - PIC'
+                        'permission_check:pic work order'
                     ],
                     'uses' => 'WorkOrderController@approveFormWorkOrderAsPicHandOver'
                 ]
@@ -257,7 +258,7 @@ $router->group(['prefix' => 'api', 'middleware' => ['json.response']], function 
                 'as-pic-spv/{idFormWOrder}',
                 [
                     'middleware' => [
-                        'group_check:Work Order - SPV PIC'
+                        'permission_check:spv pic work order'
                     ],
                     'uses' => 'WorkOrderController@approveFormWorkOrderAsPicSpv'
                 ]

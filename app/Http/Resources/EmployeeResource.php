@@ -19,6 +19,14 @@ class EmployeeResource extends JsonResource
      */
     public function toArray($request)
     {
+        $deptName = "";
+
+        try{
+            $deptName = MasterDepartment::find($this->emp_employee_department_id)->dept_name;
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+            $deptName = "not found";
+        }
+
         return [
             'emp_id' => $this->id,
             'emp_name' => $this->emp_name,
@@ -29,7 +37,7 @@ class EmployeeResource extends JsonResource
             'emp_phone_number' => $this->emp_phone_number,
             'emp_is_spv' => $this->emp_is_spv,
             'emp_employee_department_id' => $this->emp_employee_department_id,
-            'emp_employee_department_name' => MasterDepartment::find($this->emp_employee_department_id)->dept_name,
+            'emp_employee_department_name' => $deptName,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'emp_permissions' => EmployeePermissionResource::collection($this->getPermissionsViaRoles()->unique('name')),
