@@ -22,7 +22,7 @@ class EmployeeResource extends JsonResource
         $deptName = "";
 
         try{
-            $deptName = MasterDepartment::find($this->emp_employee_department_id)->dept_name;
+            $deptName = MasterDepartment::find($this->emp_employee_department_id)->dept_name ?? "not found";
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
             $deptName = "not found";
         }
