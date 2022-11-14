@@ -75,9 +75,9 @@ class TestGroupsAndPermissionsController extends Controller
         $permission_id = $request->input("permission_id");
         if($permission_id != null){
             $permission_to_give = EmployeeUserPermissions::find($permission_id);
-            $role->givePermissionTo($permission_to_give->name);
+            // $role->givePermissionTo($permission_to_give->name);
             // ini kalau mau komen biar ga ribet buat baru
-            // $role->revokePermissionTo($permission_to_give->name);
+            $role->revokePermissionTo($permission_to_give->name);
             
         }
 
