@@ -864,7 +864,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('get-all-permission', 'TestGroupsAndPermissionsController@getAllPermissions');
     $router->get('create-group/{groupArg}', 'TestGroupsAndPermissionsController@testCreateAGroup');
     $router->get('create-permission/{permissionArg}', 'TestGroupsAndPermissionsController@testCreateAPermission');
-    $router->get('assign-permission-to-group', 'TestGroupsAndPermissionsController@testAssignPermissionToGroup');
+    $router->post('assign-permission-to-group', 'TestGroupsAndPermissionsController@testAssignPermissionToGroup');
+    $router->post('assign-permission-to-user', 'TestGroupsAndPermissionsController@assignPermissionToUser');
     // $router->get('assign-group-to-user','TestGroupsAndPermissionsController@testAssignGroupToUser');
     $router->get('is-user-has-groups', 'TestGroupsAndPermissionsController@isUserHasGroup');
     $router->get('get-group', 'TestGroupsAndPermissionsController@testDapatkanGroupUserDenganForEach');

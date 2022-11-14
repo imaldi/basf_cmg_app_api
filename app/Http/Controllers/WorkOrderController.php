@@ -94,7 +94,7 @@ class WorkOrderController extends Controller
                 'wo_issuer_attachment' => $request->input('wo_issuer_attachment'),
                 'wo_form_status' => $formStatus,
                 'wo_date_recomendation' => $date_recommendation,
-                'wo_is_open' => 1,
+                'wo_is_active' => 1,
                 'wo_c_emergency' => $emergency,
                 'wo_c_ranking_cust' => $ranking_cust,
                 'wo_c_equipment_criteria' => $equipment_criteria,
@@ -196,8 +196,7 @@ class WorkOrderController extends Controller
 
         // try{
             $orderBy = $request->query('orderBy');
-            $formWorkOrder = FormWorkOrder::where('wo_is_open', 1)
-            ->where('wo_issuer_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'wo_form_status')->get();
+            $formWorkOrder = FormWorkOrder::where('wo_issuer_id',$user->id)->orderBy(($orderBy != '' || $orderBy != null) ? $orderBy : 'wo_form_status')->get();
             // ->orderBy("wo_form_status")->get()
             ;
 
@@ -221,7 +220,7 @@ class WorkOrderController extends Controller
         $forms = FormWorkOrder::where(
             // 'wo_spv_issuer_id'
             'wo_issuer_dept'
-            , $user->emp_employee_department_id)->where('wo_is_open', 1)
+            , $user->emp_employee_department_id)->where('wo_is_active', 1)
             // ->whereIn('wo_form_status',[1,2,9])
             ;
         if($request->query('orderBy') == 'wo_form_status'){
@@ -243,7 +242,7 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         // $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',9)
+        $forms = FormWorkOrder::where('wo_spv_issuer_id', $user->id)->where('wo_is_active', 1)->where('wo_form_status',9)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -262,7 +261,7 @@ class WorkOrderController extends Controller
         // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
         $forms = FormWorkOrder::
             // where('wo_planner_id', $user->id)->
-            where('wo_is_open', 1)
+            where('wo_is_active', 1)
             // ->where('wo_form_status',3)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency,
@@ -280,7 +279,7 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         // $groupUser = MEmployeeGroup::where('name','Work Order - Planner')->firstOrFail();
-        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->whereIn('wo_form_status',[6,7,8,9])
+        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_active', 1)->whereIn('wo_form_status',[6,7,8,9])
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -297,7 +296,7 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         // $groupUser = MEmployeeGroup::where('name','Work Order - SPV')->firstOrFail();
-        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',8)
+        $forms = FormWorkOrder::where('wo_pic_id', $user->id)->where('wo_is_active', 1)->where('wo_form_status',8)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -314,8 +313,8 @@ class WorkOrderController extends Controller
         $user = Auth::user();
 
         // $groupUser = MEmployeeGroup::where('name','Work Order - PIC - SPV')->firstOrFail();
-        // $formsOfSpv = $groupUser->workOrderFormsOfPicSpv()->where('wo_is_open', 1)
-        $formsOfSpv = FormWorkOrder::where('wo_spv_pic_id', $user->id)->where('wo_is_open', 1)->where('wo_form_status',7)
+        // $formsOfSpv = $groupUser->workOrderFormsOfPicSpv()->where('wo_is_active', 1)
+        $formsOfSpv = FormWorkOrder::where('wo_spv_pic_id', $user->id)->where('wo_is_active', 1)->where('wo_form_status',7)
         ->orderBy($request->query('orderBy'))->get();
         //Note : nanti perlu d sort berdasarkan wo_c_emergency,
         //       wo_c_ranking_cust, dan wo_c_equipment_criteria => update, sort sesuai wo_date_recomendation
@@ -353,7 +352,7 @@ class WorkOrderController extends Controller
         $formWorkOrder->update([
             'wo_reject_reason' => $request->input('wo_reject_reason'),
             'wo_form_status' => 4,
-            'wo_is_open' => 0,
+            'wo_is_active' => 0,
 
         ]);
         return response()->json([
@@ -379,7 +378,7 @@ class WorkOrderController extends Controller
             $formWorkOrder->update([
                 'wo_reject_reason' => $request->input('wo_reject_reason'),
                 'wo_form_status' => 5,
-                'wo_is_open' => 0,
+                'wo_is_active' => 0,
             ]);
             return response()->json([
                 'code' => 200,
@@ -454,7 +453,7 @@ class WorkOrderController extends Controller
             $formWorkOrder->update([
                 'wo_hand_over_reason' => $request->input('wo_hand_over_reason'),
                 'wo_form_status' => 10,
-                'wo_is_open' =>  0,
+                'wo_is_active' =>  0,
             ]);
             return response()->json([
                 'code' => 200,

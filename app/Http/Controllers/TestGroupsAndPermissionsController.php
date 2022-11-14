@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Models\MEmployeeGroup;
 use App\Models\EmployeeUserPermissions;
+use App\Http\Resources\EmployeeResource;
 use App\User;
+use App\Http\Resources\EmployeeGroupResource;
 
 class TestGroupsAndPermissionsController extends Controller
 {
@@ -39,39 +41,83 @@ class TestGroupsAndPermissionsController extends Controller
         }
     }
 
-    public function testAssignPermissionToGroup()
+    public function assignPermissionToUser(Request $request)
     {
-        $role = MEmployeeGroup::find(1);
-        // $permissionsOfRole = $role->permissions;
-        for ($x = 1; $x <= 63; $x++) {
-            if (
-                // $x != 21 ||
-                // $x != 25 ||
-                // $x != 30 ||
-                // $x != 36 ||
-                // $x != 37 ||
-                // $x != 38 ||
-                // $x != 39 ||
-                // $x != 44 ||
-                // $x != 45 ||
-                // $x != 46 ||
-                // $x != 47 ||
-                // $x != 56 ||
-                // $x != 57 ||
-                // $x != 58 ||
-                // $x != 59
-                $x == 5 &&
-                $x == 6 &&
-                $x == 7 &&
-                $x == 8
-            ) {
-                $permission = EmployeeUserPermissions::find($x);
-                $role->givePermissionTo($permission);
-            }
+        // try{
+        $user_id = $request->input("user_id");
+        $user = User::find($user_id);
+        $permission_id = $request->input("permission_id");
+        if($permission_id != null){
+            $permission_to_give = EmployeeUserPermissions::find($permission_id);
+            // $user->givePermissionTo($permission_to_give->name);
+            // ini kalau mau hapus biar ga ribet buat baru
+            $user->revokePermissionTo($permission_to_give->name);
+            
         }
 
-        // return response(['is_succes' => true],200);
-        return response(['role' => $role], 200);
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success',
+            'data' =>  EmployeeResource::collection([$user])
+        ], 200);
+        // } catch (\Spatie\Permission\Exceptions\PermissionAlreadyExists $e) {
+
+        // }
+
+    }
+
+    public function testAssignPermissionToGroup(Request $request)
+    {
+        $role = MEmployeeGroup::find($request->input('role_id'));
+
+        // $user = User::find($user_id);
+        $permission_id = $request->input("permission_id");
+        if($permission_id != null){
+            $permission_to_give = EmployeeUserPermissions::find($permission_id);
+            $role->givePermissionTo($permission_to_give->name);
+            // ini kalau mau komen biar ga ribet buat baru
+            // $role->revokePermissionTo($permission_to_give->name);
+            
+        }
+
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'Success',
+            'role' =>  EmployeeGroupResource::collection([$role]),
+            'permissions_of_role' => $role->permissions
+        ], 200);
+        // $permissionsOfRole = $role->permissions;
+        // for ($x = 1; $x <= 63; $x++) {
+        //     if (
+        //         // $x != 21 ||
+        //         // $x != 25 ||
+        //         // $x != 30 ||
+        //         // $x != 36 ||
+        //         // $x != 37 ||
+        //         // $x != 38 ||
+        //         // $x != 39 ||
+        //         // $x != 44 ||
+        //         // $x != 45 ||
+        //         // $x != 46 ||
+        //         // $x != 47 ||
+        //         // $x != 56 ||
+        //         // $x != 57 ||
+        //         // $x != 58 ||
+        //         // $x != 59
+        //         $x == 5 &&
+        //         $x == 6 &&
+        //         $x == 7 &&
+        //         $x == 8
+        //     ) {
+        //         $permission = EmployeeUserPermissions::find($x);
+        //         $role->givePermissionTo($permission);
+        //     }
+        // }
+
+        // // return response(['is_succes' => true],200);
+        // return response(['role' => $role], 200);
     }
 
     public function getAllPermissions()

@@ -23,7 +23,7 @@ class FormWorkOrder extends Model
 		'wo_date_recomendation',
 		'wo_date_revision',
 		'wo_c_emergency',
-		'wo_is_open',
+		'wo_is_active',
 		'wo_reject_reason',
 		'wo_c_ranking_cust',
 		'wo_c_cost',
