@@ -615,7 +615,7 @@ class WorkOrderController extends Controller
 
                 if ($request->file('wo_pic_attachment')) {
 
-                    $file = 'uploads/work_order/file' . $formWorkOrder->wo_pic_image;
+                    $file = 'uploads/work_order/file' . $formWorkOrder->wo_pic_attachment;
                     if (is_file($file)) {
                         unlink(public_path($file));
                     }
