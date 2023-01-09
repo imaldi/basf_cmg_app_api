@@ -22,7 +22,7 @@ class FormAttendanceResource extends JsonResource
      */
     public function toArray($request)
     {
-        $contents = FormAttendancePersonal::where('att_p_attendance_id',$this->id)->get();
+        $contents = FormAttendancePersonal::where('att_p_attendance_id', $this->id)->get();
         $user = Auth::user();
         $userCreatedById = $this->att_created_by_id ?? $user->id;
         // $userName = $user->name;
@@ -38,7 +38,7 @@ class FormAttendanceResource extends JsonResource
             'att_reference' => $this->att_reference,
             'att_date' => $this->att_date,
             'att_place' => (int)$this->att_place,
-            'att_pic' => (int)$this->att_pic,
+            'att_pic' => $this->att_pic,
             'att_with_test' => (int)$this->att_with_test,
             'att_signature' => $this->att_signature,
             'att_is_active' => (int)$this->att_is_active,
