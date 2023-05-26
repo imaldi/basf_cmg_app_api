@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
+use App\Models\FormAttendanceMaster;
 use Faker\Generator as Faker;
 
 /*
@@ -16,9 +16,14 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(FormAttendanceMaster::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'category_training' => $faker->numberBetween(1, 5),
+        'registered_by_dept' => $faker->numberBetween(1, 9),
+        'reference' => $faker->word(),
+        'topic_1' => $faker->word(),
+        'topic_2' => $faker->word(),
+        'duration' => $faker->numberBetween(0, 10),
+        'frequency' => $faker->numberBetween(0, 10),
     ];
 });

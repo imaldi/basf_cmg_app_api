@@ -13,67 +13,69 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingFaC12Controller extends Controller
 {
-    public function viewAll(){
+    public function viewAll()
+    {
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch All Data',
             'data' =>
             FormUnloadingFaC12::all()
-            ], 200);
+        ], 200);
     }
-    public function createOrUpdate(Request $request){
+    public function createOrUpdate(Request $request)
+    {
         $this->validate($request, [
             // 'form_id' => 'integer',
             'gate_id' => 'required|integer',
 
-            'un1_persiapan_memakai_ppe' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_cek_hose_piping' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_safety_shower' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_operator_terima_dokumen' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_arahkan_truk_parkir' => ['integer', Rule::in(['0','1','2']),],
-            'un1_perisapan_ganjal_roda' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_safety_cone' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_verifikasi_fisik' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_sopir_serahkan_kunci' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_sopir_kenek_leave_unloading' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_isotank_bersih' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_label_segel_terpasang' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_kenakan_ppe_tambahan' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_cek_coupling_station' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_bukasegel_ambil_sampel' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_kirim_sample' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_webbing' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_d_rings' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_buckles' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_carabiner' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_lanyard' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_shockabsorber_pack' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_fall_arrester' => ['integer', Rule::in(['0','1','2']),],
-            'un1_persiapan_petugas_naik_body_isotank' => ['integer', Rule::in(['0','1','2']),],
-            'un1_unloading_buttom_valve_dibuka_penuh' => ['integer', Rule::in(['0','1','2']),],
-            'un1_unloading_hidupkan_mesinDCS' => ['integer', Rule::in(['0','1','2']),],
-            'un1_unloading_cek_pipa_coupling_valve_tidak_bocor' => ['integer', Rule::in(['0','1','2']),],
-            'un1_unloading_pastikan_unloading_aman' => ['integer', Rule::in(['0','1','2']),],
-            'un1_unloading_periksa_pompa' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_unloading_selesai' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_matikan_pompa' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_tutup_valve' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_petugas_naik_tutup_venting_system' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_pastikan_wadah_penampung_masih_ada' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_tutup_hose_dg_caphose' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_simpanan_coupling_dg_aman' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_periksa_valve_ditutup' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_panggil_sopir_kembali' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_lepas_pengganjal_roda_safetycone' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_pastikan_peralatan_tidak_terbawa_truck' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_lakukan_timbang_akhir' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0','1','2']),],
-            'un1_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
-            'un1_status' => ['integer', Rule::in(['0','1']),],
-            'un1_operator_complate' => ['integer', Rule::in(['0','1','2']),],
-            'un1_checker_complete' => ['integer', Rule::in(['0','1']),],
-            'un1_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
+            'un1_persiapan_memakai_ppe' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_cek_hose_piping' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_safety_shower' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_operator_terima_dokumen' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_arahkan_truk_parkir' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_perisapan_ganjal_roda' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_safety_cone' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_verifikasi_fisik' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_sopir_serahkan_kunci' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_sopir_kenek_leave_unloading' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_isotank_bersih' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_label_segel_terpasang' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_kenakan_ppe_tambahan' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_cek_coupling_station' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_bukasegel_ambil_sampel' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_kirim_sample' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_webbing' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_d_rings' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_buckles' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_carabiner' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_lanyard' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_shockabsorber_pack' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_fall_arrester' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_persiapan_petugas_naik_body_isotank' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_unloading_buttom_valve_dibuka_penuh' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_unloading_hidupkan_mesinDCS' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_unloading_cek_pipa_coupling_valve_tidak_bocor' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_unloading_pastikan_unloading_aman' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_unloading_periksa_pompa' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_unloading_selesai' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_matikan_pompa' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_tutup_valve' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_petugas_naik_tutup_venting_system' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_pastikan_wadah_penampung_masih_ada' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_tutup_hose_dg_caphose' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_simpanan_coupling_dg_aman' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_periksa_valve_ditutup' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_panggil_sopir_kembali' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_lepas_pengganjal_roda_safetycone' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_pastikan_peralatan_tidak_terbawa_truck' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_lakukan_timbang_akhir' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0', '1', '2']),],
+            'un1_status' => ['integer', Rule::in(['0', '1']),],
+            'un1_operator_complete' => ['integer', Rule::in(['0', '1']),],
+            'un1_checker_complete' => ['integer', Rule::in(['0', '1']),],
+            'un1_cancel_load_unload' => ['integer', Rule::in(['0', '1']),],
 
             'un1_report_code' => 'string|max:255',
             'un1_nama_produk' => 'string|max:255',
@@ -144,47 +146,46 @@ class FormUnloadingFaC12Controller extends Controller
         ]);
 
         $employee = Auth::user();
-        try{
+        try {
             $formId = (int) $request->input('form_id');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
-            if( $formId != null || $formId != 0){
+            if ($formId != null || $formId != 0) {
                 $isCreate = "Update";
 
-                try{
-                    $formUnloadingFaC12 = $employee->formUnloadingFaC12()->findOrFail($formId);
+                try {
+                    $formUnloadingFaC12 = FormUnloadingFaC12::findOrFail($formId);
 
-                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingFaC12'){
+                    if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingFaC12') {
                         return
+                            // 'Failed';
+                            response()->json([
+                                'code' => 451,
+                                'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                                'data' => [
+                                    'gateable_id' => $gate->gateable_id,
+                                    'form_id' => $formUnloadingFaC12->id
+                                ]
+                            ], 451);
+                    }
+                } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                    return response()->json([
+                        'code' => 404,
+                        'message' => 'Given FormUnloadingFaC12 Form ID not found',
+                        'data' => []
+                    ], 404);
+                }
+            } else {
+                $isCreate = "Create";
+                if ($gate->gateable_id != null && $gate->gateable_type != null) {
+                    return
                         // 'Failed';
                         response()->json([
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                             'data' => [
                                 'gateable_id' => $gate->gateable_id,
-                                'form_id' => $formUnloadingFaC12->id
+                                'form_id Create' => $request->input('form_id')
                             ]
-                            ], 451);
-                    }
-
-                } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-                    return response()->json([
-                        'code' => 404,
-                        'message' => 'Given FormUnloadingFaC12 Form ID not found',
-                        'data' => []
-                        ], 404);
-                }
-            } else {
-                $isCreate = "Create";
-                if($gate->gateable_id != null && $gate->gateable_type != null){
-                    return
-                    // 'Failed';
-                    response()->json([
-                        'code' => 451,
-                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                        'data' => [
-                            'gateable_id' => $gate->gateable_id,
-                            'form_id Create' => $request->input('form_id')
-                        ]
                         ], 451);
                 }
 
@@ -195,9 +196,10 @@ class FormUnloadingFaC12Controller extends Controller
 
                 $gate->update([
                     'gateable_id' => $formUnloadingFaC12->id,
-                    'gateable_type' => "App\Models\FormUnloadingFaC12"
-                    ]);
+                    'gateable_type' => "App\Models\FormUnloadingFaC12",
+                ]);
             }
+
             // update e gate cuma di create, ubah buat yang lain nanti
             $formUnloadingFaC12->update([
                 'un1_persiapan_memakai_ppe' => (int) $request->input('un1_persiapan_memakai_ppe'),
@@ -245,7 +247,7 @@ class FormUnloadingFaC12Controller extends Controller
                 'un1_selesai_pastikan_qty_pas' => (int) $request->input('un1_selesai_pastikan_qty_pas'),
                 'un1_selesai_tandatangan_serahterima' => (int) $request->input('un1_selesai_tandatangan_serahterima'),
                 'un1_status' => (int) $request->input('un1_status'),
-                'un1_operator_complate' => (int) $request->input('un1_operator_complate'),
+                'un1_operator_complete' => (int) $request->input('un1_operator_complete'),
                 'un1_checker_complete' => (int) $request->input('un1_checker_complete'),
                 'un1_cancel_load_unload' => (int) $request->input('un1_cancel_load_unload'),
 
@@ -317,62 +319,66 @@ class FormUnloadingFaC12Controller extends Controller
             ]);
 
 
-                if($request->input('un1_signature_checker')){
-                    $decodedDocs = base64_decode($request->input('un1_signature_checker'));
+            if ($request->input('un1_signature_checker')) {
+                $decodedDocs = base64_decode($request->input('un1_signature_checker'));
 
 
-                    $name1 = time()."_un1_signature_checker.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name1, $decodedDocs);
+                $name1 = time() . "_un1_signature_checker.png";
+                file_put_contents('uploads/unloading/signatures/' . $name1, $decodedDocs);
 
 
-                    $formUnloadingFaC12->update(
-                        [
-                            'un1_signature_checker' => $name1,
-                            ]
-                        );
-
-                }
-                if($request->input('un1_signature_employee')){
-                    $decodedDocs = base64_decode($request->input('un1_signature_employee'));
-
-
-                    $name2 = time()."_un1_signature_employee.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name2, $decodedDocs);
+                $formUnloadingFaC12->update(
+                    [
+                        'un1_signature_checker' => $name1,
+                    ]
+                );
+            }
+            if ($request->input('un1_signature_employee')) {
+                $decodedDocs = base64_decode($request->input('un1_signature_employee'));
 
 
-                    $formUnloadingFaC12->update(
-                        [
-                            'un1_signature_employee' => $name2,
-                            ]
-                        );
+                $name2 = time() . "_un1_signature_employee.png";
+                file_put_contents('uploads/unloading/signatures/' . $name2, $decodedDocs);
 
-                }
+
+                $formUnloadingFaC12->update(
+                    [
+                        'un1_signature_employee' => $name2,
+                    ]
+                );
+            }
+
+            $gate->update([
+                'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($gate),
+                'gate_is_editable' => (int) FormEGateCheck::returnIsEditable($gate),
+            ]);
+
             return response()->json([
                 'code' => 200,
-                'message' => 'Success '.$isCreate.' FormUnloadingFaC12 Form',
+                'message' => 'Success ' . $isCreate . ' FormUnloadingFaC12 Form',
                 'data' => [
                     $formUnloadingFaC12
                 ],
                 'gateable_id' => $gate->gateable_id,
-                                'form_id update' =>$request->input('form_id')
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                'form_id update' => $request->input('form_id')
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
                 'data' => [
                     $request->input('gate_id')
                 ]
-                ], 404);
+            ], 404);
         }
     }
 
-    public function approve(Request $request){
+    public function approve(Request $request)
+    {
         $formId = (int) $request->input('form_id');
         $employee = Auth::user();
 
-        try{
+        try {
             $formUnloadingFaC12 = $employee->formUnloadingFaC12()->findOrFail($formId);
             $formUnloadingFaC12->update([
                 'un1_status' => 2,
@@ -382,38 +388,40 @@ class FormUnloadingFaC12Controller extends Controller
                 'code' => 200,
                 'message' => 'Success Approve FormUnloadingFaC12 Form',
                 'data' => [
-                    $formUnloadingFaC12]
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formUnloadingFaC12
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given FormUnloadingFaC12 Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 
-    public function getOne($formId){
+    public function getOne($formId)
+    {
 
         $employee = Auth::user();
 
-        try{
-            $formUnloadingFaC12 = $employee->formUnloadingFaC12()->findOrFail($formId);
+        try {
+            // $formUnloadingFaC12 = $employee->formUnloadingFaC12()->findOrFail($formId);
+            $formUnloadingFaC12 = FormUnloadingFaC12::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Fetch FormUnloadingFaC12 Form',
                 'data' => [
-                    $formUnloadingFaC12]
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formUnloadingFaC12
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given FormUnloadingFaC12 Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 }

@@ -70,13 +70,11 @@ class Form5sesController extends Controller
         $form_5s_diligent_score = $request->input('form_5s_diligent_score');
 
         $totalScore =
-            (
                 $form_5s_concise_score +
                 $form_5s_neat_score +
                 $form_5s_clean_score +
                 $form_5s_care_score +
-                $form_5s_diligent_score
-            )/5;
+                $form_5s_diligent_score;
 
         $idForm = $request->input('form_id');
         if($idForm == 0 || $idForm == null){
@@ -237,6 +235,7 @@ class Form5sesController extends Controller
     }
 
     //data belum ada untuk bukti berhasil tapi request berhasil
+    // TODO: perbaiki ini nanti, karena sebenarnya API nya error tapi di handle di app
     public function getAllLocationsOfDepartment($id){
         try{
         $masterLocations = MasterDepartment::findOrFail($id)->areas()->select(['id'])->get()
@@ -244,7 +243,7 @@ class Form5sesController extends Controller
             return $model->id;
         })->toArray();
         // $masterLocations->form5sMasterPic()->get();
-        $PICList = Form5sMaster::whereIn('form_5s_m_area_id',$masterLocations)->get()->unique('form_5s_m_area_id');
+        $PICList = Form5sMaster::whereIn('form_5s_m_area_id',$masterLocations)->get();
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetching All Department',

@@ -13,66 +13,67 @@ use Illuminate\Validation\Rule;
 
 class FormUnloadingDieselOilController extends Controller
 {
-    public function viewAll(){
+    public function viewAll()
+    {
         return response()->json([
             'code' => 200,
-            'message' => 'Success Create Data',
+            'message' => 'Success Fetch All Data',
             'data' =>
             FormUnloadingDieselOil::all()
-            ], 200);
+        ], 200);
     }
-    public function createOrUpdate(Request $request){
+    public function createOrUpdate(Request $request)
+    {
         $this->validate($request, [
-            // 'form_id' => 'integer',
+            'id_form' => 'integer',
             'gate_id' => 'required|integer',
 
-            'un7_persiapan_memakai_ppe' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_cek_hose_piping' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_safety_shower' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_operator_terima_dokumen' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_arahkan_truk_parkir' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_ganjal_roda' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_safety_cone' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_sopir_serahkan_kunci' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_sopir_kenek_leave_unloading' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_isotank_bersih' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_label_segel_terpasang' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_kenakan_ppe_tambahan' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_bukasegel_ambil_sampel' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_kirim_sample' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_periksa_level_storage' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_check_fullbody_harness_desc' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_webbing' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_D_rings' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_buckles' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_carabiner' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_lanyard' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_shockabsorber_pack' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_fall_arrester' => ['integer', Rule::in(['0','1','2']),],
-            'un7_persiapan_petugas_naik_body_isotank' => ['integer', Rule::in(['0','1','2']),],
-            'un7_unloading_bottom_valve_dibuka_penuh' => ['integer', Rule::in(['0','1','2']),],
-            'un7_unloading_hidupkan_mesinDCS' => ['integer', Rule::in(['0','1','2']),],
-            'un7_unloading_cek_pipa_coupling_valve_tidak_bocor' => ['integer', Rule::in(['0','1','2']),],
-            'un7_unloading_pastikan_unloading_aman' => ['integer', Rule::in(['0','1','2']),],
-            'un7_unloading_periksa_pompa' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_unloading_selesai' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_matikan_pompa' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_tutup_valve' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_petugas_naik_tutup_venting_system' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_pastikan_wadah_penampung_masih_ada' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_tutup_hose_dg_caphose' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_simpan_coupling_dg_aman' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_periksa_valve_ditutup' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_panggil_sopir_kembali' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_lepas_pengganjal_roda_safetycone' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_pastikan_peralatan_tidak_terbawa_truk' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_lakukan_timbang_akhir' => ['integer', Rule::in(['0','1','2']),],
-            'un7_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
-            'un7_status' => ['integer', Rule::in(['0','1']),],
-            'un7_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'un7_checker_complete' => ['integer', Rule::in(['0','1']),],
-            'un7_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
+            'un7_persiapan_memakai_ppe' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_cek_hose_piping' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_safety_shower' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_operator_terima_dokumen' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_arahkan_truk_parkir' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_ganjal_roda' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_safety_cone' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_sopir_serahkan_kunci' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_sopir_kenek_leave_unloading' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_isotank_bersih' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_label_segel_terpasang' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_kenakan_ppe_tambahan' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_pasang_penampung_tetesan' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_bukasegel_ambil_sampel' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_kirim_sample' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_periksa_level_storage' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_webbing' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_D_rings' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_buckles' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_carabiner' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_lanyard' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_shockabsorber_pack' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_fall_arrester' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_persiapan_petugas_naik_body_isotank' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_unloading_bottom_valve_dibuka_penuh' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_unloading_hidupkan_mesinDCS' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_unloading_cek_pipa_coupling_valve_tidak_bocor' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_unloading_pastikan_unloading_aman' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_unloading_periksa_pompa' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_unloading_selesai' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_matikan_pompa' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_tutup_valve' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_petugas_naik_tutup_venting_system' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_pastikan_wadah_penampung_masih_ada' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_tutup_hose_dg_caphose' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_simpan_coupling_dg_aman' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_periksa_valve_ditutup' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_panggil_sopir_kembali' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_lepas_pengganjal_roda_safetycone' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_pastikan_peralatan_tidak_terbawa_truk' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_lakukan_timbang_akhir' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_status' => ['integer', Rule::in(['0', '1']),],
+            'un7_operator_complete' => ['integer', Rule::in(['0', '1', '2']),],
+            'un7_checker_complete' => ['integer', Rule::in(['0', '1']),],
+            'un7_cancel_load_unload' => ['integer', Rule::in(['0', '1', '2']),],
 
             'un7_report_code' => 'string|max:255',
             'un7_batch_no' => 'string|max:255',
@@ -83,6 +84,7 @@ class FormUnloadingDieselOilController extends Controller
             'un7_level_awal2' => 'string|max:255',
             'un7_level_akhir2' => 'string|max:255',
             'un7_jml_dimuat' => 'string|max:255',
+            'un7_persiapan_check_fullbody_harness_desc' => 'string|max:255',
             'un7_persiapan_memakai_ppe_desc' => 'string|max:255',
             'un7_persiapan_cek_hose_piping_desc' => 'string|max:255',
             'un7_persiapan_safety_shower_desc' => 'string|max:255',
@@ -139,42 +141,55 @@ class FormUnloadingDieselOilController extends Controller
         ]);
 
         $employee = Auth::user();
-        try{
-            $formId = (int) $request->input('form_id');
+        try {
+            $formId = (int) $request->input('id_form');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
-            if( $formId != null || $formId != 0){
+            if ($formId != null || $formId != 0) {
                 $isCreate = "Update";
 
-                try{
-                    $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
+                try {
+                    $formUnloadingDieselOil = FormUnloadingDieselOil::findOrFail($formId);
 
-                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingDieselOil'){
+                    if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormUnloadingDieselOil') {
                         return
-                        // 'Failed';
-                        response()->json([
-                            'code' => 451,
-                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                            'data' => []
+                            // 'Failed';
+                            response()->json([
+                                'code' => 451,
+                                'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                                'data' => [
+                                    'form_id' => (int) $request->input('id_form'),
+                                    'gate_id' => $gate->id,
+                                    'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
+                                    'gateable_id' => $gate->gateable_id,
+                                    'gateable_type' => $gate->gateable_type,
+                                    'create' => 'No'
+                                ]
                             ], 451);
                     }
-
-                } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
                     return response()->json([
                         'code' => 404,
                         'message' => 'Given FormUnloadingDieselOil Form ID not found',
                         'data' => []
-                        ], 404);
+                    ], 404);
                 }
             } else {
                 $isCreate = "Create";
 
-                if($gate->gateable_id != null && $gate->gateable_type != null){
+                if ($gate->gateable_id != null && $gate->gateable_type != null) {
                     return
-                    // 'Failed';
-                    response()->json([
-                        'code' => 451,
-                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                        'data' => []
+                        // 'Failed';
+                        response()->json([
+                            'code' => 451,
+                            'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                            'data' => [
+                                'form_id' => (int) $request->input('id_form'),
+                                'gate_id' => $gate->id,
+                                'is_gateable_type_same' => $gate->gateable_type == 'App\Models\FormLoadingPackedGoods',
+                                'gateable_id' => $gate->gateable_id,
+                                'gateable_type' => $gate->gateable_type,
+                                'create' => 'Yes'
+                            ]
                         ], 451);
                 }
 
@@ -186,8 +201,9 @@ class FormUnloadingDieselOilController extends Controller
                 $gate->update([
                     'gateable_id' => $formUnloadingDieselOil->id,
                     'gateable_type' => "App\Models\FormUnloadingDieselOil"
-                    ]);
+                ]);
             }
+
             $formUnloadingDieselOil->update([
                 'un7_persiapan_memakai_ppe' => (int) $request->input('un7_persiapan_memakai_ppe'),
                 'un7_persiapan_cek_hose_piping' => (int) $request->input('un7_persiapan_cek_hose_piping'),
@@ -205,7 +221,7 @@ class FormUnloadingDieselOilController extends Controller
                 'un7_persiapan_bukasegel_ambil_sampel' => (int) $request->input('un7_persiapan_bukasegel_ambil_sampel'),
                 'un7_persiapan_kirim_sample' => (int) $request->input('un7_persiapan_kirim_sample'),
                 'un7_persiapan_periksa_level_storage' => (int) $request->input('un7_persiapan_periksa_level_storage'),
-                'un7_persiapan_check_fullbody_harness_desc' => (int) $request->input('un7_persiapan_check_fullbody_harness_desc'),
+                'un7_persiapan_check_fullbody_harness_desc' => $request->input('un7_persiapan_check_fullbody_harness_desc'),
                 'un7_persiapan_webbing' => (int) $request->input('un7_persiapan_webbing'),
                 'un7_persiapan_D_rings' => (int) $request->input('un7_persiapan_D_rings'),
                 'un7_persiapan_buckles' => (int) $request->input('un7_persiapan_buckles'),
@@ -301,56 +317,61 @@ class FormUnloadingDieselOilController extends Controller
             ]);
 
 
-                if($request->input('un7_signature_checker')){
-                    $decodedDocs = base64_decode($request->input('un7_signature_checker'));
+            if ($request->input('un7_signature_checker')) {
+                $decodedDocs = base64_decode($request->input('un7_signature_checker'));
 
 
-                    $name = time()."_un7_signature_checker.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                $name = time() . "_un7_signature_checker.png";
+                file_put_contents('uploads/unloading/signatures/' . $name, $decodedDocs);
 
 
-                    $formUnloadingDieselOil->update(
-                        [
-                            'un7_signature_checker' => $name,
-                            ]
-                        );
-
-                }
-                if($request->input('un7_signature_employee')){
-                    $decodedDocs = base64_decode($request->input('un7_signature_employee'));
-
-
-                    $name = time()."_un7_signature_employee.png";
-                    file_put_contents('uploads/unloading/signatures/'.$name, $decodedDocs);
+                $formUnloadingDieselOil->update(
+                    [
+                        'un7_signature_checker' => $name,
+                    ]
+                );
+            }
+            if ($request->input('un7_signature_employee')) {
+                $decodedDocs = base64_decode($request->input('un7_signature_employee'));
 
 
-                    $formUnloadingDieselOil->update(
-                        [
-                            'un7_signature_employee' => $name,
-                            ]
-                        );
+                $name = time() . "_un7_signature_employee.png";
+                file_put_contents('uploads/unloading/signatures/' . $name, $decodedDocs);
 
-                }
+
+                $formUnloadingDieselOil->update(
+                    [
+                        'un7_signature_employee' => $name,
+                    ]
+                );
+            }
+
+            $gate->update([
+                'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($gate),
+                'gate_is_editable' => (int) FormEGateCheck::returnIsEditable($gate),
+            ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success '.$isCreate.' FormUnloadingDieselOil Form',
+                'message' => 'Success ' . $isCreate . ' FormUnloadingDieselOil Form',
                 'data' => [
-                    $formUnloadingDieselOil]
-                ], 200);
-
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formUnloadingDieselOil
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 
-    public function approve(Request $request){
-        $formId = (int)  $request->input('form_id');
-        try{
+    public function approve(Request $request)
+    {
+        $formId = (int)  $request->input('id_form');
+        $employee = Auth::user();
+
+        try {
             $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
             $formUnloadingDieselOil->update([
                 'un7_status' => 2,
@@ -360,38 +381,40 @@ class FormUnloadingDieselOilController extends Controller
                 'code' => 200,
                 'message' => 'Success Approve FormUnloadingDieselOil Form',
                 'data' => [
-                    $formUnloadingDieselOil]
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formUnloadingDieselOil
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given formUnloadingDieselOil Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 
-    public function getOne($formId){
+    public function getOne($formId)
+    {
 
         $employee = Auth::user();
 
-        try{
-            $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
+        try {
+            // $formUnloadingDieselOil = $employee->formUnloadingDieselOil()->findOrFail($formId);
+            $formUnloadingDieselOil = FormUnloadingDieselOil::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Fetch FormUnloadingDieselOil Form',
                 'data' => [
-                    $formUnloadingDieselOil]
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formUnloadingDieselOil
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given FormUnloadingDieselOil Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 }

@@ -23,7 +23,7 @@ class FormWorkOrder extends Model
 		'wo_date_recomendation',
 		'wo_date_revision',
 		'wo_c_emergency',
-		'wo_is_open',
+		'wo_is_active',
 		'wo_reject_reason',
 		'wo_c_ranking_cust',
 		'wo_c_cost',
@@ -40,7 +40,12 @@ class FormWorkOrder extends Model
 		'wo_pic_image',
 		'wo_pic_start_time',
 		'wo_pic_finish_time',
-		'wo_pic_team'
+		'wo_pic_team',
+		'wo_date_planner_approve',
+		'wo_date_spv_pic_approve',
+		'wo_date_pic_finish',
+		'wo_pic_duration',
+		'wo_hand_over_reason'
 		// 'wo_date_pic_plan',
 	];
 

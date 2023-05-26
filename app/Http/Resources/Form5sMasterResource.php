@@ -32,6 +32,7 @@ class Form5sMasterResource extends JsonResource
             'department_name' => MasterDepartment::find($this->form_5s_m_dept_id)->dept_name,
             'location_id' => $this->form_5s_m_area_id,
             'location_name' => MasterLocation::find($this->form_5s_m_area_id)->loc_name,
+            'form_5s_m_area_photo' => $this->form_5s_m_area_photo,
             'pic' => $PICs,
             // 'pic_name' => $user$this->loc_name,
             //kemungkinan bermasalah

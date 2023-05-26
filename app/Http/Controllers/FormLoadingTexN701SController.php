@@ -13,64 +13,66 @@ use Illuminate\Validation\Rule;
 
 class FormLoadingTexN701SController extends Controller
 {
-    public function viewAll(){
+    public function viewAll()
+    {
         return response()->json([
             'code' => 200,
             'message' => 'Success Fetch All Data',
             'data' =>
             FormLoadingTexN701S::all()
-            ], 200);
+        ], 200);
     }
-    public function createOrUpdate(Request $request){
+    public function createOrUpdate(Request $request)
+    {
         $this->validate($request, [
             // 'form_id' => 'integer',
             'gate_id' => 'required',
-            'ul1_persiapan_memakai_ppe' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_cek_hose_piping' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_safety_shower' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_operator_terima_dokumen' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_arahkan_truk_parkir' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_ganjal_roda' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_safety_cone_didepan_truk' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_sopir_serahkan_kunci' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_sopir_kenek_leave_unloading' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_isotank_bersih' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_isotank_sdh_dicek_qc' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_isotank_bekas_pengisian_kemarin' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_webbing' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_D_rings' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_carabiner' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_buckles' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_lanyard' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_shockabsorber_pack' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_fall_arrester' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_petugas_naik_ke_isotank' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_pasang_high_switch_level' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_hose_piping_tdk_bocor' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_cek_sisa_produk_tersedia' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_pastikan_isotank_kosong' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_ambil_hose_sesuai' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_persiapan_ambil_sample_awal' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_loading_buka_valve_storage' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_loading_hidupkan_dcs' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_loading_cek_pipa_tidak_bocor' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_loading_periksa_massflow_meter_baik' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_ambil_sample_akhir' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_tutup_valve_isotank' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_pastikan_produk_mendekati_kuantiti' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_tutup_hose' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_tutup_venting_system' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_pastikan_semua_valve_tertutup' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_lepas_pengganjal_ban' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_panggil_sopir_kembali' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_pastikan_peralatan_tidak_terbawa_truk' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_lakukan_timbang_akhir' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_status' => ['integer', Rule::in(['0','1']),],
-            'ul1_operator_complete' => ['integer', Rule::in(['0','1','2']),],
-            'ul1_checker_complete' => ['integer', Rule::in(['0','1']),],
-            'ul1_cancel_load_unload' => ['integer', Rule::in(['0','1','2']),],
+            'ul1_persiapan_memakai_ppe' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_cek_hose_piping' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_safety_shower' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_operator_terima_dokumen' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_arahkan_truk_parkir' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_ganjal_roda' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_safety_cone_didepan_truk' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_sopir_serahkan_kunci' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_sopir_kenek_leave_unloading' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_isotank_bersih' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_isotank_sdh_dicek_qc' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_isotank_bekas_pengisian_kemarin' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_webbing' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_D_rings' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_carabiner' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_buckles' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_lanyard' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_shockabsorber_pack' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_fall_arrester' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_petugas_naik_ke_isotank' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_pasang_high_switch_level' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_hose_piping_tdk_bocor' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_cek_sisa_produk_tersedia' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_pastikan_isotank_kosong' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_ambil_hose_sesuai' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_persiapan_ambil_sample_awal' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_loading_buka_valve_storage' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_loading_hidupkan_dcs' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_loading_cek_pipa_tidak_bocor' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_loading_periksa_massflow_meter_baik' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_ambil_sample_akhir' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_tutup_valve_isotank' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_pastikan_produk_mendekati_kuantiti' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_tutup_hose' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_tutup_venting_system' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_pastikan_semua_valve_tertutup' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_lepas_pengganjal_ban' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_panggil_sopir_kembali' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_pastikan_peralatan_tidak_terbawa_truk' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_lakukan_timbang_akhir' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_pastikan_qty_pas' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_selesai_tandatangan_serahterima' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_status' => ['integer', Rule::in(['0', '1']),],
+            'ul1_operator_complete' => ['integer', Rule::in(['0', '1', '2']),],
+            'ul1_checker_complete' => ['integer', Rule::in(['0', '1']),],
+            'ul1_cancel_load_unload' => ['integer', Rule::in(['0', '1', '2']),],
             'ul1_report_code' => 'string|max:255',
             'ul1_nama_produk' => 'string|max:255',
             'ul1_batch_no' => 'string|max:255',
@@ -126,41 +128,38 @@ class FormLoadingTexN701SController extends Controller
         ]);
 
         $employee = Auth::user();
-        try{
+        try {
             $formId = $request->input('form_id');
             $gate = FormEGateCheck::findOrFail($request->input('gate_id'));
-            if( $formId != null || $formId != 0){
+            if ($formId != null || $formId != 0) {
                 $isCreate = "Update";
-                try{
-                    $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
-                    if($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormLoadingTexN701S'){
+                try {
+                    $formLoadingTexN701S = FormLoadingTexN701S::findOrFail($formId);
+                    if ($gate->gateable_id != $formId && $gate->gateable_type != 'App\Models\FormLoadingTexN701S') {
                         return
+                            // 'Failed';
+                            response()->json([
+                                'code' => 451,
+                                'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
+                                'data' => []
+                            ], 451);
+                    }
+                } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                    return response()->json([
+                        'code' => 404,
+                        'message' => 'Given FormLoadingTexN701S Form ID not found',
+                        'data' => []
+                    ], 404);
+                }
+            } else {
+                $isCreate = "Create";
+                if ($gate->gateable_id != null && $gate->gateable_type != null) {
+                    return
                         // 'Failed';
                         response()->json([
                             'code' => 451,
                             'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
                             'data' => []
-                            ], 451);
-                    }
-
-                } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-                    return response()->json([
-                        'code' => 404,
-                        'message' => 'Given FormLoadingTexN701S Form ID not found',
-                        'data' => []
-                        ], 404);
-                }
-
-
-            } else {
-                $isCreate = "Create";
-                if($gate->gateable_id != null && $gate->gateable_type != null){
-                    return
-                    // 'Failed';
-                    response()->json([
-                        'code' => 451,
-                        'message' => 'Given E Gate Form Already Have A Gateable and Can\'t be changed',
-                        'data' => []
                         ], 451);
                 }
 
@@ -168,7 +167,10 @@ class FormLoadingTexN701SController extends Controller
                     'ul1_employee_id' => $employee->id,
                     'ul1_report_kendaraan_id' => $gate->id,
                 ]);
-
+                $gate->update([
+                    'gateable_id' => $formLoadingTexN701S->id,
+                    'gateable_type' => "App\Models\FormLoadingTexN701S"
+                ]);
             }
 
             $formLoadingTexN701S->update([
@@ -275,63 +277,61 @@ class FormLoadingTexN701SController extends Controller
                 'ul1_delete_reason' => $request->input('ul1_delete_reason'),
                 'ul1_reason_cancel_load_unload' => $request->input('ul1_reason_cancel_load_unload'),
             ]);
+
+            if ($request->input('ul1_signature_checker')) {
+                $decodedDocs = base64_decode($request->input('ul1_signature_checker'));
+
+
+                $name = time() . "_ul1_signature_checker.png";
+                file_put_contents('uploads/loading/signatures/' . $name, $decodedDocs);
+
+
+                $formLoadingTexN701S->update(
+                    [
+                        'ul1_signature_checker' => $name,
+                    ]
+                );
+            }
+            if ($request->input('ul1_signature_employee')) {
+                $decodedDocs = base64_decode($request->input('ul1_signature_employee'));
+
+
+                $name = time() . "_ul1_signature_employee.png";
+                file_put_contents('uploads/loading/signatures/' . $name, $decodedDocs);
+
+
+                $formLoadingTexN701S->update(
+                    [
+                        'ul1_signature_employee' => $name,
+                    ]
+                );
+            }
             $gate->update([
-                'gateable_id' => $formLoadingTexN701S->id,
-                'gateable_type' => "App\Models\FormLoadingTexN701S"
-                ]);
-
-                if($request->input('ul1_signature_checker')){
-                    $decodedDocs = base64_decode($request->input('ul1_signature_checker'));
-
-
-                    $name = time()."someone_that_i_used_to_know.png";
-                    file_put_contents('uploads/loading/signatures/'.$name, $decodedDocs);
-
-
-                    $formLoadingTexN701S->update(
-                        [
-                            'ul1_signature_checker' => $name,
-                            ]
-                        );
-
-                }
-                if($request->input('ul1_signature_employee')){
-                    $decodedDocs = base64_decode($request->input('ul1_signature_employee'));
-
-
-                    $name = time()."someone_that_i_used_to_know.png";
-                    file_put_contents('uploads/loading/signatures/'.$name, $decodedDocs);
-
-
-                    $formLoadingTexN701S->update(
-                        [
-                            'ul1_signature_employee' => $name,
-                            ]
-                        );
-
-                }
+                'gate_loading_status' => (int) FormEGateCheck::returnEgateStatus($gate),
+                'gate_is_editable' => (int) FormEGateCheck::returnIsEditable($gate),
+            ]);
             return response()->json([
                 'code' => 200,
-                'message' => 'Success '.$isCreate.' FormLoadingTexN701S Form',
+                'message' => 'Success ' . $isCreate . ' FormLoadingTexN701S Form',
                 'data' => [
-                    $formLoadingTexN701S]
-                ], 200);
-
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formLoadingTexN701S
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given E Gate Form ID not found',
                 'data' => [$request->input('gate_id')]
-                ], 404);
+            ], 404);
         }
     }
 
-    public function approve($formId){
+    public function approve($formId)
+    {
         // $formId = $request->input('form_id');
         $employee = Auth::user();
 
-        try{
+        try {
             $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
             $formLoadingTexN701S->update([
                 'ul1_status' => 2,
@@ -341,38 +341,40 @@ class FormLoadingTexN701SController extends Controller
                 'code' => 200,
                 'message' => 'Success Approve FormLoadingTexN701S Form',
                 'data' => [
-                    $formLoadingTexN701S]
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formLoadingTexN701S
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given FormLoadingTexN701S Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 
-    public function getOne($formId){
+    public function getOne($formId)
+    {
 
         $employee = Auth::user();
 
-        try{
-            $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
+        try {
+            // $formLoadingTexN701S = $employee->formLoadingTexN701S()->findOrFail($formId);
+            $formLoadingTexN701S = FormLoadingTexN701S::findOrFail($formId);
 
             return response()->json([
                 'code' => 200,
                 'message' => 'Success Fetch FormLoadingTexN701S Form',
                 'data' => [
-                    $formLoadingTexN701S]
-                ], 200);
-
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e){
+                    $formLoadingTexN701S
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'code' => 404,
                 'message' => 'Given FormLoadingTexN701S Form ID not found',
                 'data' => []
-                ], 404);
+            ], 404);
         }
     }
 }

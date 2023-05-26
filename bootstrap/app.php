@@ -1,12 +1,12 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
 ))->bootstrap();
 
-date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
+date_default_timezone_set(env('APP_TIMEZONE', 'Asia/Jakarta'));
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +30,9 @@ $app->withFacades(true, [
 ]);
 
 $app->withEloquent();
+$app->make('queue');
+
+$app->configure('mail');
 
 /*
 |--------------------------------------------------------------------------
@@ -81,13 +84,13 @@ $app->singleton(
 // ]);
 
 $app->routeMiddleware([
-     'auth' => App\Http\Middleware\Authenticate::class,
-     'group_check' => \App\Http\Middleware\GroupCheckMiddleware::class,
-     'permission_check' => \App\Http\Middleware\PermissionCheckMiddleware::class,
-     'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
-     'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
-     'json.response' => \App\Http\Middleware\ForceJsonResponseMiddleware::class,
- ]);
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'group_check' => \App\Http\Middleware\GroupCheckMiddleware::class,
+    'permission_check' => \App\Http\Middleware\PermissionCheckMiddleware::class,
+    'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
+    'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
+    'json.response' => \App\Http\Middleware\ForceJsonResponseMiddleware::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -103,14 +106,28 @@ $app->routeMiddleware([
 $app->configure('permission');
 $app->alias('cache', \Illuminate\Cache\CacheManager::class);  // if you don't have this already
 $app->register(Spatie\Permission\PermissionServiceProvider::class);
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+// $app->register(App\Providers\MailServiceProvider::class);
+$app->configure('mail');
+
+$app->alias('mail.manager', Illuminate\Mail\MailManager::class);
+$app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
+
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
+$app->register(App\Providers\AppServiceProvider::class);
 //ini baru di comment untuk tes spatie
 // $app->register(App\Providers\AuthServiceProvider::class);
 // JWT tymon
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 // Lumen Generator
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+// ini untuk kirim email
+
+
 // $app->register(App\Providers\EventServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -126,7 +143,7 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;

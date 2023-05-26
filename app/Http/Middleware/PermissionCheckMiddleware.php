@@ -18,14 +18,25 @@ class PermissionCheckMiddleware
      */
     public function handle($request, Closure $next, $permission)
     {
-        $user = Auth::user();
-        // $permissionExplode = explode('-',$permission);
-        // $permissionFinal = implode(' ', $permissionExplode);
+        // $user = Auth::user();
+        // $permissionExplode = explode(',',$permission);
+        // // $permissionFinal = implode(' ', $permissionExplode);
 
-        // $permissionViaRoles = Auth::user()->hasPermission($permissionFinal);
+        // $isPermitted = false;
+        // foreach ($permissionExplode as $value) {
+        //     if(Auth::user()->hasPermission($value)){
+        //         return $next($request);
+
+        //         // $isPermitted = true;
+        //     }
+        // }
+
+
+        // tadinya pakai ini cuma bisa saring 1 permission tiap endpoint
         $permissionViaRoles = Auth::user()->hasPermission($permission);
 
         if($permissionViaRoles){
+        // if($isPermitted){
             return $next($request);
         }
 

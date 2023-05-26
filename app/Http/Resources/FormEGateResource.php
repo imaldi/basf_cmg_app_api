@@ -27,55 +27,59 @@ class FormEGateResource extends JsonResource
 
 
 
-        // Getting is Editable
-        // TODO 1 getting the gateable model with one to one polymorphic relationship // DONE
-        $gateable = $this->gateable;
-        // TODO 2 Getting this model's table's name to get list of columns of its table // DONE
-        $table_name = "";
-        $columns = [];
-        $operatorCompleteName = "";
-        $checkerCompleteName = "";
-        $cancelLoadUnloadName = "";
-        $regexOperator = "/_operator_complete/";
-        $regexChecker = "/_checker_complete/";
-        $regexTidakJadiUnloading = "/_cancel_load_unload/";
-        $operatorCompleteValue = 0;
-        $checkerCompleteValue = 0;
-        $cancelLoadUnloadValue = 0;
-        $isEditable = true;
-        if($gateable != null) {
-            $table_name = $gateable->getTable();
-            $columns = \Schema::getColumnListing($table_name);
-        // TODO 3 Choose related column value by its names with LIKE clause and store those column names to an array/ 3 variables,
-        // $operatorCompleteName
-            $operatorCompleteName = FormEGateCheck::contains($regexOperator,$columns);
-            $checkerCompleteName = FormEGateCheck::contains($regexChecker,$columns);
-            $cancelLoadUnloadName = FormEGateCheck::contains($regexTidakJadiUnloading,$columns);
-            $operatorCompleteValue = DB::table($table_name)->where('id', $this->gateable_id)->value($operatorCompleteName);
-            $checkerCompleteValue = DB::table($table_name)->where('id', $this->gateable_id)->value($checkerCompleteName);
-            $cancelLoadUnloadValue = DB::table($table_name)->where('id', $this->gateable_id)->value($cancelLoadUnloadName);
-        }
+            // // Getting is Editable
+            // // TODO 1 getting the gateable model with one to one polymorphic relationship // DONE
+            // $gateable = $this->gateable;
+            // // TODO 2 Getting this model's table's name to get list of columns of its table // DONE
+            // $table_name = "";
+            // $columns = [];
+            // $operatorCompleteName = "";
+            // $checkerCompleteName = "";
+            // $cancelLoadUnloadName = "";
+            // $regexOperator = "/_operator_complete/";
+            // $regexChecker = "/_checker_complete/";
+            // $regexTidakJadiUnloading = "/_cancel_load_unload/";
+            // $operatorCompleteValue = 0;
+            // $checkerCompleteValue = 0;
+            // $cancelLoadUnloadValue = 0;
+            // $isEditable = true;
+            // if($gateable != null) {
+            //     $table_name = $gateable->getTable();
+            //     $columns = \Schema::getColumnListing($table_name);
+            // // TODO 3 Choose related column value by its names with LIKE clause and store those column names to an array/ 3 variables,
+            // // $operatorCompleteName
+            //     $operatorCompleteName = FormEGateCheck::contains($regexOperator,$columns);
+            //     $checkerCompleteName = FormEGateCheck::contains($regexChecker,$columns);
+            //     $cancelLoadUnloadName = FormEGateCheck::contains($regexTidakJadiUnloading,$columns);
+            //     $operatorCompleteValue = DB::table($table_name)->where('id', $this->gateable_id)->value($operatorCompleteName);
+            //     $checkerCompleteValue = DB::table($table_name)->where('id', $this->gateable_id)->value($checkerCompleteName);
+            //     $cancelLoadUnloadValue = DB::table($table_name)->where('id', $this->gateable_id)->value($cancelLoadUnloadName);
+            // }
 
-        $isEditable =
-            FormEGateCheck::
-                returnIsEditable(
-                    $operatorCompleteValue,
-                    $checkerCompleteValue,
-                    $cancelLoadUnloadValue
-                );
+            // $isEditable =
+            //     FormEGateCheck::
+            //         returnIsEditableGateable(
+            //             $gateable,
+            //             $operatorCompleteValue,
+            //             $checkerCompleteValue,
+            //             $cancelLoadUnloadValue
+            //         );
+            // $gateStatus =
+
+            //     FormEGateCheck::
+            //     returnEgateStatusGateable(
+            //         $gateable,
+            //         $operatorCompleteValue,
+            //         $checkerCompleteValue,
+            //         $cancelLoadUnloadValue
+            //     );
 
 
 
-        // TODO 4 Make a simple 'if else' control flow to return boolean editable field to put in response based on that fields.
-        // TODO 5 Commit, Push, and update on the mobile side
+            // TODO 4 Make a simple 'if else' control flow to return boolean editable field to put in response based on that fields.
+            // TODO 5 Commit, Push, and update on the mobile side
 
-        // $forms =
-        //     FormEGateCheck::where('gate_is_in',1)->where('gate_report_status',0)
-        //         ->where(function ($query) use ($gateableType) {
-        //             $query->where('gateable_type', 'LIKE', '%' .$gateableType. '%')
-        //                   ->orWhere('gateable_type', '=', null);})
-        //                   ->orderBy('gateable_type')->orderBy('id','DESC')->get();
-            // $functionVal = FormEGateCheck::returnDoubleStringABCDEF("yeya_");
+        ;
 
         return [
             "id" => (int) $this->id,
@@ -87,6 +91,8 @@ class FormEGateResource extends JsonResource
             // "geteable" => $gateable,
             // "table_name" => $table_name,
             // "gate_columns" => $columns,
+            // "gate_status_resource" => (int) $gateStatus,
+            // "gate_is_editable_resource" => (int) $isEditable,
 
             // Real Used Fields
             "user_id" => (int) $employee->id,
@@ -143,6 +149,7 @@ class FormEGateResource extends JsonResource
             'gate_exit_plakat_tanda_bahaya_terpasang' => (int) $this->gate_exit_plakat_tanda_bahaya_terpasang,
             'gate_loading_status' => (int) $this->gate_loading_status,
             'gate_pengganjal_roda' => (int) $this->gate_pengganjal_roda,
+            'gate_is_editable' => (int) $this->gate_is_editable,
             'gateable_id' => (int) $this->gateable_id,
 
 
@@ -194,6 +201,7 @@ class FormEGateResource extends JsonResource
             'gate_exit_petunjuk_darurat_transportasi_desc' => $this->gate_exit_petunjuk_darurat_transportasi_desc,
             'gate_exit_plakat_tanda_bahaya_terpasang_desc' => $this->gate_exit_plakat_tanda_bahaya_terpasang_desc,
             'gate_exit_date' => $this->gate_exit_date,
+            'gate_checkin_date' => $this->gate_checkin_date,
             'gate_check_out_employee_id_mobile' => (int) $this->gate_check_out_employee_id_mobile,
             'gate_delete_reason' => $this->gate_delete_reason,
             'gate_approve_admin_message' => $this->gate_approve_admin_message,
@@ -210,7 +218,7 @@ class FormEGateResource extends JsonResource
             'gate_jenis_sim' => $this->gate_jenis_sim,
             'gate_nomor_sim' => $this->gate_nomor_sim,
             'gate_nama_produk' => $this->gate_nama_produk,
-            'gate_nama_perusahaan' =>$this->gate_nama_perusahaan,
+            'gate_nama_perusahaan' => $this->gate_nama_perusahaan,
             'gate_jenis_kendaraan' => $this->gate_jenis_kendaraan,
             'gate_loading_type' => $this->gate_loading_type,
             'rk_masa_berlaku_SIM' => $this->rk_masa_berlaku_SIM,
@@ -224,7 +232,8 @@ class FormEGateResource extends JsonResource
             'gate_pic_3' => $this->gate_pic_3,
             'gate_pic_4' => $this->gate_pic_4,
             'gate_pic_5' => $this->gate_pic_5,
-            "is_editable" => $isEditable,
+            // "is_editable" => $isEditable,
+            "gate_is_editable" => (int) $this->gate_is_editable,
 
             'created_at'  => $this->created_at,
             'updated_at'  => $this->updated_at,
